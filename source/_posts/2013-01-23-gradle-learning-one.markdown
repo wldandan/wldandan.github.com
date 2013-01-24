@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Gradle Learning - one"
+title: "Gradle Learning - one (basic concepts)"
 date: 2013-01-23 10:58
 comments: true
-categories: [Groovy, Gradle, Build] 
+categories: [Gradle] 
 ---
 
 ###前提： 安装Gradle
@@ -29,6 +29,7 @@ Gradle中有两个基本的概念：project和task。每个Gradle的构建由一
 		}
 	}
 
+<!--more-->
 这个构建的脚本很简单，就是输出hello world。为了运行这个构建，我们应该在当前目录下执行 "gradle hello"，即gradle 
 TaskName。
 doLast意思是定义一个行为(映射Gradle中的Action类)，放在当前task的最后，类似的，还有doFirst, 表示将定义的行为放在当前task最前面，例如
@@ -72,7 +73,7 @@ doLast意思是定义一个行为(映射Gradle中的Action类)，放在当前tas
 		}
 
 从上面的代码可以看出，Task类里有个Action的集合actions，当使用doFirst或者doLast时，实际上是将定义的执行部分实例化成Action的对象，然后添加到actions集合里。明白了这一点，接下来让我们看看为什么可以使用`<<`定义Task:
-`Groovy作为强大的支持DSL的动态语言，早已经重载了 << 操作符，使得我们可以方便的使用 << 向集合添加元素`。   
+`Groovy作为强大的支持DSL的动态语言，早已经重载了 << 操作符，使得我们可以方便的使用 << 向集合添加元素`   
 
 说道这，相信真相已经大白了：原来就是使用Groovy的特性，往集合里添加Action而已。对，这就是Gradle的语法，利用Groovy的DSL特性，帮助我们更容易的定义我们的构建脚本。不过也许大家会觉得，这个例子实在是没有什么代表性，只是一个简单的 hello world，说明不了什么问题。好吧，别着急，下次我们会继续研究Gradle的其他部分，不过先记住：
 
