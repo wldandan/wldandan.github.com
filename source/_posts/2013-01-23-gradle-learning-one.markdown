@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Gradle Learning - one (basic concepts)"
+title: "Gradle Learning - 1 (basic concepts)"
 date: 2013-01-23 10:58
 comments: true
 categories: [Gradle] 
@@ -12,13 +12,13 @@ categories: [Gradle]
 (2)将GRADLE_HOME/bin/gradle加入$PATH。
 
 
-###1. 基本概念(Project 和 Task)
+###1.基本概念(Project 和 Task)
 
 Gradle中有两个基本的概念：project和task。每个Gradle的构建由一个project构成，它代表着需要被构建的组件或者构建的整个项目。每个project由一个或者多个task组成。task代表着Gradle构建过程中可执行的最小单元。例如当构建一个组件时，可能需要先编译、打包、然后再生成文档或者发布等，这其中的每个步骤都可以定义成一个task。
 
 
 
-###2. 构建第一个Task
+###2.构建第一个Task
 和Ant运行时读取build.xml类似，Gradle运行时默认会读取build.gradle这个文件, 当然你也可以使用参数"-b"来指定其他的xxx.gradle
 
 下面，让我们新建一个build.gradle文件，然后输入如下内容:

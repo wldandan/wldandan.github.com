@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Gradle Learning - two (project&task)"
+title: "Gradle Learning - 2 (project&task)"
 date: 2013-01-23 17:14
 comments: true
 categories: [Gradle] 
