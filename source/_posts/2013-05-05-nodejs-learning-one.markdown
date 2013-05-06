@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "nodejs learning summary"
+title: "Node.js Learning Summary"
 date: 2013-05-05 13:02
 comments: true
 categories: 
