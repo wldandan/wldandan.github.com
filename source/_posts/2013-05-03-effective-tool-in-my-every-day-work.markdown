@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Effective tool in my every day work"
+title: "Effective tool in my daily work"
 date: 2013-05-03 10:33
 comments: true
 categories: 

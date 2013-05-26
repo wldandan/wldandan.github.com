@@ -3,7 +3,7 @@ layout: post
 title: "Node.js Learning Summary"
 date: 2013-05-05 13:02
 comments: true
-categories: Node 
+categories: Javascript 
 ---
 一直以来，我对Javascript都不是怎么感兴趣，主要的原因还是由于JavaScript 和浏览器之间复杂的历史渊源，导致javascript被浏览器严重束缚。
 
