@@ -54,21 +54,21 @@ Javascript，是面向对象但并不是面向对象编程的一门语言。在J
 
 譬如说，对于一个复杂的Module，可能会分出几个相对独立的功能，例如A,B等等。那么这个时候，我们可以将这相对独立的三部分放在3个文件里实现：
 首先定义一个专门处理A的文件module_a.js
-  var Module = (function (s) {
-  	......
-  	s.a=function(){//Implementation of A part}
-  	......
-  	return s;
-  }(Module || {}));
+    var Module = (function (s) {
+        ......
+        s.a=function(){//Implementation of A part}
+        ......
+        return s;
+    }(Module || {}));
 
 
 然后，再定义一个Module_b.js，专门处理该Module中B的部分
-  var Module = (function (s) {
-  	......
-  	s.b=function(){//Implementation of B part}
-  	......
-  	return s;
-  }(Module || {}));
+    var Module = (function (s) {
+      ......
+      s.b=function(){//Implementation of B part}
+      ......
+      return s;
+    }(Module || {}));
 
 类似的，可以根据具体Module的需要决定如何划分不同的js文件。
 
