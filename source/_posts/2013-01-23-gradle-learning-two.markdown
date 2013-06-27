@@ -10,9 +10,9 @@ categories: [Gradle]
 
 ###1. Project和Task
 
-对于build.gradle配置文件，当运行Gradle <Task> 时，Gradle会为我们创建一个Project的对象，来映射build.gradle中的内容。其中呢，对于不属于任何Task范畴的代码，Gradle会创建一个Script类的对象，来执行这些代码；对于Task的定义，Gradle会创建Task对象，并将它会作为project的属性存在(实际上是通过getTaskName完成的)。ok，看一个简单的例子：
+对于build.gradle配置文件，当运行Gradle <Task> 时，Gradle会为我们创建一个Project的对象，加载build.gradle中的所有代码。其中呢，对于Task中定义的代码，Gradle会创建Task的实例，而对于那些不属于任何Task定义的代码，Gradle会创建一个Script类的实例，加载并执行这些代码。下面，让我们看一个简单的例子：
 
-新建文件basic/build.gradle,然后加入如下部分代码：
+##### 创建目录basic，并在其中创建文件build.gradle，然后加入如下代码：
 
 	println "the project name is $name"
 	task hello << {
@@ -21,22 +21,26 @@ categories: [Gradle]
 	}
 
 <!--more-->    
-当运行这个例子时，首先Gradle会创建一个Porject的对象，然后将它和build.gradle的内容映射起来。在这个例子中，project包括两部分：
-#####1)可执行脚本定义
+在basic目录下直接执行gradle，不带任何参数：
+	gradle
+此时，Gradle会创建一个Porject的实例，并将build.gradle的所有内容都加载到该实例中，作为不同的实例变量存在。在这个例子中，project包括两部分：
+#####1)可执行脚本的定义
 
-   按照之前提到的，可执行脚本的定义将直接被创建成对应的Script类的对象
-   在这个例子中，Script对应的部分就是第一行println的部分，然后执行的结果就是打印出 "the project name is basic"。
-   默认的，Project的名字是当前build.gradle所在目录的名字，在这个例子中，build.gradle放在basic目录下，因此，project的name也就是basic.
+按照之前提到的，可执行脚本的定义将被创建成Script类的实例并直接执行。在这个例子中，Script的部分就是第一行代码（因为它被定义在Task之外），然后执行的结果就是打印出 "the project name is basic"。
+#### 默认的，当前project的名字是build.gradle所在目录的名字，在这个例子中，build.gradle放在basic目录下，因此，project的name也就是basic.
 
 #####2)Task定义
 
-  在这个例子中，Gradle将创建一个Task的实例，将其和定义的task内容关联起来。另外，按照之前所说的，当Gradle运行时，我们可以使用访问project属性的方式去访问它。
+在这个例子中，Gradle将创建一个Task的实例，并加载task关键字后定义的代码。
 
-例如，这个例子中，我们可以使用project.hello来访问这个task。因为这个task hello已经成为project的一个属性，那么当我们使用gradle properties（properties是gradle自带的一个Task,它能列出当前project级别的所有属性，可以使用gradle tasks查看更多内建的Task）来获取project级别的属性列表时，也将会得到'hello'。
+注意，在Gradle中，我们可以使用访问project属性的方式来访问task。例如，这个例子中，我们可以使用project.hello来访问hello这个task。除此之外，当我们使用gradle properties（properties是gradle自带的一个Task,它能列出当前project的所有属性，可以使用gradle tasks查看更多内建的Task）来获取project级别的属性列表时，也将会得到{hello}。
 
-另外，有一点要注意的是，在这个例子中，task中使用的$name，并不是Project的name，它是当前Task的name，因为它被使用在Task的scope里。
+另外，有一点要注意的是，在这个例子中，`task hello << `使用的$name，和task定义之外使用的$name并不一样，前者是project的name，而后者是当前task的name，因为它被使用在Task的scope里。
 
-执行Gradle hello，输出的结果将是：
+在basic目录下执行
+	Gradle hello
+
+输出的结果将是：
 
 	current project name is test
 	the current task name is hello
@@ -143,4 +147,4 @@ Project Properties是Gradle专门为Project定义的属性。它的最大优点�
 当我们直接执行"gradle hello"时，没有任何结果，当我们执行"gradle hello -PskipHello=xxxx"时，会输出"hello world"。
 
 ###4. 总结
-OK.今天对gradle的总结到此为止。总体而言，用DSL的代码而不是xml来定义构建的过程，还是很fancy的。
+总体而言，用DSL的代码而不是XML的配置来定义整个项目的构建，能够让我们更大程度的控制构建的细节，而且还能根据不同的需求定制不同的方案，蛮有趣的一件事。
