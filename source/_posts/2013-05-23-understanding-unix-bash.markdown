@@ -47,6 +47,14 @@ categories: Linux
 #####2. 使用su
  当使用su xxx时候，获取的是Non-login shell. 而当使用su - xxx时，获取的则是Login shell
 
+#####3. 如何检查当前Shell是Login还是Non-login shell
+shopt | grep login_shell
+
+#####4. 如何检查当前Shell是Interactive还是Non-Interactive
+echo $- | grep 'i'
+如果是Interactive shell, 结果应该是 himBH
+如果不是,结果应该是 BH
+
 ##总结
 了解了Login shell 和 Non-login shell，对于谁读取了哪些profile，我们就清楚了。
 
