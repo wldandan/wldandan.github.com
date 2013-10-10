@@ -1,11 +1,12 @@
 ---
 layout: post
-title: "Effective tool in my daily work"
+title: "Effective tool in my work"
 date: 2013-05-03 10:33
 comments: true
-categories: 
+categories: Tools
 ---
 
+### Tools
 ####1. The Brain(http://www.thebrain.com/)
   现在的新知识越来越多，体系越来越庞大，非常需要the brain这样一个软件，将所学的知识分门别类，形成一个整体的、宏观的脑图。
 
@@ -20,15 +21,23 @@ categories:
 
 ####4. Ideaboardz(http://ideaboardz.com/)
 
-  一个使用电子墙做retro的方式
+  一个使用电子墙做retro的方式, 也是一个提供匿名Feedback的好地方。我们在做Feedback360的时候，经常用这个。
+  
+####5. TimeTab(http://www.timer-tab.com/)
+  A good web timer. Keep you informed your time consuming in meeting, session or other activity.
+  
 
-####5. GoogleChrome todolist extension
+####6. GoogleChrome todolist extension
 
   在Chrome的右上角，定义了extension能帮助随时查看todo list
 
+####7. Generate signature
+  You can easily generate your signature with a rich varity of styles, using it in anywhere.
+  http://patorjk.com/software/taag/#p=display&h=0&v=0&f=Small%20Caps&t=Lei 
 
-
-
+### Excerise
+####1. (http://www.tabatatimer.com/)
+  Keeping healthy and fit is very important to every programmer, the website can help you excerise every day.
 
 
 

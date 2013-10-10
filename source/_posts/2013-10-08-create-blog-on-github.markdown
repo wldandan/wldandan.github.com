@@ -3,7 +3,7 @@ layout: post
 title: "How to use Octopress to set up blog"
 date: 2013-10-08 14:20
 comments: true
-categories: tools
+categories: Tools
 ---
 
 ## Setup blog
