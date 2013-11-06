@@ -16,3 +16,5 @@ group :development do
 end
 
 gem 'sinatra', '~> 1.3.3'
+LANG="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
