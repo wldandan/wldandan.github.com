@@ -1,35 +1,10 @@
 ---
 layout: post
-title: "Vagrant Learning - 1 (basic concepts)"
+title: "Vagrant Learning - 1 (Basic Concepts)"
 date: 2013-11-04 20:02
 comments: true
 categories: Tools
 ---
-
-###简介
-经常会听到类似这样的对话:  
-"在我这跑没问题，你那运行不起来肯定是环境有问题吧"  
-"都是最新的代码，我这测试过了，你的测试怎么就挂了，该不是你的依赖有冲突吧"  
-......
-
-对于当今的屌丝程序猿而言，产品的开发/部署环境变得越来越复杂。无论你是开发人员、测试人员，还是系统维护人员，如何搭建一个干净的运行环境，快速、高效的部署以及配置软件应用，成了困扰我们的一个大问题。在这种情况下，无论对于个人，还是团队，高效的使用虚拟化技术，创建独立的产品运行环境也就变得越来越重要。
-
-####对于个人  
-- Ubuntu新的版本发布了，听说很cool，想试试但多操作系统麻烦啊
-- NoSQL有这么多产品，装多了会不会影响本地的开发环境
-- 当前产品的技术栈复杂啊，新人来了跑个应用，就得花上个2天，伤不起啊  
-…….
-
-####对于开发团队  
-- Same dependencies
-- Same versions
-- Same configurations
-- Same everything  
-
-诚然,我们期望团队的开发/运行环境能够完全一样，但实际上这并不容易。  
-这种不同来自很多方面，软件的版本、运行的配置或者版本之间的依赖等等。
-
-<!--More-->
 
 ### 为什么选择Vagrant
 - 能够构建可配置的、轻量级的、便携式的虚拟服务器
@@ -39,7 +14,7 @@ categories: Tools
 - 提供Shell、Chef或者Puppet的支持，能够利用这些工具(Infrastructure As Code的方式)配置环境。
 - 从1.2的版本开始，不但支持VirtualBox,VmWare, 还开始支持Amazon EC2。
 
-
+<!--More-->
 ### 搭建环境  
 - 安装[Virtual Box](http://virtualbox.org)
 - 安装[Vagrant](http://downloads.vagrantup.com)
