@@ -6,12 +6,6 @@ comments: true
 categories: Javascript 
 ---
 一直以来，我对Javascript都不是怎么感兴趣，主要的原因还是由于JavaScript 和浏览器之间复杂的历史渊源，导致javascript被浏览器严重束缚。
-
-我猜测，对于经常写javascript的同学，多多少少都会有以下不爽的体验：
-	a) 每次写完JS代码，不管是不是操作DOM，都得run浏览器来看下结果
-	b) 有时候，同样的JS代码在不同浏览器上的运行结果却大相径庭。
-对于我个人而言，在某种程度上，这两点严重影响了我使用javascript的积极性，因此我从来都是遇到问题，解决问题就好，没有深究过javascript。 :)
-
 不过，Node.js的出现，让我看到了一种全新的使用JS的方式（启动、调试等可以完全不care浏览器）。经过几天对Node的了解，发现Node确实有一些与众不同的特点。
 
 <!--More-->
@@ -53,3 +47,7 @@ Node.js程序由事件循环开始,到事件循环结束,所有的逻辑都是�
 
 ##4.总结
 Node.js最大的特点就是异步式I/O(或者非阻塞I/O)与事件紧密结合的编程模式。这种方式带来了可观的性能提升,与此同时,这种异步事件模式的弊端也是显而易见的,因为它不符合开发者的常规线性思路,往往需要把一个完整的逻辑拆分为一个个事件,并使用回调进行处理,这无疑增加了开发和调试难度,在后续的部分中，我会继续关注Node.js的其他部分。
+
+##5. 参考  
+
+http://code.danyork.com/2011/01/25/node-js-doctors-offices-and-fast-food-restaurants-understanding-event-driven-programming/

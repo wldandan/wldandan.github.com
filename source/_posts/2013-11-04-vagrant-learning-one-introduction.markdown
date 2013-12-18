@@ -3,7 +3,7 @@ layout: post
 title: "Vagrant Learning - 1 (Basic Concepts)"
 date: 2013-11-04 20:02
 comments: true
-categories: Tools
+categories: Vagrant
 ---
 
 ### 为什么选择Vagrant

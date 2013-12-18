@@ -3,7 +3,7 @@ layout: post
 title: Vagrant - Make Dev Environment Easy
 date: 2013-11-01 18:37
 comments: true
-categories: Tools
+categories: Vagrant
 ---
 
 ###背景介绍

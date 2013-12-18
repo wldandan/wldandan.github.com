@@ -3,7 +3,7 @@ layout: post
 title: "Vagrant Learning - 3 (Box) "
 date: 2013-11-14 17:02
 comments: true
-categories: Tools
+categories: Vagrant
 ---
 ###什么是Vagrant Box
 

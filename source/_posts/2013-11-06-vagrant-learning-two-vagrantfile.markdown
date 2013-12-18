@@ -3,7 +3,7 @@ layout: post
 title: Vagrant Learning - 2 (Configuration) 
 date: 2013-11-06 17:26
 comments: true
-categories: Tools
+categories: Vagrant
 ---
 
 
@@ -103,4 +103,4 @@ Vagrant会提示
 
 
 ### More …...
-类似的，还有很多参数可以帮助我们定制VM，更多的细节这里就不一一列举了，请根据需要自行参考Vagrant的官方文档哦。
+类似的，还有很多参数可以帮助我们定制VM，更多的细节这里就不一一列举了，请根据需要自行参考Vagrant的[官方文档](http://www.vagrantup.com/)哦。
