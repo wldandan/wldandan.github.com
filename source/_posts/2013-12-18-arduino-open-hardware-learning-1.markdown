@@ -9,7 +9,7 @@ categories: Open Hardware
 
 顺应Open Hardware的潮流，Team里最近买了块 Arduino的板子。于是乎，偶也就有个机会，能倒腾倒腾了。
 
-#### 介绍 
+### 介绍 
 Arduino 是一个开源、易于使用的硬件设备。其上的微控制器可以通过Arduino Style的编程语言来编写程序，编译成二进制文件，并烧录进微控制器。
 Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、马达和其他的装置来反馈、影响环境。和传统的单片机有点类似，但是更易于使用，对于开发者也更加友好。
 
@@ -22,6 +22,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 
 - 下载[Arduino IDE](http://arduino.cc/en/Main/Software)， 开发更容易。
 
+<!--More-->
 
 ### 跑起第一个程序
 
