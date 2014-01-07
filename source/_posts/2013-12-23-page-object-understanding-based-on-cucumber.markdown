@@ -11,6 +11,7 @@ Page Object是[Selenium](http://www.seleniumhq.org/)中提出的一种测试设�
 
 言而总之，总而言之，PageObject就是将Web页面元素的变化封装起来，提供API供外部测试代码调用，从而达到将测试代码于Web页面元素的变化解耦。
 
+<!--More-->
 
 ##Page Object的优点
 

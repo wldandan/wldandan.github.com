@@ -3,7 +3,7 @@ layout: post
 title: "WebRTC - The revolution of media communication"
 date: 2014-01-02 19:29
 comments: true
-categories: Open 
+categories: WebRTC
 ---
 
 
@@ -19,6 +19,8 @@ WebRTC使浏览器之间能够通过点对点的通信方式，直接完成视�
 
 
 目前，WebRTC的标准还在不断完善中，W3C、IETF和其他一些浏览器厂商正在积极的推动WebRTC的发展。WebRTC开创了浏览器之间能够直接通信并完成视频或者音频传输的新时代。对于构建开放的、标准的，无插件，免费的视频音频通信应用，迈出了划时代的一步。
+
+<!--More-->
 
 ###WebRTC的架构
 
