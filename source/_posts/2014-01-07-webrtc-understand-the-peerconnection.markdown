@@ -56,30 +56,29 @@ TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT
 - 包括STUN或者TURN服务器的列表。
 - 对于协议元数据的参数设置。
 
-		var SERVER = {
-	        iceServers: [
-	                {url: "stun:23.21.150.121"},
-	                {url: "stun:stun.l.google.com:19302"},
-	                {url: "turn:numb.viagenie.ca", credential: "xxxx", username: "xxx"}
-	        ]
-		};
+```
+  var SERVER = {
+    iceServers: [
+        {url: "stun:23.21.150.121"},
+        {url: "stun:stun.l.google.com:19302"},
+        {url: "turn:numb.viagenie.ca", credential: "xxxx", username: "xxx"}
+    ]
+  };
 
 
-		var OPTIONS = {
-	        optional: [
-	                {DtlsSrtpKeyAgreement: true},
-	                {RtpDataChannels: true}
-	        ]
-		};
+  var OPTIONS = {
+        optional: [
+          {DtlsSrtpKeyAgreement: true},
+          {RtpDataChannels: true}
+        ]
+  };
+  peerConnection = new RTCPeerConnection(SERVER, OPTIONS);
 
+```
 
-	peerConnection = new RTCPeerConnection(SERVER, OPTIONS);
+  
 
 注意，当RTCPeerConnection执行连接时，首先会尝试使用STUN服务器来协助完成，如果失败，则使用TURN中继服务器完成通信。	
-
-DtlsSrtpKeyAgreement is required for Chrome and Firefox to interoperate.
-RtpDataChannels is required if we want to make use of the DataChannels API on Firefox.
-
 
 
 #### 开始通信
@@ -89,58 +88,51 @@ RtpDataChannels is required if we want to make use of the DataChannels API on Fi
 
 ##### 主动发起者将使用createOffer发起连接，并设置SDP(Session Description Protocol)相关信息.
 
-navigator.getUserMedia({video: true}, function(stream) {
-  var video = document.getElementById("video");
-  video.srcObject = stream;
-  video.play();
-  pc.addStream(stream);
+```
+  navigator.getUserMedia({video: true}, function(stream) {
+    var video = document.getElementById("video");
+    video.srcObject = stream;
+    video.play();
+    pc.addStream(stream);
 
-  pc.createOffer(function(offer) {
-    pc.setLocalDescription(new RTCSessionDescription(offer), function() {
-      // send the offer to a server to be forwarded the friend you're calling.
+    pc.createOffer(function(offer) {
+      pc.setLocalDescription(new RTCSessionDescription(offer), function() {
+        // send the offer to a server to be forwarded the friend you're calling.
+      }, error);
     }, error);
-  }, error);
-}
+  }
+```
 
 ##### 对端接受者，收到setRemoteDescription并使用createAnswer回复连接请求。
 
-navigator.getUserMedia({video: true}, function(stream) {
-  var video = document.getElementById("video");
-  video.srcObject = stream;
-  video.play();
-  pc.addStream(stream);
+```
+  navigator.getUserMedia({video: true}, function(stream) {
+    var video = document.getElementById("video");
+    video.srcObject = stream;
+    video.play();
+    pc.addStream(stream);
 
-  pc.setRemoteDescription(offer, function() {
-    pc.createAnswer(function(answer) {
-      pc.setLocalDescription(new RTCSessionDescription(answer), function() {
-        // send the offer to a server to be forwarded to the caller
+    pc.setRemoteDescription(offer, function() {
+      pc.createAnswer(function(answer) {
+        pc.setLocalDescription(new RTCSessionDescription(answer), function() {
+          // send the offer to a server to be forwarded to the caller
+        }, error);
       }, error);
     }, error);
-  }, error);
-}
+  }
+```
 
 ##### 主动发起者，处理对端发回的响应，并设置setRemoteDescription信息。
 
-// pc was set up earlier when we made the original offer
-var offer = getResponseFromFriend();
-pc.setRemoteDescription(new RTCSessionDescription(offer), function() { }, error);
+```
+  var offer = getResponseFromFriend();
+  pc.setRemoteDescription(new RTCSessionDescription(offer), function() { }, error);
+```
 
+#####总结: 
 
-
-
--------------------------------------------------------------
-1. 创建RTCPeerConnection对象, 并指定相关的STUN、TURN服务器。
-   每个RTCPeerConnection对象都关联一个ICE agent。当创建该对象时，ICE agent的相关状态会被初始化。
-   每个RTCPeerConnection对象也关联两个流媒体集合(Steam set)。
-
-本地流媒体集合(Local stream set)和远程流集合。本地流媒体集合代表当前发送的数据流，远程流媒体集合
-代表RTCPeerConnection对象接收到的流。初始化时，该集合为空。
-
-
-
-
-
-
-
-
-
+* 创建RTCPeerConnection对象, 指定相关的STUN、TURN服务器。
+* 每个RTCPeerConnection对象都关联一个ICE agent。当创建该对象时，ICE agent的相关状态会被初始化。
+* 每个RTCPeerConnection对象关联两个流媒体集合。
+- 本地流媒体集合(Local stream set), 本地流媒体集合代表当前发送的数据流，
+- 远程流集合(Remote stream set), 远程流媒体集合代表RTCPeerConnection对象接收到的流
