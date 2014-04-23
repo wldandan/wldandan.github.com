@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "How to setup mongo repliSet in one machine"
+title: "How to setup mongo repliSet"
 date: 2014-04-17 09:24
 comments: true
 categories: NoSQL
 ---
-#### Create mongo repliSet instances
+#### Create one mongo repliSet 
 
 	mkdir -p /srv/mongodb/rs0-0 /srv/mongodb/rs0-1 /srv/mongodb/rs0-2
 
