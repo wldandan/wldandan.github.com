@@ -3,7 +3,7 @@ layout: post
 title: "How to setup mongo shard"
 date: 2014-04-23 09:44
 comments: true
-categories: 
+categories: NoSQL
 ---
 To simulate the process of production deployment of MongoDB, I used Vagrant to create a couples of VMs, and exprienced the journey of deployment mongo step by step as follow mentioned. 
 
@@ -18,6 +18,7 @@ The config server processes are mongod instances that 	store the cluster’s met
 #### b) Query Server
 The query server are lightweight mongos instances and 	do not require data directories. You can run a mongos 	instance on a system that runs other cluster 	components, such as on an application server or a 	server running a mongod process. By default, a mongos 	instance runs on port 27017.
 
+<!--More-->
 #### c) Shard Server
 The shard server is a component which can consist of 	a repicaSet(multiple machines).
 
