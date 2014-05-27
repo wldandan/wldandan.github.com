@@ -3,7 +3,7 @@ layout: post
 title: "Arduino, Make Hardware development easy"
 date: 2013-12-18 17:02
 comments: true
-categories: Open Hardware
+categories: Hardware
 ---
 
 

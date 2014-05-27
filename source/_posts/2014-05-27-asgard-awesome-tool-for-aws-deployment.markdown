@@ -1,22 +1,30 @@
 ---
 layout: post
-title: "Asgard: awesome tool for AWS deployment"
+title: "Asgard - Handy tool for AWS management & deployment"
 date: 2014-05-27 20:55
 comments: true
 categories: AWS
 ---
 
-Asgard is named for the home of the Norse god of thunder and lightning. As the words described, it is closely relevant to the management and control in cloud.
-Netflix build a tool named Asgard, who is using it to control and manage their AWS cloud.  In 2012, Netflix announced that Asgard was open-sourced.
+Asgard is named for the home of the Norse god of thunder and lightning. 
+As the words described, it is closely relevant to the management and control in cloud.
+
+Netflix build a tool named Asgard, which is used to control and manage their AWS cloud.  In 2012, Netflix announced that Asgard was open-sourced.
+
+Then...... it is time to start the story.
+
 
 
 ##What is Asgard 
 
-* Web-based cloud management and deployment tool, built on the top of [grails](https://grails.org/).
+Asgard is a web-based tool for managing cloud-based applications and infrastructure.
+
+* Built on the top of [grails](https://grails.org/).
 * By introducing `Application` and `Cluster` terminology, enable users understand their cloud objets clearly.
 * Keep track cloud objects from the view of one application
 
 
+<!-- More -->
 ##Why needs Asgard
 The AWS Management Console has its uses for someone with your Amazon account password who needs to configure something Asgard does not provide. However, for everyday large-scale operations, the AWS Management Console has not yet met the needs of the Netflix cloud usage model, so we built Asgard instead. Here are some of the reasons.
 
