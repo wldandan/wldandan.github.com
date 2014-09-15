@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "微服务改造企业核心业务系统实践之(一 背景与挑战)"
+title: "微服务改造企业核心业务系统实践之一 (背景与挑战)"
 date: 2014-09-12 18:08
 comments: true
 categories: Microservice
