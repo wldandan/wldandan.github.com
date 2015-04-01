@@ -3,7 +3,7 @@ layout: post
 title: "microservice-design-and-implementation"
 date: 2015-03-17 11:13
 comments: true
-categories: 微服务架构
+categories: MicroService
 ---
 
 过去的1年多，一直在助力澳洲最大的房地产互联网门户，研究并使用微服务架构改造其复杂的遗留系统。鉴于此，准备开个系列，讲讲我个人眼中的微服务是神马样的，它的概念，优缺点，为什么我们要使用它，以及在整个过程中，从前期设计、团队合作到代码实现、PACT测试、部署以及运维的相关话题。
@@ -19,6 +19,5 @@ categories: 微服务架构
 
 实践篇
  - 如何实现一个最小的微服务
- - 
 
 
