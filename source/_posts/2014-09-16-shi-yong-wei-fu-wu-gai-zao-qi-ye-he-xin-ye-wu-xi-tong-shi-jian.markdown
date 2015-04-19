@@ -3,7 +3,7 @@ layout: post
 title: "基于微服务架构，改造企业核心系统之实践"
 date: 2014-09-16 21:57
 comments: true
-categories: Microservice
+categories: MicroService
 ---
 
 本文已经发表于InfoQ，请参考[这里](http://www.infoq.com/cn/articles/enterprise-core-systems-transformation-practice)
