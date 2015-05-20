@@ -54,6 +54,10 @@ mechanisms, often an HTTP resource API. These services are built around business
    微服务架构通过对特定业务领域的分析与建模，将复杂的应用分解成小而专一、耦合度低并且高度自治的一组服务。每个服务都
 是很小的应用。那么，微服务中提到的‘微’或者‘小’，到底是多‘微’、多‘小’呢？
 
+<img src="{{ root_url }}/images/microservice-design-and-practice/chapter2/confuse-how-small-800-600.png" />
+
+
+
 实际上，关于多小的服务才合适，是一个非常有趣的话题。有人觉得使用代码行数来作为‘微’的衡量标准比较合适，而有些人认为，既然是微服务，就应该简单。就应该在很短的时间内，譬如2周内，能够非常容易的重写该服务，这样才符合小和微的概念。
 
 关于代码行数，我们知道，不同的语言有不同的特点。静态类型语言的主要优点在于其结构非常规范，存在编译期的语法检查、便于调试，类型安全性高，通常其继承关系简洁明了，IDE对其支持也更加友好；但缺点是为此需要写更多的类型相关代码。因此如果实现同样的功能，代码量相对稍多，这类语言的典型代表有Java、C#等；动态语言，其灵活性较高，运行时可以改变内存的结构，无类型检查，不需要写非常多的类型相关的代码；缺点自然就是不方便调试，命名不规范时会造成不易理解等，典型的代表如JavaScript、Ruby或者Python等。另外，还有一些数学类计算语言，能够使用非常简洁的公式实现其逻辑。
@@ -70,7 +74,7 @@ mechanisms, often an HTTP resource API. These services are built around business
 
   * 规则4，如果一个细胞周围且仅有2个存活细胞，则该细胞下一代状态保持不变；
 
-<img src="{{ root_url }}/images/microservice-design-and-practice/chapter2/conwey-problem-description.png" />
+<img src="{{ root_url }}/images/microservice-design-and-practice/chapter2/conwey-problem-description-800-600.png" />
 
 对于这个问题，各位如果感兴趣的话，可以尝试使用自己最擅长的语言来试试。
 
