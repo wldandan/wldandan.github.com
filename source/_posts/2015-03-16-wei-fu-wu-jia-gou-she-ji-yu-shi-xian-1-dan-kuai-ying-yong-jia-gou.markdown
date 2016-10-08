@@ -4,6 +4,8 @@ title: "解析微服务架构(一)"
 date: 2015-03-16 22:07
 comments: true
 categories: MicroService
+description: "微服务架构培训"
+keywords: 微服务架构培训, 微服务架构咨询
 ---
 [请勿转载]
 

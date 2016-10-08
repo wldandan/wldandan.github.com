@@ -5,6 +5,8 @@ date: 2016-10-08 19:28
 comments: true
 sharing: true
 footer: true
+description: "微服务架构培训"
+keywords: 微服务架构培训, 微服务架构咨询
 ---
 
 我叫王磊，热爱编程，热爱知识分享。喜欢旅行，喜欢游泳，更喜欢在青山绿水之间，感受大自然的气息。
