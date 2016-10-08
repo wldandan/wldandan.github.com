@@ -1,0 +1,950 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="Create one mongo repliSet mkdir -p /srv/mongodb/rs0-0 /srv/mongodb/rs0-1 /srv/mongodb/rs0-2 Run instances mongod --port 27017 --dbpath /srv/mongodb/ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/page/2/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/">How to Setup Mongo repliSet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-17T09:24:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Create one mongo repliSet</h3>
+
+<pre><code>mkdir -p /srv/mongodb/rs0-0 /srv/mongodb/rs0-1 /srv/mongodb/rs0-2
+</code></pre>
+
+<h3>Run instances</h3>
+
+<pre><code>mongod --port 27017 --dbpath /srv/mongodb/rs0-0 --replSet rs0 --smallfiles --oplogSize 128
+mongod --port 27018 --dbpath /srv/mongodb/rs0-1 --replSet rs0 --smallfiles --oplogSize 128
+mongod --port 27019 --dbpath /srv/mongodb/rs0-2 --replSet rs0 --smallfiles --oplogSize 128
+</code></pre>
+
+<h3>Enable replicaSet</h3>
+
+<pre><code>mongo --port 27017
+rs.initiate()
+rs.conf()
+rs.status()
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/14/the-story-about-dora/">Dora诞生记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-14T23:32:00+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/02/14/the-story-about-dora/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>趁着在墨尔本和西安Office上Hackday获奖的喜悦劲，赶紧来一篇Dora诞生记。  <br/>
+提醒偶记住这个特殊的日子，同时也感谢在过去两个月，牺牲个人时间，奋斗在Dora(X-Robot)上的Casa的兄弟姐妹们。</p>
+
+<h5>-2013年10月20</h5>
+
+<p>和Charley午餐的时候，无意间谈论起了各自想做但没时间做的idea。</p>
+
+<p>幸运乎，找到一个我俩都认为不错但又没被完全实现的一个想法&lt;&lt;公交来了>>(<strong>旨在帮助等车族们准确的掌握公交将来的时间，为既不想迟到又想多赖几分钟在床上的兄弟提供福音</strong>)。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/02/14/the-story-about-dora/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">WebRTC - Understand the PeerConnection</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T18:55:00+08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
+
+<p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
+
+<p>还记得之前讨论过的WebRTC架构图吗？
+实际上，虽然RTCPeerConnection是一个暴露的连接接口，
+但其内部封装了大量WebRTC编解码和协议处理的工作，因此使浏览器之间点到点的即时通讯变得简单。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/06/webrtc-understand-the-media-stream/">WebRTC - Understand the MediaStream</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-06T23:59:00+08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/06/webrtc-understand-the-media-stream/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>WebRTC从设计之初，目的就是为开发人员提供更加简便的方式构建基于Web的视频、音频应用。对于任何的WebRTC应用程序，只需要做如下几件事情：</p>
+
+<ul>
+<li>1）获取本地媒体流(音频、视频)。</li>
+<li>2）与对端建立连接(包括防火墙和NAT的穿透)。</li>
+<li>3）初始化双方通信信道。</li>
+<li>4）交换通信元数据信息，比如分辨率、编解码方案、网络地址等。</li>
+<li>5）开始音频，视频或数据的通信。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/01/06/webrtc-understand-the-media-stream/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/">WebRTC - the Revolution of Media Communication</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-02T19:29:00+08:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>什么是WebRTC</h3>
+
+<p>如今，互联网主流的音频、视频通信服务产品，如Skype, QQ, GTalk等， 都是各自厂商私有的技术。用户需要安装插件或者桌面客户端，才能使用其提供的音频或者视频通信功能。
+如果某天，不使用任何插件，只通过浏览器，就能实现手机、平板、电视和电脑的视频或者音频通信；那会是什么场景？ 而这正是WebRTC的愿景。</p>
+
+<p>WebRTC（Web Real-Time Communication）由一套开放的标准、协议和一组JavaScript API构成。2010年，谷歌收购了VoIP软件开发商GIPS(Global IP Solutions)，并获得了视频采集、编解码、网络传输、回音消除等RTC相关技术。2011年6月，谷歌开放了该部分源码，并积极推动该项技术，这奠定了RTC在Web领域发展的基础。</p>
+
+<p>WebRTC使浏览器之间能够通过点对点的通信方式，直接完成视频、音频以及数据的实时传输。同时，WebRTC容许开发人员通过调用浏览器支持的API，使用HTML5标签和JavaScript轻松的实现基于Web的音频、视频应用。</p>
+
+<p>目前，WebRTC的标准还在不断完善中，W3C、IETF和其他一些浏览器厂商正在积极的推动WebRTC的发展。WebRTC开创了浏览器之间能够直接通信并完成视频或者音频传输的新时代。对于构建开放的、标准的，无插件，免费的视频音频通信应用，迈出了划时代的一步。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Page Object Understanding</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-23T11:39:00+08:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是Page Object</h2>
+
+<p>Page Object是<a href="http://www.seleniumhq.org/">Selenium</a>中提出的一种测试设计模式。在Web前端自动化测试的过程中，Page Object可以称得上是居家必备的良品之一。PageObject将与Web测试页面交互的行为封装在其内部，旨在将每个页面或者相似页面的功能封装，例如页面中需要测试的元素（按钮，输入框，标题等），这样，通过在测试中访问Page类的相应方法来获取页面相应的元素，从而巧妙的避免了当页面元素id或者位置变化时，需要修改测试代码的情况。</p>
+
+<p>言而总之，总而言之，PageObject就是将Web页面元素的变化封装起来，提供API供外部测试代码调用，从而达到将测试代码于Web页面元素的变化解耦。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/18/arduino-open-hardware-learning-1/">Arduino, Make Hardware Development Easy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-18T17:02:00+08:00" pubdate data-updated="true">Dec 18<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/18/arduino-open-hardware-learning-1/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>顺应Open Hardware的潮流，Team里最近买了块 Arduino的板子。于是乎，偶也就有个机会，能倒腾倒腾了。</p>
+
+<h3>介绍</h3>
+
+<p>Arduino 是一个开源、易于使用的硬件设备。其上的微控制器可以通过Arduino Style的编程语言来编写程序，编译成二进制文件，并烧录进微控制器。
+Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、马达和其他的装置来反馈、影响环境。和传统的单片机有点类似，但是更易于使用，对于开发者也更加友好。</p>
+
+<h3>环境搭建</h3>
+
+<ul>
+<li>当然，先买块Arduino的板子。国内的商家&#8217;奥松&#8217;还不错（非广告贴，只是个人经验），可以天猫之。:)</li>
+</ul>
+
+
+<p><img src="/images/arduino/arduino.png" /></p>
+
+<ul>
+<li>下载<a href="http://arduino.cc/en/Main/Software">Arduino IDE</a>， 开发更容易。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/18/arduino-open-hardware-learning-1/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/09/mockito-partial-mocking-learning/">Mockito - Partial Mock</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-09T17:09:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/09/mockito-partial-mocking-learning/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mockito是一个方便的java测试Mock工具。</p>
+
+<p>当我们做TDD或者单元测试的时候，为了消除当前被测对象和其依赖之间的关系，经常使用Mockito。</p>
+
+<p>本篇文章只涉及如何使用Mockito的Partial Mock。关于Mockito的其他用法，请参照<a href="https://code.google.com/p/mockito/">Mockito</a></p>
+
+<h3>1. 什么是Partial Mock</h3>
+
+<p>在单元测试的过程中，偶尔会出现这种情况。对于一个对象，某些方法需要被mock,而某些方法希望被直接调用，这时候，我们就需要借助Partial Mock。</p>
+
+<h3>2. 使用Partial Mock的场景</h3>
+
+<p>在如下两种场景中，Partial Mock就显得相当犀利：</p>
+
+<h4>a) 测试存在具体方法的抽象类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public abstract class AbstractHandler {
+</span><span class='line'>
+</span><span class='line'>    public String greet() {
+</span><span class='line'>        return "Hello " + fetchName() + "!";
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    protected abstract String fetchName();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上代码所示，抽象类AbstractHandler中定义了方法greet()，并且该方法存在一定逻辑。
+此时，如果希望测试greet()，可以选择两种方式：</p>
+
+<ul>
+<li>构建其派生非抽象类，如ConcertHandler，再进行测试。</li>
+<li>使用Partial Mock，它可以省去构建派生类的步骤，直接对该抽象类进行测试，代码如下所示:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class AbstractHandlerTest {
+</span><span class='line'>      
+</span><span class='line'>    @Test
+</span><span class='line'>    public void shouldCallRealMethodsAndFakeAbstractMethod() {
+</span><span class='line'>        AbstractHandler handler = mock(AbstractHandler.class);
+</span><span class='line'>
+</span><span class='line'>        when(handler.greet()).thenCallRealMethod(); 
+</span><span class='line'>        when(handler.fetchName()).thenReturn("Geek");
+</span><span class='line'>
+</span><span class='line'>        assertThat(handler.greet(), is("Hello Geek!"));
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如代码所示，对于抽象方法fechName()，直接mock其返回值</p>
+
+<pre><code>when(handler.fetchName()).thenReturn("Geek");
+</code></pre>
+
+<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。</p>
+
+<pre><code>when(handler.greet()).thenCallRealMethod();
+</code></pre>
+
+<h4>b)测试过分依赖于I/O操作的类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>public class BooksController {
+</span><span class='line'>
+</span><span class='line'>    protected Map&lt;String, Date&gt; fetchBooks(){
+</span><span class='line'>        //fetch the books from different publishing company.
+</span><span class='line'>        service1.retrieveBooks();
+</span><span class='line'>        service2.retrieveBooks();
+</span><span class='line'>        ......
+</span><span class='line'>        service10.retrieveBooks();
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    protected List&lt;String&gt; getPublishedBooks(){
+</span><span class='line'>
+</span><span class='line'>        books = fetchBooks();
+</span><span class='line'>        //only pick up the books published.
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上代码所示，类BooksController中定义了方法fetchBooks()，并且该方法严重依赖于I/O操作。因为fetchBooks()从不同的供应商那里获取最近的书籍信息。</p>
+
+<p>对于这种测试，也有两种方案：</p>
+
+<ul>
+<li>Mock所有的service返回结果，然后测试getPublishedBooks()。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>doReturn(xxxx).when(service1).retrieveBooks()
+</span><span class='line'>doReturn(xxxx).when(service2).retrieveBooks()
+</span><span class='line'>doReturn(xxxx).when(service3).retrieveBooks()</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>除此之外，也可以考虑在测试getPublishedBooks()的时候，对fetchBooks()方法进行mock。如下所示：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class BooksControllerTest {
+</span><span class='line'>
+</span><span class='line'>    @Test
+</span><span class='line'>    public void shouldReturnPublishedBooks(){
+</span><span class='line'>        BooksController controller = spy(new BooksController());
+</span><span class='line'>
+</span><span class='line'>        Map&lt;String, Date&gt; books = new HashMap&lt;String, Date&gt;();
+</span><span class='line'>        books.put("XXX1", "2014-2-1");
+</span><span class='line'>        books.put("XXX2", "2014-3-1");
+</span><span class='line'>
+</span><span class='line'>        doReturn(books).when(controller).fetchBooks();
+</span><span class='line'>
+</span><span class='line'>        assertThat(controller.getPublishedBooks(), is(....));
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在如上的代码中，controller是BookController一个真实的实例，非mock对象。  原因是当前被测类为BooksController，因此不能将该类的实例定义成mock。<br/>
+另外，controller的fetchBooks()方法虽然被partial mock了，但其他的方法还是该实例真正的方法。</p>
+
+<p>因此，Spy的作用是将原本被实例化的对象，附上了Mock的功能。</p>
+
+<h5>注意，该场景完全是为了演示Partial mock。在实际情况中，如将books作为实例变量，并提供setBooks(List books)方法，根本不需要mock就能完成对getPublishedBooks的测试。另外，对于这种使用Spy的Partial Mock场景，大多数情况也是因为类的设计违背了SRP原则。</h5>
+
+<h3>3. 两种Partial Mock方式</h3>
+
+<p>让我们再回顾一下上面的例子，并总结一下Partial Mock的两种用法:</p>
+
+<ul>
+<li><p>使用Mock构建对象，再使用CallRealMethod指定某方法为真实调用。</p></li>
+<li><p>实例化对象，定义Spy，再使用doReturn(xxx).when(xxx).method()</p></li>
+</ul>
+
+
+<h3>4. 区别</h3>
+
+<p>起初，偶比较倾向于使用CallRealMethod。因为该方法名足够表意，很容易就能理解其带来的用途。
+不过，使用CallRealMethod却不是推荐的方式，为什么呢，请看如下代码：</p>
+
+<pre><code>@Test
+public void testListPartialMockByCallRealMethod(){
+    List&lt;Integer&gt; list = mock(ArrayList.class);
+    when(list.add(100)).thenCallRealMethod();
+
+    list.add(100);
+    verify(list).add(100);
+}
+</code></pre>
+
+<p>代码没问题吧，不过运行后，却得到如下错误：</p>
+
+<pre><code>java.lang.NullPointerException
+    at java.util.ArrayList.add(ArrayList.java:352)
+    at com.wl.tw.VersionInfoCheckTest.testListByCallRealMethod(VersionInfoCheckTest.java:59)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+</code></pre>
+
+<p>如果查看ArrayList.java:352的代码，就会发现</p>
+
+<pre><code>350    public boolean add(E e) {
+351        ensureCapacity(size + 1);  // Increments modCount!!
+352        elementData[size++] = e;
+353        return true;
+354    }
+</code></pre>
+
+<p>在第352行，ArrayList实际上使用了另外一个对象elementData来存放新加入的元素。</p>
+
+<p>在这个例子中，由于ArrayList是mock的，并不是实例化出来的，所以mock的ArrayList并没有初始化elementData对象。这就是为什么会出现NullPointerException的原因。</p>
+
+<h3>5. 总结</h3>
+
+<ul>
+<li>当使用mockito mock对象时，它并不会mock该对象内部的其他依赖对象。</li>
+<li>当使用mockito partial mock时，注意spy和CallRealMethod的区别。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/22/vagrant-learning-provision/">Vagrant Learning - 4 (Provision)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-22T23:02:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/22/vagrant-learning-provision/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>如何安装应用</h3>
+
+<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
+
+<p>目前，基本上有两种方式：</p>
+
+<h4>手动安装</h4>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/22/vagrant-learning-provision/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/14/vagrant-learning-box/">Vagrant Learning - 3 (Box)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-14T17:02:00+08:00" pubdate data-updated="true">Nov 14<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/14/vagrant-learning-box/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>什么是Vagrant Box</h3>
+
+<p>谈论完了Vagrantfile，让我们看看Vagrant的另外一个重要概念Box。它是Vagrant运行VM的必要条件。
+基本上，从头开始建立一个VM是相当耗时的工作，于是Vagrant使用一个基础映像(base image), 克隆它并快速创建一个可用的VM。<br/>
+在Vagrant的世界里，所有这些基础映像统称为Box。简单地说，Box可以理解为创建VM时需要的模板，通过这些模板，我们可以创建VM。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/14/vagrant-learning-box/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

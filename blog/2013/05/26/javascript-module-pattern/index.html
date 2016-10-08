@@ -1,0 +1,425 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Understanding javascript module pattern - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="什么是Module Pattern? Javascript，是面向对象但并不是面向对象编程的一门语言。在Javascript的世界里，你遇到的所有东西都是对象(如Function, Number, String等)，但它本身的语法中却不提供类(class)的关键字或者访问符(private, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Understanding Javascript Module Pattern</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-26T22:10:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>什么是Module Pattern?</h2>
+
+<p>Javascript，是面向对象但并不是面向对象编程的一门语言。在Javascript的世界里，你遇到的所有东西都是对象(如Function, Number, String等)，但它本身的语法中却不提供类(class)的关键字或者访问符(private, public, protected)等的定义。</p>
+
+<p>不过，通过使用Module Pattern，我们可以有效的筑起一道屏障，让私有状态的变量或者方法只能在module的内部被访问，从而达到面向对象封装的目的。</p>
+
+<!--More-->
+
+
+<p>下面，先让我们来看一段代码，看看Module Pattern是如何帮助我们完成面向对象的封装的：</p>
+
+<pre><code>var Module = (function(){
+  var myPrivateVar = 0;
+  var myPrivateMethod = function(msg){
+    console.log(msg);
+  }
+
+  return {
+    myPublicVar: "publicFoo",
+    myPublicMethod: function(msg){
+        myPrivateVar++;
+        myPrivateMethod(msg);
+    }
+  }; 
+})();
+</code></pre>
+
+<p>在这段代码中，我们首先定义了一个全局变量Module，然后将一个匿名函数的执行结果赋值给该变量(注意变量得到的不是匿名函数本身，而是匿名函数的执行结果。因为最后一行()的使用，表示定义完匿名函数后就立刻执行了该函数)。</p>
+
+<p>然后，从上面的匿名函数的执行结果中，我们可以看出，该结果并不是返回函数中定义的所有变量或者方法，而是定义了一个return的代码块，然后仅将该代码块里面的内容暴露出去。</p>
+
+<p>因此，对于匿名函数中的myPrivateMethod方法而言，它的scope就被限定在了匿名函数内部，任何匿名函数外部的代码都是访问不到myPrivateMethod的，这样我们便隔离了外界对该方法的访问，也就通过module实现了面向对象的封装。</p>
+
+<p>这种实现封装的方式就是Module Pattern，它能够帮助我们有效的封装内部的状态、变量或者方法。</p>
+
+<h2>Module Pattern的关键</h2>
+
+<p>了解完上面的代码，现在让我们可以回顾一下Module Pattern的几个关键点：</p>
+
+<h4>1. Module是一个全局变量</h4>
+
+<h4>2. Module中封装了私有的状态(变量或者方法)。</h4>
+
+<h4>3. 通过“return { xxx }”代码块的定义，Module对外部暴露变量或者方法。</h4>
+
+<h4>4. Module是自包含的并且在定义完后就立刻执行。</h4>
+
+<h2>Argumentation Module Pattern</h2>
+
+<p>在上面的例子中，你会发现这是一个很简单、而且相对标准的模版，因为它包括了基本Module的定义:private方法、private变量，以及暴露出来的public方法或者变量。因此，你可以很容易的将它用在项目中。其实，这种使用方式最早是在&lt;JavaScript: The Good Parts>一书中提到。后来在Yahoo YUI 的Library中，得到了广泛的应用，如果你熟悉YUI，一定清楚里面的很多的实现都是采用这种方式。</p>
+
+<p>不过，对于上面这种方式的实现，存在一个较明显的弊端:整个Module的定义只能在一个文件里完成，对于一些大型的应用，codebase已经很复杂了，如果再定义某个数千行以上的JS Module，这无疑大大增加了维护的难度，因此我们这里衍生出一个Argumentation Module Pattern，帮助我们将一个复杂Module的实现，拆分到多个行数较少的小文件里实现，</p>
+
+<p>譬如说，对于一个复杂的Module，可能会分出几个相对独立的功能，例如A,B等等。那么这个时候，我们可以将这相对独立的三部分放在3个文件里实现：
+首先定义一个专门处理A的文件module_a.js</p>
+
+<pre><code>var Module = (function (s) {
+    ......
+    s.a=function(){//Implementation of A part}
+    ......
+    return s;
+}(Module || {}));
+</code></pre>
+
+<p>然后，再定义一个Module_b.js，专门处理该Module中B的部分</p>
+
+<pre><code>var Module = (function (s) {
+  ......
+  s.b=function(){//Implementation of B part}
+  ......
+  return s;
+}(Module || {}));
+</code></pre>
+
+<p>类似的，可以根据具体Module的需要决定如何划分不同的js文件。</p>
+
+<p>接下来可以在html页面上引用这两个js，然后使用里面的方法,类似如下：
+  <html></p>
+
+<pre><code>&lt;header&gt;
+  &lt;script type="text/javascript" src="module_a.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="module_b.js"&gt;&lt;/script&gt;
+&lt;/header&gt;
+&lt;script&gt;
+  module.a();
+  module.b()
+&lt;/script&gt;
+&lt;body&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>  </html></p>
+
+<h2>Sub-Module</h2>
+
+<p>对于一个复杂的项目，也可能会存在不同级别的Module，而不仅仅是对Module内部功能的划分。这时候我们就可以引入sub module的概念，代码如下所示：</p>
+
+<p>  MODULE = (function () {</p>
+
+<pre><code>var my = {};
+// ...
+
+return my;
+</code></pre>
+
+<p>  }());</p>
+
+<p>  MODULE.subA = (function () {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>  }());</p>
+
+<p>  MODULE.subB = (function () {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>  }());</p>
+
+<p>从上面的代码中，我们可以看出，只是利用Module以及Sub-Module对变量名称的定义，将其作为不同的命名空间，从而在逻辑上将其划分成模块和子模块。这种方式其实也是Javascript中最简单，最有效的结构组织的方式。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-26T22:10:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>Javascript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/23/understanding-unix-bash/" title="Previous Post: Understanding *nix bash profile">&laquo; Understanding *nix bash profile</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/05/26/javascript-variable-scope-and-hoisting/" title="Next Post: Understanding javascript variable scope &amp; hoisting">Understanding javascript variable scope &amp; hoisting &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/';
+        var disqus_url = 'http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

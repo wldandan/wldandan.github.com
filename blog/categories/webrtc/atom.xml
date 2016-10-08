@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: WebRTC | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/webrtc/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2016-10-08T23:55:45+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[WebRTC - Understand the PeerConnection]]></title>
+    <link href="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/"/>
+    <updated>2014-01-07T18:55:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection</id>
+    <content type="html"><![CDATA[<p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
+
+<p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
+
+<p>还记得之前讨论过的WebRTC架构图吗？
+实际上，虽然RTCPeerConnection是一个暴露的连接接口，
+但其内部封装了大量WebRTC编解码和协议处理的工作，因此使浏览器之间点到点的即时通讯变得简单。</p>
+
+<!--More-->
+
+
+<h4>什么是信令处理(Signaling)</h4>
+
+<p>WebRTC使得浏览器之间能够点对点通信，但是作为浏览器的一端，茫茫大海，如何知道另一端在哪里？怎么能通过网络连接到对端？如何知道是否能够连接成功？</p>
+
+<p>所以，即便是点对点通信，依然需要服务器协助双方建立连接。不过此时的服务器，其职责更多的是 交换元数据，如编解码机制、数据加密、流量控制等信息。</p>
+
+<p>对于这些看似不重要但却必要的信息交换过程，我们称之为信令处理。</p>
+
+<p><img src="/images/webrtc/webrtc-signaling.png" /></p>
+
+<h4>NAT、防火墙和现实的网络世界</h4>
+
+<p>NAT(Net Address Translation)是负责网络地址转换的一个协议。通俗的说，它负责把私网内的的IP和端口转换成公网的IP和端口，也即使我们所说的IP地址映射。</p>
+
+<p>由于IPv4地址的数量有限，大多数企业或者团体通常都使用局域网地址，并通过NAT转换，连接到互联网上。另外，
+许多企业内部网络都存在防火墙，因此这就为点对点通信带来寻址问题。</p>
+
+<p><img src="/images/webrtc/nat.png" /></p>
+
+<p><a href="http://en.wikipedia.org/wiki/STUN">STUN</a>,TURN,ICE是由IETF提出的处理网络中NAT穿越问题的协议族。
+STUN能够为NAT后的终端定位公网地址，因此它可以被用来在两个同时处于NAT之后的终端建立UDP通信。
+TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT之后的终端建立TCP连接。ICE则是综合STUN及TURN的产物，是一个框架。</p>
+
+<p>使用STUN服务器后，通信双方能够完成NAT穿透，从而建立连接，如下图所示：</p>
+
+<p><img src="/images/webrtc/stun.png" /></p>
+
+<p>使用TURN服务器后，通信双方需要通过中继完成NAT穿透，从而建立连接，如下图所示。从某种角度而言，这种方式已经不是传统意义上的点对点连接了，因为它依赖于中继服务器完成数据的传输。</p>
+
+<p><img src="/images/webrtc/turn.png" /></p>
+
+<h4>建立RTCPeerConnection</h4>
+
+<p>了解了STUN，TURN的相关概念后，是深入了解PeerConnection的时候了。</p>
+
+<p>当创建RTCPeerConnection时，需要指定两个参数：</p>
+
+<ul>
+<li>包括STUN或者TURN服务器的列表。</li>
+<li>对于协议元数据的参数设置。</li>
+</ul>
+
+
+<p>```
+  var SERVER = {</p>
+
+<pre><code>iceServers: [
+    {url: "stun:23.21.150.121"},
+    {url: "stun:stun.l.google.com:19302"},
+    {url: "turn:numb.viagenie.ca", credential: "xxxx", username: "xxx"}
+]
+</code></pre>
+
+<p>  };</p>
+
+<p>  var OPTIONS = {</p>
+
+<pre><code>    optional: [
+      {DtlsSrtpKeyAgreement: true},
+      {RtpDataChannels: true}
+    ]
+</code></pre>
+
+<p>  };
+  peerConnection = new RTCPeerConnection(SERVER, OPTIONS);</p>
+
+<p>```</p>
+
+<p>注意，当RTCPeerConnection执行连接时，首先会尝试使用STUN服务器来协助完成，如果失败，则使用TURN中继服务器完成通信。</p>
+
+<h4>开始通信</h4>
+
+<p>通信的过程如下如所示:
+<img src="/images/webrtc/peerconnection-process.png" /></p>
+
+<h5>主动发起者将使用createOffer发起连接，并设置SDP(Session Description Protocol)相关信息.</h5>
+
+<p>```
+  navigator.getUserMedia({video: true}, function(stream) {</p>
+
+<pre><code>var video = document.getElementById("video");
+video.srcObject = stream;
+video.play();
+pc.addStream(stream);
+
+pc.createOffer(function(offer) {
+  pc.setLocalDescription(new RTCSessionDescription(offer), function() {
+    // send the offer to a server to be forwarded the friend you're calling.
+  }, error);
+}, error);
+</code></pre>
+
+<p>  }
+```</p>
+
+<h5>对端接受者，收到setRemoteDescription并使用createAnswer回复连接请求。</h5>
+
+<p>```
+  navigator.getUserMedia({video: true}, function(stream) {</p>
+
+<pre><code>var video = document.getElementById("video");
+video.srcObject = stream;
+video.play();
+pc.addStream(stream);
+
+pc.setRemoteDescription(offer, function() {
+  pc.createAnswer(function(answer) {
+    pc.setLocalDescription(new RTCSessionDescription(answer), function() {
+      // send the offer to a server to be forwarded to the caller
+    }, error);
+  }, error);
+}, error);
+</code></pre>
+
+<p>  }
+```</p>
+
+<h5>主动发起者，处理对端发回的响应，并设置setRemoteDescription信息。</h5>
+
+<p><code>
+  var offer = getResponseFromFriend();
+  pc.setRemoteDescription(new RTCSessionDescription(offer), function() { }, error);
+</code></p>
+
+<h5>总结:</h5>
+
+<ul>
+<li>创建RTCPeerConnection对象, 指定相关的STUN、TURN服务器。</li>
+<li>每个RTCPeerConnection对象都关联一个ICE agent。当创建该对象时，ICE agent的相关状态会被初始化。</li>
+<li>每个RTCPeerConnection对象关联两个流媒体集合。</li>
+<li>本地流媒体集合(Local stream set), 本地流媒体集合代表当前发送的数据流，</li>
+<li>远程流集合(Remote stream set), 远程流媒体集合代表RTCPeerConnection对象接收到的流</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[WebRTC - Understand the MediaStream]]></title>
+    <link href="http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream/"/>
+    <updated>2014-01-06T23:59:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream</id>
+    <content type="html"><![CDATA[<p>WebRTC从设计之初，目的就是为开发人员提供更加简便的方式构建基于Web的视频、音频应用。对于任何的WebRTC应用程序，只需要做如下几件事情：</p>
+
+<ul>
+<li>1）获取本地媒体流(音频、视频)。</li>
+<li>2）与对端建立连接(包括防火墙和NAT的穿透)。</li>
+<li>3）初始化双方通信信道。</li>
+<li>4）交换通信元数据信息，比如分辨率、编解码方案、网络地址等。</li>
+<li>5）开始音频，视频或数据的通信。</li>
+</ul>
+
+
+<!--More-->
+
+
+<p>为了完成这个过程，WebRTC提供了三个主要的对象接口：</p>
+
+<ul>
+<li>MediaStream</li>
+<li>RTCPeerConnection</li>
+<li>RTCDataChannel</li>
+</ul>
+
+
+<p>在这篇文章里，我们先来看看如何使用MediaStream。</p>
+
+<p>MediaStream代表一个抽象的流媒体对象，通常是音频或视频的内容。每个媒体流对象中，包含零个或多个轨道（MediaStreamTrack)，用来显示并控制该流媒体对象的输入源名称，如音频还是视频，特征或者状态，同时也能控制如静音、开始或者结束等。</p>
+
+<p>每个MediaStream都有输入和输出，输入一般由navigator.getUserMedia()（下面会详细介绍）生成，而输出则可以控制该流媒体对象如何被使用，例如存储到文件，显示在在video元素中，或者绑定到RTCPeerConnection的连接上。</p>
+
+<p><img src="/images/webrtc/media-stream.png" /></p>
+
+<p>getUserMedia()是浏览器提供的获取音频和视频媒体流的API。对于捕获到的流媒体，其和信号源是紧密相关的，如麦克风只能发出音频流，摄像头只能发出视频流。对于某些高清摄像头，可以产生高清的视频流。</p>
+
+<p>当使用getUserMedia() 获取视频或音频的媒体流时，需要指定三个参数：</p>
+
+<ul>
+<li>设置流媒体的配置参数</li>
+<li>获取视频成功的回调函数</li>
+<li><p>获取视频失败的回调函数</p>
+
+<pre><code>  &lt;video autoplay&gt;&lt;/video&gt;
+  &lt;script&gt;
+      var constraints = {
+          audio: true,
+          video: { 
+              mandatory: {  
+                  width: { min: 320 },
+                  height: { min: 180 }},          
+              optional: [{                 
+                  width: { max: 1280 }, 
+                  height: { max: 720 }},          
+                  { frameRate: 30 }]
+          }
+      }
+
+      function successCallback(stream) {
+          window.stream = stream; 
+          var video = document.querySelector("video");
+          video.src = window.URL.createObjectURL(stream);
+          video.play();
+      }
+
+      function errorCallback(error){
+          console.log("navigator.getUserMedia error: ", error);
+      }
+
+      navigator.getUserMedia(constraints, gotStream, logError);  
+  &lt;/script&gt;
+</code></pre></li>
+</ul>
+
+
+<p>在如上所示的Javascript代码中，
+首先定义了对象constraints，包括容许获取视频、音频，以及获取视频时，可接受的最小分辨率以及可选最大分辨率。<br/>
+然后定义了获取媒体流成功时的处理函数successCallback和失败的处理函数errorCallback。<br/>
+最后，使用navigator.getUserMedia()获取视频和音频的媒体流。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[WebRTC - The revolution of media communication]]></title>
+    <link href="http://wldandan.github.com/blog/2014/01/02/webrtc-the-revolution-of-media-communication/"/>
+    <updated>2014-01-02T19:29:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2014/01/02/webrtc-the-revolution-of-media-communication</id>
+    <content type="html"><![CDATA[<h3>什么是WebRTC</h3>
+
+<p>如今，互联网主流的音频、视频通信服务产品，如Skype, QQ, GTalk等， 都是各自厂商私有的技术。用户需要安装插件或者桌面客户端，才能使用其提供的音频或者视频通信功能。
+如果某天，不使用任何插件，只通过浏览器，就能实现手机、平板、电视和电脑的视频或者音频通信；那会是什么场景？ 而这正是WebRTC的愿景。</p>
+
+<p>WebRTC（Web Real-Time Communication）由一套开放的标准、协议和一组JavaScript API构成。2010年，谷歌收购了VoIP软件开发商GIPS(Global IP Solutions)，并获得了视频采集、编解码、网络传输、回音消除等RTC相关技术。2011年6月，谷歌开放了该部分源码，并积极推动该项技术，这奠定了RTC在Web领域发展的基础。</p>
+
+<p>WebRTC使浏览器之间能够通过点对点的通信方式，直接完成视频、音频以及数据的实时传输。同时，WebRTC容许开发人员通过调用浏览器支持的API，使用HTML5标签和JavaScript轻松的实现基于Web的音频、视频应用。</p>
+
+<p>目前，WebRTC的标准还在不断完善中，W3C、IETF和其他一些浏览器厂商正在积极的推动WebRTC的发展。WebRTC开创了浏览器之间能够直接通信并完成视频或者音频传输的新时代。对于构建开放的、标准的，无插件，免费的视频音频通信应用，迈出了划时代的一步。</p>
+
+<!--More-->
+
+
+<h3>WebRTC的架构</h3>
+
+<p>WebRTC的架构如下图所示
+<img src="/images/webrtc/webrtc-architecture.png" /></p>
+
+<p>其中主要包括如下几部分:</p>
+
+<ul>
+<li><p>紫色部分是面向Web开发者的API层。该部分API由浏览器提供。</p></li>
+<li><p>蓝色实线部分是面向浏览器厂商的API层。</p></li>
+<li><p>蓝色虚线部分是浏览器厂商可以自定义实现的部分。</p></li>
+<li><p>绿色部分是WebRTC的引擎部分，当前主要包括视频引擎、音频引擎以及传输协议。</p></li>
+</ul>
+
+
+<p>a) 视频引擎  <br/>
+包含从视频采集、编解码(I420/VP8)、加密、媒体文件、图像处理、显示、网络传输等功能。
+提供VP8作为视频图像编解码器。降低由于视频抖动和视频信息包丢失带来的不良影响。另外，对采集到的图像进行增强处理，包括明暗度检测、颜色增强、降噪处理等，提升视频质量。</p>
+
+<p>b) 音频引擎  <br/>
+包含从音频采集、编解码(iLIBC/iSAC)、抖动处理(NetEQ)、加密、输出、同步、音量控制、网络传输。
+提供iSAC/iLBC两种处理音频的解码方案。同时，使用NetEQ算法有效的处理由于网络抖动和语音包丢失时候对语音质量产生的影响。另外，还提供了回声消除和降噪等机制。</p>
+
+<p>c) 传输协议<br/>
+采用成熟的RTP/RTCP协议栈，支持多路复用，并通过STUN、TURN以及ICE保证网络间的通信。</p>
+
+<p>截止目前，整个WebRTC的标准还在不断完善中。W3C的WebRTC工作组负责浏览器API的标准化，IETF的 WebRTC工作组则主要负责通信协议、数据格式、安全等方面的标准化。</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Tools | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/tools/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2016-10-08T23:55:45+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to use Octopress to set up blog]]></title>
+    <link href="http://wldandan.github.com/blog/2013/10/08/create-blog-on-github/"/>
+    <updated>2013-10-08T14:20:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/10/08/create-blog-on-github</id>
+    <content type="html"><![CDATA[<h2>Setup blog</h2>
+
+<h5>Install RVM</h5>
+
+<p>bash &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+rvm install 1.9.2 rvm use 1.9.2 --default</p>
+
+<h5>Clone repo</h5>
+
+<p>git clone git://github.com/imathis/octopress.git octopress</p>
+
+<p>gem install bundler
+bundle install
+bundle update # 不执行，则下一步rake会报版本不匹配
+rake install
+rake setup_github_pages</p>
+
+<h2>Publish new article</h2>
+
+<p>rake new_post["My first post"]
+rake generate # 第一次使用，最好先编辑一下_config.yml</p>
+
+<p>rake preview # 本地查看，地址是http://localhost:4000
+rake deploy</p>
+
+<h2>Update Source</h2>
+
+<p>git commit -m 'your message'</p>
+
+<p>git push origin source</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Effective tool in my work]]></title>
+    <link href="http://wldandan.github.com/blog/2013/05/03/effective-tool-in-my-every-day-work/"/>
+    <updated>2013-05-03T10:33:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/05/03/effective-tool-in-my-every-day-work</id>
+    <content type="html"><![CDATA[<h3>Tools</h3>
+
+<h4>1. The Brain(http://www.thebrain.com/)</h4>
+
+<p>  现在的新知识越来越多，体系越来越庞大，非常需要the brain这样一个软件，将所学的知识分门别类，形成一个整体的、宏观的脑图。</p>
+
+<h4>2. Trello(https://trello.com/)</h4>
+
+<p>  一个方便的电子卡片墙，帮助你记录想做的事，正在做的事，或者已经完成的事，同时提供了Android和Iphone上的支持。</p>
+
+<!--More-->
+
+
+<h4>3. Alfred(http://www.alfredapp.com/)</h4>
+
+<p>  帮助快速查找文件以及应用的程序，俗称“加速器”，在《卓有成效的程序员》这本书里也强调了这类工具的高效性。</p>
+
+<h4>4. Ideaboardz(http://ideaboardz.com/)</h4>
+
+<p>  一个使用电子墙做retro的方式, 也是一个提供匿名Feedback的好地方。我们在做Feedback360的时候，经常用这个。</p>
+
+<h4>5. TimeTab(http://www.timer-tab.com/)</h4>
+
+<p>  A good web timer. Keep you informed your time consuming in meeting, session or other activity.</p>
+
+<h4>6. GoogleChrome todolist extension</h4>
+
+<p>  在Chrome的右上角，定义了extension能帮助随时查看todo list</p>
+
+<h4>7. Generate signature</h4>
+
+<p>  You can easily generate your signature with a rich varity of styles, using it in anywhere.
+  http://patorjk.com/software/taag/#p=display&amp;h=0&amp;v=0&amp;f=Small%20Caps&amp;t=Lei</p>
+
+<h3>8. Diagram Tool</h3>
+
+<pre><code>http://creately.com/  
+https://www.gliffy.com/
+</code></pre>
+
+<h3>Excerise</h3>
+
+<h4>1. (http://www.tabatatimer.com/)</h4>
+
+<p>  Keeping healthy and fit is very important to every programmer, the website can help you excerise every day.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Vagrant | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/vagrant/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2016-10-08T23:55:45+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant Learning - 4 (Provision)]]></title>
+    <link href="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/"/>
+    <updated>2013-11-22T23:02:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision</id>
+    <content type="html"><![CDATA[<h3>如何安装应用</h3>
+
+<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
+
+<p>目前，基本上有两种方式：</p>
+
+<h4>手动安装</h4>
+
+<!--More-->
+
+
+<p>首次创建VM后，手动安装需要的软件，然后重新分发Box。这样，就拥有了一个包含所需软件的Box，以后再创建VM时，直接使用该Box即可。</p>
+
+<p>譬如说，如果希望有一台VM作为Apache服务器，我们可以尝试使用以下方式：</p>
+
+<pre><code>vagrant init precise64 http://files.vagrantup.com/precise64.box
+vagrant up
+........
+</code></pre>
+
+<h4>Provision安装</h4>
+
+<p>将安装软件作为构建VM流程的一部分，不依赖于Box。每次创建VM都会自动安装一遍所需要的软件，例如使用Shel脚本，使用Chef或者其他方式，我们将这种机制称之为“Provisioning”</p>
+
+<p>实际上，Vagrant默认支持的Provisoining包括Shell、Chef以及Puppet。
+通过配置Provisioning，Vagrant会在<code>vagrant up</code>的阶段将其应用于VM。</p>
+
+<h5>Shell Provision</h5>
+
+<ul>
+<li><p>在Vagrantfile同级目录下 定义provison.sh并设置可执行权限</p>
+
+<pre><code>  #!/usr/bin/env bash
+  echo "Installing Apache and setting it up..."
+  apt-get update &gt;/dev/null 2&gt;&amp;1
+  apt-get install -y apache2 &gt;/dev/null 2&gt;&amp;1
+  rm -rf /var/www
+  ln -fs /vagrant /var/www
+</code></pre></li>
+<li><p>在Vagrantfile中使用provision.sh
+  config.vm.provision "shell", path: "provision.sh"</p></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5><a href="http://www.opscode.com">Chef</a> Provision</h5>
+
+<p>Vagrant对Chef支持的很好，包括chef-client和chef-solo两种模式。
+这里，我们之讨论如何使用chef-solo来安装Apache。</p>
+
+<ul>
+<li><p>在Vagrantfile同级目录下，创建如下目录及文件cookbooks/vagrant_book/recipes/default.rb, 并加入如下内容</p>
+
+<pre><code>  execute "apt-get update"
+  package "apache2"
+  execute "rm -rf /var/www" 
+  link "/var/www" do
+      to "/vagrant" 
+  end
+</code></pre></li>
+<li><p>在Vagrantfile中定义如下配置</p>
+
+<pre><code>  config.vm.define "web" do |web|
+      web.vm.hostname = "web-vm-chef"
+  end 
+  config.vm.network :forwarded_port, guest: 80, host: 9090
+  config.vm.provision "chef_solo", run_list: ["vagrant_book"]
+</code></pre></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5>Puppet Provision</h5>
+
+<p>Vagrant也同样支持Puppet，这里，我们看看如何使用Puppet安装Apache。</p>
+
+<ul>
+<li><p>在Vagrantfile同级目录下，创建如下目录及文件manifests/default.pp, 并加入如下内容</p>
+
+<pre><code>  exec { "apt-get update":
+      command =&gt; "/usr/bin/apt-get update",
+  }
+
+  package { "apache2":
+      require =&gt; Exec["apt-get update"],
+  }
+
+  file { "/var/www": 
+      ensure =&gt; link, 
+      target =&gt; "/vagrant", 
+      force =&gt; true,
+  }
+</code></pre></li>
+<li><p>在Vagrantfile中定义如下配置</p>
+
+<pre><code>  config.vm.define "web" do |web|
+      web.vm.hostname = "web-vm-chef"
+  end 
+  config.vm.network :forwarded_port, guest: 80, host: 9090
+  config.vm.provision "puppet"
+</code></pre></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5>混搭</h5>
+
+<p>实际上，我们也可以同时使用多种Provision，让他们协同工作。
+譬如，在下面的示例中，我们使用Shell以及Puppet一起完成Apache的安装</p>
+
+<pre><code>    config.vm.box = "precise64"
+    config.vm.provision "shell", inline: "apt-get update" 
+    config.vm.provision "puppet"
+</code></pre>
+
+<h3>总结</h3>
+
+<p>Vagrant提供了强大的Provision机制, 能方便的帮助我们更有效的安装以及部署应用。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant Learning - 3 (Box) ]]></title>
+    <link href="http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box/"/>
+    <updated>2013-11-14T17:02:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box</id>
+    <content type="html"><![CDATA[<h3>什么是Vagrant Box</h3>
+
+<p>谈论完了Vagrantfile，让我们看看Vagrant的另外一个重要概念Box。它是Vagrant运行VM的必要条件。
+基本上，从头开始建立一个VM是相当耗时的工作，于是Vagrant使用一个基础映像(base image), 克隆它并快速创建一个可用的VM。<br/>
+在Vagrant的世界里，所有这些基础映像统称为Box。简单地说，Box可以理解为创建VM时需要的模板，通过这些模板，我们可以创建VM。</p>
+
+<!--More-->
+
+
+<p>如果将上面例子的
+<code>config.vm.box = "precise64"</code>注释掉，并执行<code>vagrant up</code>,Vagrant将会提示</p>
+
+<pre><code>There are errors in the configuration of this machine. Please fix
+the following errors and try again:
+
+vm:
+* A box must be specified.
+</code></pre>
+
+<p>但是，如果只是去掉<code>http://files.vagrantup.com/precise64.box</code>并执行<code>vagrant up</code>,则VM依然能够正常启动。</p>
+
+<p>所以，可以理解为Vagrantfile是项目相关的(per-project basis)，不同的Vagrantfile之间并没有什么联系。而Box则是可以被共享的，当创建一个Box后，其他VM便可以将Box作为模板使用。这也就意味着，对于同一个Box，我们能通过不同的Vagrantfile配置文件，运行多个不同的VM。本质上，这也是Box和VM的区别。
+举个例子，当构建一个复杂系统时，我们可以使用同一个Vagrant Box(比如Ubuntu 12), 定义不同的Vagarantfile，分别创建网站服务器，数据库服务器或者图片服务器等。</p>
+
+<h3>启动Vagrant Box</h3>
+
+<p>理解了Vagrant Box，理解了Vagrantfile，现在我们来看看当第一次执行<code>vagrant up</code>时, Vagrant到底做了什么事情</p>
+
+<pre><code>Bringing machine 'default' up with 'virtualbox' provider...
+[default] Importing base box 'precise64'... 
+//基于Box precise64创建VM
+[default] Matching MAC address for NAT networking... 
+//初始化网络配置
+[default] Setting the name of the VM... 
+//设置VM的名字(非hostname)。默认规则为当前```文件夹名称``` + ```随机数```, 可以通过   VirtualBox管理器查看到，如下所示
+
+[default] Clearing any previously set forwarded ports... 
+//清空端口转发的设置
+[default] Creating shared folders metadata...
+//初始化文件夹共享设置
+[default] Clearing any previously set network interfaces...
+//初始化文件夹共享设置
+[default] Preparing network interfaces based on configuration...
+//初始化网络配置
+[default] Forwarding ports...
+[default] -- 22 =&gt; 2222 (adapter 1)
+//设置SSH的端口转发
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] Mounting shared folders...
+//挂载共享文件夹
+[default] -- /vagrant
+//默认的，主机上Vagrantfile所在的文件夹将被挂载到VM的/vagrant目录
+</code></pre>
+
+<p>另外有一点要注意的，当第一次执行<code>vagrant up</code>后，当前目录下会生成一个<code>.vagrant</code>的目录，里面记录了Vagrant对VM的配置信息，如ID,状态等。</p>
+
+<h3>管理Vagrant Box</h3>
+
+<p>Vagrant 提供了方便的命令帮助我们管理Box.</p>
+
+<pre><code>add        //添加新的Box
+list       //显示当前Box 
+remove     //删除Box
+</code></pre>
+
+<p>类似的，对于VM，Vagrant也提供了不同的方式管理它:</p>
+
+<pre><code>vagrant suspend //挂起当前VM
+vagrant halt    //关闭当前VM
+vagrant destroy //删除当前VM
+vagrant reload  //重新当前VM
+......
+</code></pre>
+
+<h3>可用的Box</h3>
+
+<p>Vagrant官方已经提供了很多可用的Box，请看<a href="http://www.vagrantbox.es/">这里</a></p>
+
+<h3>总结</h3>
+
+<p>现在，我们已经了解了Vagrantfile, Vagrant Box, 以及Vagrant VM，通过上面的步骤，相信你已经可以轻松的创建虚拟机了。接下来，我们将看看如何使用Vagrant的一些高级功能，更方便的管理及定制虚拟机。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant Learning - 2 (Configuration)]]></title>
+    <link href="http://wldandan.github.com/blog/2013/11/06/vagrant-learning-two-vagrantfile/"/>
+    <updated>2013-11-06T17:26:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/11/06/vagrant-learning-two-vagrantfile</id>
+    <content type="html"><![CDATA[<h3>Vagrantfile</h3>
+
+<p>Vagrantfile是Vagrant启动并设置VM的配置文件，每个VM都必须有一个Vagrantfile。
+当执行<code>Vagrant init</code>，Vagrant便会帮我们生成一个默认的Vagrantfile。
+当然，不同的VM可以根据需求更改Vagrantfile的配置信息。</p>
+
+<p>对于开发团队，我们可以将Vagrant配置文件放入版本管理系统，从而整个团队能够共享并不断改进该文件，在团队内部提供一种方便快捷的方式，构建产品运行环境。</p>
+
+<p>譬如，我们可以执行如下代码生成Vagrantfile</p>
+
+<pre><code>mkdir vm &amp;&amp; cd vm  
+vagrant init precise64 http://files.vagrantup.com/precise64.box
+</code></pre>
+
+<p>Vagrant会提示</p>
+
+<pre><code>A Vagrantfile has been placed in this directory. You are now
+ready to 'vagrant up' your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+'vagrantup.com' for more information on using Vagrant.
+</code></pre>
+
+<p>查看当前目录，会发现Vagrantfile已经生成。</p>
+
+<!--More-->
+
+
+<h3>Ruby Style But Don't panic</h3>
+
+<p>你可能注意到该文件的格式不是简单的文本。实际上，Vagrantfile使用了ruby的语法来定义配置信息。不过别担心，即便不是Ruby开发者，通过后续的例子，也能随心所欲的配置你的VM。</p>
+
+<p>对于上面的例子而言，</p>
+
+<pre><code>Vagrant.configure(VAGRANTFILE_API_VERSION) do | config |
+config.vm.box = "precise64"
+config.vm.box_url="http://files.vagrantup.com/precise64.box"
+</code></pre>
+
+<p>其中，config是一个配置变量，我们可以通过它来配置VM的信息。<code>config.vm.box</code>表明创建VM时使用系统的名为precise64的Box。如果该Box不存在，则会使用<code>config.vm.box_url</code>从指定的地址重新下载该Box。</p>
+
+<h3>Change VM Host Name</h3>
+
+<p>默认情况下,新建的VM的主机名(hostname)与它所使用的Box名称一样。
+对于当前这个例子，如果执行</p>
+
+<pre><code>vagrant ssh
+</code></pre>
+
+<p>将看到该VM的<code>hostname</code>为<code>precise64</code></p>
+
+<p>不过，我们可以使用如下代码修改主机名，</p>
+
+<pre><code>config.vm.define "web" do |web|
+   web.vm.hostname = "web-vm"
+end
+</code></pre>
+
+<h3>Share Host-Machine Directory</h3>
+
+<p>默认情况下,新建的VM的将会自动挂载执行"vagrant up"的主机文件夹到<code>/vagrant</code>目录。
+也就是说, 主机上Vagrantfile所在的文件夹将被自动挂载到VM的/vagrant目录。</p>
+
+<p>除此之外，我们也可以使用如下配置</p>
+
+<pre><code>config.vm.synced_folder "/tmp", "/host_tmp"
+</code></pre>
+
+<p>第一个参数代表主机上的目录名称，第二个参数代表VM上的目录名称。</p>
+
+<h3>Basic Networking</h3>
+
+<p>和文件共享同等重要的还有网络配置。通过更改网络配置信息，能帮助我们更有效的使用VM。
+举例来说，如下的代码设置了端口映射(网络配置里的一部分)</p>
+
+<pre><code>config.vm.network :forwarded_port, guest: 80, host: 9090
+</code></pre>
+
+<p>当访问主机端口9090时候，该请求会被转发到VM的80端口上。
+譬如说，执行如下代码，在VM上启动一个Web Server</p>
+
+<pre><code>vagrant ssh
+sudo python -m SimpleHTTPServer 80
+</code></pre>
+
+<p>然后在主机上访问localhost:9090, 将显示该目录下对应的文件。也就是说，访问主机的端口已经被转发到了VM上。</p>
+
+<h3>Define Multimachine Clusters</h3>
+
+<p>其实，理论上每个VM都有一个对应的Vagrantfile。不过，Vagrant提供了创建集群的功能。
+即使在一个Vagrantfile中，也是容许我们定义一个集群、即多台虚拟机的，如下所示：
+一个Vagrant运行一次，会创建了2个虚拟机。</p>
+
+<pre><code>Vagrant::Config.run do |config| 
+
+    config.vm.define :app do |app_config|
+        app_config.vm.customize ["modifyvm", :id, "--name", 
+                                  "app", "--memory", "512"] 
+        app_config.vm.box = "precise64"
+        app_config.vm.host_name = "app"
+        app_config.vm.network :hostonly, "33.33.13.37"
+    end 
+
+    config.vm.define :db do |db_config|
+        db_config.vm.customize ["modifyvm", :id, "--name", 
+                                 "db", "--memory", "512"] 
+        db_config.vm.box = "precise64"
+        db_config.vm.host_name = "db"
+        db_config.vm.network :hostonly, "33.33.13.38"
+     end 
+end
+</code></pre>
+
+<h3>More …...</h3>
+
+<p>类似的，还有很多参数可以帮助我们定制VM，更多的细节这里就不一一列举了，请根据需要自行参考Vagrant的<a href="http://www.vagrantup.com/">官方文档</a>哦。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant Learning - 1 (Basic Concepts)]]></title>
+    <link href="http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/"/>
+    <updated>2013-11-04T20:02:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction</id>
+    <content type="html"><![CDATA[<h3>为什么选择Vagrant</h3>
+
+<ul>
+<li>能够构建可配置的、轻量级的、便携式的虚拟服务器</li>
+<li>安装简单，提供不同平台的安装包</li>
+<li>一条命令即可创建出虚拟机环境，而且官方提供各种虚拟机的模板。</li>
+<li>能够最大化的帮助个人或者团队快速配置环境。譬如说，如果你是团队中的一员，通过Vagrant创建出一套独立的运行环境后，团队的其他成员能够使用该配置，创建完全一样地工作环境。所以无论你是工作在Linux，Mac OS X或Windows ，所有的团队成员都能在同一环境下运行代码，拥有相同的依赖。告别环境不一致带来的问题。</li>
+<li>提供Shell、Chef或者Puppet的支持，能够利用这些工具(Infrastructure As Code的方式)配置环境。</li>
+<li>从1.2的版本开始，不但支持VirtualBox,VmWare, 还开始支持Amazon EC2。</li>
+</ul>
+
+
+<!--More-->
+
+
+<h3>搭建环境</h3>
+
+<ul>
+<li>安装<a href="http://virtualbox.org">Virtual Box</a></li>
+<li>安装<a href="http://downloads.vagrantup.com">Vagrant</a></li>
+<li><p>安装第一个虚拟机<br/>
+<code>vagrant init precise64 http://files.vagrantup.com/precise64.box</code></p></li>
+<li><p>启动虚拟机<br/>
+  <code>vagrant up</code></p></li>
+<li><p>登录虚拟机<br/>
+ <code>vagrang ssh</code></p></li>
+<li><p>删除虚拟机<br/>
+ <code>vagrang destroy</code></p></li>
+</ul>
+
+
+<h3>发生了什么</h3>
+
+<ul>
+<li><p>当执行<code>vagrant init precise64 http://files.vagrantup.com/precise64.box</code>时，Vagrant将先从官网上下载一个Box，然后新建一个配置文件Vagrantfile。</p></li>
+<li><p>当执行
+<code>vagrant up</code>
+时，Vagrant将参照Vagrantfile的配置信息，初始化并被启动该虚拟机。</p></li>
+<li><p>当执行<code>vagrant ssh</code>时，Vagrant将使用内建的SSHkey登陆。</p></li>
+<li><p>当执行<code>vagrant destroy</code>时，Vagrant将删除该虚拟机，但并不会删除对应的Box。</p></li>
+<li><p>执行<code>vagrant box list</code>, 便能看到刚刚创建的Box<code>precise64</code></p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant - Make Dev Environment Easy]]></title>
+    <link href="http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/"/>
+    <updated>2013-11-01T18:37:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy</id>
+    <content type="html"><![CDATA[<h3>背景介绍</h3>
+
+<ul>
+<li><p>最近的Java项目是个同海外团队合作的遗留系统，包括数据库服务器、邮件服务器、Web服务器、FAST搜索引擎、JBOSS中间件等等节点。为了便于团队使用，我们在Amazon 的EC2上建立了一套完整的端到端的运行环境。</p></li>
+<li><p>团队成员在本地搭建了Web环境，数据库环境，便于开发及调试。但由于Mac上安装FAST并不是一件易事，因此在本地跑应用的时候依赖于Amazon EC2的FAST节点。</p></li>
+<li><p>持续集成、CI在当今的时代已经不是什么新鲜玩意了，越来越多的团队已经了解并运用在实践中。对于我们和海外客户共同开发的这种情况，CI挂了可不是太好，因此在每次提交代码之前，需要确保本地所有的测试都能通过，才能提交代码。</p></li>
+</ul>
+
+
+<p>于是乎，问题就来了:</p>
+
+<!--More-->
+
+
+<ul>
+<li><p>当网络不给力的时候，连不上FAST，就无法在本地跑测试，也就无法提交代码，降低了开发效率。</p></li>
+<li><p>每次跑测试，会清空FAST的数据并重新注入测试数据。所以，就导致某对Pair正在本地跑测试时，另外一对Pair清空了FAST的数据，最终测试失败。</p></li>
+</ul>
+
+
+<p>鉴于这2点，如果每人都有一个本地的FAST环境，既不用担心网络带来的影响，又不会影响他人，于是就有了构建虚拟机环境的需求。</p>
+
+<h3>引发的思考</h3>
+
+<p>说到这，其实回想起以前，也碰到类似的情况，但估计当时还不够痛，也就没有理会。 :(
+实际上，对于当今的屌丝程序猿而言，产品的开发/部署环境变得越来越复杂。无论你是开发人员、测试人员，还是系统维护人员，如何搭建一个运行环境，快速、高效的部署以及配置软件应用，成了困扰我们的一个大问题。在这种情况下，无论对于个人，还是团队，高效的使用虚拟化技术，创建独立的产品运行环境也就变得越来越重要。</p>
+
+<h5>对于个人</h5>
+
+<ul>
+<li>Ubuntu新的版本发布了，听说很cool，想试试但多操作系统麻烦啊</li>
+<li>NoSQL有这么多产品，装多了会不会影响本地的开发环境</li>
+<li>当前产品的技术栈复杂啊，新人来了跑个应用，就得花上个2天，伤不起啊<br/>
+…….</li>
+</ul>
+
+
+<h5>对于开发团队</h5>
+
+<ul>
+<li>Same dependencies</li>
+<li>Same versions</li>
+<li>Same configurations</li>
+<li>Same everything</li>
+</ul>
+
+
+<p>我们期望团队的开发/运行环境能够完全一样，但实际上这并不容易。<br/>
+这种不同来自很多方面，软件的版本、服务之间的通信、运行的配置或者各种库的依赖等。</p>
+
+<h3>解决方案</h3>
+
+<p>最终，我们使用Vagrant解决了问题。大体流程如下所示:</p>
+
+<ul>
+<li>创建和产品运行环境一样的VM(譬如CentOS 6.0)</li>
+<li>安装并配置FAST</li>
+<li>根据需要配置VM的各种参数，如网络，内存等信息</li>
+<li>将VM重新发布成BOX</li>
+<li>将BOX发布到内部服务器上，并且将VM的配置文件放入版本管理系统</li>
+</ul>
+
+
+<p>最终，团队的成员只需Clone代码，敲入如下命令，花2分钟时间，就启动了本地的FAST环境，完全解决了之前遇到的两点问题。</p>
+
+<pre><code>vagrant init fast http://dist-server/fast.box
+vagrant up
+</code></pre>
+
+<p>当然，这只是一个简单地尝试，接下来会使用Vagrant搭建整个环境，让团队的开发、测试以及部署流程变得更加行云流水，并更易维护。</p>
+]]></content>
+  </entry>
+  
+</feed>

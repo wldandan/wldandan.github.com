@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Node.js Learning Summary - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="一直以来，我对Javascript都不是怎么感兴趣，主要的原因还是由于JavaScript 和浏览器之间复杂的历史渊源，导致javascript被浏览器严重束缚。
+不过，Node.js的出现，让我看到了一种全新的使用JS的方式（启动、调试等可以完全不care浏览器）。经过几天对Node的了解， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Node.js Learning Summary</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-05T13:02:00+08:00" pubdate data-updated="true">May 5<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>一直以来，我对Javascript都不是怎么感兴趣，主要的原因还是由于JavaScript 和浏览器之间复杂的历史渊源，导致javascript被浏览器严重束缚。
+不过，Node.js的出现，让我看到了一种全新的使用JS的方式（启动、调试等可以完全不care浏览器）。经过几天对Node的了解，发现Node确实有一些与众不同的特点。</p>
+
+<!--More-->
+
+
+<h2>1. 什么是Node.js</h2>
+
+<p>Node.js诞生于2009年, 是一个可以让 JavaScript 运行在服务器端的平台。通过使用Node.js, JavaScript能够脱离浏览器的束缚，运行在独立的服务器环境下, 就像运行 Python、Perl、PHP、Ruby 程序一样。除此之外，Node.js 可以作为web服务器直接运行Node的应用, 与 PHP、Python、Ruby on Rails 相比, 它省去了 Apache、Nginx 等 HTTP 服务器的搭建。
+Node.js摒弃了传统平台依靠多线程来实现高并发的设计思路,采用了单线程、异步式I/O、事件驱动式的程序模型，因此不仅带来了性能的提升,而且还减少了多线程程序设计的复杂性(同步、互斥等),提高了开发效率。
+虽然Node.js的年龄不大，可影响力不小。目前已经有很多来自官方或者社区提供的Node模块，例如网站开发框架、访问MySQL、MongoDB等的数据库接口、模版引擎等等， Node逐渐形成了一个庞大的，愈趋成熟的生态系统。</p>
+
+<h2>2. Node.js能做什么</h2>
+
+<p>Node.js 内建了 HTTP 服务器支持,也就是说你可以轻而易举地实现一个网站和服务器的组合。当然，Node.js 能做的远不止开发一个网站那么简单,使用 Node.js,你可以轻松地开发:</p>
+
+<pre><code>a) 具有复杂逻辑的网站;
+b) Web Socket 服务器;
+c) 命令行工具;
+d) 带有图形用户界面的本地应用程序;
+e) 单元测试工具;
+</code></pre>
+
+<p>等等。</p>
+
+<h2>3.采用异步式 I/O与事件驱动的编程模型</h2>
+
+<h3>异步I/O</h3>
+
+<h5>什么是同步式I/O?</h5>
+
+<p>当线程在执行中遇到磁盘读写或网络通信(统称为 I/O 操作),通常要耗费较长的时间,这时操作系统会剥夺这个线程的CPU控制权,使其暂停执行,同时将资源让给其他的工作线程,这种线程调度方式称为阻塞。当I/O操作完毕时,操作系统将这个线程的阻塞状态解除,恢复其对CPU的控制权,令其继续执行。这种I/O模式就是通常的同步式 I/O(Synchronous I/O或阻塞式 I/O (Blocking I/O)。</p>
+
+<h5>什么是异步式I/O?</h5>
+
+<p>异步式 I/O (Asynchronous I/O)或非阻塞式 I/O (Non-blocking I/O)则针对所有I/O操作不采用阻塞的策略。当线程遇到I/O操作时,不会以阻塞的方式等待I/O操作的完成或数据的返回,而只是将 I/O请求发送给操作系统,继续执行下一条语句。当操作系统完成I/O操作时,以事件的形式通知执行I/O操作的线程,线程会在特定时候处理这个事件。</p>
+
+<h5>二者的区别？</h5>
+
+<p>在阻塞模式下,一个线程只能处理一项任务,要想提高吞吐量必须通过多线程。在阻塞模式下,多线程往往能提高系统吞吐量,因为一个线程阻塞时还有其他线程在工作,多线程可以让CPU资源不被阻塞中的线程浪费。在非阻塞模式下,一个线程永远在执行计算操作。在非阻塞模式 下,线程不会被 I/O 阻塞,永远在利用 CPU。</p>
+
+<p>简而言之, 异步式I/O就是少了多线程的开销。对操作系统来说,创建一个线程的代价是十分昂贵的,需要给它分配内存、列入调度,同时在线程切换的时候还要执行内存换页,CPU的缓存被清空,切换回来的时候还要重新从内存中读取信息,破坏了数据的局部性。因此，多线程带来的好处仅仅是在多核 CPU 的情况下利用更多的核,而Node.js使用单线程也能带来同样的好处。这就是为什么 Node.js使用单线程、非阻塞的事件编程模式。</p>
+
+<h3>事件驱动</h3>
+
+<p>Node.js的异步机制是基于事件的,所有的磁盘I/O、网络通信、数据库查询都以非阻塞的方式请求,返回的结果由事件回调来处理。Node.js 在同一时 刻只会处理一个事件,完成后立即进入事件循环检查并处理后面的事件。这样做的好处是, CPU 和内存在同一时间集中处理一件事,同时尽可能让耗时的I/O操作并行执行。因为Node.js只是在事件队列中增加请求,等待操作系统的回应,因而不会有任何多线程开销,很大程度上可以提高 Web 应用的健壮性,并防止恶意攻击。</p>
+
+<h4>Node.js在什么时候会进入事件循环呢?</h4>
+
+<p>Node.js程序由事件循环开始,到事件循环结束,所有的逻辑都是事件的回调函数,所以 Node.js 始终在事件循环中,程序入口就是 事件循环第一个事件的回调函数。事件的回调函数在执行的过程中,可能会发出 I/O 请求或 直接发射(emit)事件,执行完毕后再返回事件循环,事件循环会检查事件队列中有没有未 处理的事件,直到程序结束。</p>
+
+<h2>4.总结</h2>
+
+<p>Node.js最大的特点就是异步式I/O(或者非阻塞I/O)与事件紧密结合的编程模式。这种方式带来了可观的性能提升,与此同时,这种异步事件模式的弊端也是显而易见的,因为它不符合开发者的常规线性思路,往往需要把一个完整的逻辑拆分为一个个事件,并使用回调进行处理,这无疑增加了开发和调试难度,在后续的部分中，我会继续关注Node.js的其他部分。</p>
+
+<h2>5. 参考</h2>
+
+<p>http://code.danyork.com/2011/01/25/node-js-doctors-offices-and-fast-food-restaurants-understanding-event-driven-programming/</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-05T13:02:00+08:00" pubdate data-updated="true">May 5<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>Javascript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/05/03/effective-tool-in-my-every-day-work/" title="Previous Post: Effective tool in my work">&laquo; Effective tool in my work</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/05/23/understanding-unix-bash/" title="Next Post: Understanding *nix bash profile">Understanding *nix bash profile &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/';
+        var disqus_url = 'http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Javascript | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2016-10-08T23:55:45+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Understanding javascript variable scope &amp; hoisting]]></title>
+    <link href="http://wldandan.github.com/blog/2013/05/26/javascript-variable-scope-and-hoisting/"/>
+    <updated>2013-05-26T22:10:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/05/26/javascript-variable-scope-and-hoisting</id>
+    <content type="html"><![CDATA[<p>在这篇文章中，我将介绍Javascript中变量的作用域以及变量提升的一些相关知识。</p>
+
+<h2>变量作用域</h2>
+
+<p>变量作用域是指变量存在的上下文环境，它表明了当定义一个变量后，代码如何能够访问该变量。基本上，Javascript的变量有两种：
+局部变量和全局变量（废话，哪门语言没有这两种！）</p>
+
+<!--More-->
+
+
+<h3>局部变量</h3>
+
+<p>和其他的编程语言不太一样，Javascript并没有块作用域(使用{ xxx }定义的作用域)这个概念，取而代之的则是函数作用域的概念，而在函数作用域内使用var定义的变量就是局部变量。局部变量只能被所属函数作用域内的代码访问。譬如，如下代码的name是函数showName的局部变量，因此只能被showName函数内的代码访问到。</p>
+
+<pre><code>function showName () {
+    var name = "world"; 
+    console.log (name); 
+}
+</code></pre>
+
+<h3>全局变量</h3>
+
+<p>全局变量区别与局部变量，这些变量的作用域是全局范围的，即程序中任何地方都能访问该变量。</p>
+
+<h5>1）任何定义在函数外的变量都是全局变量。</h5>
+
+<pre><code>var myName = "Hello";
+
+function showName(){
+    console.log(window.myName); // Hello;
+}
+
+for (var i = 1; i &lt;= 10; i++) {
+    console.log (i); // i也是全局变量
+};
+
+console.log("myName" in window); // true
+</code></pre>
+
+<h5>2）任何没有使用var关键字申明，就直接赋值的变量都是全局变量。</h5>
+
+<pre><code>function showName () {
+    name = 'hello';
+    console.log(name);
+}
+
+showName();
+console.log(name); 
+</code></pre>
+
+<h5>3）减少全局变量的定义</h5>
+
+<p>如下的两个变量虽然都是全局变量，但实际上他们并不需要。</p>
+
+<pre><code>var firstName, lastName;
+function fullName () {
+    console.log ("Full Name: " + firstName + " " + lastName );
+}
+</code></pre>
+
+<p>重构后改成</p>
+
+<pre><code>function fullName () {
+    var firstName = "Hello", lastName = "World";
+    console.log ("Full Name: " + firstName + " " + lastName );
+}
+</code></pre>
+
+<h2>变量提升</h2>
+
+<h4>所有在函数内部定义的变量，都会被执行‘变量提升’的过程。但是，只有变量的申明会被提升到顶部，变量的初始化或者赋值操作并不会。例如</h4>
+
+<pre><code>function showName () {
+    console.log ("First Name: " + name); //undefined
+    var name = "Hello";
+    console.log ("Last Name: " + name);  //"Last Name: Hello"
+}
+showName ();    
+</code></pre>
+
+<p>在如上的例子中，会先输出“undefined”，再输出“Last Name: Hello”，证明在执行第一句代码时，变量name实际上是已经存在的，只是undefine而已。
+但是，如果执行如下代码，则JavaScript会报错:</p>
+
+<pre><code>function showName () {
+    console.log ("First Name: " + name); //undefined
+}
+showName ();    
+</code></pre>
+
+<h4>函数申明的优先级会高于变量申明的优先级。</h4>
+
+<pre><code>var myName; 
+function myName () {
+    console.log ("Hello");
+}
+console.log(typeof myName); // function
+</code></pre>
+
+<h4>但函数申明的优先级会低于于变量赋值的优先级。</h4>
+
+<pre><code>var myName = "Hello";
+function myName () {
+    console.log ("World");
+}
+console.log(typeof myName); // string   
+</code></pre>
+
+<h2>总结</h2>
+
+<p>变量的作用域和变量提升是Javascript比较基本，但是非常重要的两个特性。理解了这两部分，写代码的过程中应该就不会变量满天飞了吧。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Understanding javascript module pattern]]></title>
+    <link href="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/"/>
+    <updated>2013-05-26T22:10:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern</id>
+    <content type="html"><![CDATA[<h2>什么是Module Pattern?</h2>
+
+<p>Javascript，是面向对象但并不是面向对象编程的一门语言。在Javascript的世界里，你遇到的所有东西都是对象(如Function, Number, String等)，但它本身的语法中却不提供类(class)的关键字或者访问符(private, public, protected)等的定义。</p>
+
+<p>不过，通过使用Module Pattern，我们可以有效的筑起一道屏障，让私有状态的变量或者方法只能在module的内部被访问，从而达到面向对象封装的目的。</p>
+
+<!--More-->
+
+
+<p>下面，先让我们来看一段代码，看看Module Pattern是如何帮助我们完成面向对象的封装的：</p>
+
+<pre><code>var Module = (function(){
+  var myPrivateVar = 0;
+  var myPrivateMethod = function(msg){
+    console.log(msg);
+  }
+
+  return {
+    myPublicVar: "publicFoo",
+    myPublicMethod: function(msg){
+        myPrivateVar++;
+        myPrivateMethod(msg);
+    }
+  }; 
+})();
+</code></pre>
+
+<p>在这段代码中，我们首先定义了一个全局变量Module，然后将一个匿名函数的执行结果赋值给该变量(注意变量得到的不是匿名函数本身，而是匿名函数的执行结果。因为最后一行()的使用，表示定义完匿名函数后就立刻执行了该函数)。</p>
+
+<p>然后，从上面的匿名函数的执行结果中，我们可以看出，该结果并不是返回函数中定义的所有变量或者方法，而是定义了一个return的代码块，然后仅将该代码块里面的内容暴露出去。</p>
+
+<p>因此，对于匿名函数中的myPrivateMethod方法而言，它的scope就被限定在了匿名函数内部，任何匿名函数外部的代码都是访问不到myPrivateMethod的，这样我们便隔离了外界对该方法的访问，也就通过module实现了面向对象的封装。</p>
+
+<p>这种实现封装的方式就是Module Pattern，它能够帮助我们有效的封装内部的状态、变量或者方法。</p>
+
+<h2>Module Pattern的关键</h2>
+
+<p>了解完上面的代码，现在让我们可以回顾一下Module Pattern的几个关键点：</p>
+
+<h4>1. Module是一个全局变量</h4>
+
+<h4>2. Module中封装了私有的状态(变量或者方法)。</h4>
+
+<h4>3. 通过“return { xxx }”代码块的定义，Module对外部暴露变量或者方法。</h4>
+
+<h4>4. Module是自包含的并且在定义完后就立刻执行。</h4>
+
+<h2>Argumentation Module Pattern</h2>
+
+<p>在上面的例子中，你会发现这是一个很简单、而且相对标准的模版，因为它包括了基本Module的定义:private方法、private变量，以及暴露出来的public方法或者变量。因此，你可以很容易的将它用在项目中。其实，这种使用方式最早是在&lt;JavaScript: The Good Parts>一书中提到。后来在Yahoo YUI 的Library中，得到了广泛的应用，如果你熟悉YUI，一定清楚里面的很多的实现都是采用这种方式。</p>
+
+<p>不过，对于上面这种方式的实现，存在一个较明显的弊端:整个Module的定义只能在一个文件里完成，对于一些大型的应用，codebase已经很复杂了，如果再定义某个数千行以上的JS Module，这无疑大大增加了维护的难度，因此我们这里衍生出一个Argumentation Module Pattern，帮助我们将一个复杂Module的实现，拆分到多个行数较少的小文件里实现，</p>
+
+<p>譬如说，对于一个复杂的Module，可能会分出几个相对独立的功能，例如A,B等等。那么这个时候，我们可以将这相对独立的三部分放在3个文件里实现：
+首先定义一个专门处理A的文件module_a.js</p>
+
+<pre><code>var Module = (function (s) {
+    ......
+    s.a=function(){//Implementation of A part}
+    ......
+    return s;
+}(Module || {}));
+</code></pre>
+
+<p>然后，再定义一个Module_b.js，专门处理该Module中B的部分</p>
+
+<pre><code>var Module = (function (s) {
+  ......
+  s.b=function(){//Implementation of B part}
+  ......
+  return s;
+}(Module || {}));
+</code></pre>
+
+<p>类似的，可以根据具体Module的需要决定如何划分不同的js文件。</p>
+
+<p>接下来可以在html页面上引用这两个js，然后使用里面的方法,类似如下：
+  <html></p>
+
+<pre><code>&lt;header&gt;
+  &lt;script type="text/javascript" src="module_a.js"&gt;&lt;/script&gt;
+  &lt;script type="text/javascript" src="module_b.js"&gt;&lt;/script&gt;
+&lt;/header&gt;
+&lt;script&gt;
+  module.a();
+  module.b()
+&lt;/script&gt;
+&lt;body&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>  </html></p>
+
+<h2>Sub-Module</h2>
+
+<p>对于一个复杂的项目，也可能会存在不同级别的Module，而不仅仅是对Module内部功能的划分。这时候我们就可以引入sub module的概念，代码如下所示：</p>
+
+<p>  MODULE = (function () {</p>
+
+<pre><code>var my = {};
+// ...
+
+return my;
+</code></pre>
+
+<p>  }());</p>
+
+<p>  MODULE.subA = (function () {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>  }());</p>
+
+<p>  MODULE.subB = (function () {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>  }());</p>
+
+<p>从上面的代码中，我们可以看出，只是利用Module以及Sub-Module对变量名称的定义，将其作为不同的命名空间，从而在逻辑上将其划分成模块和子模块。这种方式其实也是Javascript中最简单，最有效的结构组织的方式。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Node.js Learning Summary]]></title>
+    <link href="http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/"/>
+    <updated>2013-05-05T13:02:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one</id>
+    <content type="html"><![CDATA[<p>一直以来，我对Javascript都不是怎么感兴趣，主要的原因还是由于JavaScript 和浏览器之间复杂的历史渊源，导致javascript被浏览器严重束缚。
+不过，Node.js的出现，让我看到了一种全新的使用JS的方式（启动、调试等可以完全不care浏览器）。经过几天对Node的了解，发现Node确实有一些与众不同的特点。</p>
+
+<!--More-->
+
+
+<h2>1. 什么是Node.js</h2>
+
+<p>Node.js诞生于2009年, 是一个可以让 JavaScript 运行在服务器端的平台。通过使用Node.js, JavaScript能够脱离浏览器的束缚，运行在独立的服务器环境下, 就像运行 Python、Perl、PHP、Ruby 程序一样。除此之外，Node.js 可以作为web服务器直接运行Node的应用, 与 PHP、Python、Ruby on Rails 相比, 它省去了 Apache、Nginx 等 HTTP 服务器的搭建。
+Node.js摒弃了传统平台依靠多线程来实现高并发的设计思路,采用了单线程、异步式I/O、事件驱动式的程序模型，因此不仅带来了性能的提升,而且还减少了多线程程序设计的复杂性(同步、互斥等),提高了开发效率。
+虽然Node.js的年龄不大，可影响力不小。目前已经有很多来自官方或者社区提供的Node模块，例如网站开发框架、访问MySQL、MongoDB等的数据库接口、模版引擎等等， Node逐渐形成了一个庞大的，愈趋成熟的生态系统。</p>
+
+<h2>2. Node.js能做什么</h2>
+
+<p>Node.js 内建了 HTTP 服务器支持,也就是说你可以轻而易举地实现一个网站和服务器的组合。当然，Node.js 能做的远不止开发一个网站那么简单,使用 Node.js,你可以轻松地开发:</p>
+
+<pre><code>a) 具有复杂逻辑的网站;
+b) Web Socket 服务器;
+c) 命令行工具;
+d) 带有图形用户界面的本地应用程序;
+e) 单元测试工具;
+</code></pre>
+
+<p>等等。</p>
+
+<h2>3.采用异步式 I/O与事件驱动的编程模型</h2>
+
+<h3>异步I/O</h3>
+
+<h5>什么是同步式I/O?</h5>
+
+<p>当线程在执行中遇到磁盘读写或网络通信(统称为 I/O 操作),通常要耗费较长的时间,这时操作系统会剥夺这个线程的CPU控制权,使其暂停执行,同时将资源让给其他的工作线程,这种线程调度方式称为阻塞。当I/O操作完毕时,操作系统将这个线程的阻塞状态解除,恢复其对CPU的控制权,令其继续执行。这种I/O模式就是通常的同步式 I/O(Synchronous I/O或阻塞式 I/O (Blocking I/O)。</p>
+
+<h5>什么是异步式I/O?</h5>
+
+<p>异步式 I/O (Asynchronous I/O)或非阻塞式 I/O (Non-blocking I/O)则针对所有I/O操作不采用阻塞的策略。当线程遇到I/O操作时,不会以阻塞的方式等待I/O操作的完成或数据的返回,而只是将 I/O请求发送给操作系统,继续执行下一条语句。当操作系统完成I/O操作时,以事件的形式通知执行I/O操作的线程,线程会在特定时候处理这个事件。</p>
+
+<h5>二者的区别？</h5>
+
+<p>在阻塞模式下,一个线程只能处理一项任务,要想提高吞吐量必须通过多线程。在阻塞模式下,多线程往往能提高系统吞吐量,因为一个线程阻塞时还有其他线程在工作,多线程可以让CPU资源不被阻塞中的线程浪费。在非阻塞模式下,一个线程永远在执行计算操作。在非阻塞模式 下,线程不会被 I/O 阻塞,永远在利用 CPU。</p>
+
+<p>简而言之, 异步式I/O就是少了多线程的开销。对操作系统来说,创建一个线程的代价是十分昂贵的,需要给它分配内存、列入调度,同时在线程切换的时候还要执行内存换页,CPU的缓存被清空,切换回来的时候还要重新从内存中读取信息,破坏了数据的局部性。因此，多线程带来的好处仅仅是在多核 CPU 的情况下利用更多的核,而Node.js使用单线程也能带来同样的好处。这就是为什么 Node.js使用单线程、非阻塞的事件编程模式。</p>
+
+<h3>事件驱动</h3>
+
+<p>Node.js的异步机制是基于事件的,所有的磁盘I/O、网络通信、数据库查询都以非阻塞的方式请求,返回的结果由事件回调来处理。Node.js 在同一时 刻只会处理一个事件,完成后立即进入事件循环检查并处理后面的事件。这样做的好处是, CPU 和内存在同一时间集中处理一件事,同时尽可能让耗时的I/O操作并行执行。因为Node.js只是在事件队列中增加请求,等待操作系统的回应,因而不会有任何多线程开销,很大程度上可以提高 Web 应用的健壮性,并防止恶意攻击。</p>
+
+<h4>Node.js在什么时候会进入事件循环呢?</h4>
+
+<p>Node.js程序由事件循环开始,到事件循环结束,所有的逻辑都是事件的回调函数,所以 Node.js 始终在事件循环中,程序入口就是 事件循环第一个事件的回调函数。事件的回调函数在执行的过程中,可能会发出 I/O 请求或 直接发射(emit)事件,执行完毕后再返回事件循环,事件循环会检查事件队列中有没有未 处理的事件,直到程序结束。</p>
+
+<h2>4.总结</h2>
+
+<p>Node.js最大的特点就是异步式I/O(或者非阻塞I/O)与事件紧密结合的编程模式。这种方式带来了可观的性能提升,与此同时,这种异步事件模式的弊端也是显而易见的,因为它不符合开发者的常规线性思路,往往需要把一个完整的逻辑拆分为一个个事件,并使用回调进行处理,这无疑增加了开发和调试难度,在后续的部分中，我会继续关注Node.js的其他部分。</p>
+
+<h2>5. 参考</h2>
+
+<p>http://code.danyork.com/2011/01/25/node-js-doctors-offices-and-fast-food-restaurants-understanding-event-driven-programming/</p>
+]]></content>
+  </entry>
+  
+</feed>

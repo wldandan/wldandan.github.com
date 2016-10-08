@@ -1,0 +1,521 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>基于微服务架构，改造企业核心系统之实践 - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="本文已经发表于InfoQ，请参考这里 背景与挑战 随着公司国际化战略的推行以及本土业务的高速发展，后台支撑系统已经不堪重负。 在吞吐量、稳定性以及可扩展性上都无法满足日益增长的业务需求。对于每10万元额度的合同，从销售团队准备材料、与客户签单、递交给合同部门，再到合同生效大概需要3.5人天。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">基于微服务架构，改造企业核心系统之实践</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-16T21:57:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本文已经发表于InfoQ，请参考<a href="http://www.infoq.com/cn/articles/enterprise-core-systems-transformation-practice">这里</a></p>
+
+<h2>背景与挑战</h2>
+
+<p>随着公司国际化战略的推行以及本土业务的高速发展，后台支撑系统已经不堪重负。</p>
+
+<p>在吞吐量、稳定性以及可扩展性上都无法满足日益增长的业务需求。对于每10万元额度的合同，从销售团队准备材料、与客户签单、递交给合同部门，再到合同生效大概需要3.5人天。随着业务量的快速增长，签订合同的成本急剧增加。</p>
+
+<p>合同管理系统是后台支撑系统中重要的一部分。当前的合同系统是5年前使用.NET，基于<a href="http://www.sagecrm.com/">SAGE CRM</a>二次开发的产品。
+一方面，系统架构过于陈旧，性能、可靠性无法满足现有的需求。另一方面，功能繁杂，结构混乱，定制的代码与SAGE CRM系统耦合度极高。</p>
+
+<p>由于是遗留系统，熟悉该代码的人早已离职多时，新团队对其望而却步，只能做些周边的修补工作。同时，还要承担着边补测试，边整理逻辑的工作。</p>
+
+<p>在无法中断业务处理的情况下，为了解决当前面临的问题，团队制定了如下的策略：</p>
+
+<p><img src="http://wldandan.github.com/images/microservice/crm-rebuild-strategy-600x400.png" /></p>
+
+<ol>
+<li>在现有合同管理系统的外围，构建功能服务接口，将系统核心的功能分离出来。</li>
+<li>利用这些功能服务接口作为代理，解耦原合同系统与其调用者之间的依赖；</li>
+<li>通过不断构建功能服务接口，逐渐将原有系统分解成多个独立的服务。</li>
+<li>摒弃原有的合同管理系统，使用全新构建的(微)服务接口替代。</li>
+</ol>
+
+
+<!--more-->
+
+
+<h2>什么是微服务</h2>
+
+<p>多年来，我们一直在技术的浪潮中不断乘风破浪，扬帆奋进，寻找更好的方式构建IT系统。</p>
+
+<p>微服务架构(Micro Service Architect)，是近一段时间在软件体架构领域里出现的一个新名词。它通过将功能分解到多个独立的服务中以实现对解决方案或者复杂系统的解耦。</p>
+
+<p>微服务的诞生并非偶然：<a href="http://dddcommunity.org/">领域驱动设计</a>指导我们如何分析并模型化复杂的业务；<a href="http://agilemethodology.org/">敏捷方法论</a>帮助我们消除浪费，快速反馈；<a href="http://agilemethodology.org/">持续交付</a>促使我们构建更快、更可靠、更频繁的软件部署和交付能力；虚拟化和基础设施自动化(Infrasture As Code)则帮助我们简化环境的创建、安装；<a href="http://dev2ops.org/2010/02/what-is-devops/">DevOps</a>文化的流行以及特性团队的出现，使得小团队更加全功能化。这些都是推动微服务诞生的重要因素。</p>
+
+<p>实际上，微服务本身并没有一个严格的定义。不过从业界的讨论来看，微服务通常有如下几个特征:</p>
+
+<h3>小，且专注于做一件事情</h3>
+
+<p>每个服务都是个很小的应用，至于有多小，是一个非常有趣的话题。有人喜欢100行以内，有人赞成1000行以内。数字并不是最重要的，仁者见仁，智者见智，只要团队觉得合适就好。</p>
+
+<p>只关注一个业务功能。这一点和我们平常谈论的面向对象原则中的&#8221;单一原则&#8221;类似，每个服务只做一件事情，并且把它做好。</p>
+
+<h3>运行在独立的进程中</h3>
+
+<p>每个服务都运行在一个独立的操作系统进程，这意味着不同的服务能被部署到不同的主机上。</p>
+
+<h3>轻量级的通信机制</h3>
+
+<p>服务和服务之间通过轻量级的机制实现彼此间的通信。所谓轻量级通信机制，通常指基于语言无关、平台无关的这类协议，例如XML、JSON，而不是传统我们熟知的Java RMI或者.Net Remoting等。</p>
+
+<h3>松耦合</h3>
+
+<p>不需要改变依赖，只更改当前服务本身，就可以独立部署。这意味着该服务和其他者服务之间在部署和运行上呈现相互独立的状态。</p>
+
+<p>综上所述，微服务架构采用多个服务间互相协作的方式构建传统应用。每个服务独立运行在不同的进程中，服务之与服务之间通过轻量的通讯机制交互，并且每个服务可以通过自动化部署方式独立部署。</p>
+
+<h2>微服务的优势</h2>
+
+<p>相比传统的单块架构系统(monolithic)，微服务在如下诸多方面有着显著的优势：</p>
+
+<h4>异构性</h4>
+
+<p>问题有其具体性，解决方案也应有其针对性。用最适合的技术方案去解决具体的问题，往往会事半功倍。传统的单块架构系统倾向采用统一的技术平台或方案来解决所有问题。而微服务的异构性，可以针对不同的业务特征选择不同的技术方案，有针对性的解决具体的业务问题。</p>
+
+<p>对于单块架构的系统，初始的技术选型严重限制将来采用不同语言或框架的能力。如果想尝试新的编程语言或者框架，没有完备的功能测试集，很难平滑的完成替换，而且系统规模越大，风险越高。基于微服务架构，使我们更容易地在遗留系统上尝试新的技术或解决方案。譬如说，
+可以先挑选风险最小的服务作为尝试，快速得到反馈后再决定是否试用于其他服务。这也意味着，即便对一项新技术的尝试失败的话，尽可以抛弃这个方案，并不会对整个产品带来风险。</p>
+
+<p><img src="http://wldandan.github.com/images/microservice/micro-service-advantages-600x400.png" /></p>
+
+<p>上图引用自Martin Fowler的<a href="http://martinfowler.com/articles/microservices.html">Microservices</a>一文。</p>
+
+<h4>独立测试与部署</h4>
+
+<p>单块架构系统运行在一个进程中，因此系统中任何程序的改变，都需要对整个系统重新测试并部署。
+而对微服务架构而言，不同服务之间的打包、测试或者部署等，与其它服务都是完全独立的。对某个服务所做的改动，只需要关注该服务本身。从这个角度来说，使用微服务后，代码修改、测试、打包以及部署的成本和风险都比单块架构系统降低很多。</p>
+
+<h4>按需伸缩</h4>
+
+<p>单块架构系统由于单进程的局限性，水平扩展时只能基于整个系统进行扩展，无法针对某一个功能模块按需扩展。
+而服务架构则可以完美的解决伸缩性的扩展问题。系统可以根据需要，实施细粒度的自由扩展。</p>
+
+<h4>错误隔离性</h4>
+
+<p>微服务架构同时也能提升故障的隔离性。例如，如果某个服务的内存泄露，则只会影响到自己，其他服务能够继续正常地工作。与之形成对比的是，单块架构中如果有一个不合格的组件发生异常，有可能会拖垮整个系统。</p>
+
+<h4>团队全功能化</h4>
+
+<p>康威定律（Conway&#8217;s law）指出：</p>
+
+<p><code>organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations.</code></p>
+
+<p><code>一个组织的设计成果，其结构往往对应于这个组织中的沟通结构。</code></p>
+
+<p>传统的开发模式在分工时往往以技术为单位，比如UI团队、服务端团队和数据库团队，这样的分工可能会导致任何功能上的改变都需要跨团队沟通和协调。而微服务则倡导围绕服务来分工，团队需要具备服务设计、开发、测试到部署所需的所有技能。</p>
+
+<h2>微服务快速开发实践</h2>
+
+<p>随着团队对业务的理解加深和对微服务实践的尝试，数个微服务程序已经成功构建出来。不过，问题同时也出现了：对于这些不同的微服务程序而言，虽然具体实现的代码细节不同，但其结构、开发方式、持续集成环境、测试策略、部署机制以及监控和告警等，都有着类似的实现方式。那么如何满足<a href="http://programmer.97things.oreilly.com/wiki/index.php/Don't_Repeat_Yourself">DRY原则</a>并消除浪费呢？</p>
+
+<p>带着这个问题，经过团队的努力，Stencil诞生了。
+Stencil是一个帮助快速构建Ruby微服务应用的开发框架，主要包括四部分：Stencil模板、代码生成工具，持续集成模板以及一键部署工具。</p>
+
+<p><img src="http://wldandan.github.com/images/microservice/stencil-template-structure-details-600x400.png" /></p>
+
+<h3>Stencil模板</h3>
+
+<p>Stencil模板是一个独立的Ruby代码工程库，主要包括代码模板以及一组配置文件模板。</p>
+
+<p>代码模板使用<a href="https://github.com/basho/webmachine">Webmachine</a>作为Web框架，<a href="http://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a>和JSON构建服务之间的通信方式，RSpec作为测试框架。同时，代码模板还定义了一组Rake任务，譬如运行测试，查看测试报告，将当前的微服务生成RPM包，使用Koji给RPM包打标签等。</p>
+
+<p>除此之外，该模板也提供了一组通用的URL，帮助使用者查看微服务的当前版本、配置信息以及检测该微服务程序是否健康运行等。</p>
+
+<pre><code>[
+    {
+        rel: "index",
+        path: "/diagnostic/"
+    },
+    {
+        rel: "version",
+        path: "/diagnostic/version"
+    },
+    {
+        rel: "config",
+        path: "/diagnostic/config"
+    },
+    {
+        rel: "hostname",
+        path: "/diagnostic/hostname"
+    },
+    {
+        rel: "heartbeat",
+        path: "/diagnostic/status/heartbeat"
+    },
+    {
+        rel: "nagios",
+        path: "/diagnostic/status/nagios"
+    }
+]
+</code></pre>
+
+<p>配置文件模板主要包括<a href="http://newrelic.com/">NewRelic</a>配置，<a href="https://www.phusionpassenger.com/">Passenger</a>配置、<a href="http://www.nagios.org/">Nagios</a>配置、<a href="http://httpd.apache.org/">Apache</a>配置以及<a href="http://www.splunk.com/">Splunk</a>配置。通过定义这些配置文件模板，当把新的微服务程序部署到验收环境或者产品环境时，我们立刻就可以使用Nagios、NewRelic以及Splunk等第三方服务提供的功能，帮助我们有效的监控微服务，并在超过初始阈值时获得告警。</p>
+
+<h3>代码生成工具</h3>
+
+<p>借助Stencil代码生成工具，我们能在很短的时间内就构建出一个可以立即运行的微服务应用程序。随着系统越来越复杂，微服务程序的不断增多，Stencil模板和代码生成工具帮助我们大大简化了创建微服务的流程，让开发人员更关注如何实现业务逻辑并快速验证。</p>
+
+<pre><code>Create a project from the stencil template (version 0.1.27)
+        --name, -n &lt;s&gt;:   New project name. eg. things-and-stuff
+   --git-owner, -g &lt;s&gt;:   Git owner (default: which team or owner)
+        --database, -d:   Include database connection code
+  --triggered-task, -t:   Include triggered task code
+        --provider, -p:   Is it a service provider? (other services use this service)
+        --consumer, -c:   Is it a service consumer? (it uses other services)
+      --branch, -b &lt;s&gt;:   Specify a particular branch of Stencil
+       --face-palm, -f:   Overide name validation 
+            --help, -h:   Show this message
+</code></pre>
+
+<p>如上图所示，通过指定不同参数，我们能创建具有数据库访问能力的微服务程序、或者是包含异步队列处理的微服务程序。同时，我们也可以标记该服务是数据消费者还是数据生产者，能帮助我们理解多个微服务之间的联系。</p>
+
+<h3>持续集成模板</h3>
+
+<p>基于持续集成服务器<a href="https://www.atlassian.com/software/bamboo">Bamboo</a>，团队创建了针对Stencil的持续集成模板工程，并定义了三个主要阶段：</p>
+
+<ul>
+<li>打包：运行单元测试，集成测试，等待测试通过后生成RPM包。</li>
+<li>发布：将RPM包发布到<a href="http://koji.fedoraproject.org/koji/">Koji</a>服务器上，并打上相应的Tag。然后使用<a href="http://www.packer.io/">Packer</a>在亚马逊AWS云环境中创建AMI，建好的AMI上已经安装了当前微服务程序的最新RPM包。</li>
+<li>部署：基于指定版本的AMI，将应用快速部署到验收环境或者产品环境上。</li>
+</ul>
+
+
+<p>利用持续集成模板工程，团队仅需花费很少的时间，就可以针对新建的微应用程序，在Bamboo上快速定义其对应的持续集成环境。</p>
+
+<h3>一键部署工具</h3>
+
+<p>所有的微服务程序都部署并运行在亚马逊AWS云环境上。同时，我们使用<a href="https://github.com/Netflix/asgard">Asgard</a>对AWS云环境中的资源进行创建、部署和管理。
+Asgard是一套功能强大的基于Web的AWS云部署和管理工具，由Netflix采用<a href="http://grails.org/">Groovy on Grails</a>开发，其主要优点有：</p>
+
+<pre><code>- 基于B/S的AWS部署及管理工具，使用户能通过浏览器直接访问AWS云资源，无需设置Secret Key和Access Key；
+- 定义了`Application`以及`Cluster`等逻辑概念，更清晰、有效地描述了应用程序在AWS云环境中对应的部署拓扑结构。
+- 在对应用的部署操作中，集成了AWS Elastic Load Balancer、AWS EC2以及AWS Autoscaling Group，并将这些资源自动关联起来。
+- 提供RESTful接口，能够方便的与其他系统集成。
+- 简洁易用的用户接口，提供可视化的方式完成一键部署以及流量切换。
+</code></pre>
+
+<p>由于Asgard对RESTful的良好支持，团队实现了一套基于Asgard的命令行部署工具，只需如下一条命令，提供应用程序的名称以及版本号，就可自动完成资源的创建、部署、流量切换、删除旧的应用等操作。</p>
+
+<pre><code>asgard-deploy [AppName] [AppVersion]
+</code></pre>
+
+<p>同时，基于命令行的部署工具，也可以很容易的将自动化部署集成到Bamboo持续集成环境。</p>
+
+<p>通过使用微服务框架Stencil，大大缩短了团队开发微服务的周期。同时，基于Stencil，我们定义了一套团队内部的开发流程，帮助团队的每一位成员理解并快速构建微服务。</p>
+
+<h2>微服务架构下的新系统</h2>
+
+<p>经过5个月的努力，我们重新构建了合同管理系统，将之前的产品、价格、销售人员、合同签署、合同审查以及PDF生成都定义成了独立的服务接口。相比之前大而全、难以维护的合同管理系统而言，新的系统由不同功能的微服务组成，每个微服务程序只关注单一的功能。每个微服务应用都有相关的负责人，通过使用<a href="http://www.pagerduty.com/">Page Duty</a>建立消息通知机制。每当有监控出现告警的时候，责任人能立即收到消息并快速做出响应。</p>
+
+<p><img src="http://wldandan.github.com/images/microservice/micro-service-app-600x400.png" /></p>
+
+<p>由于微服务具有高内聚，低耦合的特点，每个应用都是一个独立的个体，当出现问题时，很容易定位问题并解决问题，大大缩短了修复缺陷的周期。
+另外，通过使用不同功能的微服务接口提供数据，用户接口(UI)部分变成了一个非常简洁、轻量级的应用，更关注如何渲染页面以及表单提交等交互功能。</p>
+
+<h3>总结</h3>
+
+<p>通过使用微服务架构，在不影响现有业务运转的情况下，我们有效的将遗留的大系统逐渐分解成不同功能的微服务接口。</p>
+
+<p>同时，通过Stencil微服务开发框架，我们能够快速的构建不同功能的微服务接口，并能方便的将其部署到验收环境或者产品环境。</p>
+
+<p>最后，得益于微服务架构的灵活性以及扩展性，使得我们能够快速构建低耦合、易扩展、易伸缩性的应用系统。</p>
+
+<h3>参考文献</h3>
+
+<p>http://martinfowler.com/articles/microservices.html <br/>
+http://jaxenter.com/cracking-microservices-practices-50692.html<br/>
+http://microservices.io/patterns/microservices.html</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-16T21:57:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/microservice/'>MicroService</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/" data-via="" data-counturl="http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/" title="Previous Post: Java 8 - First impression of Lambda Expression">&laquo; Java 8 - First impression of Lambda Expression</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/" title="Next Post: 解析微服务架构(一)">解析微服务架构(一) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/';
+        var disqus_url = 'http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

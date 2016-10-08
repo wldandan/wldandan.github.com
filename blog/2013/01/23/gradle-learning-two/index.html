@@ -1,0 +1,479 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Gradle Learning - 2 (project&task) - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="上一篇文章中，我们提到了Gradle的一些基本概念，如Project、Task以及Action，并且创建了我们的第一个Task。这次我们来看看Gradle中关于Project和Task的更多细节。 1. Project和Task 对于build.gradle配置文件，当运行Gradle 时， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Gradle Learning - 2 (Project&task)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-23T17:14:00+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>上一篇文章中，我们提到了Gradle的一些基本概念，如Project、Task以及Action，并且创建了我们的第一个Task。这次我们来看看Gradle中关于Project和Task的更多细节。</p>
+
+<h3>1. Project和Task</h3>
+
+<p>对于build.gradle配置文件，当运行Gradle <Task> 时，Gradle会为我们创建一个Project的对象，加载build.gradle中的所有代码。其中呢，对于Task中定义的代码，Gradle会创建Task的实例，而对于那些不属于任何Task定义的代码，Gradle会创建一个Script类的实例，加载并执行这些代码。下面，让我们看一个简单的例子：</p>
+
+<h5>创建目录basic，并在其中创建文件build.gradle，然后加入如下代码：</h5>
+
+<pre><code>println "the project name is $name"
+task hello &lt;&lt; {
+    println "the current task name is $name"
+    println "hello world"
+}
+</code></pre>
+
+<!--more-->
+
+
+<p>  <br/>
+在basic目录下直接执行gradle，不带任何参数：</p>
+
+<pre><code>gradle
+</code></pre>
+
+<p>此时，Gradle会创建一个Porject的实例，并将build.gradle的所有内容都加载到该实例中，作为不同的实例变量存在。在这个例子中，project包括两部分：</p>
+
+<h5>1)可执行脚本的定义</h5>
+
+<p>按照之前提到的，可执行脚本的定义将被创建成Script类的实例并直接执行。在这个例子中，Script的部分就是第一行代码（因为它被定义在Task之外），然后执行的结果就是打印出 &#8220;the project name is basic&#8221;。</p>
+
+<h4>默认的，当前project的名字是build.gradle所在目录的名字，在这个例子中，build.gradle放在basic目录下，因此，project的name也就是basic.</h4>
+
+<h5>2)Task定义</h5>
+
+<p>在这个例子中，Gradle将创建一个Task的实例，并加载task关键字后定义的代码。</p>
+
+<p>注意，在Gradle中，我们可以使用访问project属性的方式来访问task。例如，这个例子中，我们可以使用project.hello来访问hello这个task。除此之外，当我们使用gradle properties（properties是gradle自带的一个Task,它能列出当前project的所有属性，可以使用gradle tasks查看更多内建的Task）来获取project级别的属性列表时，也将会得到{hello}。</p>
+
+<p>另外，有一点要注意的是，在这个例子中，<code>task hello &lt;&lt;</code>使用的$name，和task定义之外使用的$name并不一样，前者是project的name，而后者是当前task的name，因为它被使用在Task的scope里。</p>
+
+<p>在basic目录下执行</p>
+
+<pre><code>Gradle hello
+</code></pre>
+
+<p>输出的结果将是：</p>
+
+<pre><code>current project name is test
+the current task name is hello
+hello world
+</code></pre>
+
+<h3>2. 定义属性</h3>
+
+<p>在Gradle中，我们可以定义以下三种属性并使用它们：</p>
+
+<h5>1)System Properties</h5>
+
+<p>System Properties 实际是指的JVM的system properties。我们知道，在运行java程序时，可以使用-D来设置Java的系统变量，在Gradle中，你也可以做同样的事情。比如</p>
+
+<pre><code>gradle xxx -DmySystemProp=xxxx
+</code></pre>
+
+<p>同时，在build.gradle中，应该这样使用这个变量：</p>
+
+<pre><code>task printSysProps &lt;&lt; {
+  println System.properties['system']
+}
+</code></pre>
+
+<h5>2)Project Properties</h5>
+
+<p>Project Properties是Gradle专门为Project定义的属性。它的最大优点在于当运行gradle的时候，我们可以使用-P来设置它的值。比如，</p>
+
+<pre><code>gradle xxx -PmyProjectProp=xxxxx
+</code></pre>
+
+<p>而在build.gradle中，可以这样使用这个变量：</p>
+
+<pre><code>task printProps &lt;&lt; {
+    if (project.hasProperty('commandLineProjectProp')) {  
+        println commandLineProjectProp
+    }  
+}
+</code></pre>
+
+<p>同时，当我们执行gradle properties查看属性列表时，这个变量的名称以及值会显示在结果中。</p>
+
+<h5>3)Ext(ra) Properties</h5>
+
+<pre><code>另外，我们还可以为Project或者Task定义Ext属性，也称动态属性，我们必须使用关键字ext(对应ExtraPropertiesExtension的实例)去定义动态属性。从这点可以看出，Gradle已经为我们设计了很多不同的类，去做不同的事情，我们只需要遵循Convention，使用他们即可。如果忘记写ext关键字，gradle运行时则会提示:
+</code></pre>
+
+<p>&#8220;Dynamic properties are deprecated&#8230;.&#8221;。这是因为以前版本的gradle定义动态属性时，不需要加ext关键字的。</p>
+
+<p>对于Project和Task而言，动态属性定义的方式完全一样，只是作用域不一样。
+当定义完成后，我们就可以使用project.prop 或者 task.prop来访问这些动态属性了。下面让我们看一个例子：</p>
+
+<pre><code>ext.projectProperties="ext projectProperties-value"
+task printExtProps &lt;&lt; {
+  ext.taskProperties="ext.task.properties-value"
+  if (project.hasProperty('projectProperties')){
+    println "ext.projectProperties values is " + projectProperties  
+  }
+  if (printExtProps.hasProperty('taskProperties')){
+    println "task has defined ext.taskProperties value is " + taskProperties  
+  }
+}
+</code></pre>
+
+<p>注意：，对于ext定义的动态属性，并不能通过外部的方式修改它的值，只能在build.gradle中去设置或者修改它的值。</p>
+
+<p>同时，如果是为project定义的ext动态属性，也会显示在gradle properties的结果中。</p>
+
+<h3>3. Task依赖</h3>
+
+<p>当构建一个复杂的项目时，不同task之间存在依赖是必然的。比如说，如果想运行&#8217;部署&#8217;的task，必然要先运行 编译、打包、检测服务器等task，只有当这被些被依赖的task执行完成后，才会部署。对于这种行为之间的依赖，Ant、Maven都提供了声明式的定义，非常简单。同样，使用Gradle定义task之间的依赖也是件很容易的事。</p>
+
+<p>例如，定义如下两个Task，并且在&#8221;intro&#8221;里加上&#8221;dependendsOn&#8221;的关键字，如下所示：</p>
+
+<pre><code>task hello &lt;&lt; {
+    println 'Hello world!'
+}
+task intro(dependsOn: hello) &lt;&lt; {
+    println "I'm Gradle" 
+}
+</code></pre>
+
+<p>执行 &#8220;gradle intro&#8221;，结果将是:</p>
+
+<pre><code>Hello World
+I'm Gradle
+</code></pre>
+
+<p>由此可见，当执行gradle intro时，intro依赖的task hello会先被执行。除此之外，dependensOn也支持定义多个task的依赖，使用[]括起来即可。例如</p>
+
+<pre><code>task A(dependensOn:['B','C','D']) &lt;&lt;{ xxx }
+</code></pre>
+
+<p>除了使用dependensOn跟字符串来定义依赖，我们也可以使用taskX.dependensOn taskY这种形式：</p>
+
+<pre><code>task taskX &lt;&lt; {
+    println 'taskX'
+}
+task taskY &lt;&lt; {
+    println 'taskY'
+} 
+taskX.dependsOn taskY
+</code></pre>
+
+<p>或者，也可以使用闭包：</p>
+
+<pre><code>task taskX &lt;&lt; {
+    println 'taskX'
+}
+taskX.dependsOn {
+    tasks.findAll { task -&gt; task.name.startsWith('lib') }
+}
+task lib1 &lt;&lt; {
+    println 'lib1'
+}
+</code></pre>
+
+<p>除了之前讲的task的部分，Gradle还为我们提供了很多可用的API，更多的细节大家可以参考下Gradle的文档。这里我列出一个常用的方法onlyIf。在Gradle里，我们可以使用“OnlyIf()”来决定当前task是否需要被执行，例如：新建build.gradle，加入如下代码：</p>
+
+<pre><code>task hello &lt;&lt; {
+    println 'hello world'
+} 
+hello.onlyIf { !project.hasProperty('skipHello') }
+</code></pre>
+
+<p>当我们直接执行&#8221;gradle hello&#8221;时，没有任何结果，当我们执行&#8221;gradle hello -PskipHello=xxxx&#8221;时，会输出&#8221;hello world&#8221;。</p>
+
+<h3>4. 总结</h3>
+
+<p>总体而言，用DSL的代码而不是XML的配置来定义整个项目的构建，能够让我们更大程度的控制构建的细节，而且还能根据不同的需求定制不同的方案，蛮有趣的一件事。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-23T17:14:00+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/gradle/'>Gradle</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/01/23/gradle-learning-one/" title="Previous Post: Gradle Learning - 1 (basic concepts)">&laquo; Gradle Learning - 1 (basic concepts)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/01/24/gradle-learning-three/" title="Next Post: Gradle Learning - 3 (multiple projects)">Gradle Learning - 3 (multiple projects) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/';
+        var disqus_url = 'http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

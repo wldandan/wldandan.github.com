@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Vagrant - Make Dev Environment Easy - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="背景介绍 最近的Java项目是个同海外团队合作的遗留系统，包括数据库服务器、邮件服务器、Web服务器、FAST搜索引擎、JBOSS中间件等等节点。为了便于团队使用，我们在Amazon 的EC2上建立了一套完整的端到端的运行环境。
+团队成员在本地搭建了Web环境，数据库环境，便于开发及调试。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Vagrant - Make Dev Environment Easy</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-01T18:37:00+08:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>背景介绍</h3>
+
+<ul>
+<li><p>最近的Java项目是个同海外团队合作的遗留系统，包括数据库服务器、邮件服务器、Web服务器、FAST搜索引擎、JBOSS中间件等等节点。为了便于团队使用，我们在Amazon 的EC2上建立了一套完整的端到端的运行环境。</p></li>
+<li><p>团队成员在本地搭建了Web环境，数据库环境，便于开发及调试。但由于Mac上安装FAST并不是一件易事，因此在本地跑应用的时候依赖于Amazon EC2的FAST节点。</p></li>
+<li><p>持续集成、CI在当今的时代已经不是什么新鲜玩意了，越来越多的团队已经了解并运用在实践中。对于我们和海外客户共同开发的这种情况，CI挂了可不是太好，因此在每次提交代码之前，需要确保本地所有的测试都能通过，才能提交代码。</p></li>
+</ul>
+
+
+<p>于是乎，问题就来了:</p>
+
+<!--More-->
+
+
+<ul>
+<li><p>当网络不给力的时候，连不上FAST，就无法在本地跑测试，也就无法提交代码，降低了开发效率。</p></li>
+<li><p>每次跑测试，会清空FAST的数据并重新注入测试数据。所以，就导致某对Pair正在本地跑测试时，另外一对Pair清空了FAST的数据，最终测试失败。</p></li>
+</ul>
+
+
+<p>鉴于这2点，如果每人都有一个本地的FAST环境，既不用担心网络带来的影响，又不会影响他人，于是就有了构建虚拟机环境的需求。</p>
+
+<h3>引发的思考</h3>
+
+<p>说到这，其实回想起以前，也碰到类似的情况，但估计当时还不够痛，也就没有理会。 :(
+实际上，对于当今的屌丝程序猿而言，产品的开发/部署环境变得越来越复杂。无论你是开发人员、测试人员，还是系统维护人员，如何搭建一个运行环境，快速、高效的部署以及配置软件应用，成了困扰我们的一个大问题。在这种情况下，无论对于个人，还是团队，高效的使用虚拟化技术，创建独立的产品运行环境也就变得越来越重要。</p>
+
+<h5>对于个人</h5>
+
+<ul>
+<li>Ubuntu新的版本发布了，听说很cool，想试试但多操作系统麻烦啊</li>
+<li>NoSQL有这么多产品，装多了会不会影响本地的开发环境</li>
+<li>当前产品的技术栈复杂啊，新人来了跑个应用，就得花上个2天，伤不起啊<br/>
+…….</li>
+</ul>
+
+
+<h5>对于开发团队</h5>
+
+<ul>
+<li>Same dependencies</li>
+<li>Same versions</li>
+<li>Same configurations</li>
+<li>Same everything</li>
+</ul>
+
+
+<p>我们期望团队的开发/运行环境能够完全一样，但实际上这并不容易。<br/>
+这种不同来自很多方面，软件的版本、服务之间的通信、运行的配置或者各种库的依赖等。</p>
+
+<h3>解决方案</h3>
+
+<p>最终，我们使用Vagrant解决了问题。大体流程如下所示:</p>
+
+<ul>
+<li>创建和产品运行环境一样的VM(譬如CentOS 6.0)</li>
+<li>安装并配置FAST</li>
+<li>根据需要配置VM的各种参数，如网络，内存等信息</li>
+<li>将VM重新发布成BOX</li>
+<li>将BOX发布到内部服务器上，并且将VM的配置文件放入版本管理系统</li>
+</ul>
+
+
+<p>最终，团队的成员只需Clone代码，敲入如下命令，花2分钟时间，就启动了本地的FAST环境，完全解决了之前遇到的两点问题。</p>
+
+<pre><code>vagrant init fast http://dist-server/fast.box
+vagrant up
+</code></pre>
+
+<p>当然，这只是一个简单地尝试，接下来会使用Vagrant搭建整个环境，让团队的开发、测试以及部署流程变得更加行云流水，并更易维护。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-01T18:37:00+08:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/vagrant/'>Vagrant</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/11/twu-pune-bungalow/" title="Previous Post: TWU - The Bungalow in Pune of India">&laquo; TWU - The Bungalow in Pune of India</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/11/04/vagrant-learning-one-introduction/" title="Next Post: Vagrant Learning - 1 (Basic Concepts)">Vagrant Learning - 1 (Basic Concepts) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/';
+        var disqus_url = 'http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

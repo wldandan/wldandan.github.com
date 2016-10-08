@@ -1,0 +1,370 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to setup mongo shard - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="To simulate the process of production deployment of MongoDB, I used Vagrant to create a couples of VMs, and exprienced the journey of deployment &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Setup Mongo Shard</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-23T09:44:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>To simulate the process of production deployment of MongoDB, I used Vagrant to create a couples of VMs, and exprienced the journey of deployment mongo step by step as follow mentioned.</p>
+
+<h3>Mongo Shard Concepts</h3>
+
+<p>Before dived into the code, we can review the concepts related to Mongo Shard, it needs 3 components logically at least.</p>
+
+<h4>a) Config Server</h4>
+
+<p>The config server processes are mongod instances that   store the cluster’s metadata. You designate a mongod as a config server using the &#8211;configsvr option. Each config server stores a complete copy of the cluster’s metadata.</p>
+
+<h4>b) Query Server</h4>
+
+<p>The query server are lightweight mongos instances and   do not require data directories. You can run a mongos   instance on a system that runs other cluster    components, such as on an application server or a   server running a mongod process. By default, a mongos   instance runs on port 27017.</p>
+
+<!--More-->
+
+
+<h4>c) Shard Server</h4>
+
+<p>The shard server is a component which can consist of    a repicaSet(multiple machines).</p>
+
+<h3>Mongo Shard Setup</h3>
+
+<h4>a) Create mongo box</h4>
+
+<pre><code>vagrant box add precise64 http://files.vagrantup.com/precise64.box  
+setup mongo as [Mongo GUide](http://example.net/) mentioned
+vagrant package --base default --output mongo_vm.box
+</code></pre>
+
+<h4>b) Create several VMs</h4>
+
+<p>Please check the vagrant config file from here
+3 config servers
+2 query servers
+2 replicaSet and each replica has 2 instances.</p>
+
+<h4>c) Setup the shard</h4>
+
+<pre><code>1) start config servers
+    (ssh to 192.168.2.21 config1): mongod --configsvr --dbpath /home/vagrant/mongo-config --port 27020
+    (ssh to 192.168.2.22 config2): mongod --configsvr --dbpath /home/vagrant/mongo-config --port 27020
+    (ssh to 192.168.2.23 config3): mongod --configsvr --dbpath /home/vagrant/mongo-config --port 27020
+
+2) start query servers
+    (ssh to 192.168.2.31 router1): mongos --configdb 192.168.2.21:27020,192.168.2.22:27020,192.168.2.23:27020 --port 27017 --chunkSize 2
+    (ssh to 192.168.2.32 router2): mongos --configdb 192.168.2.21:27020,192.168.2.22:27020,192.168.2.23:27020 --port 27017 --chunkSize 2
+
+3) start replicaSet1
+    (ssh to 192.168.2.41 rep1a): mongod --dbpath /home/vagrant/mongo-data --port 27040 --replSet rep1 --oplogSize 200 --rest
+    (ssh to 192.168.2.42 rep1b): mongod --dbpath /home/vagrant/mongo-data --port 27040 --replSet rep1 --oplogSize 200 --rest
+
+4) start replicaSet2
+    (ssh to 192.168.2.51 rep2a): mongod --dbpath /home/vagrant/mongo-data --port 27040 --replSet rep2 --oplogSize 200 --rest
+    (ssh to 192.168.2.52 rep2b): mongod --dbpath /home/vagrant/mongo-data --port 27040 --replSet rep2 --oplogSize 200 --rest
+</code></pre>
+
+<h3>Config the shard</h3>
+
+<pre><code>use mongo clien access any one of query server, and then execute 
+
+    db.runCommand({addshard:'rep1/192.168.2.41:27040,192.168.2.42:27040'})
+    db.runCommand({addshard:'rep2/192.168.2.51:27040,192.168.2.52:27040'})
+    db.runCommand({listshards:1});
+
+    You will see the shard server has been configured.
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-23T09:44:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/nosql/'>NoSQL</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/" data-via="" data-counturl="http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/" title="Previous Post: How to setup mongo repliSet">&laquo; How to setup mongo repliSet</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/" title="Next Post: Splunk - Receive logs from distributed Windows machine">Splunk - Receive logs from distributed Windows machine &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/';
+        var disqus_url = 'http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

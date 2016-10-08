@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>WebRTC - Understand the PeerConnection - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。 RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。 还记得之前讨论过的WebRTC架构图吗？
+实际上， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">WebRTC - Understand the PeerConnection</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T18:55:00+08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
+
+<p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
+
+<p>还记得之前讨论过的WebRTC架构图吗？
+实际上，虽然RTCPeerConnection是一个暴露的连接接口，
+但其内部封装了大量WebRTC编解码和协议处理的工作，因此使浏览器之间点到点的即时通讯变得简单。</p>
+
+<!--More-->
+
+
+<h4>什么是信令处理(Signaling)</h4>
+
+<p>WebRTC使得浏览器之间能够点对点通信，但是作为浏览器的一端，茫茫大海，如何知道另一端在哪里？怎么能通过网络连接到对端？如何知道是否能够连接成功？</p>
+
+<p>所以，即便是点对点通信，依然需要服务器协助双方建立连接。不过此时的服务器，其职责更多的是 交换元数据，如编解码机制、数据加密、流量控制等信息。</p>
+
+<p>对于这些看似不重要但却必要的信息交换过程，我们称之为信令处理。</p>
+
+<p><img src="/images/webrtc/webrtc-signaling.png" /></p>
+
+<h4>NAT、防火墙和现实的网络世界</h4>
+
+<p>NAT(Net Address Translation)是负责网络地址转换的一个协议。通俗的说，它负责把私网内的的IP和端口转换成公网的IP和端口，也即使我们所说的IP地址映射。</p>
+
+<p>由于IPv4地址的数量有限，大多数企业或者团体通常都使用局域网地址，并通过NAT转换，连接到互联网上。另外，
+许多企业内部网络都存在防火墙，因此这就为点对点通信带来寻址问题。</p>
+
+<p><img src="/images/webrtc/nat.png" /></p>
+
+<p><a href="http://en.wikipedia.org/wiki/STUN">STUN</a>,TURN,ICE是由IETF提出的处理网络中NAT穿越问题的协议族。
+STUN能够为NAT后的终端定位公网地址，因此它可以被用来在两个同时处于NAT之后的终端建立UDP通信。
+TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT之后的终端建立TCP连接。ICE则是综合STUN及TURN的产物，是一个框架。</p>
+
+<p>使用STUN服务器后，通信双方能够完成NAT穿透，从而建立连接，如下图所示：</p>
+
+<p><img src="/images/webrtc/stun.png" /></p>
+
+<p>使用TURN服务器后，通信双方需要通过中继完成NAT穿透，从而建立连接，如下图所示。从某种角度而言，这种方式已经不是传统意义上的点对点连接了，因为它依赖于中继服务器完成数据的传输。</p>
+
+<p><img src="/images/webrtc/turn.png" /></p>
+
+<h4>建立RTCPeerConnection</h4>
+
+<p>了解了STUN，TURN的相关概念后，是深入了解PeerConnection的时候了。</p>
+
+<p>当创建RTCPeerConnection时，需要指定两个参数：</p>
+
+<ul>
+<li>包括STUN或者TURN服务器的列表。</li>
+<li>对于协议元数据的参数设置。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  var SERVER = {
+</span><span class='line'>    iceServers: [
+</span><span class='line'>        {url: "stun:23.21.150.121"},
+</span><span class='line'>        {url: "stun:stun.l.google.com:19302"},
+</span><span class='line'>        {url: "turn:numb.viagenie.ca", credential: "xxxx", username: "xxx"}
+</span><span class='line'>    ]
+</span><span class='line'>  };
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  var OPTIONS = {
+</span><span class='line'>        optional: [
+</span><span class='line'>          {DtlsSrtpKeyAgreement: true},
+</span><span class='line'>          {RtpDataChannels: true}
+</span><span class='line'>        ]
+</span><span class='line'>  };
+</span><span class='line'>  peerConnection = new RTCPeerConnection(SERVER, OPTIONS);
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意，当RTCPeerConnection执行连接时，首先会尝试使用STUN服务器来协助完成，如果失败，则使用TURN中继服务器完成通信。</p>
+
+<h4>开始通信</h4>
+
+<p>通信的过程如下如所示:
+<img src="/images/webrtc/peerconnection-process.png" /></p>
+
+<h5>主动发起者将使用createOffer发起连接，并设置SDP(Session Description Protocol)相关信息.</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  navigator.getUserMedia({video: true}, function(stream) {
+</span><span class='line'>    var video = document.getElementById("video");
+</span><span class='line'>    video.srcObject = stream;
+</span><span class='line'>    video.play();
+</span><span class='line'>    pc.addStream(stream);
+</span><span class='line'>
+</span><span class='line'>    pc.createOffer(function(offer) {
+</span><span class='line'>      pc.setLocalDescription(new RTCSessionDescription(offer), function() {
+</span><span class='line'>        // send the offer to a server to be forwarded the friend you're calling.
+</span><span class='line'>      }, error);
+</span><span class='line'>    }, error);
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>对端接受者，收到setRemoteDescription并使用createAnswer回复连接请求。</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  navigator.getUserMedia({video: true}, function(stream) {
+</span><span class='line'>    var video = document.getElementById("video");
+</span><span class='line'>    video.srcObject = stream;
+</span><span class='line'>    video.play();
+</span><span class='line'>    pc.addStream(stream);
+</span><span class='line'>
+</span><span class='line'>    pc.setRemoteDescription(offer, function() {
+</span><span class='line'>      pc.createAnswer(function(answer) {
+</span><span class='line'>        pc.setLocalDescription(new RTCSessionDescription(answer), function() {
+</span><span class='line'>          // send the offer to a server to be forwarded to the caller
+</span><span class='line'>        }, error);
+</span><span class='line'>      }, error);
+</span><span class='line'>    }, error);
+</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>主动发起者，处理对端发回的响应，并设置setRemoteDescription信息。</h5>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  var offer = getResponseFromFriend();
+</span><span class='line'>  pc.setRemoteDescription(new RTCSessionDescription(offer), function() { }, error);</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>总结:</h5>
+
+<ul>
+<li>创建RTCPeerConnection对象, 指定相关的STUN、TURN服务器。</li>
+<li>每个RTCPeerConnection对象都关联一个ICE agent。当创建该对象时，ICE agent的相关状态会被初始化。</li>
+<li>每个RTCPeerConnection对象关联两个流媒体集合。</li>
+<li>本地流媒体集合(Local stream set), 本地流媒体集合代表当前发送的数据流，</li>
+<li>远程流集合(Remote stream set), 远程流媒体集合代表RTCPeerConnection对象接收到的流</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T18:55:00+08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/webrtc/'>WebRTC</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/" data-via="" data-counturl="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/01/06/webrtc-understand-the-media-stream/" title="Previous Post: WebRTC - Understand the MediaStream">&laquo; WebRTC - Understand the MediaStream</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/02/14/the-story-about-dora/" title="Next Post: Dora诞生记">Dora诞生记 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/';
+        var disqus_url = 'http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

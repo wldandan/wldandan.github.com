@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Hardware | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/hardware/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2016-10-08T23:55:45+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Dora诞生记]]></title>
+    <link href="http://wldandan.github.com/blog/2014/02/14/the-story-about-dora/"/>
+    <updated>2014-02-14T23:32:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2014/02/14/the-story-about-dora</id>
+    <content type="html"><![CDATA[<p>趁着在墨尔本和西安Office上Hackday获奖的喜悦劲，赶紧来一篇Dora诞生记。  <br/>
+提醒偶记住这个特殊的日子，同时也感谢在过去两个月，牺牲个人时间，奋斗在Dora(X-Robot)上的Casa的兄弟姐妹们。</p>
+
+<h5>-2013年10月20</h5>
+
+<p>和Charley午餐的时候，无意间谈论起了各自想做但没时间做的idea。</p>
+
+<p>幸运乎，找到一个我俩都认为不错但又没被完全实现的一个想法&lt;&lt;公交来了>>(<strong>旨在帮助等车族们准确的掌握公交将来的时间，为既不想迟到又想多赖几分钟在床上的兄弟提供福音</strong>)。</p>
+
+<!--More-->
+
+
+<h5>-2013年10月25</h5>
+
+<p>借着Team Retro, 抛出了这个话题，“<strong>是不是应该每周抽出点业余时间，让大家坐在一起，实现自己想实现但却一直没时间实现的Idea</strong>”。</p>
+
+<p>为了保证大家能够集中火力在一个项目上，于是每个人都做了自己Idea的present，然后团队集体投票选出一个可以一起做的idea，并开工。</p>
+
+<p>为这个活动起了个洋气的名字<strong>LBS</strong> (Let's Build Something)，并且暂定为每周一晚6:00~8:00是我们的官方活动时间。</p>
+
+<h5>-2013年11月18</h5>
+
+<p>LBS有条不紊的进行着，&lt;&lt;公交来了>>也有了点小眉目。</p>
+
+<p>客户Enrico来访，茶余饭后闲聊之际，他提到了构建可远端操控的小车的想法，目的让更多的Casa guy们知道西安的团队如何工作，例如站会，Rero，Piar，以及如何敏捷的交付等等。</p>
+
+<p>我自然也聊到了我们的LBS以及正在做的 &lt;&lt;公交来了>>。</p>
+
+<h5>-2013年11月24</h5>
+
+<p>邀请Enrico参加了我们的LBS，X-Robot的火花被果断擦出，旨在构建一个能控制其移动并回传视频的机器人，方便Italia和Xi'an Office更加随意的沟通。</p>
+
+<h5>-2013年12月10</h5>
+
+<p>经过几天的探索，技术选型基本确定:  <br/>
+* 使用<strong>NodeJS</strong>构建服务器端应用。 <br/>
+* 使用<strong>WebRTC</strong>处理视频部分。 <br/>
+* 使用<strong>Arduino</strong>作为X-Robot的控制芯片。  <br/>
+* 构建<strong>Android Native App</strong>控制Arduino。  <br/>
+* 使用<strong>WebSocket</strong>为用户提供UI的控制接口。</p>
+
+<h5>-2013年12月22</h5>
+
+<p>淘宝上买的Arduino到货。在Team掀起了一阵研究Arduino的热潮。  <br/>
+同时，被告知卖家发的小车出了点问题，需要再等，捉急。</p>
+
+<h5>-2014年1月7</h5>
+
+<p>超级无敌高大上的小车到了，立马组装之。  <br/>
+Android的Native APP有了雏形，使用USB将手机连接到Arduino，能够发出控制信号了。  <br/>
+使用Arduino可以控制X-Robot的<strong>前进</strong>，<strong>后退</strong>了。</p>
+
+<h5>-2014年1月20</h5>
+
+<p>集成WebRTC，WebSocket到Android Native APP。  <br/>
+<strong>前进、后退、优雅的转弯、视频传输</strong>都没问题啦。</p>
+
+<h5>-2014年2月7</h5>
+
+<p>小伙伴卿带着X-Robot踏上了去Melboune的HackDay之路。</p>
+
+<h5>-2014年2月14</h5>
+
+<p>X-Robot有了一双迷人的大眼睛并正式命名为"<strong>Dora</strong>"。  <br/>
+小家伙不负众望，为我们赢得了“<strong>The ‘Marvin‘ Winners for innovation</strong>”奖项。</p>
+
+<p>至此，Dora诞生了。接下来，我们会为Dora提供更多有意思的功能，敬请期待 :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Arduino, Make Hardware development easy]]></title>
+    <link href="http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1/"/>
+    <updated>2013-12-18T17:02:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1</id>
+    <content type="html"><![CDATA[<p>顺应Open Hardware的潮流，Team里最近买了块 Arduino的板子。于是乎，偶也就有个机会，能倒腾倒腾了。</p>
+
+<h3>介绍</h3>
+
+<p>Arduino 是一个开源、易于使用的硬件设备。其上的微控制器可以通过Arduino Style的编程语言来编写程序，编译成二进制文件，并烧录进微控制器。
+Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、马达和其他的装置来反馈、影响环境。和传统的单片机有点类似，但是更易于使用，对于开发者也更加友好。</p>
+
+<h3>环境搭建</h3>
+
+<ul>
+<li>当然，先买块Arduino的板子。国内的商家'奥松'还不错（非广告贴，只是个人经验），可以天猫之。:)</li>
+</ul>
+
+
+<p><img src="/images/arduino/arduino.png" /></p>
+
+<ul>
+<li>下载<a href="http://arduino.cc/en/Main/Software">Arduino IDE</a>， 开发更容易。</li>
+</ul>
+
+
+<!--More-->
+
+
+<h3>跑起第一个程序</h3>
+
+<ul>
+<li>接上USB，为Arduino提供电源</li>
+</ul>
+
+
+<p><img src="/images/arduino/power.png" /></p>
+
+<ul>
+<li>连上发光二极管
+将二极管的一根引脚接在Arduino的GND，另一根引脚接在Arduino的一个控制口，例如引脚13。
+我使用了面包板，连接后如图所示:</li>
+</ul>
+
+
+<p><img src="/images/arduino/diode.png" /></p>
+
+<ul>
+<li>烧录程序到Arduino
+启动 Arduino IDE
+打开File->Exapmle->01.Basic->Blink，点击Upload，就能看到跑马灯的效果啦。</li>
+</ul>
+
+
+<p>如图所示</p>
+
+<p><img src="/images/arduino/blink.png" /></p>
+
+<p>这里，我们使用的是Arduino IDE自带的例子，当然也可以自己编程，实现不同的效果。</p>
+
+<p>感兴趣的兄弟可以自行研究一下啦</p>
+
+<h3>总结</h3>
+
+<p>使用类似的方式，将Arduino的输出连接到其他设备上，然后再加上电源或者其他放大器，就能实现硬件开发了。</p>
+
+<p>接下来，我们的目标是使用Arduino实现一个四轮的小车，并能够远程控制它，前进、后退，加速等。</p>
+
+<p>感兴趣的兄弟们不要忘了关注啊。:)</p>
+]]></content>
+  </entry>
+  
+</feed>

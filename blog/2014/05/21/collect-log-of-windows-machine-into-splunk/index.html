@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Splunk - Receive logs from distributed Windows machine - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="Why do I need Splunk Recently, our team is moving several legacy components running in Windows server from data-center to AWS. The transformation &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Splunk - Receive Logs From Distributed Windows Machine</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-21T20:56:00+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>Why do I need Splunk</h3>
+
+<p>Recently, our team is moving several legacy components running in Windows server from data-center to AWS. The transformation itself is not hard, but the eco-system like monitoring, alerting, troubleshooting is most important before getting started the transofrmation.</p>
+
+<p>The article would talk about how to setup and config Splunk Universal Forwarder in Windows machine where the component is running.</p>
+
+<p>Bying using SUF, Splunk central server can easily collect logs from different distributed machines, so that the OPS guy can query and analyze the logs from one portal rather than login on different distributed machines.</p>
+
+<!--More-->
+
+
+<h3>Terminology</h3>
+
+<p><strong>SCS</strong> (Splunk Central Server)</p>
+
+<pre><code>It is the splunk server that OPS can access this machine and query or analyze the logs from distributed nodes.
+</code></pre>
+
+<p><strong>SUF </strong>(Splunk Universal Forwarder)</p>
+
+<pre><code>It is the component running in application server, which can forward log to Splunk Central Server.
+</code></pre>
+
+<h3>How to install SUF</h3>
+
+<ol>
+<li><p>Download <a href="http://download.splunk.com/products/splunk/releases/6.1.1/universalforwarder/windows/splunkforwarder-6.1.1-207789-x64-release.msi">Universal Forwarder</a></p></li>
+<li><p>Run Universal Forwarder Wizard, following the <a href="http://docs.splunk.com/Documentation/WindowsApp/5.0.2/User/InstallauniversalforwarderonaWindowsserver">guide</a></p>
+
+<ul>
+<li>Click &#8216;Next&#8217; until &#8220;Receiving Indexer&#8221; dialog appears</li>
+<li>In[&#8220;Receiving Indexer&#8221; dialog] page, enter hostname with splunk central server and port with &#8220;9997&#8221;.</li>
+<li>Click &#8216;Next&#8217; and finish the installation.</li>
+</ul>
+</li>
+<li><p>Config Universal Forwarder</p>
+
+<ul>
+<li>Open file &#8220;C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf&#8221;</li>
+<li>Append the following content into the file
+<pre>
+  [monitor://C:\inetpub\logs\OnlinePayment*.log]
+  ignoreOlderThan = 10d
+  disabled = 0
+  followTail = 0
+  //logs will be grouped by index in splunk central server
+  index = "listing"<br/>
+  //<a href="http://docs.splunk.com/Documentation/Storm/Storm/User/Sourcesandsourcetypes">Pre-defined source type</a>, or you can specify any value as you like
+  sourcetype = "YOUR-SOURCE-TYPE"
+</pre></li>
+</ul>
+
+
+<p> Please check the <a href="http://docs.splunk.com/Documentation/Splunk/6.1/admin/Inputsconf">doc</a> to understand the meaning of each item above.</p></li>
+<li><p>Restart Universal Forwarder</p>
+
+<ul>
+<li>Execute <code>cd "C:\Program Files\SplunkUniversalForwarder\bin"</code> in command line.</li>
+<li>Execute <code>splunk restart</code> in command line.</li>
+</ul>
+</li>
+</ol>
+
+
+<h4>Create new index in SCS</h4>
+
+<p>Right now, there is no index named &#8216;listing&#8217;, so we need to create a new index in splunk central server.</p>
+
+<p>The step is as below:</p>
+
+<ol>
+<li>Login Splunk central server</li>
+<li>Click &#8220;Manager&#8221; menu at top right navigator and go to &#8220;Manager&#8221; page.</li>
+<li>Click &#8220;Indexes&#8221; and go to &#8220;Indexes&#8221; page.</li>
+<li>Click &#8220;New&#8221; and input &#8220;bs&#8221; as &#8216;index name&#8217;</li>
+<li>Keep others blank and Click &#8220;Save&#8221;</li>
+</ol>
+
+
+<h3>Summary</h3>
+
+<p>It is time to cheer!
+Your log should appear in Splunk Central Server, and you can enjoy it now.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-21T20:56:00+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/splunk/'>Splunk</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/" data-via="" data-counturl="http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/04/23/how-to-setup-mongo-shard/" title="Previous Post: How to setup mongo shard">&laquo; How to setup mongo shard</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/" title="Next Post: Asgard - Handy tool for AWS management & deployment">Asgard - Handy tool for AWS management & deployment &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/';
+        var disqus_url = 'http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

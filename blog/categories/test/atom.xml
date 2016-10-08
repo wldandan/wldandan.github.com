@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Test | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/test/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2016-10-08T23:55:45+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Page Object Understanding]]></title>
+    <link href="http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber/"/>
+    <updated>2013-12-23T11:39:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber</id>
+    <content type="html"><![CDATA[<h2>什么是Page Object</h2>
+
+<p>Page Object是<a href="http://www.seleniumhq.org/">Selenium</a>中提出的一种测试设计模式。在Web前端自动化测试的过程中，Page Object可以称得上是居家必备的良品之一。PageObject将与Web测试页面交互的行为封装在其内部，旨在将每个页面或者相似页面的功能封装，例如页面中需要测试的元素（按钮，输入框，标题等），这样，通过在测试中访问Page类的相应方法来获取页面相应的元素，从而巧妙的避免了当页面元素id或者位置变化时，需要修改测试代码的情况。</p>
+
+<p>言而总之，总而言之，PageObject就是将Web页面元素的变化封装起来，提供API供外部测试代码调用，从而达到将测试代码于Web页面元素的变化解耦。</p>
+
+<!--More-->
+
+
+<h2>Page Object的优点</h2>
+
+<ul>
+<li>将测试代码与页面元素的操作解耦</li>
+<li>将Web页面元素的访问统一化、规范化、结构化</li>
+<li>封装不同浏览器对元素访问的差异</li>
+<li>易于实现Web元素访问的DSL</li>
+</ul>
+
+
+<p>对于小规模站点的Web自动化测试，直接使用Capybara之类的框架并不会出现问题。但对于业务复杂，功能完备的大规模Web站点自动化测试而言，如果不使用PageObject将测试代码于Web页面元素的访问解耦，而在测试代码中直接访问Web页面元素，不仅易造成冗余代码，还会导致测试集结构混乱，后期难于理解和维护。</p>
+
+<h2>Gizmo</h2>
+
+<p>在最近的一个项目中，我们使用<a href="https://github.com/jnicklas/capybara">Capybara</a>进行Web自动化测试，同时使用<a href="https://github.com/icaruswings/gizmo">Gizmo</a>来完成PageObject的定义。
+Gizmo出自<a href="www.realestat.com.au">REA Group</a>之手，使用Nokogiri对Selenimu的Driver进行轻量级的封装，并定义自己的Page对象。</p>
+
+<h4>使用Gizmo时注意的要点：</h4>
+
+<ul>
+<li>PageObject可以是整个页面，也可是页面的某一小块。但都统称为Page Module。</li>
+<li>PageObject被定义成module,而非class</li>
+<li>PageObject的命名为page_with_<module_name>, 而调用者则遵循on_page_with :<module_name>的模式进行调用</li>
+<li>PageObject使用define_action作为行为的定义，例如 点击button，填充form，输入文本等。</li>
+<li>PageObject使用def selectors作为获取属性的定义，例如获取页面对象，获取文本等。</li>
+</ul>
+
+
+<h4>不过，Gizmo中也存在一些问题：</h4>
+
+<h6>a) Page对象只对生成时的DOM元素有效。</h6>
+
+<p>如果DOM元素随后发生变化(例如Javascript操作DOM), 则无法捕获到。需要显示的重新更新PageObject对DOM元素的引用。</p>
+
+<pre><code>def refresh
+  @document = Nokogiri::HTML(body)
+end
+</code></pre>
+
+<p>另外，作者貌似已经不再维护Gizmo了，上次的更新要追溯到3年前了。所以如果有不爽的地方，要做好fork&amp;customize的打算。 :(</p>
+
+<h2>Capybara-Page-Object(CPO)</h2>
+
+<p>了解完Gizmo，让我们来认识下Capybara-Page-Object。<br/>
+除了包含Gizmo现有的大部分优点之外，CPO对开发者更加友好：</p>
+
+<h4>Page与Component共同使用</h4>
+
+<p>在CPO中，Page的定义通常是指整个页面。而对于页面的某一块功能或者布局，通常被定义为Component。<br/>
+譬如，首页作为一个Page对象，可能会包含Login，BasicSearchForm，SearchResult等Component。<br/>
+而搜索页面，作为Page对象，可能包含Login，BasicSearchForm以及AdvancedSearchForm等Component。
+换句话说，一个Page是由多个Component组成，而Component(如果Element类似)则又可以被不同的Page重用。</p>
+
+<h4>对HTML元素的封装</h4>
+
+<p>在CPO中，实现了对HTML不同元素的分装。如Form，Image，List，ListItem, Select, Input等。</p>
+
+<p>通过使用CPO封装后的HTML元素类，开发者可以更轻松的访问不同类型的HTML元素，而不必为每个心仪元素定义CSS或者Xpath查找策略。<br/>
+如下是CapybaraPageObject::Form的定义，其中已经提供了对Form内buttons，inputs，selects等内元素的访问接口。</p>
+
+<pre><code>class Form &lt; CapybaraPageObject::Element
+    def fields
+      r = ActiveSupport::OrderedHash.new
+      r.merge! inputs
+      r.merge! selects
+      r.merge! textareas
+    end
+
+    def buttons
+      r = []
+      all('input').each do |element|
+        input = Input.new(element)
+        next unless input.button?
+        r &lt;&lt; element
+      end
+      all('button').each do |button|
+        r &lt;&lt; button
+      end
+      r
+    end
+
+    def inputs
+      all('input').each_with_object(ActiveSupport::OrderedHash.new) do |input_tag, hash|
+        input = Input.new(input_tag)
+        next if input.button?
+        if input.checkable?
+          hash[input.key] = !! input.checked?
+        else
+          hash[input.key] = input_tag.value
+        end
+      end
+    end
+
+      def textareas
+            all('textarea').inject(ActiveSupport::OrderedHash.new) do |result, element|
+            textarea = Textarea.new(element)
+            result.merge textarea.key =&gt; textarea.value
+        end
+    end
+
+    def selects
+        all('select').inject(ActiveSupport::OrderedHash.new) do |result, element|
+            select = Select.new(element)
+            result.merge select.key =&gt; select.value
+        end
+    end
+end
+</code></pre>
+
+<p>有了这些封装类，在定义Component时需要做的逻辑就很简单了</p>
+
+<pre><code>module Pages
+  module Components
+    class SearchForm &lt; CapybaraPageObject::Form
+
+      def search(query)
+        source.fill_in 'as_q',    :with =&gt; query
+        source.click_button 'Search'
+      end
+
+    end
+  end
+end
+</code></pre>
+
+<p>然后再Page中使用Component时，只需传入Form对应的Selector即可。</p>
+
+<pre><code>module Pages
+  module Search
+    class Index &lt; Pages::Base
+
+      component(:search_form) do
+        Components::SearchForm.new find('.advsearch')
+      end
+
+      def search(*args)
+        search_form.search(*args)
+      end
+    end
+  end
+end
+</code></pre>
+
+<p>关于本篇提到的代码，如有兴趣，请参考<a href="https://github.com/wldandan/cucumber-capybara">我的cucumber-capybara示例</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mockito - Partial Mock]]></title>
+    <link href="http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/"/>
+    <updated>2013-12-09T17:09:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning</id>
+    <content type="html"><![CDATA[<p>Mockito是一个方便的java测试Mock工具。</p>
+
+<p>当我们做TDD或者单元测试的时候，为了消除当前被测对象和其依赖之间的关系，经常使用Mockito。</p>
+
+<p>本篇文章只涉及如何使用Mockito的Partial Mock。关于Mockito的其他用法，请参照<a href="https://code.google.com/p/mockito/">Mockito</a></p>
+
+<h3>1. 什么是Partial Mock</h3>
+
+<p>在单元测试的过程中，偶尔会出现这种情况。对于一个对象，某些方法需要被mock,而某些方法希望被直接调用，这时候，我们就需要借助Partial Mock。</p>
+
+<h3>2. 使用Partial Mock的场景</h3>
+
+<p>在如下两种场景中，Partial Mock就显得相当犀利：</p>
+
+<h4>a) 测试存在具体方法的抽象类</h4>
+
+<p>```
+public abstract class AbstractHandler {</p>
+
+<pre><code>public String greet() {
+    return "Hello " + fetchName() + "!";
+}
+
+protected abstract String fetchName();
+</code></pre>
+
+<p>}
+```
+如上代码所示，抽象类AbstractHandler中定义了方法greet()，并且该方法存在一定逻辑。
+此时，如果希望测试greet()，可以选择两种方式：</p>
+
+<ul>
+<li>构建其派生非抽象类，如ConcertHandler，再进行测试。</li>
+<li>使用Partial Mock，它可以省去构建派生类的步骤，直接对该抽象类进行测试，代码如下所示:</li>
+</ul>
+
+
+<p>```
+public class AbstractHandlerTest {</p>
+
+<pre><code>@Test
+public void shouldCallRealMethodsAndFakeAbstractMethod() {
+    AbstractHandler handler = mock(AbstractHandler.class);
+
+    when(handler.greet()).thenCallRealMethod(); 
+    when(handler.fetchName()).thenReturn("Geek");
+
+    assertThat(handler.greet(), is("Hello Geek!"));
+}
+</code></pre>
+
+<p>}</p>
+
+<p>```
+如代码所示，对于抽象方法fechName()，直接mock其返回值</p>
+
+<pre><code>when(handler.fetchName()).thenReturn("Geek");
+</code></pre>
+
+<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。</p>
+
+<pre><code>when(handler.greet()).thenCallRealMethod();
+</code></pre>
+
+<h4>b)测试过分依赖于I/O操作的类</h4>
+
+<p>```</p>
+
+<p>public class BooksController {</p>
+
+<pre><code>protected Map&lt;String, Date&gt; fetchBooks(){
+    //fetch the books from different publishing company.
+    service1.retrieveBooks();
+    service2.retrieveBooks();
+    ......
+    service10.retrieveBooks();
+
+}
+
+protected List&lt;String&gt; getPublishedBooks(){
+
+    books = fetchBooks();
+    //only pick up the books published.
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>如上代码所示，类BooksController中定义了方法fetchBooks()，并且该方法严重依赖于I/O操作。因为fetchBooks()从不同的供应商那里获取最近的书籍信息。</p>
+
+<p>对于这种测试，也有两种方案：</p>
+
+<ul>
+<li>Mock所有的service返回结果，然后测试getPublishedBooks()。</li>
+</ul>
+
+
+<p><code>
+doReturn(xxxx).when(service1).retrieveBooks()
+doReturn(xxxx).when(service2).retrieveBooks()
+doReturn(xxxx).when(service3).retrieveBooks()
+</code></p>
+
+<ul>
+<li>除此之外，也可以考虑在测试getPublishedBooks()的时候，对fetchBooks()方法进行mock。如下所示：</li>
+</ul>
+
+
+<p>```
+public class BooksControllerTest {</p>
+
+<pre><code>@Test
+public void shouldReturnPublishedBooks(){
+    BooksController controller = spy(new BooksController());
+
+    Map&lt;String, Date&gt; books = new HashMap&lt;String, Date&gt;();
+    books.put("XXX1", "2014-2-1");
+    books.put("XXX2", "2014-3-1");
+
+    doReturn(books).when(controller).fetchBooks();
+
+    assertThat(controller.getPublishedBooks(), is(....));
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>在如上的代码中，controller是BookController一个真实的实例，非mock对象。  原因是当前被测类为BooksController，因此不能将该类的实例定义成mock。<br/>
+另外，controller的fetchBooks()方法虽然被partial mock了，但其他的方法还是该实例真正的方法。</p>
+
+<p>因此，Spy的作用是将原本被实例化的对象，附上了Mock的功能。</p>
+
+<h5>注意，该场景完全是为了演示Partial mock。在实际情况中，如将books作为实例变量，并提供setBooks(List books)方法，根本不需要mock就能完成对getPublishedBooks的测试。另外，对于这种使用Spy的Partial Mock场景，大多数情况也是因为类的设计违背了SRP原则。</h5>
+
+<h3>3. 两种Partial Mock方式</h3>
+
+<p>让我们再回顾一下上面的例子，并总结一下Partial Mock的两种用法:</p>
+
+<ul>
+<li><p>使用Mock构建对象，再使用CallRealMethod指定某方法为真实调用。</p></li>
+<li><p>实例化对象，定义Spy，再使用doReturn(xxx).when(xxx).method()</p></li>
+</ul>
+
+
+<h3>4. 区别</h3>
+
+<p>起初，偶比较倾向于使用CallRealMethod。因为该方法名足够表意，很容易就能理解其带来的用途。
+不过，使用CallRealMethod却不是推荐的方式，为什么呢，请看如下代码：</p>
+
+<pre><code>@Test
+public void testListPartialMockByCallRealMethod(){
+    List&lt;Integer&gt; list = mock(ArrayList.class);
+    when(list.add(100)).thenCallRealMethod();
+
+    list.add(100);
+    verify(list).add(100);
+}
+</code></pre>
+
+<p>代码没问题吧，不过运行后，却得到如下错误：</p>
+
+<pre><code>java.lang.NullPointerException
+    at java.util.ArrayList.add(ArrayList.java:352)
+    at com.wl.tw.VersionInfoCheckTest.testListByCallRealMethod(VersionInfoCheckTest.java:59)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+</code></pre>
+
+<p>如果查看ArrayList.java:352的代码，就会发现</p>
+
+<pre><code>350    public boolean add(E e) {
+351        ensureCapacity(size + 1);  // Increments modCount!!
+352        elementData[size++] = e;
+353        return true;
+354    }
+</code></pre>
+
+<p>在第352行，ArrayList实际上使用了另外一个对象elementData来存放新加入的元素。</p>
+
+<p>在这个例子中，由于ArrayList是mock的，并不是实例化出来的，所以mock的ArrayList并没有初始化elementData对象。这就是为什么会出现NullPointerException的原因。</p>
+
+<h3>5. 总结</h3>
+
+<ul>
+<li>当使用mockito mock对象时，它并不会mock该对象内部的其他依赖对象。</li>
+<li>当使用mockito partial mock时，注意spy和CallRealMethod的区别。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

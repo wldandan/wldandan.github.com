@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Vagrant Learning - 4 (Provision) - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="如何安装应用 当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等? 目前，基本上有两种方式： 手动安装 首次创建VM后，手动安装需要的软件，然后重新分发Box。这样， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/blog/">培训与咨询</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Vagrant Learning - 4 (Provision)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-22T23:02:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>如何安装应用</h3>
+
+<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
+
+<p>目前，基本上有两种方式：</p>
+
+<h4>手动安装</h4>
+
+<!--More-->
+
+
+<p>首次创建VM后，手动安装需要的软件，然后重新分发Box。这样，就拥有了一个包含所需软件的Box，以后再创建VM时，直接使用该Box即可。</p>
+
+<p>譬如说，如果希望有一台VM作为Apache服务器，我们可以尝试使用以下方式：</p>
+
+<pre><code>vagrant init precise64 http://files.vagrantup.com/precise64.box
+vagrant up
+........
+</code></pre>
+
+<h4>Provision安装</h4>
+
+<p>将安装软件作为构建VM流程的一部分，不依赖于Box。每次创建VM都会自动安装一遍所需要的软件，例如使用Shel脚本，使用Chef或者其他方式，我们将这种机制称之为“Provisioning”</p>
+
+<p>实际上，Vagrant默认支持的Provisoining包括Shell、Chef以及Puppet。
+通过配置Provisioning，Vagrant会在<code>vagrant up</code>的阶段将其应用于VM。</p>
+
+<h5>Shell Provision</h5>
+
+<ul>
+<li><p>在Vagrantfile同级目录下 定义provison.sh并设置可执行权限</p>
+
+<pre><code>  #!/usr/bin/env bash
+  echo "Installing Apache and setting it up..."
+  apt-get update &gt;/dev/null 2&gt;&amp;1
+  apt-get install -y apache2 &gt;/dev/null 2&gt;&amp;1
+  rm -rf /var/www
+  ln -fs /vagrant /var/www
+</code></pre></li>
+<li><p>在Vagrantfile中使用provision.sh
+  config.vm.provision &#8220;shell&#8221;, path: &#8220;provision.sh&#8221;</p></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5><a href="http://www.opscode.com">Chef</a> Provision</h5>
+
+<p>Vagrant对Chef支持的很好，包括chef-client和chef-solo两种模式。
+这里，我们之讨论如何使用chef-solo来安装Apache。</p>
+
+<ul>
+<li><p>在Vagrantfile同级目录下，创建如下目录及文件cookbooks/vagrant_book/recipes/default.rb, 并加入如下内容</p>
+
+<pre><code>  execute "apt-get update"
+  package "apache2"
+  execute "rm -rf /var/www" 
+  link "/var/www" do
+      to "/vagrant" 
+  end
+</code></pre></li>
+<li><p>在Vagrantfile中定义如下配置</p>
+
+<pre><code>  config.vm.define "web" do |web|
+      web.vm.hostname = "web-vm-chef"
+  end 
+  config.vm.network :forwarded_port, guest: 80, host: 9090
+  config.vm.provision "chef_solo", run_list: ["vagrant_book"]
+</code></pre></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5>Puppet Provision</h5>
+
+<p>Vagrant也同样支持Puppet，这里，我们看看如何使用Puppet安装Apache。</p>
+
+<ul>
+<li><p>在Vagrantfile同级目录下，创建如下目录及文件manifests/default.pp, 并加入如下内容</p>
+
+<pre><code>  exec { "apt-get update":
+      command =&gt; "/usr/bin/apt-get update",
+  }
+
+  package { "apache2":
+      require =&gt; Exec["apt-get update"],
+  }
+
+  file { "/var/www": 
+      ensure =&gt; link, 
+      target =&gt; "/vagrant", 
+      force =&gt; true,
+  }
+</code></pre></li>
+<li><p>在Vagrantfile中定义如下配置</p>
+
+<pre><code>  config.vm.define "web" do |web|
+      web.vm.hostname = "web-vm-chef"
+  end 
+  config.vm.network :forwarded_port, guest: 80, host: 9090
+  config.vm.provision "puppet"
+</code></pre></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5>混搭</h5>
+
+<p>实际上，我们也可以同时使用多种Provision，让他们协同工作。
+譬如，在下面的示例中，我们使用Shell以及Puppet一起完成Apache的安装</p>
+
+<pre><code>    config.vm.box = "precise64"
+    config.vm.provision "shell", inline: "apt-get update" 
+    config.vm.provision "puppet"
+</code></pre>
+
+<h3>总结</h3>
+
+<p>Vagrant提供了强大的Provision机制, 能方便的帮助我们更有效的安装以及部署应用。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-22T23:02:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/vagrant/'>Vagrant</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/11/14/vagrant-learning-box/" title="Previous Post: Vagrant Learning - 3 (Box) ">&laquo; Vagrant Learning - 3 (Box) </a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/12/09/mockito-partial-mocking-learning/" title="Next Post: Mockito - Partial Mock">Mockito - Partial Mock &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构（四）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/';
+        var disqus_url = 'http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

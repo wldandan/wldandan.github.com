@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: AWS | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2016-10-08T23:55:45+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Asgard - Handy tool for AWS management & deployment]]></title>
+    <link href="http://wldandan.github.com/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/"/>
+    <updated>2014-05-27T20:55:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment</id>
+    <content type="html"><![CDATA[<p>Asgard is named for the home of the Norse god of thunder and lightning.
+As the words described, it is closely relevant to the management and control in cloud.</p>
+
+<p>Netflix build a tool named Asgard, which is used to control and manage their AWS cloud.  In 2012, Netflix announced that Asgard was open-sourced.</p>
+
+<p>Then...... it is time to start the story.</p>
+
+<h2>What is Asgard</h2>
+
+<p>Asgard is a web-based tool for managing cloud-based applications and infrastructure.</p>
+
+<ul>
+<li>Built on the top of <a href="https://grails.org/">grails</a>.</li>
+<li>By introducing <code>Application</code> and <code>Cluster</code> terminology, enable users understand their cloud objets clearly.</li>
+<li>Keep track cloud objects from the view of one application</li>
+</ul>
+
+
+<!-- More -->
+
+
+<h2>Why needs Asgard</h2>
+
+<p>The AWS Management Console has its uses for someone with your Amazon account password who needs to configure something Asgard does not provide. However, for everyday large-scale operations, the AWS Management Console has not yet met the needs of the Netflix cloud usage model, so we built Asgard instead. Here are some of the reasons.</p>
+
+<ul>
+<li><p>Hide the Amazon keys</p>
+
+<p>Asgard provides an internal console allows us to grant users access to our Amazon accounts without telling too many employees the shared cloud passwords. This strategy also saves us from needing to assign and revoke hundreds of Identity and Access Management (IAM) cloud accounts for employees.</p></li>
+<li><p>Auto Scaling Groups</p>
+
+<p>  AWS Management Console lacks support for Auto Scaling Groups (ASGs). ASGs are good scaling features to provide reliability, redundancy, cost savings, clustering, discoverability, ease of deployment, and the ability to roll back a bad deployment quickly.</p></li>
+<li><p>Logging</p>
+
+<p>  AWS console does not expose a log of recent user actions on an account. This makes it difficult to determine whom to call when a problem starts, and what recent changes might relate to the problem. Lack of logging is also a non-starter for any sensitive subsystems that legally require auditability.</p></li>
+<li><p>Simplify REST API</p>
+
+<p>  For common operations that other systems need to perform, we can expose and publish our own REST API to do exactly what we want in a way that hides some of the complex steps from the user.</p></li>
+<li><p>Naming Conventions</p>
+
+<p>  Like any growing collection of things users are allowed to create, the cloud can easily become a confusing place full of expensive, unlabeled clutter. Asgard is using registered services associated with cloud objects by naming convention. Asgard enforces these naming conventions in order to keep the cloud a saner place that is possible to audit and clean up regularly as things get stale, messy, or forgotten.</p></li>
+</ul>
+
+
+<h2>What Asgard can do</h2>
+
+<p><img src="http://2.bp.blogspot.com/-bn3mWGhb7Zo/T-S2bKpJZDI/AAAAAAAACnw/0xH5-M7oboc/s1600/cloud-model-diagram-625.png" /></p>
+
+<p>Here’s a quick summary of the relationships of these cloud objects.</p>
+
+<ul>
+<li>An Auto Scaling Group (ASG) can attach zero or more Elastic Load Balancers (ELBs) to new instances.</li>
+<li>An ELB is used to send user traffic to instances.</li>
+<li>An ASG can launch and terminate instances.</li>
+<li>For each instance launch, an ASG uses a Launch Configuration.</li>
+<li>The Launch Configuration specifies which Amazon Machine Image (AMI) and which Security Groups to use when launching an instance.</li>
+<li>Security Groups can restrict the traffic sources and ports to the instances.</li>
+</ul>
+
+
+<p>More functionality, please check the <a href="https://github.com/Netflix/asgard/wiki/Quick-Start-Guide">documentation</a></p>
+
+<h2>Summary</h2>
+
+<p>As the AWS is becoming more common for deployment, as the infrasutre of web site is becoming more complex, Asgard would be star to make our life easier to manage and deploy our product.</p>
+]]></content>
+  </entry>
+  
+</feed>
