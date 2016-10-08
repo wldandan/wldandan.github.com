@@ -17,7 +17,7 @@ keywords: 微服务架构培训, 微服务架构咨询
 
 <img src="{{ root_url }}/images/about/microservice-book-400-300.png" />
 
-同时在InfoQ以及《架构师》上发表多篇关于架构相关文章，也在多个线上社群（InfoQ、StuQ、CSDN、聊聊架构）分享过架构经验。
+在InfoQ以及《架构师》上发表多篇关于架构相关文章，也在多个线上社群（InfoQ、StuQ、CSDN、聊聊架构）分享过架构经验。
 
 超过10年以上的软件行业经验，从企业应用、互联网应用、服务化平台的架构设计、开发到自动化构建、持续集成、持续交付以及DevOps的转型实施等有较丰富的实践经验。
 
@@ -26,6 +26,7 @@ keywords: 微服务架构培训, 微服务架构咨询
 <img src="{{ root_url }}/images/about/practical-rubygems-400-300.png" />
 
 可以通过如下方式联系我：
+
 微信：wldandan
 
 邮箱：5109343@qq.com
