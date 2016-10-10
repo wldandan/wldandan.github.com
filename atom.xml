@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-10-10T11:54:44+08:00</updated>
+  <updated>2016-10-10T16:27:12+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -314,7 +314,10 @@ Content-Type: application/json
 <a href="Creating%20Service%20Contract%20with%20AutoRest,%20Swagger%20and%20HAL">Creating Service Contract with AutoRest, Swagger and HAL</a>
 <a href="https://opencredo.com/hal-hypermedia-api-spring-hateoas/">Implementing HAL hypermedia REST API using Spring HATEOAS</a>
 <a href="http://stateless.co/hal_specification.html">HAL Specification</a>
-<a href="https://groups.google.com/forum/#!forum/hal-discuss">hal-discuss@google groups</a></p>
+<a href="https://groups.google.com/forum/#!forum/hal-discuss">hal-discuss@google groups</a>
+<a href="http://hyperschema.org/mediatypes/hal">HAL+JSON</a>
+<a href="https://opencredo.com/rest-api-tooling-review/">Documenting REST APIs – a tooling review</a>
+<a href="http://phlyrestfully.readthedocs.io/en/latest/halprimer.html">HAL Primer</a></p>
 ]]></content>
   </entry>
   
