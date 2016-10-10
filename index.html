@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="过去的1年多，一直在助力澳洲最大的房地产互联网门户，研究并使用微服务架构改造其复杂的遗留系统。鉴于此，准备开个系列，讲讲我个人眼中的微服务是神马样的，它的概念，优缺点，为什么我们要使用它，以及在使用微服务的实践过程中，从开发、测试、部署、运维等几个方面相比以前方式有什么不同；同时， &hellip;">
+  <meta name="description" content="REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。 在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中REST API设计的挑战。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">微服务架构与实践 - 使用HAL设计REST API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-10-09T23:45:00+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2016</time>
+        
+         | <a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。</p>
+
+<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中REST API设计的挑战。</p>
+
+<p>本篇结合我在微服务项目中的实践，谈谈如何使用HAL优雅的设计REST API</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -648,61 +695,6 @@ As the words described, it is closely relevant to the management and control in 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/23/how-to-setup-mongo-shard/">How to Setup Mongo Shard</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-23T09:44:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2014</time>
-        
-         | <a href="/blog/2014/04/23/how-to-setup-mongo-shard/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>To simulate the process of production deployment of MongoDB, I used Vagrant to create a couples of VMs, and exprienced the journey of deployment mongo step by step as follow mentioned.</p>
-
-<h3>Mongo Shard Concepts</h3>
-
-<p>Before dived into the code, we can review the concepts related to Mongo Shard, it needs 3 components logically at least.</p>
-
-<h4>a) Config Server</h4>
-
-<p>The config server processes are mongod instances that   store the cluster’s metadata. You designate a mongod as a config server using the &#8211;configsvr option. Each config server stores a complete copy of the cluster’s metadata.</p>
-
-<h4>b) Query Server</h4>
-
-<p>The query server are lightweight mongos instances and   do not require data directories. You can run a mongos   instance on a system that runs other cluster    components, such as on an application server or a   server running a mongod process. By default, a mongos   instance runs on port 27017.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/04/23/how-to-setup-mongo-shard/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -722,7 +714,7 @@ As the words described, it is closely relevant to the management and control in 
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservice/'>MicroService (6)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (7)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -738,6 +730,10 @@ As the words described, it is closely relevant to the management and control in 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">微服务架构与实践 - 使用HAL设计REST API</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
       </li>
     
@@ -751,10 +747,6 @@ As the words described, it is closely relevant to the management and control in 
     
       <li class="post">
         <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a>
       </li>
     
   </ul>

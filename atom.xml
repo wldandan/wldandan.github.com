@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-10-09T19:50:26+08:00</updated>
+  <updated>2016-10-10T11:54:44+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -12,6 +12,311 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[微服务架构与实践 - 使用HAL设计REST API]]></title>
+    <link href="http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/"/>
+    <updated>2016-10-09T23:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua</id>
+    <content type="html"><![CDATA[<p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。</p>
+
+<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中REST API设计的挑战。</p>
+
+<p>本篇结合我在微服务项目中的实践，谈谈如何使用HAL优雅的设计REST API</p>
+
+<!-- More -->
+
+
+<h3>REST 101</h3>
+
+<p>REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。</p>
+
+<p>REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。</p>
+
+<p>通过资源表述、状态转移以及统一接口，REST将客户端的请求、服务器端的响应基于资源联系起来，形成一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的通信机制。</p>
+
+<p>同时，由于HTTP协议本身的无状态性，使用REST，能够有效保持服务应用的无状态型，并利于水平伸缩。</p>
+
+<h3>REST不是银弹</h3>
+
+<p>随着组织业务的不断增长，服务规模化的实施，以及响应内容复杂度的增加，REST的使用面临如下两个挑战：</p>
+
+<ul>
+<li>如何标准化资源结构</li>
+</ul>
+
+
+<p>使用REST，需要将业务场景的响应抽象为资源，并基于JSON或者XML的格式，返回给客户端。随着业务复杂度的增加，响应的内容会愈发复杂。</p>
+
+<p>REST架构风格，并没有定义响应结构应该遵循什么标准。这也就意味着，在企业内部，不同的部门，不同的开发团队，对同一类资源，所定义的结构可能不尽相同；</p>
+
+<p>譬如，如下是服务器端对客户端获取产品请求的的响应结果，两种结构都是合理的，但存在着差异</p>
+
+<pre><code>GET http://bookstore.com/books/12 
+Accept: application/json
+</code></pre>
+
+<hr />
+
+<pre><code>响应结构一
+{  
+    "name":"Spring Boot In Action",  
+    "category": "Book",  
+    "price":69.00,  
+    "ref": "http://bookstore.com/books/12",
+    "created_at": "2015-05-01 10:00:00",
+    "updated_at": "2015-06-01 11:00:00"
+}  
+</code></pre>
+
+<hr />
+
+<pre><code>响应结构二
+{
+  "basic_info":
+  {
+    "name":"Spring Boot In Action",
+    "category":"Book"
+    "price":69.00,
+  },
+
+  "ref":{
+    "self": "http://bookstore.com/books/12”,
+    “list": "http://bookstore.com/books"
+  },
+
+  "timestamp":{
+    "created_at": "2015-05-01 10:00:00",
+    "updated_at": "2015-06-01 11:00:00"
+  }
+}
+</code></pre>
+
+<p>因此，如何定义一套标准的资源响应结构，成为服务规模化后使用REST面临的一个挑战。</p>
+
+<ul>
+<li>如何处理资源的跳转链接</li>
+</ul>
+
+
+<p>在<a href="http://martinfowler.com/articles/richardsonMaturityModel.html">《Richardson Maturity Model》</a>模型中，定义了REST API不同成熟度应该具备的特征。</p>
+
+<p>对于REST API Level 3，明确提出了&#8221;资源跳转的重要性&#8221;。</p>
+
+<p>对于实际情况而言，大部分REST的实现，都是基于JSON作为传输格式，不过JSON最大的遗憾，正如W3C所描述的：</p>
+
+<blockquote><p>JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web.</p>
+
+<p>没有对超链接处理做内建的支持，是JSON最大的遗憾。而这部分却恰恰是互联网的基石。</p></blockquote>
+
+<p>这带来的潜在问题是，对于调用接口的Consumer而言，需要通过查看相关文档，才能了解如何获取相关的资源信息。譬如，某些社交系统可能会提供类似如下的接口文档，来帮助Consumer了解如何使用其提供的接口。</p>
+
+<pre><code>https://api.example.com/users/1234567890      GET 获取用户明细
+https://api.example.com/users/[ID]/friends    GET 获取用户相关的好友
+https://api.example.com/users/[ID]/posts      GET 获取用户相关的文章
+</code></pre>
+
+<h3>HAL 101</h3>
+
+<p>HAL（Hypertext Application Language）是一种轻量级超文本应用描述协议。HAL的实现基于REST，并对REST中资源结构无法标准化和不支持资源间跳转链接做了有效的互补。</p>
+
+<p>目前，越来越多的企业和组织开始使用HAL提供标准化的服务接口，譬如</p>
+
+<ul>
+<li><p><a href="http://docs.aws.amazon.com/appstream/latest/developerguide/rest-api-application.html">AWS APP Stream API</a></p></li>
+<li><p><a href="https://smxemail.com">SMXEmail API</a></p></li>
+<li><p><a href="http://api.m.ox.ac.uk/browser/#/">牛津大学官方数据API</a></p></li>
+</ul>
+
+
+<p>更多案例请可以参考<a href="http://stateless.co/hal_specification.html">HAL官方网站</a>。</p>
+
+<h3>HAL核心</h3>
+
+<p>在HAL中，任何响应都被定义成一种资源（Resource），这是遵循REST原则对资源的定义标准。
+同REST不同的是，在每个资源中，HAL又将其分成了如下三个标准的部分：</p>
+
+<ul>
+<li>状态(Resource State) - 通常指资源本身固有的属性，如之前提到的book的title、price等</li>
+<li>链接(Links) - 定义了与当前资源相关的资源链接的集合</li>
+<li>子资源(Embedded Resource) - 描述在当前资源的内部，其嵌套的资源。</li>
+</ul>
+
+
+<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
+
+<h4>使用HAL定义单一资源(Resource)</h4>
+
+<p>对于单一资源而言，如果没有使用HAL，通常我们会定义成这样：</p>
+
+<pre><code>GET - /api/users/wldandan
+Content-Type: application/json
+
+{
+    "id": "wldandan",
+    "name": "Wang Lei",
+    "email": "useremail@email.com",
+    "wechat": "abcdefg"
+}   
+</code></pre>
+
+<p>如果要访问用户相关的联系人资源，可以查看文档获取其他的API接口，如下所示：</p>
+
+<pre><code>GET - /api/contacts/wldandan
+Content-Type: application/json
+.......
+</code></pre>
+
+<p>或者将相关信息放在之前返回的结果里：</p>
+
+<pre><code>{
+    "id": "wldandan",
+    "name": "Wang Lei",
+    "email": "useremail@email.com",
+    "wechat": "abcdefg",
+    "contacts": [
+        {
+            "id": "chenyue",
+            "name": "Chen Yue"
+            "link": "/api/users/chenyue"
+        },
+        {
+            "id": "kouxi",
+            "name": "Kou Xi"
+            "link": "/api/users/chenyue"
+        }
+    ]
+}   
+</code></pre>
+
+<p>如果基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，也就是：</p>
+
+<pre><code>{
+    "_links": {
+        "self": {
+            "href": "http://example.org/api/users/wldandan"
+        }
+    },
+    "id": "wldandan",
+    email: 'useremail@email.com',
+    "name": "Wang Lei"
+    wechat: 'abcdefg',
+
+    "_embedded": {
+        "contacts": [
+        {
+            "_links": {
+                "self": {
+                    "href": "http://example.org/api/users/chenyue"
+                }
+            },
+            "id": "chenyue",
+            "name": "Chen Yue"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "http://example.org/api/users/kouxi"
+                }
+            },
+            "id": "kouxi",
+            "name": "Kou Xi"
+        }
+        ]
+    }
+}
+</code></pre>
+
+<h4>使用HAL定义集合资源(Collection Resource)</h4>
+
+<p>对于集合资源而言，如果没有使用HAL，通常我们会定义成这样：</p>
+
+<pre><code>GET - /api/users
+Content-Type: application/json
+
+{
+    total: 10
+    page: 5
+    page_size: 2
+    users: [
+    {
+        id: 'wldandan',
+        name: 'Wang Lei'
+    },
+    {
+        id: 'chenyue',
+        name: 'Chen Yue'
+    },
+    ]
+}
+</code></pre>
+
+<p>基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，则如下所示：</p>
+
+<pre><code>{
+    "_links": {
+        "self": {
+            "href": "http://example.org/api/users?page=3"
+        },
+        "first": {
+            "href": "http://example.org/api/users"
+        },
+        "prev": {
+            "href": "http://example.org/api/users?page=2"
+        },
+        "next": {
+            "href": "http://example.org/api/users?page=4"
+        },
+        "last": {
+            "href": "http://example.org/api/users?page=5"
+        }
+    },
+    "page_size": 2,
+    "total": 10,
+    "page": 5,
+    "_embedded": {
+        "users": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://example.org/api/users/wldandan"
+                    }
+                },
+                "id": "wldandan",
+                "name": "Wang Lei"
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://example.org/api/user/chenyue"
+                    }
+                },
+                "id": "chenyue",
+                "name": "Chen Yue"
+            }
+        ]
+    }
+}
+</code></pre>
+
+<h3>在微服务实现中使用HAL</h3>
+
+<h4>使用Spring-Data-Rest实现HAL</h4>
+
+<h4>在Spring Boot中定制HAL</h4>
+
+<h3>HAL与HATEOAS</h3>
+
+<h3>参考资料</h3>
+
+<p><a href="https://apigility.org/documentation/api-primer/halprimer">Hypertext Application Language</a>
+<a href="http://blog.stateless.co/post/13296666138/json-linking-with-hal">JSON Linking with HAL</a>
+<a href="Creating%20Service%20Contract%20with%20AutoRest,%20Swagger%20and%20HAL">Creating Service Contract with AutoRest, Swagger and HAL</a>
+<a href="https://opencredo.com/hal-hypermedia-api-spring-hateoas/">Implementing HAL hypermedia REST API using Spring HATEOAS</a>
+<a href="http://stateless.co/hal_specification.html">HAL Specification</a>
+<a href="https://groups.google.com/forum/#!forum/hal-discuss">hal-discuss@google groups</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[解析微服务架构]]></title>
@@ -2168,97 +2473,6 @@ vagrant up
 <h3>总结</h3>
 
 <p>Vagrant提供了强大的Provision机制, 能方便的帮助我们更有效的安装以及部署应用。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Vagrant Learning - 3 (Box) ]]></title>
-    <link href="http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box/"/>
-    <updated>2013-11-14T17:02:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box</id>
-    <content type="html"><![CDATA[<h3>什么是Vagrant Box</h3>
-
-<p>谈论完了Vagrantfile，让我们看看Vagrant的另外一个重要概念Box。它是Vagrant运行VM的必要条件。
-基本上，从头开始建立一个VM是相当耗时的工作，于是Vagrant使用一个基础映像(base image), 克隆它并快速创建一个可用的VM。<br/>
-在Vagrant的世界里，所有这些基础映像统称为Box。简单地说，Box可以理解为创建VM时需要的模板，通过这些模板，我们可以创建VM。</p>
-
-<!--More-->
-
-
-<p>如果将上面例子的
-<code>config.vm.box = "precise64"</code>注释掉，并执行<code>vagrant up</code>,Vagrant将会提示</p>
-
-<pre><code>There are errors in the configuration of this machine. Please fix
-the following errors and try again:
-
-vm:
-* A box must be specified.
-</code></pre>
-
-<p>但是，如果只是去掉<code>http://files.vagrantup.com/precise64.box</code>并执行<code>vagrant up</code>,则VM依然能够正常启动。</p>
-
-<p>所以，可以理解为Vagrantfile是项目相关的(per-project basis)，不同的Vagrantfile之间并没有什么联系。而Box则是可以被共享的，当创建一个Box后，其他VM便可以将Box作为模板使用。这也就意味着，对于同一个Box，我们能通过不同的Vagrantfile配置文件，运行多个不同的VM。本质上，这也是Box和VM的区别。
-举个例子，当构建一个复杂系统时，我们可以使用同一个Vagrant Box(比如Ubuntu 12), 定义不同的Vagarantfile，分别创建网站服务器，数据库服务器或者图片服务器等。</p>
-
-<h3>启动Vagrant Box</h3>
-
-<p>理解了Vagrant Box，理解了Vagrantfile，现在我们来看看当第一次执行<code>vagrant up</code>时, Vagrant到底做了什么事情</p>
-
-<pre><code>Bringing machine 'default' up with 'virtualbox' provider...
-[default] Importing base box 'precise64'... 
-//基于Box precise64创建VM
-[default] Matching MAC address for NAT networking... 
-//初始化网络配置
-[default] Setting the name of the VM... 
-//设置VM的名字(非hostname)。默认规则为当前```文件夹名称``` + ```随机数```, 可以通过   VirtualBox管理器查看到，如下所示
-
-[default] Clearing any previously set forwarded ports... 
-//清空端口转发的设置
-[default] Creating shared folders metadata...
-//初始化文件夹共享设置
-[default] Clearing any previously set network interfaces...
-//初始化文件夹共享设置
-[default] Preparing network interfaces based on configuration...
-//初始化网络配置
-[default] Forwarding ports...
-[default] -- 22 =&gt; 2222 (adapter 1)
-//设置SSH的端口转发
-[default] Booting VM...
-[default] Waiting for VM to boot. This can take a few minutes.
-[default] VM booted and ready for use!
-[default] Mounting shared folders...
-//挂载共享文件夹
-[default] -- /vagrant
-//默认的，主机上Vagrantfile所在的文件夹将被挂载到VM的/vagrant目录
-</code></pre>
-
-<p>另外有一点要注意的，当第一次执行<code>vagrant up</code>后，当前目录下会生成一个<code>.vagrant</code>的目录，里面记录了Vagrant对VM的配置信息，如ID,状态等。</p>
-
-<h3>管理Vagrant Box</h3>
-
-<p>Vagrant 提供了方便的命令帮助我们管理Box.</p>
-
-<pre><code>add        //添加新的Box
-list       //显示当前Box 
-remove     //删除Box
-</code></pre>
-
-<p>类似的，对于VM，Vagrant也提供了不同的方式管理它:</p>
-
-<pre><code>vagrant suspend //挂起当前VM
-vagrant halt    //关闭当前VM
-vagrant destroy //删除当前VM
-vagrant reload  //重新当前VM
-......
-</code></pre>
-
-<h3>可用的Box</h3>
-
-<p>Vagrant官方已经提供了很多可用的Box，请看<a href="http://www.vagrantbox.es/">这里</a></p>
-
-<h3>总结</h3>
-
-<p>现在，我们已经了解了Vagrantfile, Vagrant Box, 以及Vagrant VM，通过上面的步骤，相信你已经可以轻松的创建虚拟机了。接下来，我们将看看如何使用Vagrant的一些高级功能，更方便的管理及定制虚拟机。</p>
 ]]></content>
   </entry>
   
