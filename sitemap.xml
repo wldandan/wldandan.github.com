@@ -175,12 +175,18 @@
         <lastmod>2016-10-10T11:57:20+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://wldandan.github.com/blog/2016/11/03/wei-fu-wu-jia-gou-yu-shi-jian-ke-cheng/
+        </loc>
+        <lastmod>2016-11-03T14:51:39+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://wldandan.github.com/about/</loc>
         <lastmod>2016-10-10T16:27:00+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/archives/</loc>
-        <lastmod>2016-10-10T11:57:20+08:00</lastmod>
+        <lastmod>2016-11-03T14:51:39+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/consulting/</loc>
@@ -188,7 +194,7 @@
     </url>
     <url>
         <loc>http://wldandan.github.com/</loc>
-        <lastmod>2016-10-10T11:57:20+08:00</lastmod>
+        <lastmod>2016-11-03T14:51:39+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/robots.txt</loc>

@@ -9,8 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="什么是Vagrant Box 谈论完了Vagrantfile，让我们看看Vagrant的另外一个重要概念Box。它是Vagrant运行VM的必要条件。
-基本上，从头开始建立一个VM是相当耗时的工作，于是Vagrant使用一个基础映像(base image), 克隆它并快速创建一个可用的VM。 &hellip;">
+  <meta name="description" content="如何安装应用 当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等? 目前，基本上有两种方式： 手动安装 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,6 +78,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/22/vagrant-learning-provision/">Vagrant Learning - 4 (Provision)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-22T23:02:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/22/vagrant-learning-provision/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>如何安装应用</h3>
+
+<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
+
+<p>目前，基本上有两种方式：</p>
+
+<h4>手动安装</h4>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/22/vagrant-learning-provision/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -559,58 +609,6 @@ rake deploy</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/23/understanding-unix-bash/">Understanding *nix Bash Profile</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-23T22:10:00+08:00" pubdate data-updated="true">May 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/05/23/understanding-unix-bash/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>工作在*nix环境下的兄弟们，多多少少都应该见过这么几个文件:</p>
-
-<pre><code>/etc/profile
-/etc/bashrc
-~/.bash_profile
-~/.bashrc
-~/.bash_login
-</code></pre>
-
-<p>说实话，我一直没搞清楚这些文件是干什么的，以及他们是什么联系。今天组里正好有人讲这个，就给自己长长见识吧。其实吧，最主要的区别就在于两个词: &#8220;Login shell&#8221; 和 &#8220;Non-login shell&#8221;。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/05/23/understanding-unix-bash/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -632,7 +630,7 @@ rake deploy</p>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservice/'>MicroService (7)</a></li>
+<li class='category'><a href='/blog/categories/microservice/'>MicroService (8)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -648,6 +646,10 @@ rake deploy</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/11/03/wei-fu-wu-jia-gou-yu-shi-jian-ke-cheng/">《微服务架构与实践》视频课</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">微服务架构与实践 - 使用HAL设计REST API</a>
       </li>
     
@@ -661,10 +663,6 @@ rake deploy</p>
     
       <li class="post">
         <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构（三）</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
       </li>
     
   </ul>
