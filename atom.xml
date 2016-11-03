@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-03T14:53:01+08:00</updated>
+  <updated>2016-11-03T14:56:38+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -459,6 +459,9 @@ Content-Type: application/json
     <updated>2015-03-17T11:13:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2015/03/17/microservice-design-and-implementation</id>
     <content type="html"><![CDATA[<p>过去的1年多，一直在助力澳洲最大的房地产互联网门户，研究并使用微服务架构改造其复杂的遗留系统。鉴于此，准备开个系列，讲讲我个人眼中的微服务是神马样的，它的概念，优缺点，为什么我们要使用它，以及在使用微服务的实践过程中，从开发、测试、部署、运维等几个方面相比以前方式有什么不同；同时，分享一下我们在微服务实践过程中的经验和踩过的那些坑。</p>
+
+<!-- More -->
+
 
 <p>目录大概如下</p>
 
