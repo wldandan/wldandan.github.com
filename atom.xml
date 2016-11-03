@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-03T14:51:56+08:00</updated>
+  <updated>2016-11-03T14:53:01+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -19,6 +19,9 @@
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/wei-fu-wu-jia-gou-yu-shi-jian-ke-cheng</id>
     <content type="html"><![CDATA[<p>微服务架构，虽然诞生的时间不长，但其在各种演讲、文章、书籍上所出现的频率已经让很多人意识到它对软件架构领域带来的影响。经过2015年的快速普及，微服务的优势被越来越多的组织和企业所认可。未来的一两年，将会有更多的企业将目光聚焦在如何实践并有效将落地这个核心问题上&#8230;&#8230;</p>
+
+<!-- More -->
+
 
 <h1>为什么设计这么课</h1>
 
