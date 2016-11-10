@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-03T14:56:38+08:00</updated>
+  <updated>2016-11-10T12:55:15+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[《微服务架构与实践》视频课]]></title>
+    <title type="html"><![CDATA[《微服务架构与实践》系列课程]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/03/wei-fu-wu-jia-gou-yu-shi-jian-ke-cheng/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/wei-fu-wu-jia-gou-yu-shi-jian-ke-cheng</id>
