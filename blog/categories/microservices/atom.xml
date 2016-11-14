@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Microservices | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/microservices/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-14T21:33:00+08:00</updated>
+  <updated>2016-11-14T21:49:22+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -18,9 +18,11 @@
     <link href="http://wldandan.github.com/blog/2016/11/03/wei-fu-wu-jia-gou-yu-shi-jian-ke-cheng/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/wei-fu-wu-jia-gou-yu-shi-jian-ke-cheng</id>
-    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。其实，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较合理的。</p>
+    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
 
-<p>经过2015年的快速普及，微服务的优势被越来越多的组织和企业所认可，但由于架构相关的知识本身比较抽象，所以希望通过本系列的文章，能以一个案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构以及相关的实践。</p>
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
+
+<p>所以，希望通过本系列的文章，希望以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
 
 <!-- More -->
 
