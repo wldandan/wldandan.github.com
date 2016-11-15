@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "微服务架构与实践 - 使用HAL设计REST API"
+title: "微服务实践 - 使用HAL设计REST API"
 date: 2016-10-09 23:45
 comments: true
 keywords: 微服务架构, 微服务架构与实践，微服务架构与实践培训
 description: 微服务架构与实践培训
-categories: MicroService
+categories: Microservices
 ---
 
 REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。
@@ -282,3 +282,6 @@ HAL（Hypertext Application Language）是一种轻量级超文本应用描述�
 [Implementing HAL hypermedia REST API using Spring HATEOAS](https://opencredo.com/hal-hypermedia-api-spring-hateoas/)
 [HAL Specification](http://stateless.co/hal_specification.html)
 [hal-discuss@google groups](https://groups.google.com/forum/#!forum/hal-discuss)
+[HAL+JSON](http://hyperschema.org/mediatypes/hal)
+[Documenting REST APIs – a tooling review](https://opencredo.com/rest-api-tooling-review/)
+[HAL Primer](http://phlyrestfully.readthedocs.io/en/latest/halprimer.html)
