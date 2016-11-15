@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-15T17:52:39+08:00</updated>
+  <updated>2016-11-15T23:10:44+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -14,7 +14,186 @@
 
   
   <entry>
-    <title type="html"><![CDATA[微服务实战 - 目标系统]]></title>
+    <title type="html"><![CDATA[微服务实战(3) - Spring Boot 101]]></title>
+    <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101/"/>
+    <updated>2016-11-15T17:57:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101</id>
+    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
+
+<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+
+<!-- More -->
+
+
+<h2>为什么是Spring Boot</h2>
+
+<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡全国，成为J2EE Web开发的标准。
+加上Spring对其他企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
+
+<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
+
+<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的Convention Over Configuration，加上对SpringFramework的无缝支持，被社区普遍看好。</p>
+
+<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的Netflix OSS，足以证明Spring Boot在社区的影响力。</p>
+
+<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
+
+<h2>Spring Boot的优势</h2>
+
+<ul>
+<li><code>快速构建</code>可运行的应用
+
+<ul>
+<li><code>无XML配置</code></li>
+<li>支持<code>内嵌</code>WebServer(Tomcat/Jetty/Undertow)</li>
+<li>通过<code>注解</code>的方式，一行代码启动应用</li>
+</ul>
+</li>
+<li><code>自动配置</code>和<code>装载机制</code>
+
+<ul>
+<li>使用Starter</li>
+<li>自动配置装载依赖</li>
+</ul>
+</li>
+<li>运维接口友好
+
+<ul>
+<li><code>Metrics/health</code>显示健康监控状态</li>
+<li><code>Trace/dump</code>显示调用/调试信息</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Spring Boot核心</h2>
+
+<h3>简单的说，Spring Boot的核心，主要包括两大部分：</h3>
+
+<blockquote><p>1.Starter</p></blockquote>
+
+<p>各种Starter负责实现相关依赖Jar包的导入和管理，譬如Spring-Web-MVC，Spring-Data等</p>
+
+<blockquote><p>2.AutoConfiguratioin</p></blockquote>
+
+<p>AutoConfiguratioin则根据Conditional条件完成对Bean的创建和组装</p>
+
+<p>所以, 我对SpringBoot的理解为</p>
+
+<ul>
+<li>Starter打包提供相关的包依赖，加载到ClassPath</li>
+<li>EnableAutoConfiguration配置Bean的依赖关系</li>
+</ul>
+
+
+<p>二者配合起来，天下无敌啊&#8230;.</p>
+
+<h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
+
+<p>这个标签是SpringBoot应用的核心标签，主要包括三部分子：</p>
+
+<ul>
+<li>@Configuration</li>
+</ul>
+
+
+<p>Spring3.0引入@Configuration(Java配置)，使用Java配置简化XML配置。</p>
+
+<p>譬如以前我们通常使用类似如下XML配置Spring Bean</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+</span><span class='line'>  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>  xsi:schemaLocation="http://www.springframework.org/schema/beans
+</span><span class='line'>  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;bean id="helloBean" class=“com.microservice.training.HelloWorldImpl"&gt;
+</span><span class='line'>&lt;/beans&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过使用Java Configuration，声明当前类是一个配置类， 相当于声明一个Spring配置的XML文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Configuration
+</span><span class='line'>public class AppConfig {
+</span><span class='line'>
+</span><span class='line'>    @Bean(name="helloBean")
+</span><span class='line'>    public HelloWorld helloWorld() {
+</span><span class='line'>        return new HelloWorldImpl();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>@EnableAutoConfiguration</li>
+</ul>
+
+
+<p>它帮助我们加载当前Spring Boot中META-INF/spring.factories，并使用其中的*AutoConfiguration</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HttpEncodingAutoConfiguration
+</span><span class='line'>RabbitAutoConfiguration 
+</span><span class='line'>EmbeddedServletContainerAutoConfiguration
+</span><span class='line'>……</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每个AutoConfiguration都会根据其中的Condition条件，在合适的场景完成对相关Bean的创建</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ConditionalOnBean //容器里有指定Bean存在
+</span><span class='line'>@ConditionalOnClass //类路径下有指定Class存在
+</span><span class='line'>@ConditionalOnWebApplication //当前项目是Web项目
+</span><span class='line'>……</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>@ComponentScan</li>
+</ul>
+
+
+<p>它定义Spring了自动加载Bean的根路径，是Spring Framwork中较早的一个标签，这里就不赘述了。</p>
+
+<h2>快速构建Spring Boot应用</h2>
+
+<p>Spring Boot提供了方便的项目创建方式，使得我们可以快速创建基于SpringBoot的项目：</p>
+
+<ul>
+<li>使用命令行CLI</li>
+<li>使用<a href="start.spring.io">Initializr</a></li>
+<li>使用IDE(IDEA，Spring Tool Suite等)</li>
+</ul>
+
+
+<h2>总结</h2>
+
+<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[微服务实战(2) - 目标系统]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation/"/>
     <updated>2016-11-15T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation</id>
@@ -113,7 +292,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[微服务实战 - 大纲]]></title>
+    <title type="html"><![CDATA[微服务实战(1) - 大纲]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/"/>
     <updated>2016-11-11T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline</id>
@@ -206,7 +385,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[微服务实战 - 开篇]]></title>
+    <title type="html"><![CDATA[微服务实战(0) - 开篇]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction</id>
@@ -2140,167 +2319,6 @@ TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT
 采用成熟的RTP/RTCP协议栈，支持多路复用，并通过STUN、TURN以及ICE保证网络间的通信。</p>
 
 <p>截止目前，整个WebRTC的标准还在不断完善中。W3C的WebRTC工作组负责浏览器API的标准化，IETF的 WebRTC工作组则主要负责通信协议、数据格式、安全等方面的标准化。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Page Object Understanding]]></title>
-    <link href="http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber/"/>
-    <updated>2013-12-23T11:39:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber</id>
-    <content type="html"><![CDATA[<h2>什么是Page Object</h2>
-
-<p>Page Object是<a href="http://www.seleniumhq.org/">Selenium</a>中提出的一种测试设计模式。在Web前端自动化测试的过程中，Page Object可以称得上是居家必备的良品之一。PageObject将与Web测试页面交互的行为封装在其内部，旨在将每个页面或者相似页面的功能封装，例如页面中需要测试的元素（按钮，输入框，标题等），这样，通过在测试中访问Page类的相应方法来获取页面相应的元素，从而巧妙的避免了当页面元素id或者位置变化时，需要修改测试代码的情况。</p>
-
-<p>言而总之，总而言之，PageObject就是将Web页面元素的变化封装起来，提供API供外部测试代码调用，从而达到将测试代码于Web页面元素的变化解耦。</p>
-
-<!--More-->
-
-
-<h2>Page Object的优点</h2>
-
-<ul>
-<li>将测试代码与页面元素的操作解耦</li>
-<li>将Web页面元素的访问统一化、规范化、结构化</li>
-<li>封装不同浏览器对元素访问的差异</li>
-<li>易于实现Web元素访问的DSL</li>
-</ul>
-
-
-<p>对于小规模站点的Web自动化测试，直接使用Capybara之类的框架并不会出现问题。但对于业务复杂，功能完备的大规模Web站点自动化测试而言，如果不使用PageObject将测试代码于Web页面元素的访问解耦，而在测试代码中直接访问Web页面元素，不仅易造成冗余代码，还会导致测试集结构混乱，后期难于理解和维护。</p>
-
-<h2>Gizmo</h2>
-
-<p>在最近的一个项目中，我们使用<a href="https://github.com/jnicklas/capybara">Capybara</a>进行Web自动化测试，同时使用<a href="https://github.com/icaruswings/gizmo">Gizmo</a>来完成PageObject的定义。
-Gizmo出自<a href="www.realestat.com.au">REA Group</a>之手，使用Nokogiri对Selenimu的Driver进行轻量级的封装，并定义自己的Page对象。</p>
-
-<h4>使用Gizmo时注意的要点：</h4>
-
-<ul>
-<li>PageObject可以是整个页面，也可是页面的某一小块。但都统称为Page Module。</li>
-<li>PageObject被定义成module,而非class</li>
-<li>PageObject的命名为page_with_<module_name>, 而调用者则遵循on_page_with :<module_name>的模式进行调用</li>
-<li>PageObject使用define_action作为行为的定义，例如 点击button，填充form，输入文本等。</li>
-<li>PageObject使用def selectors作为获取属性的定义，例如获取页面对象，获取文本等。</li>
-</ul>
-
-
-<h4>不过，Gizmo中也存在一些问题：</h4>
-
-<h6>a) Page对象只对生成时的DOM元素有效。</h6>
-
-<p>如果DOM元素随后发生变化(例如Javascript操作DOM), 则无法捕获到。需要显示的重新更新PageObject对DOM元素的引用。</p>
-
-<pre><code>def refresh
-  @document = Nokogiri::HTML(body)
-end
-</code></pre>
-
-<p>另外，作者貌似已经不再维护Gizmo了，上次的更新要追溯到3年前了。所以如果有不爽的地方，要做好fork&amp;customize的打算。 :(</p>
-
-<h2>Capybara-Page-Object(CPO)</h2>
-
-<p>了解完Gizmo，让我们来认识下Capybara-Page-Object。<br/>
-除了包含Gizmo现有的大部分优点之外，CPO对开发者更加友好：</p>
-
-<h4>Page与Component共同使用</h4>
-
-<p>在CPO中，Page的定义通常是指整个页面。而对于页面的某一块功能或者布局，通常被定义为Component。<br/>
-譬如，首页作为一个Page对象，可能会包含Login，BasicSearchForm，SearchResult等Component。<br/>
-而搜索页面，作为Page对象，可能包含Login，BasicSearchForm以及AdvancedSearchForm等Component。
-换句话说，一个Page是由多个Component组成，而Component(如果Element类似)则又可以被不同的Page重用。</p>
-
-<h4>对HTML元素的封装</h4>
-
-<p>在CPO中，实现了对HTML不同元素的分装。如Form，Image，List，ListItem, Select, Input等。</p>
-
-<p>通过使用CPO封装后的HTML元素类，开发者可以更轻松的访问不同类型的HTML元素，而不必为每个心仪元素定义CSS或者Xpath查找策略。<br/>
-如下是CapybaraPageObject::Form的定义，其中已经提供了对Form内buttons，inputs，selects等内元素的访问接口。</p>
-
-<pre><code>class Form &lt; CapybaraPageObject::Element
-    def fields
-      r = ActiveSupport::OrderedHash.new
-      r.merge! inputs
-      r.merge! selects
-      r.merge! textareas
-    end
-
-    def buttons
-      r = []
-      all('input').each do |element|
-        input = Input.new(element)
-        next unless input.button?
-        r &lt;&lt; element
-      end
-      all('button').each do |button|
-        r &lt;&lt; button
-      end
-      r
-    end
-
-    def inputs
-      all('input').each_with_object(ActiveSupport::OrderedHash.new) do |input_tag, hash|
-        input = Input.new(input_tag)
-        next if input.button?
-        if input.checkable?
-          hash[input.key] = !! input.checked?
-        else
-          hash[input.key] = input_tag.value
-        end
-      end
-    end
-
-      def textareas
-            all('textarea').inject(ActiveSupport::OrderedHash.new) do |result, element|
-            textarea = Textarea.new(element)
-            result.merge textarea.key =&gt; textarea.value
-        end
-    end
-
-    def selects
-        all('select').inject(ActiveSupport::OrderedHash.new) do |result, element|
-            select = Select.new(element)
-            result.merge select.key =&gt; select.value
-        end
-    end
-end
-</code></pre>
-
-<p>有了这些封装类，在定义Component时需要做的逻辑就很简单了</p>
-
-<pre><code>module Pages
-  module Components
-    class SearchForm &lt; CapybaraPageObject::Form
-
-      def search(query)
-        source.fill_in 'as_q',    :with =&gt; query
-        source.click_button 'Search'
-      end
-
-    end
-  end
-end
-</code></pre>
-
-<p>然后再Page中使用Component时，只需传入Form对应的Selector即可。</p>
-
-<pre><code>module Pages
-  module Search
-    class Index &lt; Pages::Base
-
-      component(:search_form) do
-        Components::SearchForm.new find('.advsearch')
-      end
-
-      def search(*args)
-        search_form.search(*args)
-      end
-    end
-  end
-end
-</code></pre>
-
-<p>关于本篇提到的代码，如有兴趣，请参考<a href="https://github.com/wldandan/cucumber-capybara">我的cucumber-capybara示例</a></p>
 ]]></content>
   </entry>
   

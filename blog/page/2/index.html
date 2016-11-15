@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="One of the most prominent and widely used languages in the world has Evolved. Java ever gave us power on object oriented progrmming and we did the &hellip;">
+  <meta name="description" content="本文已经发表于InfoQ，请参考这里 背景与挑战 随着公司国际化战略的推行以及本土业务的高速发展，后台支撑系统已经不堪重负。 在吞吐量、稳定性以及可扩展性上都无法满足日益增长的业务需求。对于每10万元额度的合同，从销售团队准备材料、与客户签单、递交给合同部门，再到合同生效大概需要3.5人天。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,72 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">基于微服务架构，改造企业核心系统之实践</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-16T21:57:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文已经发表于InfoQ，请参考<a href="http://www.infoq.com/cn/articles/enterprise-core-systems-transformation-practice">这里</a></p>
+
+<h2>背景与挑战</h2>
+
+<p>随着公司国际化战略的推行以及本土业务的高速发展，后台支撑系统已经不堪重负。</p>
+
+<p>在吞吐量、稳定性以及可扩展性上都无法满足日益增长的业务需求。对于每10万元额度的合同，从销售团队准备材料、与客户签单、递交给合同部门，再到合同生效大概需要3.5人天。随着业务量的快速增长，签订合同的成本急剧增加。</p>
+
+<p>合同管理系统是后台支撑系统中重要的一部分。当前的合同系统是5年前使用.NET，基于<a href="http://www.sagecrm.com/">SAGE CRM</a>二次开发的产品。
+一方面，系统架构过于陈旧，性能、可靠性无法满足现有的需求。另一方面，功能繁杂，结构混乱，定制的代码与SAGE CRM系统耦合度极高。</p>
+
+<p>由于是遗留系统，熟悉该代码的人早已离职多时，新团队对其望而却步，只能做些周边的修补工作。同时，还要承担着边补测试，边整理逻辑的工作。</p>
+
+<p>在无法中断业务处理的情况下，为了解决当前面临的问题，团队制定了如下的策略：</p>
+
+<p><img src="http://wldandan.github.com/images/microservice/crm-rebuild-strategy-600x400.png" /></p>
+
+<ol>
+<li>在现有合同管理系统的外围，构建功能服务接口，将系统核心的功能分离出来。</li>
+<li>利用这些功能服务接口作为代理，解耦原合同系统与其调用者之间的依赖；</li>
+<li>通过不断构建功能服务接口，逐渐将原有系统分解成多个独立的服务。</li>
+<li>摒弃原有的合同管理系统，使用全新构建的(微)服务接口替代。</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -612,53 +678,6 @@ rs.status()
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Page Object Understanding</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T11:39:00+08:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>什么是Page Object</h2>
-
-<p>Page Object是<a href="http://www.seleniumhq.org/">Selenium</a>中提出的一种测试设计模式。在Web前端自动化测试的过程中，Page Object可以称得上是居家必备的良品之一。PageObject将与Web测试页面交互的行为封装在其内部，旨在将每个页面或者相似页面的功能封装，例如页面中需要测试的元素（按钮，输入框，标题等），这样，通过在测试中访问Page类的相应方法来获取页面相应的元素，从而巧妙的避免了当页面元素id或者位置变化时，需要修改测试代码的情况。</p>
-
-<p>言而总之，总而言之，PageObject就是将Web页面元素的变化封装起来，提供API供外部测试代码调用，从而达到将测试代码于Web页面元素的变化解耦。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -680,7 +699,7 @@ rs.status()
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (10)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (11)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -696,23 +715,23 @@ rs.status()
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/11/15/microservices-in-action-simulation/">微服务实战 - 目标系统</a>
+        <a href="/blog/2016/11/15/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/11/11/microservices-in-action-outline/">微服务实战 - 大纲</a>
+        <a href="/blog/2016/11/15/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/11/03/microservices-in-action-introduction/">微服务实战 - 开篇</a>
+        <a href="/blog/2016/11/11/microservices-in-action-outline/">微服务实战(1) - 大纲</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/03/microservices-in-action-introduction/">微服务实战(0) - 开篇</a>
       </li>
     
       <li class="post">
         <a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">微服务实践 - 使用HAL设计REST API</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
       </li>
     
   </ul>

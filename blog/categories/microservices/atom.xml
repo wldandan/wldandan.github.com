@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Microservices | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/microservices/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-15T17:52:39+08:00</updated>
+  <updated>2016-11-15T23:10:44+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -14,7 +14,172 @@
 
   
   <entry>
-    <title type="html"><![CDATA[微服务实战 - 目标系统]]></title>
+    <title type="html"><![CDATA[微服务实战(3) - Spring Boot 101]]></title>
+    <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101/"/>
+    <updated>2016-11-15T17:57:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101</id>
+    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
+
+<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+
+<!-- More -->
+
+
+<h2>为什么是Spring Boot</h2>
+
+<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡全国，成为J2EE Web开发的标准。
+加上Spring对其他企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
+
+<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的Convention Over Configuration，加上对SpringFramework的无缝支持，被社区普遍看好。</p>
+
+<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的Netflix OSS，足以证明Spring Boot在社区的影响力。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
+
+<h2>Spring Boot的优势</h2>
+
+<ul>
+<li><code>快速构建</code>可运行的应用
+
+<ul>
+<li><code>无XML配置</code></li>
+<li>支持<code>内嵌</code>WebServer(Tomcat/Jetty/Undertow)</li>
+<li>通过<code>注解</code>的方式，一行代码启动应用</li>
+</ul>
+</li>
+<li><code>自动配置</code>和<code>装载机制</code>
+
+<ul>
+<li>使用Starter</li>
+<li>自动配置装载依赖</li>
+</ul>
+</li>
+<li>运维接口友好
+
+<ul>
+<li><code>Metrics/health</code>显示健康监控状态</li>
+<li><code>Trace/dump</code>显示调用/调试信息</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Spring Boot核心</h2>
+
+<h3>简单的说，Spring Boot的核心，主要包括两大部分：</h3>
+
+<blockquote><p>1.Starter</p></blockquote>
+
+<p>各种Starter负责实现相关依赖Jar包的导入和管理，譬如Spring-Web-MVC，Spring-Data等</p>
+
+<blockquote><p>2.AutoConfiguratioin</p></blockquote>
+
+<p>AutoConfiguratioin则根据Conditional条件完成对Bean的创建和组装</p>
+
+<p>所以, 我对SpringBoot的理解为</p>
+
+<ul>
+<li>Starter打包提供相关的包依赖，加载到ClassPath</li>
+<li>EnableAutoConfiguration配置Bean的依赖关系</li>
+</ul>
+
+
+<p>二者配合起来，天下无敌啊....</p>
+
+<h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
+
+<p>这个标签是SpringBoot应用的核心标签，主要包括三部分子：</p>
+
+<ul>
+<li>@Configuration</li>
+</ul>
+
+
+<p>Spring3.0引入@Configuration(Java配置)，使用Java配置简化XML配置。</p>
+
+<p>譬如以前我们通常使用类似如下XML配置Spring Bean</p>
+
+<p>```
+&lt;beans xmlns="http://www.springframework.org/schema/beans"</p>
+
+<pre><code>xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
+
+&lt;bean id="helloBean" class=“com.microservice.training.HelloWorldImpl"&gt;
+</code></pre>
+
+<p></beans>
+```</p>
+
+<p>通过使用Java Configuration，声明当前类是一个配置类， 相当于声明一个Spring配置的XML文件</p>
+
+<p>```
+@Configuration
+public class AppConfig {</p>
+
+<pre><code>@Bean(name="helloBean")
+public HelloWorld helloWorld() {
+    return new HelloWorldImpl();
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<ul>
+<li>@EnableAutoConfiguration</li>
+</ul>
+
+
+<p>它帮助我们加载当前Spring Boot中META-INF/spring.factories，并使用其中的*AutoConfiguration</p>
+
+<p><code>
+HttpEncodingAutoConfiguration
+RabbitAutoConfiguration
+EmbeddedServletContainerAutoConfiguration
+……
+</code></p>
+
+<p>每个AutoConfiguration都会根据其中的Condition条件，在合适的场景完成对相关Bean的创建</p>
+
+<p><code>
+@ConditionalOnBean //容器里有指定Bean存在
+@ConditionalOnClass //类路径下有指定Class存在
+@ConditionalOnWebApplication //当前项目是Web项目
+……
+</code></p>
+
+<ul>
+<li>@ComponentScan</li>
+</ul>
+
+
+<p>它定义Spring了自动加载Bean的根路径，是Spring Framwork中较早的一个标签，这里就不赘述了。</p>
+
+<h2>快速构建Spring Boot应用</h2>
+
+<p>Spring Boot提供了方便的项目创建方式，使得我们可以快速创建基于SpringBoot的项目：</p>
+
+<ul>
+<li>使用命令行CLI</li>
+<li>使用<a href="start.spring.io">Initializr</a></li>
+<li>使用IDE(IDEA，Spring Tool Suite等)</li>
+</ul>
+
+
+<h2>总结</h2>
+
+<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[微服务实战(2) - 目标系统]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation/"/>
     <updated>2016-11-15T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation</id>
@@ -113,7 +278,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[微服务实战 - 大纲]]></title>
+    <title type="html"><![CDATA[微服务实战(1) - 大纲]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/"/>
     <updated>2016-11-11T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline</id>
@@ -206,7 +371,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[微服务实战 - 开篇]]></title>
+    <title type="html"><![CDATA[微服务实战(0) - 开篇]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction</id>
@@ -583,58 +748,6 @@ Content-Type: application/json
 <a href="http://hyperschema.org/mediatypes/hal">HAL+JSON</a>
 <a href="https://opencredo.com/rest-api-tooling-review/">Documenting REST APIs – a tooling review</a>
 <a href="http://phlyrestfully.readthedocs.io/en/latest/halprimer.html">HAL Primer</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[解析微服务架构]]></title>
-    <link href="http://wldandan.github.com/blog/2015/03/17/microservice-design-and-implementation/"/>
-    <updated>2015-03-17T11:13:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2015/03/17/microservice-design-and-implementation</id>
-    <content type="html"><![CDATA[<p>过去的1年多，一直在助力澳洲最大的房地产互联网门户，研究并使用微服务架构改造其复杂的遗留系统。鉴于此，准备开个系列，讲讲我个人眼中的微服务是神马样的，它的概念，优缺点，为什么我们要使用它，以及在使用微服务的实践过程中，从开发、测试、部署、运维等几个方面相比以前方式有什么不同；同时，分享一下我们在微服务实践过程中的经验和踩过的那些坑。</p>
-
-<!-- More -->
-
-
-<p>目录大概如下</p>
-
-<ul>
-<li><h3>理论篇</h3>
-
-<ul>
-<li><h5>单块架构应用以及挑战</h5></li>
-<li><h5>什么是微服务</h5></li>
-<li><h5>微服务的核心特征</h5></li>
-<li><h5>微服务的优缺点</h5></li>
-<li><h5>微服务的适用场景</h5></li>
-<li><h5>微服务与SOA</h5></li>
-<li><h5>微服务诞生的催化剂</h5></li>
-</ul>
-</li>
-<li><h3>实践篇</h3>
-
-<ul>
-<li><h5>麻雀虽小，五脏俱全</h5></li>
-<li><h5>实现一个服务</h5></li>
-<li><h5>微服务开发模板的重要性</h5></li>
-<li><h5>不仅仅是REST</h5></li>
-<li><h5>消费者驱动的契约测试</h5></li>
-<li><h5>如何划分微服务</h5></li>
-<li><h5>微服务的依赖管理</h5></li>
-<li><h5>微服务与DevOPS</h5></li>
-<li><h5>微服务与监控</h5></li>
-</ul>
-</li>
-<li><h3>案例篇</h3>
-
-<ul>
-<li><h5>合同管理系统</h5></li>
-<li><h5>市场定价系统</h5></li>
-<li><h5>信息搜索系统</h5></li>
-</ul>
-</li>
-</ul>
-
 ]]></content>
   </entry>
   
