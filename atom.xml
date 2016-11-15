@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-15T23:10:44+08:00</updated>
+  <updated>2016-11-15T23:18:22+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -180,7 +180,7 @@
 <p>Spring Boot提供了方便的项目创建方式，使得我们可以快速创建基于SpringBoot的项目：</p>
 
 <ul>
-<li>使用命令行CLI</li>
+<li>使用<a href="http://sdkman.io/">命令行CLI</a></li>
 <li>使用<a href="start.spring.io">Initializr</a></li>
 <li>使用IDE(IDEA，Spring Tool Suite等)</li>
 </ul>
@@ -292,7 +292,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[微服务实战(1) - 大纲]]></title>
+    <title type="html"><![CDATA[微服务实战(1) - 内容大纲]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/"/>
     <updated>2016-11-11T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline</id>
@@ -385,7 +385,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[微服务实战(0) - 开篇]]></title>
+    <title type="html"><![CDATA[微服务实战(0) - 聊聊开篇]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction</id>
