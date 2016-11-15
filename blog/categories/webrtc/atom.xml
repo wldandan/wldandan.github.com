@@ -4,7 +4,7 @@
   <title><![CDATA[Category: WebRTC | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/webrtc/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-15T16:38:03+08:00</updated>
+  <updated>2016-11-15T17:52:39+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -37,7 +37,7 @@
 
 <p>对于这些看似不重要但却必要的信息交换过程，我们称之为信令处理。</p>
 
-<p><img src="{{ root_url }}/images/webrtc/webrtc-signaling.png" /></p>
+<p><img src="/images/webrtc/webrtc-signaling.png" /></p>
 
 <h4>NAT、防火墙和现实的网络世界</h4>
 
@@ -46,7 +46,7 @@
 <p>由于IPv4地址的数量有限，大多数企业或者团体通常都使用局域网地址，并通过NAT转换，连接到互联网上。另外，
 许多企业内部网络都存在防火墙，因此这就为点对点通信带来寻址问题。</p>
 
-<p><img src="{{ root_url }}/images/webrtc/nat.png" /></p>
+<p><img src="/images/webrtc/nat.png" /></p>
 
 <p><a href="http://en.wikipedia.org/wiki/STUN">STUN</a>,TURN,ICE是由IETF提出的处理网络中NAT穿越问题的协议族。
 STUN能够为NAT后的终端定位公网地址，因此它可以被用来在两个同时处于NAT之后的终端建立UDP通信。
@@ -54,11 +54,11 @@ TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT
 
 <p>使用STUN服务器后，通信双方能够完成NAT穿透，从而建立连接，如下图所示：</p>
 
-<p><img src="{{ root_url }}/images/webrtc/stun.png" /></p>
+<p><img src="/images/webrtc/stun.png" /></p>
 
 <p>使用TURN服务器后，通信双方需要通过中继完成NAT穿透，从而建立连接，如下图所示。从某种角度而言，这种方式已经不是传统意义上的点对点连接了，因为它依赖于中继服务器完成数据的传输。</p>
 
-<p><img src="{{ root_url }}/images/webrtc/turn.png" /></p>
+<p><img src="/images/webrtc/turn.png" /></p>
 
 <h4>建立RTCPeerConnection</h4>
 
@@ -102,7 +102,7 @@ TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT
 <h4>开始通信</h4>
 
 <p>通信的过程如下如所示:
-<img src="{{ root_url }}/images/webrtc/peerconnection-process.png" /></p>
+<img src="/images/webrtc/peerconnection-process.png" /></p>
 
 <h5>主动发起者将使用createOffer发起连接，并设置SDP(Session Description Protocol)相关信息.</h5>
 
@@ -200,7 +200,7 @@ pc.setRemoteDescription(offer, function() {
 
 <p>每个MediaStream都有输入和输出，输入一般由navigator.getUserMedia()（下面会详细介绍）生成，而输出则可以控制该流媒体对象如何被使用，例如存储到文件，显示在在video元素中，或者绑定到RTCPeerConnection的连接上。</p>
 
-<p><img src="{{ root_url }}/images/webrtc/media-stream.png" /></p>
+<p><img src="/images/webrtc/media-stream.png" /></p>
 
 <p>getUserMedia()是浏览器提供的获取音频和视频媒体流的API。对于捕获到的流媒体，其和信号源是紧密相关的，如麦克风只能发出音频流，摄像头只能发出视频流。对于某些高清摄像头，可以产生高清的视频流。</p>
 
@@ -272,7 +272,7 @@ pc.setRemoteDescription(offer, function() {
 <h3>WebRTC的架构</h3>
 
 <p>WebRTC的架构如下图所示
-<img src="{{ root_url }}/images/webrtc/webrtc-architecture.png" /></p>
+<img src="/images/webrtc/webrtc-architecture.png" /></p>
 
 <p>其中主要包括如下几部分:</p>
 

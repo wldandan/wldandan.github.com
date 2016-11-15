@@ -5,15 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Vagrant Learning - 1 (Basic Concepts) - Happy Coding, Happy Life</title>
+  <title>微服务实战 - 大纲 - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="为什么选择Vagrant 能够构建可配置的、轻量级的、便携式的虚拟服务器
-安装简单，提供不同平台的安装包
-一条命令即可创建出虚拟机环境，而且官方提供各种虚拟机的模板。
-能够最大化的帮助个人或者团队快速配置环境。譬如说，如果你是团队中的一员，通过Vagrant创建出一套独立的运行环境后， &hellip;">
-  
+  <meta name="description" content="微服务架构与实践">
+  <meta name="keywords" content="微服务架构, 微服务架构与实践，微服务架构与实践培训">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -21,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/">
+  <link rel="canonical" href="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -83,7 +80,7 @@
   
   <header>
     
-      <h1 class="entry-title">Vagrant Learning - 1 (Basic Concepts)</h1>
+      <h1 class="entry-title">微服务实战 - 大纲</h1>
     
     
       <p class="meta">
@@ -99,7 +96,7 @@
   
 
 
-<time datetime="2013-11-04T20:02:00+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2013</time>
+<time datetime="2016-11-11T14:28:00+08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2016</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -108,49 +105,91 @@
   </header>
 
 
-<div class="entry-content"><h3>为什么选择Vagrant</h3>
+<div class="entry-content"><script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
+
+
+<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.2.0.js"></script>
+
+
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
+
+<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+
+<!-- More -->
+
+
+<h2>核心思路</h2>
 
 <ul>
-<li>能够构建可配置的、轻量级的、便携式的虚拟服务器</li>
-<li>安装简单，提供不同平台的安装包</li>
-<li>一条命令即可创建出虚拟机环境，而且官方提供各种虚拟机的模板。</li>
-<li>能够最大化的帮助个人或者团队快速配置环境。譬如说，如果你是团队中的一员，通过Vagrant创建出一套独立的运行环境后，团队的其他成员能够使用该配置，创建完全一样地工作环境。所以无论你是工作在Linux，Mac OS X或Windows ，所有的团队成员都能在同一环境下运行代码，拥有相同的依赖。告别环境不一致带来的问题。</li>
-<li>提供Shell、Chef或者Puppet的支持，能够利用这些工具(Infrastructure As Code的方式)配置环境。</li>
-<li>从1.2的版本开始，不但支持VirtualBox,VmWare, 还开始支持Amazon EC2。</li>
+<li>以<code>微服务生态系统</code>和<code>持续交付</code>为指导原则</li>
+<li>以<code>模拟案例实战</code>为主，并使<code>用SpringBoot</code>和<code>Spring Cloud</code>实现服务</li>
+<li>分为<code>服务构建</code>与<code>服务实施</code>两个专题，包括<code>应用架构</code>，<code>部署模型</code>和<code>交付流水线</code></li>
 </ul>
 
 
-<!--More-->
+<h2>主要亮点</h2>
 
-
-<h3>搭建环境</h3>
+<h4>1.全面了解微服务架构的理论基础</h4>
 
 <ul>
-<li>安装<a href="http://virtualbox.org">Virtual Box</a></li>
-<li>安装<a href="http://downloads.vagrantup.com">Vagrant</a></li>
-<li><p>安装第一个虚拟机<br/>
-<code>vagrant init precise64 http://files.vagrantup.com/precise64.box</code></p></li>
-<li><p>启动虚拟机<br/>
-  <code>vagrant up</code></p></li>
-<li><p>登录虚拟机<br/>
- <code>vagrang ssh</code></p></li>
-<li><p>删除虚拟机<br/>
- <code>vagrang destroy</code></p></li>
+<li>微服务的定义与认识误区</li>
+<li>微服务的核心原则以及同SOA的关系</li>
+<li>微服务的<code>持续交付体系</code></li>
 </ul>
 
 
-<h3>发生了什么</h3>
+<h4>2.基于微服务生态系统，搭建模拟案例</h4>
 
 <ul>
-<li><p>当执行<code>vagrant init precise64 http://files.vagrantup.com/precise64.box</code>时，Vagrant将先从官网上下载一个Box，然后新建一个配置文件Vagrantfile。</p></li>
-<li><p>当执行
-<code>vagrant up</code>
-时，Vagrant将参照Vagrantfile的配置信息，初始化并被启动该虚拟机。</p></li>
-<li><p>当执行<code>vagrant ssh</code>时，Vagrant将使用内建的SSHkey登陆。</p></li>
-<li><p>当执行<code>vagrant destroy</code>时，Vagrant将删除该虚拟机，但并不会删除对应的Box。</p></li>
-<li><p>执行<code>vagrant box list</code>, 便能看到刚刚创建的Box<code>precise64</code></p></li>
+<li>通过案例理解<code>微服务架构生态系统</code></li>
+<li>掌握<code>REST &amp; HAL &amp; HAL Browser</code>的使用方式</li>
+<li>掌握<code>Spring Boot</code>的核心与使用</li>
+<li>熟悉<code>Spring Cloud</code>的服务支撑组件</li>
 </ul>
 
+
+<blockquote><p>微服务生态系统</p></blockquote>
+
+<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
+
+<h4>3.理解微服务的高级话题</h4>
+
+<ul>
+<li>使用<code>PACT契约测试</code>验证服务接口</li>
+<li>使用<code>OAuth</code>与<code>JWT</code>实现服务的安全</li>
+<li><code>RESTful API</code>设计相关</li>
+</ul>
+
+
+<blockquote><p>基于消费者驱动的契约测试</p></blockquote>
+
+<p><img src="/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
+
+<h4>4.理解实施微服务与DevOps(基于Docker)</h4>
+
+<ul>
+<li>建立<code>Docker私有仓库</code>，并将服务发布成Docker镜像</li>
+<li>使用<code>Docker搭建Jenkins</code>持续交付流水线</li>
+<li>以<code>Pipeline as Code</code>的方式管理流水线</li>
+<li>使用<code>ELK实现日志聚合</code>的实践</li>
+<li>使用<code>Prometheus</code>实现监控告警的实践</li>
+<li>使用<code>Rancher</code>完成服务Docker镜像的部署</li>
+</ul>
+
+
+<blockquote><p>部署模型图</p></blockquote>
+
+<p><img src="/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
+
+<blockquote><p>持续交付流水线</p></blockquote>
+
+<p><img src="/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
+
+<h2>总结</h2>
+
+<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
 </div>
 
 
@@ -173,12 +212,12 @@
   
 
 
-<time datetime="2013-11-04T20:02:00+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2013</time>
+<time datetime="2016-11-11T14:28:00+08:00" pubdate data-updated="true">Nov 11<span>th</span>, 2016</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/vagrant/'>Vagrant</a>
+    <a class='category' href='/blog/categories/microservices/'>Microservices</a>
   
 </span>
 
@@ -186,7 +225,7 @@
     </p>
 
     <p class="meta">
-      <a href="/blog/2013/11/04/vagrant-learning-one-introduction/">原文链接</a>，
+      <a href="/blog/2016/11/11/microservices-in-action-outline/">原文链接</a>，
 <strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
 
     </p>
@@ -194,7 +233,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/" data-via="" data-counturl="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/" >Tweet</a>
   
   
   
@@ -203,10 +242,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/11/01/vagrant-build-env-easy/" title="Previous Post: Vagrant - Make Dev Environment Easy">&laquo; Vagrant - Make Dev Environment Easy</a>
+        <a class="basic-alignment left" href="/blog/2016/11/03/microservices-in-action-introduction/" title="Previous Post: 微服务实战 - 开篇">&laquo; 微服务实战 - 开篇</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/11/06/vagrant-learning-two-vagrantfile/" title="Next Post: Vagrant Learning - 2 (Configuration)">Vagrant Learning - 2 (Configuration) &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2016/11/15/microservices-in-action-simulation/" title="Next Post: 微服务实战 - 目标系统">微服务实战 - 目标系统 &raquo;</a>
       
     </p>
   </footer>
@@ -321,8 +360,8 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/';
-        var disqus_url = 'http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/';
+        var disqus_identifier = 'http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/';
+        var disqus_url = 'http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/';
         var disqus_script = 'embed.js';
       
     (function () {
