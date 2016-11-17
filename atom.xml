@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-18T00:04:45+08:00</updated>
+  <updated>2016-11-18T00:07:29+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -14,438 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[微服务实战(3) - Spring Boot 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101/"/>
-    <updated>2016-11-15T17:57:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101</id>
-    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-<!-- More -->
-
-
-<h2>为什么是Spring Boot</h2>
-
-<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡社区，几乎成为J2EE 程序开发的标配。</p>
-
-<p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
-
-<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
-
-<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
-
-<h2>Spring Boot的优势</h2>
-
-<ul>
-<li><code>快速构建</code>可运行的应用
-
-<ul>
-<li><code>无XML配置</code></li>
-<li>支持<code>内嵌</code>WebServer(Tomcat/Jetty/Undertow)</li>
-<li>通过<code>注解</code>的方式，一行代码启动应用</li>
-</ul>
-</li>
-<li><code>自动配置</code>和<code>装载机制</code>
-
-<ul>
-<li>使用Starter</li>
-<li>自动配置装载依赖</li>
-</ul>
-</li>
-<li>运维接口友好
-
-<ul>
-<li><code>Metrics/health</code>显示健康监控状态</li>
-<li><code>Trace/dump</code>显示调用/调试信息</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Spring Boot核心</h2>
-
-<h3>简单的说，Spring Boot的核心，主要包括两大部分：</h3>
-
-<blockquote><p>1.Starter</p></blockquote>
-
-<p>Starter负责将申明的依赖Jar包导入到当前ClassPath。</p>
-
-<p>每个Starter都提供一个<code>spring.providers文件</code>，申明当前Starter依赖的Jar包。</p>
-
-<p>譬如，<code>Spring-boot-starter-web</code>中的<code>spring.providers文件</code>描述的依赖如下所示：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>provides: spring-webmvc,spring-web,jackson-databind</span></code></pre></td></tr></table></div></figure>
-
-
-<p>包括<code>spring-webmvc</code>，<code>spring-web</code>，<code>jackson-databind</code>，分别提供mvc，web和JSON解析绑定的功能。</p>
-
-<p>欲了解更多的Starter，请移步<a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters">官方列表</a></p>
-
-<blockquote><p>2.AutoConfiguratioin</p></blockquote>
-
-<p>AutoConfiguratioin根据<code>ConditionalOnXxx</code>条件，使用<code>@Bean</code>注解，完成对Bean的创建和组装。</p>
-
-<p>根据不同的<code>ConditionalOnXxx</code>，AutoConfiguration可以根据合适的场景创建并组装Bean。</p>
-
-<p>譬如</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ConditionalOnMissingBean(A.class)</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>表示当前指定的A实例不存在，才创建@Bean.</p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ConditionalOnWebApplication</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>表示当前是在Web Application才创建@Bean</p></blockquote>
-
-<p>Java Web中我们经常使用<code>HttpEncodingAutoConfiguration</code>，完成UTF8的转码。如下是SpringBoot中，HttpEncodingAutoConfiguration的部分实现：</p>
-
-<blockquote><p>仅当ApplicationContext中没有CharacterEncodingFilter的时候，才会创建<code>CharacterEncodingFilter</code></p></blockquote>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Bean
-</span><span class='line'>@ConditionalOnMissingBean(CharacterEncodingFilter.class)
-</span><span class='line'>public CharacterEncodingFilter characterEncodingFilter() {
-</span><span class='line'>  CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
-</span><span class='line'>  filter.setEncoding(this.properties.getCharset().name());
-</span><span class='line'>  filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
-</span><span class='line'>  filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
-</span><span class='line'>  return filter;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌&#8230;.)</p></blockquote>
-
-<ul>
-<li><code>Starter打包提供相关的包依赖，加载到ClassPath</code></li>
-<li><code>EnableAutoConfiguration借助ConditionalOnXxx条件，创建并配置Bean的依赖关系</code></li>
-</ul>
-
-
-<p>关于更多<code>Conditional</code>的细节，请查看包
-<em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
-
-<h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
-
-<p>这个标签是SpringBoot应用的核心标签，主要包括三部分子：</p>
-
-<ul>
-<li>@Configuration</li>
-</ul>
-
-
-<p>Spring3.0引入@Configuration(Java配置)，使用Java配置简化XML配置。</p>
-
-<p>譬如以前我们通常使用类似如下XML配置Spring Bean</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;beans xmlns="http://www.springframework.org/schema/beans"
-</span><span class='line'>  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-</span><span class='line'>  xsi:schemaLocation="http://www.springframework.org/schema/beans
-</span><span class='line'>  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
-</span><span class='line'>
-</span><span class='line'>  &lt;bean id="helloBean" class=“com.microservice.training.HelloWorldImpl"&gt;
-</span><span class='line'>&lt;/beans&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>通过使用Java Configuration，声明当前类是一个配置类， 相当于声明一个Spring配置的XML文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@Configuration
-</span><span class='line'>public class AppConfig {
-</span><span class='line'>
-</span><span class='line'>    @Bean(name="helloBean")
-</span><span class='line'>    public HelloWorld helloWorld() {
-</span><span class='line'>        return new HelloWorldImpl();
-</span><span class='line'>    }
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>@EnableAutoConfiguration</li>
-</ul>
-
-
-<p>它帮助我们加载当前Spring Boot中META-INF/spring.factories，并使用其中的*AutoConfiguration</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>HttpEncodingAutoConfiguration
-</span><span class='line'>RabbitAutoConfiguration 
-</span><span class='line'>EmbeddedServletContainerAutoConfiguration
-</span><span class='line'>……</span></code></pre></td></tr></table></div></figure>
-
-
-<p>每个AutoConfiguration都会根据其中的Condition条件，在合适的场景完成对相关Bean的创建</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>@ConditionalOnBean //容器里有指定Bean存在
-</span><span class='line'>@ConditionalOnClass //类路径下有指定Class存在
-</span><span class='line'>@ConditionalOnWebApplication //当前项目是Web项目
-</span><span class='line'>……</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>@ComponentScan</li>
-</ul>
-
-
-<p>它定义Spring了自动加载Bean的根路径，是Spring Framwork中较早的一个标签，这里就不赘述了。</p>
-
-<h2>快速构建Spring Boot应用</h2>
-
-<p>Spring Boot提供了方便的项目创建方式，使得我们可以快速创建基于SpringBoot的项目：</p>
-
-<ul>
-<li>使用<a href="http://sdkman.io/">命令行CLI</a></li>
-<li>使用<a href="start.spring.io">Initializr</a></li>
-<li>使用IDE(IDEA，Spring Tool Suite等)</li>
-</ul>
-
-
-<h2>总结</h2>
-
-<blockquote><p>本部分介绍了SpringBoot的核心，并提到了快速创建SpringBoot应用的方式，通过这部分内容，能够帮助大家完成<code>SpringBoot从0到1的过程</code> :)</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[微服务实战(2) - 目标系统]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation/"/>
-    <updated>2016-11-15T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation</id>
-    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-<!-- More -->
-
-
-<h2>目标系统</h2>
-
-<blockquote><p>构建一个用户查看活动、报名活动、接收通知的系统</p>
-
-<ul>
-<li>匿名用户可查看活动列表</li>
-<li>匿名用户可以查看活动详情</li>
-<li>匿名用户可以查看相关活动推荐和评论</li>
-<li>用户登陆成功后完成报名</li>
-<li>报名成功，用户获取通知</li>
-</ul>
-</blockquote>
-
-<h2>服务定义</h2>
-
-<blockquote><p>关于服务的划分，是一个非常有深度的话题，与业务场景、技术实现、团队能力有着密不可分的关系。
-从方法论上有：</p>
-
-<ul>
-<li>根据<a href="https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215">DDD</a>，包括业务上下文、事件驱动、读写分离等</li>
-<li>根据名词类对象，譬如商品、订单等</li>
-<li>根据动词类行为，譬如支付，预订等</li>
-<li>其他切入点</li>
-</ul>
-
-
-<p>在这个模拟场景中，为了保持简洁，我假定使用名词和动词进行划分，包括如下：</p></blockquote>
-
-<ul>
-<li><code>活动服务Event-service</code>(提供活动的列表和活动详情的相关数据）</li>
-<li><code>推荐服务Recommendation-service</code>(提供与某个活动相关的推荐信息)</li>
-<li><code>评论服务Review-service</code>(提供与某个活动相关的评论信息)</li>
-<li><code>活动聚合服务Event-composite-service</code>(聚合服务 - 提供某个活动及其相关的推荐、评论信息</li>
-<li><code>报名服务Enroll-service</code>(为登录用户提供报名)</li>
-<li><code>通知服务Notification-service</code>(用户报名成功后获取通知)</li>
-</ul>
-
-
-<blockquote><p>该活动报名系统的应用架构图如下：</p></blockquote>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
-
-<h2>服务实现</h2>
-
-<ul>
-<li>Java 8/Gradle 2.13</li>
-<li>SpringBoot 1.4.2 / SpringCloud Camden.SR2</li>
-<li>MongoDB 使用Document存储活动数据</li>
-<li>REST/HAL/HAL-Browser 定义服务之间通信的接口</li>
-<li>JVM-Pact 实现契约测试,服务间接口的测试</li>
-</ul>
-
-
-<h2>服务支撑组件</h2>
-
-<ul>
-<li>Netflix OSS Eureka 实现服务注册</li>
-<li>Spring Cloud Config 实现服务的配置</li>
-<li>Hystrix/Turbine 实现断路器</li>
-<li>Zuul 实现API网关</li>
-<li>Spring Cloud Security 实现安全</li>
-</ul>
-
-
-<h2>基础设施</h2>
-
-<ul>
-<li>ELK 提供服务的日志的聚合服务</li>
-<li>Prometheus 提供服务的监控与告警</li>
-<li>Jenkins 2.0搭建系统的持续交付流水线</li>
-<li>Docker提供服务的打包以及发布</li>
-<li>Rancher提供Docker的轻量级管理方案</li>
-</ul>
-
-
-<blockquote><p>该活动报名系统的微服务生态系统图如下：</p></blockquote>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
-
-<h2>总结</h2>
-
-<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[微服务实战(1) - 内容大纲]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/"/>
-    <updated>2016-11-11T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline</id>
-    <content type="html"><![CDATA[<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
-
-
-<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.2.0.js"></script>
-
-
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-<!-- More -->
-
-
-<h2>核心思路</h2>
-
-<ul>
-<li>以<code>微服务生态系统</code>和<code>持续交付</code>为指导原则</li>
-<li>以<code>模拟案例实战</code>为主，并使<code>用SpringBoot</code>和<code>Spring Cloud</code>实现服务</li>
-<li>分为<code>服务构建</code>与<code>服务实施</code>两个专题，包括<code>应用架构</code>，<code>部署模型</code>和<code>交付流水线</code></li>
-</ul>
-
-
-<h2>主要亮点</h2>
-
-<h4>1.全面了解微服务架构的理论基础</h4>
-
-<ul>
-<li>微服务的定义与认识误区</li>
-<li>微服务的核心原则以及同SOA的关系</li>
-<li>微服务的<code>持续交付体系</code></li>
-</ul>
-
-
-<h4>2.基于微服务生态系统，搭建模拟案例</h4>
-
-<ul>
-<li>通过案例理解<code>微服务架构生态系统</code></li>
-<li>掌握<code>REST &amp; HAL &amp; HAL Browser</code>的使用方式</li>
-<li>掌握<code>Spring Boot</code>的核心与使用</li>
-<li>熟悉<code>Spring Cloud</code>的服务支撑组件</li>
-</ul>
-
-
-<blockquote><p>微服务生态系统</p></blockquote>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
-
-<h4>3.理解微服务的高级话题</h4>
-
-<ul>
-<li>使用<code>PACT契约测试</code>验证服务接口</li>
-<li>使用<code>OAuth</code>与<code>JWT</code>实现服务的安全</li>
-<li><code>RESTful API</code>设计相关</li>
-</ul>
-
-
-<blockquote><p>基于消费者驱动的契约测试</p></blockquote>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
-
-<h4>4.理解实施微服务与DevOps(基于Docker)</h4>
-
-<ul>
-<li>建立<code>Docker私有仓库</code>，并将服务发布成Docker镜像</li>
-<li>使用<code>Docker搭建Jenkins</code>持续交付流水线</li>
-<li>以<code>Pipeline as Code</code>的方式管理流水线</li>
-<li>使用<code>ELK实现日志聚合</code>的实践</li>
-<li>使用<code>Prometheus</code>实现监控告警的实践</li>
-<li>使用<code>Rancher</code>完成服务Docker镜像的部署</li>
-</ul>
-
-
-<blockquote><p>部署模型图</p></blockquote>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
-
-<blockquote><p>持续交付流水线</p></blockquote>
-
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
-
-<h2>总结</h2>
-
-<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[微服务实战(0) - 聊聊开篇]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction</id>
-    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+    <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
+
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
 
 <p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
@@ -2238,6 +1813,449 @@ end
 </code></pre>
 
 <p>关于本篇提到的代码，如有兴趣，请参考<a href="https://github.com/wldandan/cucumber-capybara">我的cucumber-capybara示例</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Arduino, Make Hardware development easy]]></title>
+    <link href="http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1/"/>
+    <updated>2013-12-18T17:02:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1</id>
+    <content type="html"><![CDATA[<p>顺应Open Hardware的潮流，Team里最近买了块 Arduino的板子。于是乎，偶也就有个机会，能倒腾倒腾了。</p>
+
+<h3>介绍</h3>
+
+<p>Arduino 是一个开源、易于使用的硬件设备。其上的微控制器可以通过Arduino Style的编程语言来编写程序，编译成二进制文件，并烧录进微控制器。
+Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、马达和其他的装置来反馈、影响环境。和传统的单片机有点类似，但是更易于使用，对于开发者也更加友好。</p>
+
+<h3>环境搭建</h3>
+
+<ul>
+<li>当然，先买块Arduino的板子。国内的商家&#8217;奥松&#8217;还不错（非广告贴，只是个人经验），可以天猫之。:)</li>
+</ul>
+
+
+<p><img src="http://wldandan.github.com/images/arduino/arduino.png" /></p>
+
+<ul>
+<li>下载<a href="http://arduino.cc/en/Main/Software">Arduino IDE</a>， 开发更容易。</li>
+</ul>
+
+
+<!--More-->
+
+
+<h3>跑起第一个程序</h3>
+
+<ul>
+<li>接上USB，为Arduino提供电源</li>
+</ul>
+
+
+<p><img src="http://wldandan.github.com/images/arduino/power.png" /></p>
+
+<ul>
+<li>连上发光二极管
+将二极管的一根引脚接在Arduino的GND，另一根引脚接在Arduino的一个控制口，例如引脚13。
+我使用了面包板，连接后如图所示:</li>
+</ul>
+
+
+<p><img src="http://wldandan.github.com/images/arduino/diode.png" /></p>
+
+<ul>
+<li>烧录程序到Arduino
+启动 Arduino IDE
+打开File->Exapmle->01.Basic->Blink，点击Upload，就能看到跑马灯的效果啦。</li>
+</ul>
+
+
+<p>如图所示</p>
+
+<p><img src="http://wldandan.github.com/images/arduino/blink.png" /></p>
+
+<p>这里，我们使用的是Arduino IDE自带的例子，当然也可以自己编程，实现不同的效果。</p>
+
+<p>感兴趣的兄弟可以自行研究一下啦</p>
+
+<h3>总结</h3>
+
+<p>使用类似的方式，将Arduino的输出连接到其他设备上，然后再加上电源或者其他放大器，就能实现硬件开发了。</p>
+
+<p>接下来，我们的目标是使用Arduino实现一个四轮的小车，并能够远程控制它，前进、后退，加速等。</p>
+
+<p>感兴趣的兄弟们不要忘了关注啊。:)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mockito - Partial Mock]]></title>
+    <link href="http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/"/>
+    <updated>2013-12-09T17:09:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning</id>
+    <content type="html"><![CDATA[<p>Mockito是一个方便的java测试Mock工具。</p>
+
+<p>当我们做TDD或者单元测试的时候，为了消除当前被测对象和其依赖之间的关系，经常使用Mockito。</p>
+
+<p>本篇文章只涉及如何使用Mockito的Partial Mock。关于Mockito的其他用法，请参照<a href="https://code.google.com/p/mockito/">Mockito</a></p>
+
+<h3>1. 什么是Partial Mock</h3>
+
+<p>在单元测试的过程中，偶尔会出现这种情况。对于一个对象，某些方法需要被mock,而某些方法希望被直接调用，这时候，我们就需要借助Partial Mock。</p>
+
+<h3>2. 使用Partial Mock的场景</h3>
+
+<p>在如下两种场景中，Partial Mock就显得相当犀利：</p>
+
+<h4>a) 测试存在具体方法的抽象类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public abstract class AbstractHandler {
+</span><span class='line'>
+</span><span class='line'>    public String greet() {
+</span><span class='line'>        return "Hello " + fetchName() + "!";
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    protected abstract String fetchName();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上代码所示，抽象类AbstractHandler中定义了方法greet()，并且该方法存在一定逻辑。
+此时，如果希望测试greet()，可以选择两种方式：</p>
+
+<ul>
+<li>构建其派生非抽象类，如ConcertHandler，再进行测试。</li>
+<li>使用Partial Mock，它可以省去构建派生类的步骤，直接对该抽象类进行测试，代码如下所示:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class AbstractHandlerTest {
+</span><span class='line'>      
+</span><span class='line'>    @Test
+</span><span class='line'>    public void shouldCallRealMethodsAndFakeAbstractMethod() {
+</span><span class='line'>        AbstractHandler handler = mock(AbstractHandler.class);
+</span><span class='line'>
+</span><span class='line'>        when(handler.greet()).thenCallRealMethod(); 
+</span><span class='line'>        when(handler.fetchName()).thenReturn("Geek");
+</span><span class='line'>
+</span><span class='line'>        assertThat(handler.greet(), is("Hello Geek!"));
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如代码所示，对于抽象方法fechName()，直接mock其返回值</p>
+
+<pre><code>when(handler.fetchName()).thenReturn("Geek");
+</code></pre>
+
+<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。</p>
+
+<pre><code>when(handler.greet()).thenCallRealMethod();
+</code></pre>
+
+<h4>b)测试过分依赖于I/O操作的类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>public class BooksController {
+</span><span class='line'>
+</span><span class='line'>    protected Map&lt;String, Date&gt; fetchBooks(){
+</span><span class='line'>        //fetch the books from different publishing company.
+</span><span class='line'>        service1.retrieveBooks();
+</span><span class='line'>        service2.retrieveBooks();
+</span><span class='line'>        ......
+</span><span class='line'>        service10.retrieveBooks();
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    protected List&lt;String&gt; getPublishedBooks(){
+</span><span class='line'>
+</span><span class='line'>        books = fetchBooks();
+</span><span class='line'>        //only pick up the books published.
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上代码所示，类BooksController中定义了方法fetchBooks()，并且该方法严重依赖于I/O操作。因为fetchBooks()从不同的供应商那里获取最近的书籍信息。</p>
+
+<p>对于这种测试，也有两种方案：</p>
+
+<ul>
+<li>Mock所有的service返回结果，然后测试getPublishedBooks()。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>doReturn(xxxx).when(service1).retrieveBooks()
+</span><span class='line'>doReturn(xxxx).when(service2).retrieveBooks()
+</span><span class='line'>doReturn(xxxx).when(service3).retrieveBooks()</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>除此之外，也可以考虑在测试getPublishedBooks()的时候，对fetchBooks()方法进行mock。如下所示：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class BooksControllerTest {
+</span><span class='line'>
+</span><span class='line'>    @Test
+</span><span class='line'>    public void shouldReturnPublishedBooks(){
+</span><span class='line'>        BooksController controller = spy(new BooksController());
+</span><span class='line'>
+</span><span class='line'>        Map&lt;String, Date&gt; books = new HashMap&lt;String, Date&gt;();
+</span><span class='line'>        books.put("XXX1", "2014-2-1");
+</span><span class='line'>        books.put("XXX2", "2014-3-1");
+</span><span class='line'>
+</span><span class='line'>        doReturn(books).when(controller).fetchBooks();
+</span><span class='line'>
+</span><span class='line'>        assertThat(controller.getPublishedBooks(), is(....));
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在如上的代码中，controller是BookController一个真实的实例，非mock对象。  原因是当前被测类为BooksController，因此不能将该类的实例定义成mock。<br/>
+另外，controller的fetchBooks()方法虽然被partial mock了，但其他的方法还是该实例真正的方法。</p>
+
+<p>因此，Spy的作用是将原本被实例化的对象，附上了Mock的功能。</p>
+
+<h5>注意，该场景完全是为了演示Partial mock。在实际情况中，如将books作为实例变量，并提供setBooks(List books)方法，根本不需要mock就能完成对getPublishedBooks的测试。另外，对于这种使用Spy的Partial Mock场景，大多数情况也是因为类的设计违背了SRP原则。</h5>
+
+<h3>3. 两种Partial Mock方式</h3>
+
+<p>让我们再回顾一下上面的例子，并总结一下Partial Mock的两种用法:</p>
+
+<ul>
+<li><p>使用Mock构建对象，再使用CallRealMethod指定某方法为真实调用。</p></li>
+<li><p>实例化对象，定义Spy，再使用doReturn(xxx).when(xxx).method()</p></li>
+</ul>
+
+
+<h3>4. 区别</h3>
+
+<p>起初，偶比较倾向于使用CallRealMethod。因为该方法名足够表意，很容易就能理解其带来的用途。
+不过，使用CallRealMethod却不是推荐的方式，为什么呢，请看如下代码：</p>
+
+<pre><code>@Test
+public void testListPartialMockByCallRealMethod(){
+    List&lt;Integer&gt; list = mock(ArrayList.class);
+    when(list.add(100)).thenCallRealMethod();
+
+    list.add(100);
+    verify(list).add(100);
+}
+</code></pre>
+
+<p>代码没问题吧，不过运行后，却得到如下错误：</p>
+
+<pre><code>java.lang.NullPointerException
+    at java.util.ArrayList.add(ArrayList.java:352)
+    at com.wl.tw.VersionInfoCheckTest.testListByCallRealMethod(VersionInfoCheckTest.java:59)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+</code></pre>
+
+<p>如果查看ArrayList.java:352的代码，就会发现</p>
+
+<pre><code>350    public boolean add(E e) {
+351        ensureCapacity(size + 1);  // Increments modCount!!
+352        elementData[size++] = e;
+353        return true;
+354    }
+</code></pre>
+
+<p>在第352行，ArrayList实际上使用了另外一个对象elementData来存放新加入的元素。</p>
+
+<p>在这个例子中，由于ArrayList是mock的，并不是实例化出来的，所以mock的ArrayList并没有初始化elementData对象。这就是为什么会出现NullPointerException的原因。</p>
+
+<h3>5. 总结</h3>
+
+<ul>
+<li>当使用mockito mock对象时，它并不会mock该对象内部的其他依赖对象。</li>
+<li>当使用mockito partial mock时，注意spy和CallRealMethod的区别。</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Vagrant Learning - 4 (Provision)]]></title>
+    <link href="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/"/>
+    <updated>2013-11-22T23:02:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision</id>
+    <content type="html"><![CDATA[<h3>如何安装应用</h3>
+
+<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
+
+<p>目前，基本上有两种方式：</p>
+
+<h4>手动安装</h4>
+
+<!--More-->
+
+
+<p>首次创建VM后，手动安装需要的软件，然后重新分发Box。这样，就拥有了一个包含所需软件的Box，以后再创建VM时，直接使用该Box即可。</p>
+
+<p>譬如说，如果希望有一台VM作为Apache服务器，我们可以尝试使用以下方式：</p>
+
+<pre><code>vagrant init precise64 http://files.vagrantup.com/precise64.box
+vagrant up
+........
+</code></pre>
+
+<h4>Provision安装</h4>
+
+<p>将安装软件作为构建VM流程的一部分，不依赖于Box。每次创建VM都会自动安装一遍所需要的软件，例如使用Shel脚本，使用Chef或者其他方式，我们将这种机制称之为“Provisioning”</p>
+
+<p>实际上，Vagrant默认支持的Provisoining包括Shell、Chef以及Puppet。
+通过配置Provisioning，Vagrant会在<code>vagrant up</code>的阶段将其应用于VM。</p>
+
+<h5>Shell Provision</h5>
+
+<ul>
+<li><p>在Vagrantfile同级目录下 定义provison.sh并设置可执行权限</p>
+
+<pre><code>  #!/usr/bin/env bash
+  echo "Installing Apache and setting it up..."
+  apt-get update &gt;/dev/null 2&gt;&amp;1
+  apt-get install -y apache2 &gt;/dev/null 2&gt;&amp;1
+  rm -rf /var/www
+  ln -fs /vagrant /var/www
+</code></pre></li>
+<li><p>在Vagrantfile中使用provision.sh
+  config.vm.provision &#8220;shell&#8221;, path: &#8220;provision.sh&#8221;</p></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5><a href="http://www.opscode.com">Chef</a> Provision</h5>
+
+<p>Vagrant对Chef支持的很好，包括chef-client和chef-solo两种模式。
+这里，我们之讨论如何使用chef-solo来安装Apache。</p>
+
+<ul>
+<li><p>在Vagrantfile同级目录下，创建如下目录及文件cookbooks/vagrant_book/recipes/default.rb, 并加入如下内容</p>
+
+<pre><code>  execute "apt-get update"
+  package "apache2"
+  execute "rm -rf /var/www" 
+  link "/var/www" do
+      to "/vagrant" 
+  end
+</code></pre></li>
+<li><p>在Vagrantfile中定义如下配置</p>
+
+<pre><code>  config.vm.define "web" do |web|
+      web.vm.hostname = "web-vm-chef"
+  end 
+  config.vm.network :forwarded_port, guest: 80, host: 9090
+  config.vm.provision "chef_solo", run_list: ["vagrant_book"]
+</code></pre></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5>Puppet Provision</h5>
+
+<p>Vagrant也同样支持Puppet，这里，我们看看如何使用Puppet安装Apache。</p>
+
+<ul>
+<li><p>在Vagrantfile同级目录下，创建如下目录及文件manifests/default.pp, 并加入如下内容</p>
+
+<pre><code>  exec { "apt-get update":
+      command =&gt; "/usr/bin/apt-get update",
+  }
+
+  package { "apache2":
+      require =&gt; Exec["apt-get update"],
+  }
+
+  file { "/var/www": 
+      ensure =&gt; link, 
+      target =&gt; "/vagrant", 
+      force =&gt; true,
+  }
+</code></pre></li>
+<li><p>在Vagrantfile中定义如下配置</p>
+
+<pre><code>  config.vm.define "web" do |web|
+      web.vm.hostname = "web-vm-chef"
+  end 
+  config.vm.network :forwarded_port, guest: 80, host: 9090
+  config.vm.provision "puppet"
+</code></pre></li>
+<li><p>执行<code>vagrant up</code></p></li>
+</ul>
+
+
+<h5>混搭</h5>
+
+<p>实际上，我们也可以同时使用多种Provision，让他们协同工作。
+譬如，在下面的示例中，我们使用Shell以及Puppet一起完成Apache的安装</p>
+
+<pre><code>    config.vm.box = "precise64"
+    config.vm.provision "shell", inline: "apt-get update" 
+    config.vm.provision "puppet"
+</code></pre>
+
+<h3>总结</h3>
+
+<p>Vagrant提供了强大的Provision机制, 能方便的帮助我们更有效的安装以及部署应用。</p>
 ]]></content>
   </entry>
   

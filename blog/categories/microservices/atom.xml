@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Microservices | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/microservices/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-18T00:04:45+08:00</updated>
+  <updated>2016-11-18T00:07:29+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -14,418 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[微服务实战(3) - Spring Boot 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101/"/>
-    <updated>2016-11-15T17:57:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101</id>
-    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-<!-- More -->
-
-
-<h2>为什么是Spring Boot</h2>
-
-<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡社区，几乎成为J2EE 程序开发的标配。</p>
-
-<p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
-
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
-
-<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
-
-<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
-
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
-
-<h2>Spring Boot的优势</h2>
-
-<ul>
-<li><code>快速构建</code>可运行的应用
-
-<ul>
-<li><code>无XML配置</code></li>
-<li>支持<code>内嵌</code>WebServer(Tomcat/Jetty/Undertow)</li>
-<li>通过<code>注解</code>的方式，一行代码启动应用</li>
-</ul>
-</li>
-<li><code>自动配置</code>和<code>装载机制</code>
-
-<ul>
-<li>使用Starter</li>
-<li>自动配置装载依赖</li>
-</ul>
-</li>
-<li>运维接口友好
-
-<ul>
-<li><code>Metrics/health</code>显示健康监控状态</li>
-<li><code>Trace/dump</code>显示调用/调试信息</li>
-</ul>
-</li>
-</ul>
-
-
-<h2>Spring Boot核心</h2>
-
-<h3>简单的说，Spring Boot的核心，主要包括两大部分：</h3>
-
-<blockquote><p>1.Starter</p></blockquote>
-
-<p>Starter负责将申明的依赖Jar包导入到当前ClassPath。</p>
-
-<p>每个Starter都提供一个<code>spring.providers文件</code>，申明当前Starter依赖的Jar包。</p>
-
-<p>譬如，<code>Spring-boot-starter-web</code>中的<code>spring.providers文件</code>描述的依赖如下所示：</p>
-
-<p><code>
-provides: spring-webmvc,spring-web,jackson-databind
-</code></p>
-
-<p>包括<code>spring-webmvc</code>，<code>spring-web</code>，<code>jackson-databind</code>，分别提供mvc，web和JSON解析绑定的功能。</p>
-
-<p>欲了解更多的Starter，请移步<a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters">官方列表</a></p>
-
-<blockquote><p>2.AutoConfiguratioin</p></blockquote>
-
-<p>AutoConfiguratioin根据<code>ConditionalOnXxx</code>条件，使用<code>@Bean</code>注解，完成对Bean的创建和组装。</p>
-
-<p>根据不同的<code>ConditionalOnXxx</code>，AutoConfiguration可以根据合适的场景创建并组装Bean。</p>
-
-<p>譬如
-<code>
-ConditionalOnMissingBean(A.class)
-</code></p>
-
-<blockquote><p>表示当前指定的A实例不存在，才创建@Bean.</p></blockquote>
-
-<p><code>
-ConditionalOnWebApplication
-</code></p>
-
-<blockquote><p>表示当前是在Web Application才创建@Bean</p></blockquote>
-
-<p>Java Web中我们经常使用<code>HttpEncodingAutoConfiguration</code>，完成UTF8的转码。如下是SpringBoot中，HttpEncodingAutoConfiguration的部分实现：</p>
-
-<blockquote><p>仅当ApplicationContext中没有CharacterEncodingFilter的时候，才会创建<code>CharacterEncodingFilter</code></p></blockquote>
-
-<p>```</p>
-
-<pre><code>@Bean
-@ConditionalOnMissingBean(CharacterEncodingFilter.class)
-public CharacterEncodingFilter characterEncodingFilter() {
-    CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
-    filter.setEncoding(this.properties.getCharset().name());
-    filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
-    filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
-    return filter;
-}
-</code></pre>
-
-<p>```</p>
-
-<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌....)</p></blockquote>
-
-<ul>
-<li><code>Starter打包提供相关的包依赖，加载到ClassPath</code></li>
-<li><code>EnableAutoConfiguration借助ConditionalOnXxx条件，创建并配置Bean的依赖关系</code></li>
-</ul>
-
-
-<p>关于更多<code>Conditional</code>的细节，请查看包
-<em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
-
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
-
-<h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
-
-<p>这个标签是SpringBoot应用的核心标签，主要包括三部分子：</p>
-
-<ul>
-<li>@Configuration</li>
-</ul>
-
-
-<p>Spring3.0引入@Configuration(Java配置)，使用Java配置简化XML配置。</p>
-
-<p>譬如以前我们通常使用类似如下XML配置Spring Bean</p>
-
-<p>```
-&lt;beans xmlns="http://www.springframework.org/schema/beans"</p>
-
-<pre><code>xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
-
-&lt;bean id="helloBean" class=“com.microservice.training.HelloWorldImpl"&gt;
-</code></pre>
-
-<p></beans>
-```</p>
-
-<p>通过使用Java Configuration，声明当前类是一个配置类， 相当于声明一个Spring配置的XML文件</p>
-
-<p>```
-@Configuration
-public class AppConfig {</p>
-
-<pre><code>@Bean(name="helloBean")
-public HelloWorld helloWorld() {
-    return new HelloWorldImpl();
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<ul>
-<li>@EnableAutoConfiguration</li>
-</ul>
-
-
-<p>它帮助我们加载当前Spring Boot中META-INF/spring.factories，并使用其中的*AutoConfiguration</p>
-
-<p><code>
-HttpEncodingAutoConfiguration
-RabbitAutoConfiguration
-EmbeddedServletContainerAutoConfiguration
-……
-</code></p>
-
-<p>每个AutoConfiguration都会根据其中的Condition条件，在合适的场景完成对相关Bean的创建</p>
-
-<p><code>
-@ConditionalOnBean //容器里有指定Bean存在
-@ConditionalOnClass //类路径下有指定Class存在
-@ConditionalOnWebApplication //当前项目是Web项目
-……
-</code></p>
-
-<ul>
-<li>@ComponentScan</li>
-</ul>
-
-
-<p>它定义Spring了自动加载Bean的根路径，是Spring Framwork中较早的一个标签，这里就不赘述了。</p>
-
-<h2>快速构建Spring Boot应用</h2>
-
-<p>Spring Boot提供了方便的项目创建方式，使得我们可以快速创建基于SpringBoot的项目：</p>
-
-<ul>
-<li>使用<a href="http://sdkman.io/">命令行CLI</a></li>
-<li>使用<a href="start.spring.io">Initializr</a></li>
-<li>使用IDE(IDEA，Spring Tool Suite等)</li>
-</ul>
-
-
-<h2>总结</h2>
-
-<blockquote><p>本部分介绍了SpringBoot的核心，并提到了快速创建SpringBoot应用的方式，通过这部分内容，能够帮助大家完成<code>SpringBoot从0到1的过程</code> :)</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[微服务实战(2) - 目标系统]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation/"/>
-    <updated>2016-11-15T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-simulation</id>
-    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-<!-- More -->
-
-
-<h2>目标系统</h2>
-
-<blockquote><p>构建一个用户查看活动、报名活动、接收通知的系统</p>
-
-<ul>
-<li>匿名用户可查看活动列表</li>
-<li>匿名用户可以查看活动详情</li>
-<li>匿名用户可以查看相关活动推荐和评论</li>
-<li>用户登陆成功后完成报名</li>
-<li>报名成功，用户获取通知</li>
-</ul>
-</blockquote>
-
-<h2>服务定义</h2>
-
-<blockquote><p>关于服务的划分，是一个非常有深度的话题，与业务场景、技术实现、团队能力有着密不可分的关系。
-从方法论上有：</p>
-
-<ul>
-<li>根据<a href="https://www.amazon.com/Domain-Driven-Design-Tackling-Complexity-Software/dp/0321125215">DDD</a>，包括业务上下文、事件驱动、读写分离等</li>
-<li>根据名词类对象，譬如商品、订单等</li>
-<li>根据动词类行为，譬如支付，预订等</li>
-<li>其他切入点</li>
-</ul>
-
-
-<p>在这个模拟场景中，为了保持简洁，我假定使用名词和动词进行划分，包括如下：</p></blockquote>
-
-<ul>
-<li><code>活动服务Event-service</code>(提供活动的列表和活动详情的相关数据）</li>
-<li><code>推荐服务Recommendation-service</code>(提供与某个活动相关的推荐信息)</li>
-<li><code>评论服务Review-service</code>(提供与某个活动相关的评论信息)</li>
-<li><code>活动聚合服务Event-composite-service</code>(聚合服务 - 提供某个活动及其相关的推荐、评论信息</li>
-<li><code>报名服务Enroll-service</code>(为登录用户提供报名)</li>
-<li><code>通知服务Notification-service</code>(用户报名成功后获取通知)</li>
-</ul>
-
-
-<blockquote><p>该活动报名系统的应用架构图如下：</p></blockquote>
-
-<p><img src="/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
-
-<h2>服务实现</h2>
-
-<ul>
-<li>Java 8/Gradle 2.13</li>
-<li>SpringBoot 1.4.2 / SpringCloud Camden.SR2</li>
-<li>MongoDB 使用Document存储活动数据</li>
-<li>REST/HAL/HAL-Browser 定义服务之间通信的接口</li>
-<li>JVM-Pact 实现契约测试,服务间接口的测试</li>
-</ul>
-
-
-<h2>服务支撑组件</h2>
-
-<ul>
-<li>Netflix OSS Eureka 实现服务注册</li>
-<li>Spring Cloud Config 实现服务的配置</li>
-<li>Hystrix/Turbine 实现断路器</li>
-<li>Zuul 实现API网关</li>
-<li>Spring Cloud Security 实现安全</li>
-</ul>
-
-
-<h2>基础设施</h2>
-
-<ul>
-<li>ELK 提供服务的日志的聚合服务</li>
-<li>Prometheus 提供服务的监控与告警</li>
-<li>Jenkins 2.0搭建系统的持续交付流水线</li>
-<li>Docker提供服务的打包以及发布</li>
-<li>Rancher提供Docker的轻量级管理方案</li>
-</ul>
-
-
-<blockquote><p>该活动报名系统的微服务生态系统图如下：</p></blockquote>
-
-<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
-
-<h2>总结</h2>
-
-<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[微服务实战(1) - 内容大纲]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/"/>
-    <updated>2016-11-11T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline</id>
-    <content type="html"><![CDATA[<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
-
-
-<script src="http://jerry-cdn.b0.upaiyun.com/hit-kounter/hit-kounter-lc-0.2.0.js"></script>
-
-
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-<!-- More -->
-
-
-<h2>核心思路</h2>
-
-<ul>
-<li>以<code>微服务生态系统</code>和<code>持续交付</code>为指导原则</li>
-<li>以<code>模拟案例实战</code>为主，并使<code>用SpringBoot</code>和<code>Spring Cloud</code>实现服务</li>
-<li>分为<code>服务构建</code>与<code>服务实施</code>两个专题，包括<code>应用架构</code>，<code>部署模型</code>和<code>交付流水线</code></li>
-</ul>
-
-
-<h2>主要亮点</h2>
-
-<h4>1.全面了解微服务架构的理论基础</h4>
-
-<ul>
-<li>微服务的定义与认识误区</li>
-<li>微服务的核心原则以及同SOA的关系</li>
-<li>微服务的<code>持续交付体系</code></li>
-</ul>
-
-
-<h4>2.基于微服务生态系统，搭建模拟案例</h4>
-
-<ul>
-<li>通过案例理解<code>微服务架构生态系统</code></li>
-<li>掌握<code>REST &amp; HAL &amp; HAL Browser</code>的使用方式</li>
-<li>掌握<code>Spring Boot</code>的核心与使用</li>
-<li>熟悉<code>Spring Cloud</code>的服务支撑组件</li>
-</ul>
-
-
-<blockquote><p>微服务生态系统</p></blockquote>
-
-<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
-
-<h4>3.理解微服务的高级话题</h4>
-
-<ul>
-<li>使用<code>PACT契约测试</code>验证服务接口</li>
-<li>使用<code>OAuth</code>与<code>JWT</code>实现服务的安全</li>
-<li><code>RESTful API</code>设计相关</li>
-</ul>
-
-
-<blockquote><p>基于消费者驱动的契约测试</p></blockquote>
-
-<p><img src="/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
-
-<h4>4.理解实施微服务与DevOps(基于Docker)</h4>
-
-<ul>
-<li>建立<code>Docker私有仓库</code>，并将服务发布成Docker镜像</li>
-<li>使用<code>Docker搭建Jenkins</code>持续交付流水线</li>
-<li>以<code>Pipeline as Code</code>的方式管理流水线</li>
-<li>使用<code>ELK实现日志聚合</code>的实践</li>
-<li>使用<code>Prometheus</code>实现监控告警的实践</li>
-<li>使用<code>Rancher</code>完成服务Docker镜像的部署</li>
-</ul>
-
-
-<blockquote><p>部署模型图</p></blockquote>
-
-<p><img src="/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
-
-<blockquote><p>持续交付流水线</p></blockquote>
-
-<p><img src="/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
-
-<h2>总结</h2>
-
-<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[微服务实战(0) - 聊聊开篇]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction</id>
-    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+    <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
+
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
 
 <p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
@@ -552,6 +147,320 @@ EmbeddedServletContainerAutoConfiguration
 </li>
 </ul>
 
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[解析微服务架构(四)]]></title>
+    <link href="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/"/>
+    <updated>2015-03-16T22:07:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian</id>
+    <content type="html"><![CDATA[<p>[请勿转载]</p>
+
+<h1>微服务架构的优缺点</h1>
+
+<p>将单块架构应用分解为一系列相对独立的微服务，其中每个服务都运行在自己的进程中，并且通过轻量级的机制实现彼此间的通信，这通常是HTTP资源的微服务。这些服务是围绕着业务功能构建的，并且可以通过完全自动化的部署机制进行独立部署。这些服务的集中式管理做到了最小化，每一种服务都可以通过不同的编程语言进行编写，并且可以使用不同的数据存储技术。</p>
+
+<!-- More -->
+
+
+<p>从上面的定义可以看出，微服务的优势是显而易见的：</p>
+
+<ul>
+<li>每个服务都很简单，只关注于一个业务功能。</li>
+<li>每个微服务可以由不同的团队独立开发。</li>
+<li>微服务是松散耦合的。</li>
+<li>微服务可以通过不同的编程语言与工具进行开发。</li>
+</ul>
+
+
+<p>这些优势使得微服务看起来是非常完美的解决方案，不过微服务难道就没有缺点么？下面我们就来探讨一下微服务在其实施过程中所遇到的问题和一些缺点。</p>
+
+<h5>运维成本过高</h5>
+
+<h5>DevOps是必须的</h5>
+
+<h5>接口不匹配</h5>
+
+<h5>代码重复</h5>
+
+<h5>分布式系统的复杂性</h5>
+
+<p>总而言之，微服务架构有很多吸引人的地方，不过在拥抱微服务之前，你需要认清它所带来的挑战。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[解析微服务架构(三)]]></title>
+    <link href="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/"/>
+    <updated>2015-03-16T22:07:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen</id>
+    <content type="html"><![CDATA[<p>[请勿转载]</p>
+
+<h1>微服务架构的核心特征</h1>
+
+<p>   什么是核心特征，就是当我们谈论同一件事情的时候，那些不同的人们所关注的相同的部分。从业界的讨论来看，微服务通
+常有如下几个显著特征:</p>
+
+<ul>
+<li><h5>服务与组件</h5></li>
+</ul>
+
+
+<p>  一直以来，我们都比较提倡使用组件（Component）的方式，模块化应用系统。它类似生活中的汽车，由不同的零件组成，每个零件都是可以独立替换的。因此，这类通常都有很好的灵活性和替换性。</p>
+
+<p>  在软件领域，我们也将组件定义为应用软件构建中独立的单元，它的最大特点是，对整个应用软件而言，组件能够被容易的替代或者更新。</p>
+
+<p>   传统实现组件的方式是采用和应用程序一样的的编程语言，构建独立的共享库（Libaray），从而达到解耦和复用的效果。对于共享库而言，我们知道它是语言相关、平台相关，并且是和应用程序运行在同一个进程中的，因此，任何共享库的变化都意味着整个应用程序也要被更新，并且需要被重新部署。换句话说，如果应用由多个共享库组件组成，那么任何库的变更都将导致整体应用的重新发布。</p>
+
+<!-- More -->
+
+
+<p>   其实，微服务也可以作为组件。把微服务当成应用程序中的组件，其中一个最主要的好处是微
+服务可以独立部署。如果应用由多个共享库组成，那么其只能跑在一个进程中，那么任何库的变更都将导致整体应用的重新发布。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter3/library-as-component-800-600.png" /></p>
+
+<p>但是如果应用程序由多个服务构成，我们可以想像，大部分情况下，每个服务的变更仅需要重新部署相应的服务。当然，这也不是绝对的，比如某些对服务接口的变更就需要其相关服务也发生变化，但微服务架构的目的，是尽量避免这种服务间的耦合并完善服务的交互接口。换句话说，通过服务来实现组件，将应用拆散为一系列的服务，运行在不同的进程中时，任何一个服务的局部变化只需重新部署对应的服务本身。同时，将服务作为组件也可以帮助我们明确的定义出组件的边界，因为服务之间的调用是跨进程的，清晰的边界和职责定义应该是在设计阶段时必须考虑的。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter3/service-as-component-800-600.png" /></p>
+
+<p>   把服务当成组件的另外一个优点是在组件和组件之间、或者组件和应用程序之间定义了清晰的、跨语言、跨平台的接口。许
+多开发语言虽然定义了良好的公共调用接口的机制，也提供了详尽的文档和规范说明，但由于共享库其本身的特性，充分依赖于特定平台、特定语言，因此组件间的耦合度较高。同共享库相比，微服务是通过语言无关、平台无关的远程接口调用，因此不存在这个问题。当然，使用微服务也有它的不足之处，那就是远程调用比进制内部调用更消耗性能，而且远程的接口由于是分布式调用，无疑增加了维护的复杂度。</p>
+
+<ul>
+<li><h5>围绕业务组织团队</h5></li>
+</ul>
+
+
+<p>  在单块应用架构的时代，为了节省成本、快速实现目标，企业或者组织一般都会根
+据技能类型的差异化来划分团队。例如用户体验设计师一般都被划分到用户体验设计团队，而懂服务器端的开发人员，一般都被归类为后端业务逻辑开发团队；对于那些精通数据库技能的开发者，一般会在DBA团队中找到他们的身影。实际上，当团队被按照这个策略或者维度划分后，即便是某些简单的需求变更，都有可能导致不同团队之间跨组织、跨团队的协作，耗费很高的跨团队的沟通和协作成本。</p>
+
+<p>  正如<a href="http://en.wikipedia.org/wiki/Conway's_law">康威定律（Conway’s law)</a>提出的，一个组织的设计成果，其
+结构往往对应于这个组织中的沟通和组织结构。另外，《敏捷宣言》的一个核心理念是“个体与交互高于过程和工具”。</p>
+
+<p>如果仔细想想，我们发现康威定律从正反两方面支持了这一理念。有些公司受困于垂直、等级化的管理结构，这给工程师们带来了完成工作时不必要的阻力。更多的互联网公司则放手，让团队找到自组织的管理结构。我们既看到“漠视”康威定律所造成的危害，也看到了“拥抱”该定律所带来的好处。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter3/build-team-aroud-business-800-600.png" /></p>
+
+<p>   而微服务架构的开发模式不同于传统方式，它倡导围绕应用程序为核心，按业务能力来划分为不同的团队。每个团队都要求能
+够对每个服务，将其对应的业务领域的全部功能实现，譬如对于某业务需求的更改，从用户体验界面到业务逻辑实现，再到数据的存储和迁移等。因此团队的组织是跨职能的，会包含实现该业务所需功能的所有技能。近年兴起的全栈工程师正是因为架构和开发模式的转变而出现，当然具备全栈的工程师其实很少，但将不同领域的工程师组织为一个全栈的团队就容易的多。</p>
+
+<ul>
+<li><h5>关注产品而不是项目</h5></li>
+</ul>
+
+
+<p>   传统的应用开发大部分都是基于项目模式的。什么是项目模式？就是当项目启动后，企业或者组织会从开发
+团队中抽出一部分资源、从测试团队中抽出一部分资源，同时也从其他不同的技能团队中抽出不同的资源，组成一个项目团队，然后设置一个时间期限，让大家完成项目。当项目结束后，所有的资源都会被释放，所有人在项目中的职责结束。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter3/team-by-skills-800-600.png" /></p>
+
+<p>   但服务架构倡导的是避免采用这种项目模式，更倾向于让开发团队负责整个产品的生命周期。大家熟知的亚
+马逊CTO Werner Vogels，曾经说过一句经典的名言，“You build it, you run it”。即对于开发产品的团队而言，产品就是团队的，也是每个成员的。团队中的每个人都有责任、有义务确保产品的快速发展以及演进。</p>
+
+<ul>
+<li><h5>去中心化</h5></li>
+</ul>
+
+
+<p>   在第二章我们提到，传统的单块应用架构，倾向于采用统一的技术平台或方案来解决所有问题。其实，我们
+知道，在现实生活中，并不是每个问题都是钉子，也不是每个解决方案都是一个锤子。
+问题有其具体性，解决方案也应有其针对性。用最适合的技术方案去解决具体的问题，往往会事半功倍。传统的单块架构系统倾向采用统一的技术平台或方案来解决所有问题，而微服务的架构意味着，可以针对不同的业务特征选择不同的技术方案，有针对性的解决具体的业务问题。</p>
+
+<p>   对于单块架构系统，初始的技术选型严重限制将来采用不同语言或框架的能力。如果想尝试新的编程语言
+或者框架，没有完备的功能测试集，很难平滑的完成替换，而且系统规模越大，风险越高。</p>
+
+<p>  而基于微服务架构，使我们更容易在系统上尝试新的技术或解决方案。譬如说，可以先挑选风险最小的服务作为尝试，快速得到
+反馈后再决定是否试用于其他服务。这也意味着，即便对一项新技术的尝试失败，也可以抛弃这个方案，并不会对整个产品带来风险。</p>
+
+<ul>
+<li><h5>独立业务数据</h5></li>
+</ul>
+
+
+<p>  传统的单块应用架构，倾向于采用统一的数据存储平台来存储所有的数据。随着业务的快速发展，需求的不断变化，一方面，数
+据变得越来越复杂，难以管理；另一方面，随着应用系统的业务逻辑不断更新和发展，数据库不仅承担着数据存储的作用，还承担着不同系统之间的集成作用。同时，传统的数据库大多是关系型数据库，存储的数据都是以结构化信息为主，但随着互联网的快速发展，数据的结构并不具有确定性，或者说结构发生变化的频率非常快，因此，对于如何有效维护业务数据，也成了一个难题，相应的维护成本越来越高。</p>
+
+<p>  微服务架构，提倡具有业务属性的独立单元或者服务自身维护其相关的业务数据。这样的话，有几个非常明显的优势：首先具有
+业务属性的服务单元能够有权利管理其相关的数据，同时能够随着业务的发展，不断更新业务数据。其次，每个业务单元只关心自己的业务数据，因此可以选择最合适的工具或者产品来存储以及管理数据。譬如可以根据具体业务场景，使用MySQL、PostgreSQL等关系型数据库，也可以使用文档类型的MongoDB、键值类型的Riak等NoSQL数据库。譬如，在一个复杂的电商系统中，产品数据的种类繁多，更新也比较频繁，如果使用类似MongoDB这种文档数据库，能灵活的根据需求动态调整结构。而像当用户访问系统时产生的会话信息，则可以使用Redis等键值系统进行存储；通常来说，报表数据的结构变化不大，而且要求数据的高一致性，因此可以使用熟悉的关系型数据库。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter3/polyglot-persistence-800-600.png" /></p>
+
+<ul>
+<li><h5>基础设施自动化</h5></li>
+</ul>
+
+
+<p>随着云技术的大规模推广与使用，部署和运维的复杂度在大幅度降低。利用云，我们可以快速的创建系统需要的资源，降低应用的交付周期。同时，由于持续集成、持续交付等实践的深入人心，很多团队都开始在构建软件的过程中，使用持续交付提倡的基础设施自动化技术（更多关于持续交付的知识，请参考《持续交付-发布可靠软件的系统方法》一书）。</p>
+
+<p>这也就意味着，如果微服务架构将应用程序本身分成多个小的服务，每个服务都是一个独立的部署单元。因此，微服务的实践，对持续交付和部署流
+水线要求非常高。微服务的粒度越细，就意味着需要部署的业务单元就越多，业务单元越多，就需要更稳定的基础设置自动化机制，能够创建运行环境，安装依赖，部署应用等。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter2/loose-decouple-microservice-800-600.png" /></p>
+
+<ul>
+<li><h5>演进式架构设计</h5></li>
+</ul>
+
+
+<p>  在过去十年中，敏捷方法论以及其实践已经被越来越多的组织尝试并认可。敏捷方法论正在帮助组织以拥抱变化的心
+态，去不断尝试，不断获取反馈，从而以高效的方式构建正确的应用系统。实际上，敏捷并不是一种静止的状态，它是组织一直在拥抱变化，尝试改变、获取反馈的演进式发展的一个动态过程。</p>
+
+<p>  类似的，架构设计也应该是随着业务的发展而不断发展，随着需求的变化而不断变化的。当我们试图构建一个单块应用架构系统
+时，我们会面临非常艰难的技术选型。哪种方案才是合理的？那种方案才是最正确的？在传统的单块设计中，企业或者组织通常是希望构建一个大而全、无所不能的平台，但是在技术发展如此之快的今天，单一的技术平台已经无法适应市场的快速变化，组织应该随着业务的发展，随着企业的发展，不断尝试并改进架构设计，真正做到业务驱动架构，架构服务于业务。</p>
+
+<hr />
+
+<h3>总结</h3>
+
+<p>微服务强调的是一种独立测试、独立部署、独立运行的软件架构模式，是一种更灵活、更开放、更松散的演进式架构。通过本章所介绍的微服务的核心特征，帮助我们更清晰、深刻的理解了微服务其概念背后所蕴含的思想。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[解析微服务架构(二)]]></title>
+    <link href="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/"/>
+    <updated>2015-03-16T22:07:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou</id>
+    <content type="html"><![CDATA[<p>[请勿转载]</p>
+
+<h1>什么是微服务架构</h1>
+
+<p>在上一章中，我们认识了什么是单块架构应用，并分析了随着互联网时代的快速发展，随着市场变化快，用户需求变化快以及用户访问量的增加，单块架构应用的维护成本、人员的培养成本、缺陷修复成本以及技术架构演进的成本和系统扩展成本等都在增加，因此单块架构曾经的优势已逐渐无法适应互联网时代的快速变化，面临着越来越多的挑战。</p>
+
+<p>在本章中，我们来了解到底什么是微服务架构，以及为什么微服务架构能有效解决单块架构在互联网时代所面临的挑战。</p>
+
+<h3>概述</h3>
+
+<p>   微服务架构一词在过去几年里，得到了广泛的讨论和关注。微服务架构提倡通过对特定业务领域的分析与建模，将复杂的、
+集中的、耦合度高的应用系统分解成小而专、耦合度低并且高度自治的一组服务。这些服务与服务之间相互协作、相互配合，从而为最终用户或其他系统提供相应的功能。微服务将每个独立的业务逻辑划分出来，运行在它们自己的进程中，然后通过分布式的网络互相通信与协作，从而为终端用户或其他调用者提供灵活的接口。</p>
+
+<!-- More -->
+
+
+<p>   与传统IT行业的'服务架构'概念不一样的是，微服务更强调的是一种独立测试、独立部署、独立运行的软件架构模式。微服
+务中的每个服务，都可以作为一个独立的业务单元进行测试、部署，而且每个服务都能独立运行在不同的进程中。这些微服务满足细粒度的业务需求，并使用自动化部署工具进行发布。同时，这些微服务可以使用不同的开发语言，不同框架，以及不同的数据存储技术，因此相比与'服务架构'，它是一种高度自治的、非集中式管理的、细粒度的业务单元。</p>
+
+<p>   实际上，微服务架构并不是一个全新的概念。早在二十几年前，面向服务架构（SOA）概念的提出，就已经阐述了类似的思
+想，“对于复杂的企业IT系统，应按照不同的、可重用的粒度划分，将功能相关的一组提供者组织在一起为消费者提供服务”。
+仔细分析SOA的概念，就会发现，其在服务的定义上和我们今天所谈到的微服务定义大致类似，那为什么在SOA的概念提出这么多年后，又诞生了这个貌似是新瓶装旧酒的微服务架构呢？其实，鉴于过去十几年互联网行业的高速发展，以及敏捷、持续集成、持续交付、DevOPS，云技术等的深入人心，服务架构的开发、测试、部署以及监控等，相比我们提到的传统的SOA，已经大相径庭。相比SOA，微服务要更具有独立性、灵活性、可实施性以及可扩展性。换句话说，微服务架构可以被认为是一种更接地气的面向服务架构，是一种更容易帮助企业或组织构建演进式架构的方法和实践。关于更多SOA与微服务的区别，请参考[X部分]。</p>
+
+<h3>微服务架构的定义</h3>
+
+<p>   其实，即便了解了上面的介绍，还是很难对微服务下一个准确的定义。就像NoSQL，我们谈论了好几年的NoSQL，知道NoSQ
+L代表着什么样的含义，也可以根据不同的应用场景选择不同的NoSQL数据库，但是我们还是很难对它下一个准确的定义。类似的，关于什么是‘函数式编程’，也或多或少存在同样的窘境。我们可以轻松的选择不同的函数式编程语言，可以轻松的写出函数式编程风格的代码，但很难对什么是函数式编程下一个准确的定义。</p>
+
+<p>   实际上，从业界的讨论来看, 微服务本身并没有一个严格的定义。不过，ThoughtWorks的首席科学家，马丁-
+福勒先生对微服务的这段描述，似乎更加具体、贴切，通俗易懂：</p>
+
+<blockquote><p>  The microservice architectural style is an approach to developing a single application as a
+suite of small services, each running in its own process and communicating with lightweight
+mechanisms, often an HTTP resource API. These services are built around business capabilities and independently deployable by fully automated deployment machinery. There is a bare minimum of centralized management of these services, which may be written in different programming languages and use different data storage technologies.</p></blockquote>
+
+<p>  微服务架构是一种架构模式，它提倡将单一应用程序划分成一组小的服务，服务之间互相协调、互相配合，为用户提供最终价值
+。每个服务运行在其独立的进程中，服务与服务间采用轻量级的通信机制互相沟通（通常是基于HTTP协议的RESTful API）。每个服务都围绕着具体业务进行构建，并且能够被独立的部署到生产环境、类生产环境等。另外，应当尽量避免统一的、集中式的服务管理机制，对具体的一个服务而言，应根据业务上下文，选择合适的语言、工具对其进行构建。</p>
+
+<p>  如果我们仔细分析这段话，不难发现，对于微服务的定义，我们可以从以下几个方面考虑：</p>
+
+<h4>小，且专注于做一件事情</h4>
+
+<p>   微服务架构通过对特定业务领域的分析与建模，将复杂的应用分解成小而专一、耦合度低并且高度自治的一组服务。每个服务都
+是很小的应用。那么，微服务中提到的‘微’或者‘小’，到底是多‘微’、多‘小’呢？</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter2/confuse-how-small-800-600.png" /></p>
+
+<p>实际上，关于多小的服务才合适，是一个非常有趣的话题。有人觉得使用代码行数来作为‘微’的衡量标准比较合适，而有些人认为，既然是微服务，就应该简单。就应该在很短的时间内，譬如2周内，能够非常容易的重写该服务，这样才符合小和微的概念。</p>
+
+<p>关于代码行数，我们知道，不同的语言有不同的特点。静态类型语言的主要优点在于其结构非常规范，存在编译期的语法检查、便于调试，类型安全性高，通常其继承关系简洁明了，IDE对其支持也更加友好；但缺点是为此需要写更多的类型相关代码。因此如果实现同样的功能，代码量相对稍多，这类语言的典型代表有Java、C#等；动态语言，其灵活性较高，运行时可以改变内存的结构，无类型检查，不需要写非常多的类型相关的代码；缺点自然就是不方便调试，命名不规范时会造成不易理解等，典型的代表如JavaScript、Ruby或者Python等。另外，还有一些数学类计算语言，能够使用非常简洁的公式实现其逻辑。</p>
+
+<p>譬如说，对于经典的<a href="http://zh.wikipedia.org/wiki/%E5%BA%B7%E5%A8%81%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F">康威生命游戏</a>而言，游戏开始时，细胞随机的被指定为存活或者死亡状态（黑色表示存活，白色表示死亡），每个细胞都会不断的演进，并且在演进的过程中，每个细胞下一代的状态由该细胞当前周围8个细胞的状态所决定，</p>
+
+<p>其具体的规则如下图所示：</p>
+
+<ul>
+<li><p>规则1，如果一个细胞周围有少于2个存活细胞，则该细胞无论存活或者死亡，下一代将死亡；</p></li>
+<li><p>规则2，如果一个细胞周围有多于3个存活细胞，则该细胞无论存活或者死亡，下一代将死亡；</p></li>
+<li><p>规则3，如果一个细胞周围有3个存活细胞，则该细胞下一代将存活；</p></li>
+<li><p>规则4，如果一个细胞周围且仅有2个存活细胞，则该细胞下一代状态保持不变；</p></li>
+</ul>
+
+
+<p><img src="/images/microservice-design-and-practice/chapter2/conwey-problem-description-800-600.png" /></p>
+
+<p>对于这个问题，各位如果感兴趣的话，可以尝试使用自己最擅长的语言来试试。</p>
+
+<p>但这里，我想说的是，有一种语言叫APL（<a href="http://en.wikipedia.org/wiki/APL_(programming_language)">A Programing Language</a>），如果我们使用它来实现，需要如下一行代码就可以解决该问题。</p>
+
+<p>```
+life←{↑1 ⍵∨.∧3 4=+/,¯1 0 1∘.⊖¯1 0 1∘.⌽⊂⍵}</p>
+
+<p>```</p>
+
+<p>因此，对于实现同样的功能，选择不同的语言，代码的行数会有千差万别。因此代码行数这种量化的数字显然无法成为衡量微服务是否够‘微’的决定因素。</p>
+
+<p>另外，有些人认为，既然是微服务，就应该简单。譬如说，就应该在固定时间内（譬如2周），能够非常容易的重写，这样才符合微的概念。实际上，2周时间，对不同的个体而言 ，其服务重写的结果可能大相径庭。我们知道，对于重写这种情况，很大部分取决于个体的工作经验、擅长的语言、对业务背景的了解等等。譬如说，工作年限长的开发者通常情况下可能对其擅长的技术更熟练，而对业务熟悉程度较好的开发者，如果重写可能完成的更快。因此，多长时间能够重写该服务也不能作为衡量其是否小的重要因素。</p>
+
+<p>因此，我个人认为，微服务的“微”并不是一个真正可衡量、看得见、摸得着的“微”。这个“微”所表达的，是一种设计思想和指导方针，是需要团队或者组织共同努力找到的一个平衡点。因此，微服务到底有多微，是个仁者见仁，智者见智的问题，最重要的是团队觉得合适就好。但注意，当考虑微服务的“微”时，至少应该遵循两个原则：业务独立性和团队自主性。首先，应该保证微服务是具有业务独立性的单元，在这个前提下，由团队来判断当前的服务大小是否合适，考虑到团队的沟通成本，一般不建议超过10个人，或者在超过10个人的团队中，可以再划分子团队。在这种情况下，当团队中大部分成员认为当前的服务是能够容易维护的、容易理解的，这就是我们认为适合团队的、有意义的“微”。</p>
+
+<p>   专注于做一件事情。从我们接触编程的第一天起，老师就教授我们，写出来的代码要符合“高内聚、低耦合”的原则，作为曾经似懂非懂的学生而言，我们也一直在朝
+着这个方向努力着；另外，在面向对象设计的领域中，有几条放之四海而皆准的重要原则，那就是“SOLID原则”。大家请注意，在SOLID原则中的的第一条，叫单一职责原则（SRP-Single responsibility principle），其实描述的也是类似的事情。具体点说，单一职责原则的核心思想是：一个类，应该只有一个职责，也只有一个引起它变化的原因。如果一个类承担的职责过多，就等于把多个不同的职责耦合在了一起。这种耦合会导致当其中的某一职责发生变化时，可能会导致原本运行正常的其他职责或者功能发生故障。另外职责过多，也会导致引起该类变化的原因增多，多个职责之间相互依赖，容易产生影响，从而极大的损伤其内聚性和耦合度。Unix/Linux便是这一原则的完美体现者：在Unix中，各个程序都独立负责一个单一的事，我们可以通过管道将它们容易的连接起来。而Windows，则是这一原则的典型的反面示例：Windows中几乎所有的程序代码都交织耦合在一起，并没有做到一个类，只关注一个职责并把它做好。因此，如果希望避免这种现象的发生，就要尽可能的遵守单一职责原则，增强应用程序或者代码的内聚性以及降低耦合性。</p>
+
+<h4>运行在独立的进程中</h4>
+
+<p>  在传统的单块架构应用中，我们通常将应用程序的代码分成逻辑上的三层、四层甚至更多层，但它并不是物理上的分层。这也
+就意味着，经过开发团队对不同层的代码实现，经历过编译（如果非静态语言，可以跳过编译阶段）、打包、部署后，不考虑负载均衡以及水平扩展的情况，应用程序会运行在同一个机器的同一个进程中。</p>
+
+<p>另外，为了提高代码的重用率以及可维护性，在应用开发中，我们有时也会将重复的代码提取出来，封装成组件。注意，这里所说的组件，指的是可以独立升级、独立替换掉的这一部分。在传统的单块架构中，组件通常的形态叫共享库，譬如JVM平台下的jar包、或者Windows下的DLL等，它们都是组件的一种形态。当应用程序在运行期时，所有的组件最终也会被加载到同一个进程中运行。如下图所示：</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter2/run-in-one-process-800-600.png" /></p>
+
+<p>但在微服务的架构里，应用程序有多个服务组成，每个服务都是一个具有高度自治性的独立业务实体，通常情况下，每个服务都能够运行在一个独立的操作系统进程中，这就意味着不同的服务能非常容易的被部署到不同的主机上。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter2/run-in-multiple-process-800-600.png" /></p>
+
+<p>理论上，虽然我们能够将多个服务部署到同一台节点上，并让它们运行在不同的进程中，这种方式是可行的，但并不推荐这么做。作为微服务运行的环境，我们希望它能够保持高度的自治性和隔离性。如果多个服务运行在同一个服务器节点上，虽然省去了节点的开销，但是增加了部署和伸缩的复杂度。譬如，当部署某个新的服务时，如果当前节点正在运行的多个进程的多个服务，则必然会对这些服务造成影响。另一方面，如果运行在某个阶段的多个服务中，某些服务随着业务的发展需要伸缩，某些服务却不需要，如何有效的组织这些服务？会给服务的水平伸缩带来不必要的麻烦。</p>
+
+<h4>轻量级的通信机制</h4>
+
+<p>  服务和服务之间通过轻量级的通信机制，实现彼此间的互通互联，互相协作。所谓轻量级通信机制，通常指基于语言无关、平
+台无关、代码无关的这类协议，例如我们熟悉的XML或者JSON，他们的解析和使用与语言无关、平台无关。另外，基于HTTP协议，能让服务间的通信变得无状态化，目前大家所熟悉的REST(Representational State Transfer)就是服务之间互相协作常用的轻量级通信机制之一。
+  对于传统我们所熟知的Java RMI或者.Net Remoting等，虽然这类协议能够使用RPC的方式简化客户端的调用，使其像调用
+本地接口一样调用远端的接口，但其最大的劣势在于，这类协议和语言、平台有非常强的耦合性，灵活性和扩展性较差。譬如说，如果使用了RMI作为通信协议，就意味着我们必须采用运行在JVM之上的语言才能完成互相协作。</p>
+
+<p>  对于微服务而言，通过使用语言无关、平台无关的轻量级通信机制，使服务与服务之间的协作变得更加简单、标准化。同时，服
+务内部则可以选择任何语言、工具或者平台。</p>
+
+<h4>松耦合，独立部署</h4>
+
+<p>  在传统的单块架构应用里，由于所有的功能都存在同一个代码库里。因此，当修改了该代码库的某个功能，在后续的测试过程中
+都需要做回归测试，才能保证当前功能的修改不会影响其他已经工作的功能。也就是说，功能和功能之间存在着强耦合关系。</p>
+
+<p>  当测试完成后，通过持续集成或者其他机制，会构建新版本的部署包。这个大而全的部署包里，自然包括了应用的所有功能。当
+将该部署包部署到生产环境或者类生产环境时，由于所有功能都运行在同一个进程中。因此，必须要停掉当前正在运行的进程，完成部署，然后再启动进程，相信这个部署的过程对大家都不陌生。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter2/loose-decouple-tradition-800-600.png" /></p>
+
+<p>  但是，如果当前应用程序里包含类似定时任务的功能，则要考虑什么时间窗口适合部署，是否需要先停掉原有的数据访问源，以
+防止数据被读入应用程序内存，但未处理完而导致的数据不一致性。多年前，我曾经接触过一个JAVA项目，应用程序本身是个含有定时任务的系统，每隔5秒都会从数据库读入数据，然后将其转换成JMS的消息传给不同的内部组件。每次部署时候，我们都需要先关掉相关的消息队列，以防止数据被读入到应用，但还未被处理完，进程就被关闭而导致的数据不一致性。</p>
+
+<p>  微服务架构中，每个服务都是一个独立的业务单元，服务和服务之间是松耦合的。当对某个服务进行改变时，对其他的服务并不
+会产生影响。</p>
+
+<p>  对于每个服务，最好能使用独立的代码库。这样的话，当我们对前服务的代码进行修改后，并不会影响其他服务。也就是说，从
+代码库的层面，服务与服务是松耦合、高度解耦的。类似的，对于每个服务，都有独立的测试机制，因此，对当前服务代码的修改，也并不需要担心代码改动而导致的大范围的回归测试。因此，从测试的角度而言，服务和服务之间也是松耦合、高度解耦的。另外，由于构建包是独立的，部署流程也是独立的，服务的运行也是在不同的进程中。因此，从部署和运行的角度考虑，服务和服务之间同样是松耦合、高度解耦的。</p>
+
+<p><img src="/images/microservice-design-and-practice/chapter2/loose-decouple-microservice-800-600.png" /></p>
+
+<p> 因此，对于每个服务而言，与其他服务高度解耦，同时不需要改变其依赖，只改变当前服务本身，就可以完成部署。</p>
+
+<hr />
+
+<h3>总结</h3>
+
+<p>综上所述，微服务架构将一个复杂应用拆分成多个服务，服务与服务间能够互相协作、相互配合，从而为终端用户提供业务价值。每个服务独立运行在不同的进程中，服务与服务之间通过轻量的通讯机制交互，并且每个服务可以通过自动化部署方式独立部署。</p>
+
+<p>微服务强调的是一种独立测试、独立部署、独立运行的软件架构模式。微服务中的每个服务，都可以作为一个独立的业务单元进行测试、部署，而且每个服务都能独立运行在不同的进程中。这些微服务满足细粒度的业务需求，并使用自动化部署工具进行发布。同时，这些微服务可以使用不同的开发语言，不同框架，以及不同的数据存储技术，因此它是一种高度自治的、非集中式管理的、细粒度的服务单元。</p>
 ]]></content>
   </entry>
   

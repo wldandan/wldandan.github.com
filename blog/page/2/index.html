@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="One of the most prominent and widely used languages in the world has Evolved. Java ever gave us power on object oriented progrmming and we did the &hellip;">
+  <meta name="description" content="To simulate the process of production deployment of MongoDB, I used Vagrant to create a couples of VMs, and exprienced the journey of deployment &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,221 +76,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/">Java 8 - First Impression of Lambda Expression</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-19T04:56:00+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>One of the most prominent and widely used languages in the world has <strong>Evolved</strong>.</p>
-
-<p>Java ever gave us power on object oriented progrmming and we did the best we could with it.</p>
-
-<p>Now there’s another new elegant way changing the java world-Lambda Expression, that will make our code more expressive, easier to write, less error prone, and easier to parallelize than has been the case with Java.</p>
-
-<h3>Lambda Expression</h3>
-
-<p>Let&#8217;s start from a simple example:</p>
-
-<p><code>Suppose we’re asked to total the prices greater than $20, discounted by 10%. Let’s do that in the habitual Java way first.</code></p>
-
-<h4>Old way</h4>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>final List&lt;BigDecimal&gt; prices = Arrays.asList(
-</span><span class='line'>  new BigDecimal("10"), new BigDecimal("30"), new BigDecimal("17"), 
-</span><span class='line'>  new BigDecimal("20"), new BigDecimal("15"), new BigDecimal("18"), 
-</span><span class='line'>  new BigDecimal("45"), new BigDecimal("12"));
-</span><span class='line'>
-</span><span class='line'>  BigDecimal totalOfDiscountedPrices = BigDecimal.ZERO;   
-</span><span class='line'>  for(BigDecimal price : prices) { 
-</span><span class='line'>          if(price.compareTo(BigDecimal.valueOf(20)) &gt; 0)
-</span><span class='line'>                  totalOfDiscountedPrices = totalOfDiscountedPrices.add(price.multiply(BigDecimal.valueOf(0.9)));
-</span><span class='line'>              }
-</span><span class='line'>      System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);</span></code></pre></td></tr></table></div></figure>
-
-
-<h4>A Better way</h4>
-
-<p>Now we can do better, a lot better. Our code can resemble the requirement specification. This will help reduce the gap between the business needs and the code that implements it, further reducing the chances of the requirements being misinterpreted.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>final BigDecimal totalOfDiscountedPrices = 
-</span><span class='line'>prices.stream()
-</span><span class='line'>  .filter(price -&gt; price.compareTo(BigDecimal.valueOf(20)) &gt; 0)
-</span><span class='line'>  .map(price -&gt; price.multiply(BigDecimal.valueOf(0.9)))
-</span><span class='line'>  .reduce(BigDecimal.ZERO, BigDecimal::add);
-</span><span class='line'>  
-</span><span class='line'>System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Instead of explicitly iterating through the prices list, we’re using a few special methods:</p>
-
-<ul>
-<li>Using filter() to get the record we are interested</li>
-<li>Using map() to transfer to another result set</li>
-<li>Using reduce() to compute the total on the result</li>
-</ul>
-
-
-<h3>Summary</h3>
-
-<p>It’s a whole new world in Java. We can now program in an elegant and fluent functional style, with higher-order functions. This can lead to concise code that has fewer errors and is easier to understand, maintain, and parallelize.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/">Asgard - Handy Tool for AWS Management & Deployment</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-27T20:55:00+08:00" pubdate data-updated="true">May 27<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Asgard is named for the home of the Norse god of thunder and lightning.
-As the words described, it is closely relevant to the management and control in cloud.</p>
-
-<p>Netflix build a tool named Asgard, which is used to control and manage their AWS cloud.  In 2012, Netflix announced that Asgard was open-sourced.</p>
-
-<p>Then&#8230;&#8230; it is time to start the story.</p>
-
-<h2>What is Asgard</h2>
-
-<p>Asgard is a web-based tool for managing cloud-based applications and infrastructure.</p>
-
-<ul>
-<li>Built on the top of <a href="https://grails.org/">grails</a>.</li>
-<li>By introducing <code>Application</code> and <code>Cluster</code> terminology, enable users understand their cloud objets clearly.</li>
-<li>Keep track cloud objects from the view of one application</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/">Splunk - Receive Logs From Distributed Windows Machine</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-21T20:56:00+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
-        
-         | <a href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Why do I need Splunk</h3>
-
-<p>Recently, our team is moving several legacy components running in Windows server from data-center to AWS. The transformation itself is not hard, but the eco-system like monitoring, alerting, troubleshooting is most important before getting started the transofrmation.</p>
-
-<p>The article would talk about how to setup and config Splunk Universal Forwarder in Windows machine where the component is running.</p>
-
-<p>Bying using SUF, Splunk central server can easily collect logs from different distributed machines, so that the OPS guy can query and analyze the logs from one portal rather than login on different distributed machines.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
   
   
     <article>
@@ -658,6 +443,391 @@ rs.status()
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/18/arduino-open-hardware-learning-1/">Arduino, Make Hardware Development Easy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-18T17:02:00+08:00" pubdate data-updated="true">Dec 18<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/18/arduino-open-hardware-learning-1/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>顺应Open Hardware的潮流，Team里最近买了块 Arduino的板子。于是乎，偶也就有个机会，能倒腾倒腾了。</p>
+
+<h3>介绍</h3>
+
+<p>Arduino 是一个开源、易于使用的硬件设备。其上的微控制器可以通过Arduino Style的编程语言来编写程序，编译成二进制文件，并烧录进微控制器。
+Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、马达和其他的装置来反馈、影响环境。和传统的单片机有点类似，但是更易于使用，对于开发者也更加友好。</p>
+
+<h3>环境搭建</h3>
+
+<ul>
+<li>当然，先买块Arduino的板子。国内的商家&#8217;奥松&#8217;还不错（非广告贴，只是个人经验），可以天猫之。:)</li>
+</ul>
+
+
+<p><img src="/images/arduino/arduino.png" /></p>
+
+<ul>
+<li>下载<a href="http://arduino.cc/en/Main/Software">Arduino IDE</a>， 开发更容易。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/18/arduino-open-hardware-learning-1/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/09/mockito-partial-mocking-learning/">Mockito - Partial Mock</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-09T17:09:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/12/09/mockito-partial-mocking-learning/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Mockito是一个方便的java测试Mock工具。</p>
+
+<p>当我们做TDD或者单元测试的时候，为了消除当前被测对象和其依赖之间的关系，经常使用Mockito。</p>
+
+<p>本篇文章只涉及如何使用Mockito的Partial Mock。关于Mockito的其他用法，请参照<a href="https://code.google.com/p/mockito/">Mockito</a></p>
+
+<h3>1. 什么是Partial Mock</h3>
+
+<p>在单元测试的过程中，偶尔会出现这种情况。对于一个对象，某些方法需要被mock,而某些方法希望被直接调用，这时候，我们就需要借助Partial Mock。</p>
+
+<h3>2. 使用Partial Mock的场景</h3>
+
+<p>在如下两种场景中，Partial Mock就显得相当犀利：</p>
+
+<h4>a) 测试存在具体方法的抽象类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public abstract class AbstractHandler {
+</span><span class='line'>
+</span><span class='line'>    public String greet() {
+</span><span class='line'>        return "Hello " + fetchName() + "!";
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    protected abstract String fetchName();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上代码所示，抽象类AbstractHandler中定义了方法greet()，并且该方法存在一定逻辑。
+此时，如果希望测试greet()，可以选择两种方式：</p>
+
+<ul>
+<li>构建其派生非抽象类，如ConcertHandler，再进行测试。</li>
+<li>使用Partial Mock，它可以省去构建派生类的步骤，直接对该抽象类进行测试，代码如下所示:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class AbstractHandlerTest {
+</span><span class='line'>      
+</span><span class='line'>    @Test
+</span><span class='line'>    public void shouldCallRealMethodsAndFakeAbstractMethod() {
+</span><span class='line'>        AbstractHandler handler = mock(AbstractHandler.class);
+</span><span class='line'>
+</span><span class='line'>        when(handler.greet()).thenCallRealMethod(); 
+</span><span class='line'>        when(handler.fetchName()).thenReturn("Geek");
+</span><span class='line'>
+</span><span class='line'>        assertThat(handler.greet(), is("Hello Geek!"));
+</span><span class='line'>    }
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如代码所示，对于抽象方法fechName()，直接mock其返回值</p>
+
+<pre><code>when(handler.fetchName()).thenReturn("Geek");
+</code></pre>
+
+<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。</p>
+
+<pre><code>when(handler.greet()).thenCallRealMethod();
+</code></pre>
+
+<h4>b)测试过分依赖于I/O操作的类</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>public class BooksController {
+</span><span class='line'>
+</span><span class='line'>    protected Map&lt;String, Date&gt; fetchBooks(){
+</span><span class='line'>        //fetch the books from different publishing company.
+</span><span class='line'>        service1.retrieveBooks();
+</span><span class='line'>        service2.retrieveBooks();
+</span><span class='line'>        ......
+</span><span class='line'>        service10.retrieveBooks();
+</span><span class='line'>
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    protected List&lt;String&gt; getPublishedBooks(){
+</span><span class='line'>
+</span><span class='line'>        books = fetchBooks();
+</span><span class='line'>        //only pick up the books published.
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上代码所示，类BooksController中定义了方法fetchBooks()，并且该方法严重依赖于I/O操作。因为fetchBooks()从不同的供应商那里获取最近的书籍信息。</p>
+
+<p>对于这种测试，也有两种方案：</p>
+
+<ul>
+<li>Mock所有的service返回结果，然后测试getPublishedBooks()。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>doReturn(xxxx).when(service1).retrieveBooks()
+</span><span class='line'>doReturn(xxxx).when(service2).retrieveBooks()
+</span><span class='line'>doReturn(xxxx).when(service3).retrieveBooks()</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>除此之外，也可以考虑在测试getPublishedBooks()的时候，对fetchBooks()方法进行mock。如下所示：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public class BooksControllerTest {
+</span><span class='line'>
+</span><span class='line'>    @Test
+</span><span class='line'>    public void shouldReturnPublishedBooks(){
+</span><span class='line'>        BooksController controller = spy(new BooksController());
+</span><span class='line'>
+</span><span class='line'>        Map&lt;String, Date&gt; books = new HashMap&lt;String, Date&gt;();
+</span><span class='line'>        books.put("XXX1", "2014-2-1");
+</span><span class='line'>        books.put("XXX2", "2014-3-1");
+</span><span class='line'>
+</span><span class='line'>        doReturn(books).when(controller).fetchBooks();
+</span><span class='line'>
+</span><span class='line'>        assertThat(controller.getPublishedBooks(), is(....));
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在如上的代码中，controller是BookController一个真实的实例，非mock对象。  原因是当前被测类为BooksController，因此不能将该类的实例定义成mock。<br/>
+另外，controller的fetchBooks()方法虽然被partial mock了，但其他的方法还是该实例真正的方法。</p>
+
+<p>因此，Spy的作用是将原本被实例化的对象，附上了Mock的功能。</p>
+
+<h5>注意，该场景完全是为了演示Partial mock。在实际情况中，如将books作为实例变量，并提供setBooks(List books)方法，根本不需要mock就能完成对getPublishedBooks的测试。另外，对于这种使用Spy的Partial Mock场景，大多数情况也是因为类的设计违背了SRP原则。</h5>
+
+<h3>3. 两种Partial Mock方式</h3>
+
+<p>让我们再回顾一下上面的例子，并总结一下Partial Mock的两种用法:</p>
+
+<ul>
+<li><p>使用Mock构建对象，再使用CallRealMethod指定某方法为真实调用。</p></li>
+<li><p>实例化对象，定义Spy，再使用doReturn(xxx).when(xxx).method()</p></li>
+</ul>
+
+
+<h3>4. 区别</h3>
+
+<p>起初，偶比较倾向于使用CallRealMethod。因为该方法名足够表意，很容易就能理解其带来的用途。
+不过，使用CallRealMethod却不是推荐的方式，为什么呢，请看如下代码：</p>
+
+<pre><code>@Test
+public void testListPartialMockByCallRealMethod(){
+    List&lt;Integer&gt; list = mock(ArrayList.class);
+    when(list.add(100)).thenCallRealMethod();
+
+    list.add(100);
+    verify(list).add(100);
+}
+</code></pre>
+
+<p>代码没问题吧，不过运行后，却得到如下错误：</p>
+
+<pre><code>java.lang.NullPointerException
+    at java.util.ArrayList.add(ArrayList.java:352)
+    at com.wl.tw.VersionInfoCheckTest.testListByCallRealMethod(VersionInfoCheckTest.java:59)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+</code></pre>
+
+<p>如果查看ArrayList.java:352的代码，就会发现</p>
+
+<pre><code>350    public boolean add(E e) {
+351        ensureCapacity(size + 1);  // Increments modCount!!
+352        elementData[size++] = e;
+353        return true;
+354    }
+</code></pre>
+
+<p>在第352行，ArrayList实际上使用了另外一个对象elementData来存放新加入的元素。</p>
+
+<p>在这个例子中，由于ArrayList是mock的，并不是实例化出来的，所以mock的ArrayList并没有初始化elementData对象。这就是为什么会出现NullPointerException的原因。</p>
+
+<h3>5. 总结</h3>
+
+<ul>
+<li>当使用mockito mock对象时，它并不会mock该对象内部的其他依赖对象。</li>
+<li>当使用mockito partial mock时，注意spy和CallRealMethod的区别。</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/22/vagrant-learning-provision/">Vagrant Learning - 4 (Provision)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-22T23:02:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/22/vagrant-learning-provision/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>如何安装应用</h3>
+
+<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
+如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
+
+<p>目前，基本上有两种方式：</p>
+
+<h4>手动安装</h4>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/22/vagrant-learning-provision/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -679,7 +849,7 @@ rs.status()
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (10)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (7)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -695,23 +865,23 @@ rs.status()
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/11/15/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/15/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/11/microservices-in-action-outline/">微服务实战(1) - 内容大纲</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2016/11/03/microservices-in-action-introduction/">微服务实战(0) - 聊聊开篇</a>
       </li>
     
       <li class="post">
         <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构(四)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构(三)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a>
       </li>
     
   </ul>
