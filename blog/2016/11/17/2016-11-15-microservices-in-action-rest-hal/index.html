@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>微服务实践 - 使用HAL设计REST API - Happy Coding, Happy Life</title>
+  <title>微服务实战(4) - HAL 101 - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">
+  <link rel="canonical" href="http://wldandan.github.com/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">微服务实践 - 使用HAL设计REST API</h1>
+      <h1 class="entry-title">微服务实战(4) - HAL 101</h1>
     
     
       <p class="meta">
@@ -95,7 +95,7 @@
   
 
 
-<time datetime="2016-10-09T23:45:00+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2016</time>
+<time datetime="2016-11-17T23:45:00+08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2016</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -104,24 +104,40 @@
   </header>
 
 
-<div class="entry-content"><p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。</p>
+<div class="entry-content"><p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
 
-<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中REST API设计的挑战。</p>
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
-<p>本篇结合我在微服务项目中的实践，谈谈如何使用HAL优雅的设计REST API</p>
+<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
 
 <!-- More -->
 
 
+<h3>综述</h3>
+
+<p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)，被微服务架构广泛采用。</p>
+
+<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中API设计面临的挑战。</p>
+
+<p>本篇将介绍REST、REST成熟度模型、为什么使用HAL以及HAL的核心。</p>
+
 <h3>REST 101</h3>
 
 <p>REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" /></p>
 
 <p>REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。</p>
 
 <p>通过资源表述、状态转移以及统一接口，REST将客户端的请求、服务器端的响应基于资源联系起来，形成一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的通信机制。</p>
 
 <p>同时，由于HTTP协议本身的无状态性，使用REST，能够有效保持服务应用的无状态型，并利于水平伸缩。</p>
+
+<h3>REST 成熟度模型</h3>
+
+<p>REST成熟度模型描述了REST在实施过程中不同的级别。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" /></p>
 
 <h3>REST不是银弹</h3>
 
@@ -187,7 +203,7 @@ Accept: application/json
 
 <p>在<a href="http://martinfowler.com/articles/richardsonMaturityModel.html">《Richardson Maturity Model》</a>模型中，定义了REST API不同成熟度应该具备的特征。</p>
 
-<p>对于REST API Level 3，明确提出了&#8221;资源跳转的重要性&#8221;。</p>
+<p>对于REST API Level 3，明确提出了&#8221;资源跳转的重要性&#8221;，即<code>HATEOAS</code>。</p>
 
 <p>对于实际情况而言，大部分REST的实现，都是基于JSON作为传输格式，不过JSON最大的遗憾，正如W3C所描述的：</p>
 
@@ -246,7 +262,7 @@ Content-Type: application/json
 }   
 </code></pre>
 
-<p>如果要访问用户相关的联系人资源，可以查看文档获取其他的API接口，如下所示：</p>
+<p>如果要访问用户相关的联系人资源，则可能需要查看文档获取相应的API接口，如下所示：</p>
 
 <pre><code>GET - /api/contacts/wldandan
 Content-Type: application/json
@@ -275,7 +291,7 @@ Content-Type: application/json
 }   
 </code></pre>
 
-<p>如果基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，也就是：</p>
+<p>如果基于HAL，则可以使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似如下：</p>
 
 <pre><code>{
     "_links": {
@@ -337,7 +353,7 @@ Content-Type: application/json
 }
 </code></pre>
 
-<p>基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，则如下所示：</p>
+<p>基于HAL，则使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似则如下所示：</p>
 
 <pre><code>{
     "_links": {
@@ -385,25 +401,29 @@ Content-Type: application/json
 }
 </code></pre>
 
-<h3>在微服务实现中使用HAL</h3>
+<blockquote><p>所以，HAL的最大价值，帮助我们标准化定义了Resource的结构，并同时实现了HATEOAS。</p></blockquote>
 
-<h4>使用Spring-Data-Rest实现HAL</h4>
-
-<h4>在Spring Boot中定制HAL</h4>
-
-<h3>HAL与HATEOAS</h3>
+<h3>HAL Browser</h3>
 
 <h3>参考资料</h3>
 
-<p><a href="https://apigility.org/documentation/api-primer/halprimer">Hypertext Application Language</a>
-<a href="http://blog.stateless.co/post/13296666138/json-linking-with-hal">JSON Linking with HAL</a>
-<a href="Creating%20Service%20Contract%20with%20AutoRest,%20Swagger%20and%20HAL">Creating Service Contract with AutoRest, Swagger and HAL</a>
-<a href="https://opencredo.com/hal-hypermedia-api-spring-hateoas/">Implementing HAL hypermedia REST API using Spring HATEOAS</a>
-<a href="http://stateless.co/hal_specification.html">HAL Specification</a>
-<a href="https://groups.google.com/forum/#!forum/hal-discuss">hal-discuss@google groups</a>
-<a href="http://hyperschema.org/mediatypes/hal">HAL+JSON</a>
-<a href="https://opencredo.com/rest-api-tooling-review/">Documenting REST APIs – a tooling review</a>
-<a href="http://phlyrestfully.readthedocs.io/en/latest/halprimer.html">HAL Primer</a></p>
+<p><a href="https://apigility.org/documentation/api-primer/halprimer">Hypertext Application Language</a></p>
+
+<p><a href="http://blog.stateless.co/post/13296666138/json-linking-with-hal">JSON Linking with HAL</a></p>
+
+<p><a href="Creating%20Service%20Contract%20with%20AutoRest,%20Swagger%20and%20HAL">Creating Service Contract with AutoRest, Swagger and HAL</a></p>
+
+<p><a href="https://opencredo.com/hal-hypermedia-api-spring-hateoas/">Implementing HAL hypermedia REST API using Spring HATEOAS</a></p>
+
+<p><a href="http://stateless.co/hal_specification.html">HAL Specification</a></p>
+
+<p><a href="https://groups.google.com/forum/#!forum/hal-discuss">hal-discuss@google groups</a></p>
+
+<p><a href="http://hyperschema.org/mediatypes/hal">HAL+JSON</a></p>
+
+<p><a href="https://opencredo.com/rest-api-tooling-review/">Documenting REST APIs – a tooling review</a></p>
+
+<p><a href="http://phlyrestfully.readthedocs.io/en/latest/halprimer.html">HAL Primer</a></p>
 </div>
 
 
@@ -426,7 +446,7 @@ Content-Type: application/json
   
 
 
-<time datetime="2016-10-09T23:45:00+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2016</time>
+<time datetime="2016-11-17T23:45:00+08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2016</time>
       
 
 <span class="categories">
@@ -439,7 +459,7 @@ Content-Type: application/json
     </p>
 
     <p class="meta">
-      <a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">原文链接</a>，
+      <a href="/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/">原文链接</a>，
 <strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
 
     </p>
@@ -447,7 +467,7 @@ Content-Type: application/json
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/" data-via="" data-counturl="http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/" data-via="" data-counturl="http://wldandan.github.com/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/" >Tweet</a>
   
   
   
@@ -456,10 +476,8 @@ Content-Type: application/json
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/03/17/microservice-design-and-implementation/" title="Previous Post: 解析微服务架构">&laquo; 解析微服务架构</a>
+        <a class="basic-alignment left" href="/blog/2016/11/15/microservices-in-action-spring-boot-101/" title="Previous Post: 微服务实战(3) - Spring Boot 101">&laquo; 微服务实战(3) - Spring Boot 101</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/11/03/microservices-in-action-introduction/" title="Next Post: 微服务实战(0) - 聊聊开篇">微服务实战(0) - 聊聊开篇 &raquo;</a>
       
     </p>
   </footer>
@@ -513,6 +531,10 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/">微服务实战(4) - HAL 101</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/11/15/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
       </li>
     
@@ -526,10 +548,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2016/11/03/microservices-in-action-introduction/">微服务实战(0) - 聊聊开篇</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">微服务实践 - 使用HAL设计REST API</a>
       </li>
     
   </ul>
@@ -574,8 +592,8 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/';
-        var disqus_url = 'http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/';
+        var disqus_identifier = 'http://wldandan.github.com/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/';
+        var disqus_url = 'http://wldandan.github.com/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/';
         var disqus_script = 'embed.js';
       
     (function () {
