@@ -178,7 +178,7 @@
         <loc>
             http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/
         </loc>
-        <lastmod>2016-11-15T23:11:58+08:00</lastmod>
+        <lastmod>2016-11-16T18:44:48+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/2016/11/11/microservices-in-action-outline/</loc>
@@ -192,23 +192,29 @@
         <loc>
             http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-boot-101/
         </loc>
-        <lastmod>2016-11-15T23:17:54+08:00</lastmod>
+        <lastmod>2016-11-16T18:50:36+08:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-cloud-101/
+        </loc>
+        <lastmod>2016-11-16T18:13:54+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/about/</loc>
-        <lastmod>2016-10-10T16:27:00+08:00</lastmod>
+        <lastmod>2016-11-17T23:11:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/archives/</loc>
-        <lastmod>2016-11-15T23:17:54+08:00</lastmod>
+        <lastmod>2016-11-16T18:50:36+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/consulting/</loc>
-        <lastmod>2016-10-09T22:54:06+08:00</lastmod>
+        <lastmod>2016-11-17T23:05:20+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/</loc>
-        <lastmod>2016-11-15T23:17:54+08:00</lastmod>
+        <lastmod>2016-11-16T18:50:36+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/robots.txt</loc>

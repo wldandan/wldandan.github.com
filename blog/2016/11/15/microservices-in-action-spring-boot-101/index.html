@@ -68,7 +68,6 @@
 <ul class="main-navigation">
   <li><a href="/">文章</a></li>
   <li><a href="/blog/archives">归档</a></li>
-  <li><a href="/consulting">培训与咨询</a></li>
   <li><a href="/about">关于我</a></li>
 </ul>
 
@@ -116,14 +115,15 @@
 
 <h2>为什么是Spring Boot</h2>
 
-<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡全国，成为J2EE Web开发的标准。
-加上Spring对其他企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
+<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡社区，几乎成为J2EE 程序开发的标配。</p>
+
+<p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
 
 <p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
 
-<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的Convention Over Configuration，加上对SpringFramework的无缝支持，被社区普遍看好。</p>
+<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
 
-<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的Netflix OSS，足以证明Spring Boot在社区的影响力。</p>
+<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
 
 <p><img src="/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
 
@@ -161,21 +161,76 @@
 
 <blockquote><p>1.Starter</p></blockquote>
 
-<p>各种Starter负责实现相关依赖Jar包的导入和管理，譬如Spring-Web-MVC，Spring-Data等</p>
+<p>Starter负责将申明的依赖Jar包导入到当前ClassPath。</p>
+
+<p>每个Starter都提供一个<code>spring.providers文件</code>，申明当前Starter依赖的Jar包。</p>
+
+<p>譬如，<code>Spring-boot-starter-web</code>中的<code>spring.providers文件</code>描述的依赖如下所示：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>provides: spring-webmvc,spring-web,jackson-databind</span></code></pre></td></tr></table></div></figure>
+
+
+<p>包括<code>spring-webmvc</code>，<code>spring-web</code>，<code>jackson-databind</code>，分别提供mvc，web和JSON解析绑定的功能。</p>
+
+<p>欲了解更多的Starter，请移步<a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters">官方列表</a></p>
 
 <blockquote><p>2.AutoConfiguratioin</p></blockquote>
 
-<p>AutoConfiguratioin则根据Conditional条件完成对Bean的创建和组装</p>
+<p>AutoConfiguratioin根据<code>ConditionalOnXxx</code>条件，使用<code>@Bean</code>注解，完成对Bean的创建和组装。</p>
 
-<p>所以, 我对SpringBoot的理解为</p>
+<p>根据不同的<code>ConditionalOnXxx</code>，AutoConfiguration可以根据合适的场景创建并组装Bean。</p>
+
+<p>譬如</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ConditionalOnMissingBean(A.class)</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>表示当前指定的A实例不存在，才创建@Bean.</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ConditionalOnWebApplication</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>表示当前是在Web Application才创建@Bean</p></blockquote>
+
+<p>Java Web中我们经常使用<code>HttpEncodingAutoConfiguration</code>，完成UTF8的转码。如下是SpringBoot中，HttpEncodingAutoConfiguration的部分实现：</p>
+
+<blockquote><p>仅当ApplicationContext中没有CharacterEncodingFilter的时候，才会创建<code>CharacterEncodingFilter</code></p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Bean
+</span><span class='line'>@ConditionalOnMissingBean(CharacterEncodingFilter.class)
+</span><span class='line'>public CharacterEncodingFilter characterEncodingFilter() {
+</span><span class='line'>  CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+</span><span class='line'>  filter.setEncoding(this.properties.getCharset().name());
+</span><span class='line'>  filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
+</span><span class='line'>  filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
+</span><span class='line'>  return filter;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌&#8230;.)</p></blockquote>
 
 <ul>
-<li>Starter打包提供相关的包依赖，加载到ClassPath</li>
-<li>EnableAutoConfiguration配置Bean的依赖关系</li>
+<li><code>Starter打包提供相关的包依赖，加载到ClassPath</code></li>
+<li><code>EnableAutoConfiguration借助ConditionalOnXxx条件，创建并配置Bean的依赖关系</code></li>
 </ul>
 
 
-<p>二者配合起来，天下无敌啊&#8230;.</p>
+<p>关于更多<code>Conditional</code>的细节，请查看包
+<em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
 
 <h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
 
@@ -275,7 +330,7 @@
 
 <h2>总结</h2>
 
-<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
+<blockquote><p>本部分介绍了SpringBoot的核心，并提到了快速创建SpringBoot应用的方式，通过这部分内容，能够帮助大家完成<code>SpringBoot从0到1的过程</code> :)</p></blockquote>
 </div>
 
 

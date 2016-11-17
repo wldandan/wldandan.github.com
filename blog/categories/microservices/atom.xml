@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Microservices | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/microservices/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-11-15T23:19:22+08:00</updated>
+  <updated>2016-11-17T23:13:30+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -12,6 +12,120 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[微服务实战(4) - Spring Cloud 101]]></title>
+    <link href="http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-cloud-101/"/>
+    <updated>2016-11-15T23:37:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2016/11/15/microservices-in-action-spring-cloud-101</id>
+    <content type="html"><![CDATA[<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
+
+<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+
+<!-- More -->
+
+
+<h2>服务实施的挑战</h2>
+
+<h3>个体服务的实现越来越容易</h3>
+
+<p>在上一节中，我们学习了Spring Boot的核心，明白了<code>Starter</code>与<code>AutoConfiguration</code>的重要性，并知道了如何快速创建Spring Boot应用。</p>
+
+<p>基于现有的<code>Spring Framework</code>，以及<code>Spring Boot的Starter</code>，加上<code>官方CLI</code>、 <code>Initializr</code>以及各种<code>IDE</code>提供的快速创建SpringBoot 应用的方式，我们能轻松的完成一个基于RESTful API的服务实现。</p>
+
+<p>因此，从Spring Boot的优势来看，构建单个的服务单元非常容易了~</p>
+
+<blockquote><p>从IT社区的发展来看，工具正在变得越来越强大，开发人员的大部分重复性工作都将会被简化。</p>
+
+<p>伴随着人工智能的快速发展，将来编码的工作都可以交给机器了，喝着咖啡告诉它，你想要什么语言，你的验收条件，啦啦啦....</p></blockquote>
+
+<h3>服务间的协作、管理成本越来越高</h3>
+
+<p>但是，对于微服务的实施而言，服务单元不会孤立存在，必然相互协作，共同实现业务价值。</p>
+
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
+
+<p>而随着服务规模化的推进，服务间协作和管理的成本会越来越高，包括但不限于：</p>
+
+<ul>
+<li>服务地址发生变化
+
+<ul>
+<li>服务结点数量动态变化(水平伸缩)</li>
+<li>服务结点地址动态变化(重启、升级)</li>
+</ul>
+</li>
+<li>服务的配置信息变更
+
+<ul>
+<li>配置信息修改后，如何动态更新单实例</li>
+<li>配置信息修改后，如何同步多个实例</li>
+<li>配置信息的追溯、回滚及可用性保障</li>
+</ul>
+</li>
+<li>服务间调用出现异常
+
+<ul>
+<li>如何防止调用间的”雪崩”</li>
+</ul>
+</li>
+<li>为消费者提供统一接口
+
+<ul>
+<li>如何提供单一的入口简化设备的调用</li>
+<li>屏蔽不同的应用协议(MQ/JMS)</li>
+</ul>
+</li>
+</ul>
+
+
+<p>所以，如何应对如上这些问题，成为微服务实施中重要的环节。</p>
+
+<h2>什么是Spring Cloud</h2>
+
+<p><code>Spring Cloud</code>是Pivotal官方提供的旨在帮助开发者降低构建复杂分布式系统的工具集。</p>
+
+<p>2015年3月4日，Spring Cloud发布了第一个GA版本。</p>
+
+<p>Spring Cloud的核心宗旨是：</p>
+
+<blockquote><p>A toolset designed for building complexed distributed systems.</p></blockquote>
+
+<p>在Spring Cloud中，整合了很多功能组件，包括Config、Messaging、Netflix OSS以及对Heroku、Amazon Web Service、Cloud Foundry等云平台的接口支持。</p>
+
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
+
+<p>基于这些组件，能够帮助我们解决之前提到的服务实施后面临的挑战。</p>
+
+<h2>常用的Spring Cloud组件</h2>
+
+<p>Spring Cloud中的组件很多，而且在快速的演进中，在本系列<code>服务构建篇</code>里，主要涉及的有</p>
+
+<blockquote><p>Spring Cloud Netflix</p></blockquote>
+
+<p>集成了Netflix OSS的组件(Eureka/Ribbon/Hystrix/Zuul等)</p>
+
+<blockquote><p>Spring Cloud Config</p></blockquote>
+
+<p>提供集中化的服务配置信息，动态更新实例的配置</p>
+
+<blockquote><p>Spring Cloud Bus</p></blockquote>
+
+<p>使用分布式消息机制，提供不同服务实例之间的协作</p>
+
+<blockquote><p>Spring Cloud Security</p></blockquote>
+
+<p>提供服务安全相关的实现机制(OAuth2)</p>
+
+<h2>总结</h2>
+
+<blockquote><p>Spring Cloud本着<code>全家桶</code>的一站式解决方案，为微服务的实施提供了支持。</p>
+
+<p>虽然Spring Cloud GA的时间并不长，但其快速的演进以及Spring大量用户的支持，有可能成为Java领域微服务架构实施的利器，帮助我们有效的应对服务落地时的挑战。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[微服务实战(3) - Spring Boot 101]]></title>
@@ -29,16 +143,17 @@
 
 <h2>为什么是Spring Boot</h2>
 
-<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡全国，成为J2EE Web开发的标准。
-加上Spring对其他企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
+<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡社区，几乎成为J2EE 程序开发的标配。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
+<p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
 
-<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的Convention Over Configuration，加上对SpringFramework的无缝支持，被社区普遍看好。</p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
 
-<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的Netflix OSS，足以证明Spring Boot在社区的影响力。</p>
+<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
+<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
+
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
 
 <h2>Spring Boot的优势</h2>
 
@@ -74,21 +189,70 @@
 
 <blockquote><p>1.Starter</p></blockquote>
 
-<p>各种Starter负责实现相关依赖Jar包的导入和管理，譬如Spring-Web-MVC，Spring-Data等</p>
+<p>Starter负责将申明的依赖Jar包导入到当前ClassPath。</p>
+
+<p>每个Starter都提供一个<code>spring.providers文件</code>，申明当前Starter依赖的Jar包。</p>
+
+<p>譬如，<code>Spring-boot-starter-web</code>中的<code>spring.providers文件</code>描述的依赖如下所示：</p>
+
+<p><code>
+provides: spring-webmvc,spring-web,jackson-databind
+</code></p>
+
+<p>包括<code>spring-webmvc</code>，<code>spring-web</code>，<code>jackson-databind</code>，分别提供mvc，web和JSON解析绑定的功能。</p>
+
+<p>欲了解更多的Starter，请移步<a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters">官方列表</a></p>
 
 <blockquote><p>2.AutoConfiguratioin</p></blockquote>
 
-<p>AutoConfiguratioin则根据Conditional条件完成对Bean的创建和组装</p>
+<p>AutoConfiguratioin根据<code>ConditionalOnXxx</code>条件，使用<code>@Bean</code>注解，完成对Bean的创建和组装。</p>
 
-<p>所以, 我对SpringBoot的理解为</p>
+<p>根据不同的<code>ConditionalOnXxx</code>，AutoConfiguration可以根据合适的场景创建并组装Bean。</p>
+
+<p>譬如
+<code>
+ConditionalOnMissingBean(A.class)
+</code></p>
+
+<blockquote><p>表示当前指定的A实例不存在，才创建@Bean.</p></blockquote>
+
+<p><code>
+ConditionalOnWebApplication
+</code></p>
+
+<blockquote><p>表示当前是在Web Application才创建@Bean</p></blockquote>
+
+<p>Java Web中我们经常使用<code>HttpEncodingAutoConfiguration</code>，完成UTF8的转码。如下是SpringBoot中，HttpEncodingAutoConfiguration的部分实现：</p>
+
+<blockquote><p>仅当ApplicationContext中没有CharacterEncodingFilter的时候，才会创建<code>CharacterEncodingFilter</code></p></blockquote>
+
+<p>```</p>
+
+<pre><code>@Bean
+@ConditionalOnMissingBean(CharacterEncodingFilter.class)
+public CharacterEncodingFilter characterEncodingFilter() {
+    CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+    filter.setEncoding(this.properties.getCharset().name());
+    filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
+    filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
+    return filter;
+}
+</code></pre>
+
+<p>```</p>
+
+<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌....)</p></blockquote>
 
 <ul>
-<li>Starter打包提供相关的包依赖，加载到ClassPath</li>
-<li>EnableAutoConfiguration配置Bean的依赖关系</li>
+<li><code>Starter打包提供相关的包依赖，加载到ClassPath</code></li>
+<li><code>EnableAutoConfiguration借助ConditionalOnXxx条件，创建并配置Bean的依赖关系</code></li>
 </ul>
 
 
-<p>二者配合起来，天下无敌啊....</p>
+<p>关于更多<code>Conditional</code>的细节，请查看包
+<em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
+
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
 
 <h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
 
@@ -174,7 +338,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <h2>总结</h2>
 
-<p>  通过理论+模拟+实战的方式，梳理微服务的生态系统，并以持续交付和DevOps的实施为主线，体系化的形成微服务从0到1的学习过程。</p>
+<blockquote><p>本部分介绍了SpringBoot的核心，并提到了快速创建SpringBoot应用的方式，通过这部分内容，能够帮助大家完成<code>SpringBoot从0到1的过程</code> :)</p></blockquote>
 ]]></content>
   </entry>
   
@@ -232,7 +396,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>该活动报名系统的应用架构图如下：</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
 
 <h2>服务实现</h2>
 
@@ -269,7 +433,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>该活动报名系统的微服务生态系统图如下：</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
 
 <h2>总结</h2>
 
@@ -329,7 +493,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>微服务生态系统</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
 
 <h4>3.理解微服务的高级话题</h4>
 
@@ -342,7 +506,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>基于消费者驱动的契约测试</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
 
 <h4>4.理解实施微服务与DevOps(基于Docker)</h4>
 
@@ -358,11 +522,11 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>部署模型图</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
 
 <blockquote><p>持续交付流水线</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
 
 <h2>总结</h2>
 
@@ -388,34 +552,34 @@ EmbeddedServletContainerAutoConfiguration
 
 <h4>1.微服务涉及内容广泛，学习成本高</h4>
 
-<p>微服务架构提倡将单一应用程序划分成一组小的服务，每个服务运行在独立的进程中，服务间采用轻量级的通信机制互相协作(通常是基于 HTTP 协议的 RESTful API )，每个服务都围绕着具体业务进行构建，并且能被独立的开发、测试、构建、部署和交付。</p>
+<p>微服务架构提倡将<code>单一应用程序</code>划分成<code>一组小的服务</code>，<code>每个服务运行在独立的进程中</code>，服务间<code>采用轻量级的通信机制</code>互相协作(通常是基于 HTTP 协议的 RESTful API )，每个服务都围绕着具体业务进行构建，并且能被独立的<code>开发、测试、构建、部署和交付</code>。</p>
 
-<p>客观来说，微服务架构所涉及的内容，已经不仅仅是架构本身，还包括了持续集成、持续交付、自动化、部署/运维、监控以及DevOps等多个方面，这些方面互相配合、相辅相成，才能在微服务实施的过程中展现威力。</p>
+<p>客观来说，微服务架构所涉及的内容，已经不仅仅是<code>架构本身</code>，还包括了<code>持续集成</code>、<code>持续交付</code>、<code>自动化测试</code>、<code>部署/运维、监控</code>以及<code>DevOps</code>等多个方面，这些方面互相配合、相辅相成，才能在微服务实施的过程中展现威力。</p>
 
-<p>一个完整的微服务系统，在实施的过程中，可能还要考虑服务的公共支撑部分，包括但不限于：</p>
+<p>一个完整的微服务系统，在实施的过程中，可能还要考虑服务的<code>公共支撑部分</code>，包括但不限于：</p>
 
 <ul>
-<li>日志聚合(将不同服务实例上的日志聚合起来，便于分析、统计和定位问题)</li>
-<li>监控和告警(监控每个服务的状态，必要时产生告警)</li>
-<li>服务的注册和发现机制</li>
-<li>服务的认证和鉴权</li>
-<li>服务构建和打包机制</li>
-<li>服务间的接口测试</li>
-<li>持续集成/持续交付流水线</li>
-<li>服务依赖关系管理</li>
+<li><code>日志聚合</code>(将不同服务实例上的日志聚合起来，便于分析、统计和定位问题)</li>
+<li><code>监控</code>和<code>告警</code>(监控每个服务的状态，必要时产生告警)</li>
+<li>服务的<code>注册和发现</code>机制</li>
+<li>服务的<code>认证</code>和<code>鉴权</code></li>
+<li><code>服务构建</code>和<code>打包机制</code></li>
+<li>服务间的<code>接口测试</code></li>
+<li><code>持续集成</code>/<code>持续交付流水线</code></li>
+<li><code>服务依赖</code>关系管理</li>
 <li>......</li>
 </ul>
 
 
-<p>对于这么多的内容，如果能基于特定场景的理解与练习，再借鉴互联网公司的微服务实施案例，能够快速理解核心。</p>
+<p>对于这么多的内容，如果能基于模拟场景的理解与练习，再借鉴各大会议上诸多公司的微服务实施案例，能够快速理解并开始尝试。</p>
 
 <h3>2.《微服务与实践》一书，该更新更新了</h3>
 
 <p>2015年4月，我开始撰写《微服务架构与实践》一书，当时国内微服务架构的概念还谈的比较少，所以《微服务架构与实践》侧重讲了微服务的理论基础和诞生背景，并分享了我在ThoughtWorks就职期间，实现微服务的工作方式（我们以持续交付和DevOps为核心，构建服务开发模板，并基于AWS实现快速发布，快速监控，快速反馈）。同时，也探讨了我们如何将遗留系统改造成微服务架构的策略和步骤，但由于精力有限，很多细节无法一一展开讨论。</p>
 
-<p>另外，书中的大部分例子都是以Ruby和AWS为主，很多读者也提出了建议，希望给出采用Java实现的例子，容易理解和使用。</p>
+<p>另外，书中的大部分例子都是以<code>Ruby和AWS</code>为主，很多读者也提出了建议，希望给出采用Java实现的例子，更容易理解和使用。</p>
 
-<p>当今时代，技术发展的速度越来越快，诞生的框架、工具越来越多，虽然有心更新书的内容，但时间和精力都无法快速更新并发布新版，所以，这次希望能通过这个系列，能将过去的一些实践细化，包括DevOps、持续集成、持续交付以及使用Pact等实践，并采用Java(基于Spring Boot/Spring Cloud的快速发展)实现一个模拟的案例。</p>
+<p>当今时代，技术发展的速度越来越快，诞生的框架、工具越来越多，虽然有心更新书的内容，但时间和精力都无法快速更新并发布新版，所以，这次希望能通过这个系列，先将过去的一些实践细化，包括DevOps、持续集成、持续交付以及使用Pact等实践，并采用Java(基于Spring Boot/Spring Cloud的快速发展)实现一个模拟的案例。</p>
 
 <h3>3. 为感兴趣的传统开发者提供可用的案例</h3>
 
@@ -423,331 +587,33 @@ EmbeddedServletContainerAutoConfiguration
 
 <p>而传统企业在过去多年的业务运作积累中，综合多种因素（组织结构、业务发展等），技术体系相对封闭，缺乏持续交付的理念。如果光有微服务的理论基础，和业界的成功案例，不动手尝试持续交付、DevOps等，很难有深刻的理解。</p>
 
-<p>Github上微服务相关的实现Repo蛮多，但作为完整系列的不多，而且大部分也很难完整运行起来。</p>
+<p>Github上微服务相关的实现Repo蛮多，但作为完整系列的不多。</p>
 
-<p>所以，基于这些原因，也希望能够总结之前的经验，结合为企业实施微服务架构培训的内容，系统化梳理并输出这个系列。</p>
+<p>所以，基于这些原因，结合过去为企业实施微服务架构培训的内容，也希望能输出这个系列。</p>
+
+<h2>受众用户是谁</h2>
+
+<ul>
+<li><p>本系列的受众用户，主要是年轻(1~3年)的Java开发者、传统应用的IT架构师，以及对微服务感兴趣的童鞋们。</p></li>
+<li><p>希望通过本系列，能将微服务、持续交付、Docker以及DevOps等技术，作为整体输出，帮助大家缩短系统了解微服务的成本。</p></li>
+</ul>
+
+
+<h2>数据说话</h2>
+
+<p>关于IT社区对微服务的关注度和市场的需求数据，请看下图，一个字🔥。</p>
+
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/google_trends.png" /></p>
+
+<blockquote><p>图的上部分是Google Trends上关于<code>Microservice</code>的增长趋势。</p>
+
+<p>图的左下部分是<code>Microservice</code>相关关键字的增长速度，<code>Breakout</code>表明在搜索的区间内，其增长的幅度超过5000%。</p>
+
+<p>图的右下部分是Indeed.com中对于<code>Microservice</code>的市场招聘需求的增长曲线。(趋势来了，挡都挡不住，提升个人竞争力，赶紧哈~ 😝)</p></blockquote>
 
 <h2>总结</h2>
 
-<p>最后，看看微服务发展的相关数据，🔥。</p>
-
-<p><img src="/images/microservice-in-action-with-spring/google_trends.png" /></p>
-
-<blockquote><p>上面是Google Trends上关于“Microservice”的增长趋势</p>
-
-<p>左下是“Microservice”相关关键字的增长速度</p>
-
-<p>右下是Indeed.com中对于microservice的市场招聘需求增长</p></blockquote>
-
-<p>好吧，准备进入正题.....</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[微服务实践 - 使用HAL设计REST API]]></title>
-    <link href="http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/"/>
-    <updated>2016-10-09T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua</id>
-    <content type="html"><![CDATA[<p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。</p>
-
-<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率.....这些都成为微服务实践中REST API设计的挑战。</p>
-
-<p>本篇结合我在微服务项目中的实践，谈谈如何使用HAL优雅的设计REST API</p>
-
-<!-- More -->
-
-
-<h3>REST 101</h3>
-
-<p>REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。</p>
-
-<p>REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。</p>
-
-<p>通过资源表述、状态转移以及统一接口，REST将客户端的请求、服务器端的响应基于资源联系起来，形成一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的通信机制。</p>
-
-<p>同时，由于HTTP协议本身的无状态性，使用REST，能够有效保持服务应用的无状态型，并利于水平伸缩。</p>
-
-<h3>REST不是银弹</h3>
-
-<p>随着组织业务的不断增长，服务规模化的实施，以及响应内容复杂度的增加，REST的使用面临如下两个挑战：</p>
-
-<ul>
-<li>如何标准化资源结构</li>
-</ul>
-
-
-<p>使用REST，需要将业务场景的响应抽象为资源，并基于JSON或者XML的格式，返回给客户端。随着业务复杂度的增加，响应的内容会愈发复杂。</p>
-
-<p>REST架构风格，并没有定义响应结构应该遵循什么标准。这也就意味着，在企业内部，不同的部门，不同的开发团队，对同一类资源，所定义的结构可能不尽相同；</p>
-
-<p>譬如，如下是服务器端对客户端获取产品请求的的响应结果，两种结构都是合理的，但存在着差异</p>
-
-<pre><code>GET http://bookstore.com/books/12 
-Accept: application/json
-</code></pre>
-
-<hr />
-
-<pre><code>响应结构一
-{  
-    "name":"Spring Boot In Action",  
-    "category": "Book",  
-    "price":69.00,  
-    "ref": "http://bookstore.com/books/12",
-    "created_at": "2015-05-01 10:00:00",
-    "updated_at": "2015-06-01 11:00:00"
-}  
-</code></pre>
-
-<hr />
-
-<pre><code>响应结构二
-{
-  "basic_info":
-  {
-    "name":"Spring Boot In Action",
-    "category":"Book"
-    "price":69.00,
-  },
-
-  "ref":{
-    "self": "http://bookstore.com/books/12”,
-    “list": "http://bookstore.com/books"
-  },
-
-  "timestamp":{
-    "created_at": "2015-05-01 10:00:00",
-    "updated_at": "2015-06-01 11:00:00"
-  }
-}
-</code></pre>
-
-<p>因此，如何定义一套标准的资源响应结构，成为服务规模化后使用REST面临的一个挑战。</p>
-
-<ul>
-<li>如何处理资源的跳转链接</li>
-</ul>
-
-
-<p>在<a href="http://martinfowler.com/articles/richardsonMaturityModel.html">《Richardson Maturity Model》</a>模型中，定义了REST API不同成熟度应该具备的特征。</p>
-
-<p>对于REST API Level 3，明确提出了"资源跳转的重要性"。</p>
-
-<p>对于实际情况而言，大部分REST的实现，都是基于JSON作为传输格式，不过JSON最大的遗憾，正如W3C所描述的：</p>
-
-<blockquote><p>JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web.</p>
-
-<p>没有对超链接处理做内建的支持，是JSON最大的遗憾。而这部分却恰恰是互联网的基石。</p></blockquote>
-
-<p>这带来的潜在问题是，对于调用接口的Consumer而言，需要通过查看相关文档，才能了解如何获取相关的资源信息。譬如，某些社交系统可能会提供类似如下的接口文档，来帮助Consumer了解如何使用其提供的接口。</p>
-
-<pre><code>https://api.example.com/users/1234567890      GET 获取用户明细
-https://api.example.com/users/[ID]/friends    GET 获取用户相关的好友
-https://api.example.com/users/[ID]/posts      GET 获取用户相关的文章
-</code></pre>
-
-<h3>HAL 101</h3>
-
-<p>HAL（Hypertext Application Language）是一种轻量级超文本应用描述协议。HAL的实现基于REST，并对REST中资源结构无法标准化和不支持资源间跳转链接做了有效的互补。</p>
-
-<p>目前，越来越多的企业和组织开始使用HAL提供标准化的服务接口，譬如</p>
-
-<ul>
-<li><p><a href="http://docs.aws.amazon.com/appstream/latest/developerguide/rest-api-application.html">AWS APP Stream API</a></p></li>
-<li><p><a href="https://smxemail.com">SMXEmail API</a></p></li>
-<li><p><a href="http://api.m.ox.ac.uk/browser/#/">牛津大学官方数据API</a></p></li>
-</ul>
-
-
-<p>更多案例请可以参考<a href="http://stateless.co/hal_specification.html">HAL官方网站</a>。</p>
-
-<h3>HAL核心</h3>
-
-<p>在HAL中，任何响应都被定义成一种资源（Resource），这是遵循REST原则对资源的定义标准。
-同REST不同的是，在每个资源中，HAL又将其分成了如下三个标准的部分：</p>
-
-<ul>
-<li>状态(Resource State) - 通常指资源本身固有的属性，如之前提到的book的title、price等</li>
-<li>链接(Links) - 定义了与当前资源相关的资源链接的集合</li>
-<li>子资源(Embedded Resource) - 描述在当前资源的内部，其嵌套的资源。</li>
-</ul>
-
-
-<p><img src="/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
-
-<h4>使用HAL定义单一资源(Resource)</h4>
-
-<p>对于单一资源而言，如果没有使用HAL，通常我们会定义成这样：</p>
-
-<pre><code>GET - /api/users/wldandan
-Content-Type: application/json
-
-{
-    "id": "wldandan",
-    "name": "Wang Lei",
-    "email": "useremail@email.com",
-    "wechat": "abcdefg"
-}   
-</code></pre>
-
-<p>如果要访问用户相关的联系人资源，可以查看文档获取其他的API接口，如下所示：</p>
-
-<pre><code>GET - /api/contacts/wldandan
-Content-Type: application/json
-.......
-</code></pre>
-
-<p>或者将相关信息放在之前返回的结果里：</p>
-
-<pre><code>{
-    "id": "wldandan",
-    "name": "Wang Lei",
-    "email": "useremail@email.com",
-    "wechat": "abcdefg",
-    "contacts": [
-        {
-            "id": "chenyue",
-            "name": "Chen Yue"
-            "link": "/api/users/chenyue"
-        },
-        {
-            "id": "kouxi",
-            "name": "Kou Xi"
-            "link": "/api/users/chenyue"
-        }
-    ]
-}   
-</code></pre>
-
-<p>如果基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，也就是：</p>
-
-<pre><code>{
-    "_links": {
-        "self": {
-            "href": "http://example.org/api/users/wldandan"
-        }
-    },
-    "id": "wldandan",
-    email: 'useremail@email.com',
-    "name": "Wang Lei"
-    wechat: 'abcdefg',
-
-    "_embedded": {
-        "contacts": [
-        {
-            "_links": {
-                "self": {
-                    "href": "http://example.org/api/users/chenyue"
-                }
-            },
-            "id": "chenyue",
-            "name": "Chen Yue"
-        },
-        {
-            "_links": {
-                "self": {
-                    "href": "http://example.org/api/users/kouxi"
-                }
-            },
-            "id": "kouxi",
-            "name": "Kou Xi"
-        }
-        ]
-    }
-}
-</code></pre>
-
-<h4>使用HAL定义集合资源(Collection Resource)</h4>
-
-<p>对于集合资源而言，如果没有使用HAL，通常我们会定义成这样：</p>
-
-<pre><code>GET - /api/users
-Content-Type: application/json
-
-{
-    total: 10
-    page: 5
-    page_size: 2
-    users: [
-    {
-        id: 'wldandan',
-        name: 'Wang Lei'
-    },
-    {
-        id: 'chenyue',
-        name: 'Chen Yue'
-    },
-    ]
-}
-</code></pre>
-
-<p>基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，则如下所示：</p>
-
-<pre><code>{
-    "_links": {
-        "self": {
-            "href": "http://example.org/api/users?page=3"
-        },
-        "first": {
-            "href": "http://example.org/api/users"
-        },
-        "prev": {
-            "href": "http://example.org/api/users?page=2"
-        },
-        "next": {
-            "href": "http://example.org/api/users?page=4"
-        },
-        "last": {
-            "href": "http://example.org/api/users?page=5"
-        }
-    },
-    "page_size": 2,
-    "total": 10,
-    "page": 5,
-    "_embedded": {
-        "users": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/users/wldandan"
-                    }
-                },
-                "id": "wldandan",
-                "name": "Wang Lei"
-            },
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/user/chenyue"
-                    }
-                },
-                "id": "chenyue",
-                "name": "Chen Yue"
-            }
-        ]
-    }
-}
-</code></pre>
-
-<h3>在微服务实现中使用HAL</h3>
-
-<h4>使用Spring-Data-Rest实现HAL</h4>
-
-<h4>在Spring Boot中定制HAL</h4>
-
-<h3>HAL与HATEOAS</h3>
-
-<h3>参考资料</h3>
-
-<p><a href="https://apigility.org/documentation/api-primer/halprimer">Hypertext Application Language</a>
-<a href="http://blog.stateless.co/post/13296666138/json-linking-with-hal">JSON Linking with HAL</a>
-<a href="Creating%20Service%20Contract%20with%20AutoRest,%20Swagger%20and%20HAL">Creating Service Contract with AutoRest, Swagger and HAL</a>
-<a href="https://opencredo.com/hal-hypermedia-api-spring-hateoas/">Implementing HAL hypermedia REST API using Spring HATEOAS</a>
-<a href="http://stateless.co/hal_specification.html">HAL Specification</a>
-<a href="https://groups.google.com/forum/#!forum/hal-discuss">hal-discuss@google groups</a>
-<a href="http://hyperschema.org/mediatypes/hal">HAL+JSON</a>
-<a href="https://opencredo.com/rest-api-tooling-review/">Documenting REST APIs – a tooling review</a>
-<a href="http://phlyrestfully.readthedocs.io/en/latest/halprimer.html">HAL Primer</a></p>
+<blockquote><p>好的，准备进入正题.....</p></blockquote>
 ]]></content>
   </entry>
   
