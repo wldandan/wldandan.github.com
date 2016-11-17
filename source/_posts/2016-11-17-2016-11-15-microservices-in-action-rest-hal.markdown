@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "微服务实践 - 使用HAL设计REST API"
-date: 2016-10-09 23:45
+title: "微服务实战(4) - HAL 101"
+date: 2016-11-17 23:45
 comments: true
 keywords: 微服务架构, 微服务架构与实践，微服务架构与实践培训
 description: 微服务架构与实践培训
@@ -9,23 +9,42 @@ categories: Microservices
 published: false
 ---
 
-REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。
+过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。
 
-在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率.....这些都成为微服务实践中REST API设计的挑战。
+经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。
 
-本篇结合我在微服务项目中的实践，谈谈如何使用HAL优雅的设计REST API
+所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。
+
 
 <!-- More -->
+
+### 综述
+
+REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)，被微服务架构广泛采用。
+
+在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率.....这些都成为微服务实践中API设计面临的挑战。
+
+本篇将介绍REST、REST成熟度模型、为什么使用HAL以及HAL的核心。
+
 
 ### REST 101
 
 REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。
+
+<img src="{{ root_url }}/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" />
 
 REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。
 
 通过资源表述、状态转移以及统一接口，REST将客户端的请求、服务器端的响应基于资源联系起来，形成一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的通信机制。
 
 同时，由于HTTP协议本身的无状态性，使用REST，能够有效保持服务应用的无状态型，并利于水平伸缩。
+
+### REST 成熟度模型
+
+REST成熟度模型描述了REST在实施过程中不同的级别。
+
+<img src="{{ root_url }}/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" />
+
 
 ### REST不是银弹
 
@@ -81,7 +100,7 @@ REST架构风格，并没有定义响应结构应该遵循什么标准。这也�
 
 在[《Richardson Maturity Model》](http://martinfowler.com/articles/richardsonMaturityModel.html)模型中，定义了REST API不同成熟度应该具备的特征。
 
-对于REST API Level 3，明确提出了"资源跳转的重要性"。
+对于REST API Level 3，明确提出了"资源跳转的重要性"，即`HATEOAS`。
 
 对于实际情况而言，大部分REST的实现，都是基于JSON作为传输格式，不过JSON最大的遗憾，正如W3C所描述的：
 
@@ -95,7 +114,6 @@ REST架构风格，并没有定义响应结构应该遵循什么标准。这也�
 	https://api.example.com/users/1234567890      GET 获取用户明细
 	https://api.example.com/users/[ID]/friends    GET 获取用户相关的好友
 	https://api.example.com/users/[ID]/posts      GET 获取用户相关的文章
-
 
 ### HAL 101 
 
@@ -111,7 +129,7 @@ HAL（Hypertext Application Language）是一种轻量级超文本应用描述�
 
 更多案例请可以参考[HAL官方网站](http://stateless.co/hal_specification.html)。
 
-### HAL核心
+### HAL的核心
 
 在HAL中，任何响应都被定义成一种资源（Resource），这是遵循REST原则对资源的定义标准。
 同REST不同的是，在每个资源中，HAL又将其分成了如下三个标准的部分：
@@ -136,12 +154,7 @@ HAL（Hypertext Application Language）是一种轻量级超文本应用描述�
 	    "wechat": "abcdefg"
 	}	
 
-如果要访问用户相关的联系人资源，可以查看文档获取其他的API接口，如下所示：
-	GET - /api/contacts/wldandan
-	Content-Type: application/json
-	.......
-
-或者将相关信息放在之前返回的结果里：
+如果要访问用户相关的联系人资源，则可能需要查看文档获取相应的API接口，或者将相关信息放在之前返回的结果里：
 
 	{
 	    "id": "wldandan",
@@ -163,7 +176,7 @@ HAL（Hypertext Application Language）是一种轻量级超文本应用描述�
 	}	
 
 
-如果基于HAL，则使用_links描述相关链接，同时使用_embedded描述嵌套资源，也就是：
+如果基于HAL，则可以使用`_links`描述相关链接，同时使用`_embedded`描述嵌套资源，类似如下：
 
 	{
 	    "_links": {
@@ -223,7 +236,7 @@ HAL（Hypertext Application Language）是一种轻量级超文本应用描述�
 	    ]
 	}
 
-基于HAL，则使用_links描述相关链接，同时使用_embedded描述嵌套资源，则如下所示：
+基于HAL，则使用`_links`描述相关链接，同时使用`_embedded`描述嵌套资源，类似则如下所示：
 	{
 	    "_links": {
 	        "self": {
@@ -270,19 +283,29 @@ HAL（Hypertext Application Language）是一种轻量级超文本应用描述�
 	}
 
 
-### 在微服务实现中使用HAL
-#### 使用Spring-Data-Rest实现HAL
-#### 在Spring Boot中定制HAL
-### HAL与HATEOAS
+
+>所以，HAL的最大价值，帮助我们标准化定义了Resource的结构，并同时实现了HATEOAS。
+
+### HAL Browser
+
+
 
 
 ### 参考资料
 [Hypertext Application Language](https://apigility.org/documentation/api-primer/halprimer)
+
 [JSON Linking with HAL](http://blog.stateless.co/post/13296666138/json-linking-with-hal)
+
 [Creating Service Contract with AutoRest, Swagger and HAL](Creating Service Contract with AutoRest, Swagger and HAL)
+
 [Implementing HAL hypermedia REST API using Spring HATEOAS](https://opencredo.com/hal-hypermedia-api-spring-hateoas/)
+
 [HAL Specification](http://stateless.co/hal_specification.html)
+
 [hal-discuss@google groups](https://groups.google.com/forum/#!forum/hal-discuss)
+
 [HAL+JSON](http://hyperschema.org/mediatypes/hal)
+
 [Documenting REST APIs – a tooling review](https://opencredo.com/rest-api-tooling-review/)
+
 [HAL Primer](http://phlyrestfully.readthedocs.io/en/latest/halprimer.html)
