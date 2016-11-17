@@ -82,53 +82,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/">微服务实战(4) - HAL 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-11-17T23:45:00+08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2016</time>
-        
-         | <a href="/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2016/11/15/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a></h1>
     
     
@@ -572,6 +525,72 @@
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">基于微服务架构，改造企业核心系统之实践</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-16T21:57:00+08:00" pubdate data-updated="true">Sep 16<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文已经发表于InfoQ，请参考<a href="http://www.infoq.com/cn/articles/enterprise-core-systems-transformation-practice">这里</a></p>
+
+<h2>背景与挑战</h2>
+
+<p>随着公司国际化战略的推行以及本土业务的高速发展，后台支撑系统已经不堪重负。</p>
+
+<p>在吞吐量、稳定性以及可扩展性上都无法满足日益增长的业务需求。对于每10万元额度的合同，从销售团队准备材料、与客户签单、递交给合同部门，再到合同生效大概需要3.5人天。随着业务量的快速增长，签订合同的成本急剧增加。</p>
+
+<p>合同管理系统是后台支撑系统中重要的一部分。当前的合同系统是5年前使用.NET，基于<a href="http://www.sagecrm.com/">SAGE CRM</a>二次开发的产品。
+一方面，系统架构过于陈旧，性能、可靠性无法满足现有的需求。另一方面，功能繁杂，结构混乱，定制的代码与SAGE CRM系统耦合度极高。</p>
+
+<p>由于是遗留系统，熟悉该代码的人早已离职多时，新团队对其望而却步，只能做些周边的修补工作。同时，还要承担着边补测试，边整理逻辑的工作。</p>
+
+<p>在无法中断业务处理的情况下，为了解决当前面临的问题，团队制定了如下的策略：</p>
+
+<p><img src="http://wldandan.github.com/images/microservice/crm-rebuild-strategy-600x400.png" /></p>
+
+<ol>
+<li>在现有合同管理系统的外围，构建功能服务接口，将系统核心的功能分离出来。</li>
+<li>利用这些功能服务接口作为代理，解耦原合同系统与其调用者之间的依赖；</li>
+<li>通过不断构建功能服务接口，逐渐将原有系统分解成多个独立的服务。</li>
+<li>摒弃原有的合同管理系统，使用全新构建的(微)服务接口替代。</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -591,7 +610,7 @@
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (11)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (10)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -607,10 +626,6 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/11/17/2016-11-15-microservices-in-action-rest-hal/">微服务实战(4) - HAL 101</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2016/11/15/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
       </li>
     
@@ -624,6 +639,10 @@
     
       <li class="post">
         <a href="/blog/2016/11/03/microservices-in-action-introduction/">微服务实战(0) - 聊聊开篇</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a>
       </li>
     
   </ul>
