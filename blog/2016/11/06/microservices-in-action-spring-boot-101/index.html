@@ -1,0 +1,542 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>微服务实战(3) - Spring Boot 101 - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="微服务架构与实践">
+  <meta name="keywords" content="微服务架构, 微服务架构与实践，微服务架构与实践培训">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">微服务实战(3) - Spring Boot 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-06T17:57:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2016</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>[如需转载，请联系本人]</p>
+
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
+
+<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+
+<p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
+
+<!-- More -->
+
+
+<h2>为什么是Spring Boot</h2>
+
+<p>在Java开发领域，估计没有多少兄弟不知道Spring，当年的SSH组合，风靡社区，几乎成为J2EE 程序开发的标配。</p>
+
+<p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
+
+<p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
+
+<p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
+
+<h2>Spring Boot的优势</h2>
+
+<ul>
+<li><code>快速构建</code>可运行的应用
+
+<ul>
+<li><code>无XML配置</code></li>
+<li>支持<code>内嵌</code>WebServer(Tomcat/Jetty/Undertow)</li>
+<li>通过<code>注解</code>的方式，一行代码启动应用</li>
+</ul>
+</li>
+<li><code>自动配置</code>和<code>装载机制</code>
+
+<ul>
+<li>使用Starter</li>
+<li>自动配置装载依赖</li>
+</ul>
+</li>
+<li>运维接口友好
+
+<ul>
+<li><code>Metrics/health</code>显示健康监控状态</li>
+<li><code>Trace/dump</code>显示调用/调试信息</li>
+</ul>
+</li>
+</ul>
+
+
+<h2>Spring Boot核心</h2>
+
+<h3>简单的说，Spring Boot的核心，主要包括两大部分：</h3>
+
+<blockquote><p>1.Starter</p></blockquote>
+
+<p>Starter负责将申明的依赖Jar包导入到当前ClassPath。</p>
+
+<p>每个Starter都提供一个<code>spring.providers文件</code>，申明当前Starter依赖的Jar包。</p>
+
+<p>譬如，<code>Spring-boot-starter-web</code>中的<code>spring.providers文件</code>描述的依赖如下所示：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>provides: spring-webmvc,spring-web,jackson-databind</span></code></pre></td></tr></table></div></figure>
+
+
+<p>包括<code>spring-webmvc</code>，<code>spring-web</code>，<code>jackson-databind</code>，分别提供mvc，web和JSON解析绑定的功能。</p>
+
+<p>欲了解更多的Starter，请移步<a href="https://github.com/spring-projects/spring-boot/tree/master/spring-boot-starters">官方列表</a></p>
+
+<blockquote><p>2.AutoConfiguratioin</p></blockquote>
+
+<p>AutoConfiguratioin根据<code>ConditionalOnXxx</code>条件，使用<code>@Bean</code>注解，完成对Bean的创建和组装。</p>
+
+<p>根据不同的<code>ConditionalOnXxx</code>，AutoConfiguration可以根据合适的场景创建并组装Bean。</p>
+
+<p>譬如</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ConditionalOnMissingBean(A.class)</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>表示当前指定的A实例不存在，才创建@Bean.</p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ConditionalOnWebApplication</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>表示当前是在Web Application才创建@Bean</p></blockquote>
+
+<p>Java Web中我们经常使用<code>HttpEncodingAutoConfiguration</code>，完成UTF8的转码。如下是SpringBoot中，HttpEncodingAutoConfiguration的部分实现：</p>
+
+<blockquote><p>仅当ApplicationContext中没有CharacterEncodingFilter的时候，才会创建<code>CharacterEncodingFilter</code></p></blockquote>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Bean
+</span><span class='line'>@ConditionalOnMissingBean(CharacterEncodingFilter.class)
+</span><span class='line'>public CharacterEncodingFilter characterEncodingFilter() {
+</span><span class='line'>  CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+</span><span class='line'>  filter.setEncoding(this.properties.getCharset().name());
+</span><span class='line'>  filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
+</span><span class='line'>  filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
+</span><span class='line'>  return filter;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌&#8230;.)</p></blockquote>
+
+<ul>
+<li><code>Starter打包提供相关的包依赖，加载到ClassPath</code></li>
+<li><code>EnableAutoConfiguration借助ConditionalOnXxx条件，创建并配置Bean的依赖关系</code></li>
+</ul>
+
+
+<p>关于更多<code>Conditional</code>的细节，请查看包
+<em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
+
+<h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
+
+<p>这个标签是SpringBoot应用的核心标签，主要包括三部分子：</p>
+
+<ul>
+<li>@Configuration</li>
+</ul>
+
+
+<p>Spring3.0引入@Configuration(Java配置)，使用Java配置简化XML配置。</p>
+
+<p>譬如以前我们通常使用类似如下XML配置Spring Bean</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+</span><span class='line'>  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+</span><span class='line'>  xsi:schemaLocation="http://www.springframework.org/schema/beans
+</span><span class='line'>  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
+</span><span class='line'>
+</span><span class='line'>  &lt;bean id="helloBean" class=“com.microservice.training.HelloWorldImpl"&gt;
+</span><span class='line'>&lt;/beans&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过使用Java Configuration，声明当前类是一个配置类， 相当于声明一个Spring配置的XML文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@Configuration
+</span><span class='line'>public class AppConfig {
+</span><span class='line'>
+</span><span class='line'>    @Bean(name="helloBean")
+</span><span class='line'>    public HelloWorld helloWorld() {
+</span><span class='line'>        return new HelloWorldImpl();
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>@EnableAutoConfiguration</li>
+</ul>
+
+
+<p>它帮助我们加载当前Spring Boot中META-INF/spring.factories，并使用其中的*AutoConfiguration</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HttpEncodingAutoConfiguration
+</span><span class='line'>RabbitAutoConfiguration 
+</span><span class='line'>EmbeddedServletContainerAutoConfiguration
+</span><span class='line'>……</span></code></pre></td></tr></table></div></figure>
+
+
+<p>每个AutoConfiguration都会根据其中的Condition条件，在合适的场景完成对相关Bean的创建</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@ConditionalOnBean //容器里有指定Bean存在
+</span><span class='line'>@ConditionalOnClass //类路径下有指定Class存在
+</span><span class='line'>@ConditionalOnWebApplication //当前项目是Web项目
+</span><span class='line'>……</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>@ComponentScan</li>
+</ul>
+
+
+<p>它定义Spring了自动加载Bean的根路径，是Spring Framwork中较早的一个标签，这里就不赘述了。</p>
+
+<h2>快速构建Spring Boot应用</h2>
+
+<p>Spring Boot提供了方便的项目创建方式，使得我们可以快速创建基于SpringBoot的项目：</p>
+
+<ul>
+<li>使用<a href="http://sdkman.io/">命令行CLI</a></li>
+<li>使用<a href="start.spring.io">Initializr</a></li>
+<li>使用IDE(IDEA，Spring Tool Suite等)</li>
+</ul>
+
+
+<h2>总结</h2>
+
+<blockquote><p>本部分介绍了SpringBoot的核心，并提到了快速创建SpringBoot应用的方式，通过这部分内容，能够帮助大家完成<code>SpringBoot从0到1的过程</code> :)</p>
+
+<p>关于课程，请看<a href="http://www.stuq.org/course/detail/1088">这里</a></p></blockquote>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-06T17:57:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/microservices/'>Microservices</a>
+  
+</span>
+
+
+    </p>
+
+    <p class="meta">
+      <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">原文链接</a>，
+<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/" data-via="" data-counturl="http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/11/05/microservices-in-action-simulation/" title="Previous Post: 微服务实战(2) - 目标系统">&laquo; 微服务实战(2) - 目标系统</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/" title="Next Post: 微服务实战(4) - Spring Cloud 101">微服务实战(4) - Spring Cloud 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战(5) - HAL 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">微服务实战(4) - Spring Cloud 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/05/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/04/microservices-in-action-outline/">微服务实战(1) - 内容大纲</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/';
+        var disqus_url = 'http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

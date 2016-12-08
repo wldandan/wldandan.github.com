@@ -1,0 +1,423 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>微服务实战(4) - Spring Cloud 101 - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="微服务架构与实践">
+  <meta name="keywords" content="微服务架构, 微服务架构与实践，微服务架构与实践培训">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">微服务实战(4) - Spring Cloud 101</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-07T23:37:00+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2016</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>[如需转载，请联系本人]</p>
+
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+
+<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
+
+<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+
+<p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
+
+<!-- More -->
+
+
+<h2>服务实施的挑战</h2>
+
+<h3>个体服务的实现越来越容易</h3>
+
+<p>在上一节中，我们学习了Spring Boot的核心，明白了<code>Starter</code>与<code>AutoConfiguration</code>的重要性，并知道了如何快速创建Spring Boot应用。</p>
+
+<p>基于现有的<code>Spring Framework</code>，以及<code>Spring Boot的Starter</code>，加上<code>官方CLI</code>、 <code>Initializr</code>以及各种<code>IDE</code>提供的快速创建SpringBoot 应用的方式，我们能轻松的完成一个基于RESTful API的服务实现。</p>
+
+<p>因此，从Spring Boot的优势来看，构建单个的服务单元非常容易了~</p>
+
+<blockquote><p>从IT社区的发展来看，工具正在变得越来越强大，开发人员的大部分重复性工作都将会被简化。</p>
+
+<p>伴随着人工智能的快速发展，将来编码的工作都可以交给机器了，喝着咖啡告诉它，你想要什么语言，你的验收条件，啦啦啦&#8230;.</p></blockquote>
+
+<h3>但服务间的协作、管理成本越来越高</h3>
+
+<p>但是，对于微服务的实施而言，服务单元不会孤立存在，必然相互协作，共同实现业务价值。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
+
+<p>而随着服务规模化的推进，服务间协作和管理的成本会越来越高，包括但不限于：</p>
+
+<ul>
+<li>服务地址发生变化
+
+<ul>
+<li>服务结点数量动态变化(水平伸缩)</li>
+<li>服务结点地址动态变化(重启、升级)</li>
+</ul>
+</li>
+<li>服务的配置信息变更
+
+<ul>
+<li>配置信息修改后，如何动态更新单实例</li>
+<li>配置信息修改后，如何同步多个实例</li>
+<li>配置信息的追溯、回滚及可用性保障</li>
+</ul>
+</li>
+<li>服务间调用出现异常
+
+<ul>
+<li>如何防止调用间的”雪崩”</li>
+</ul>
+</li>
+<li>为消费者提供统一接口
+
+<ul>
+<li>如何提供单一的入口简化设备的调用</li>
+<li>屏蔽不同的应用协议(MQ/JMS)</li>
+</ul>
+</li>
+</ul>
+
+
+<p>所以，如何应对如上这些问题，成为微服务实施中重要的环节。</p>
+
+<h2>什么是Spring Cloud</h2>
+
+<p><code>Spring Cloud</code>是Pivotal官方提供的旨在帮助开发者降低构建复杂分布式系统的工具集。</p>
+
+<p>2015年3月4日，Spring Cloud发布了第一个GA版本。</p>
+
+<p>Spring Cloud的核心宗旨是：</p>
+
+<blockquote><p>A toolset designed for building complexed distributed systems.</p></blockquote>
+
+<p>在Spring Cloud中，整合了很多功能组件，包括Config、Messaging、Netflix OSS以及对Heroku、Amazon Web Service、Cloud Foundry等云平台的接口支持。</p>
+
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
+
+<p>基于这些组件，能够帮助我们解决之前提到的服务实施后面临的挑战。</p>
+
+<h2>常用的Spring Cloud组件</h2>
+
+<p>Spring Cloud中的组件很多，而且在快速的演进中，在本系列<code>服务构建篇</code>里，主要涉及的有</p>
+
+<blockquote><p>Spring Cloud Netflix</p></blockquote>
+
+<p>集成了Netflix OSS的组件(Eureka/Ribbon/Hystrix/Zuul等)</p>
+
+<blockquote><p>Spring Cloud Config</p></blockquote>
+
+<p>提供集中化的服务配置信息，动态更新实例的配置</p>
+
+<blockquote><p>Spring Cloud Bus</p></blockquote>
+
+<p>使用分布式消息机制，提供不同服务实例之间的协作</p>
+
+<blockquote><p>Spring Cloud Security</p></blockquote>
+
+<p>提供服务安全相关的实现机制(OAuth2)</p>
+
+<h2>总结</h2>
+
+<blockquote><p>Spring Cloud本着<code>全家桶</code>的一站式解决方案，为微服务的实施提供了支持。</p>
+
+<p>虽然Spring Cloud GA的时间并不长，但其快速的演进以及大量社区用户的支持，已成为Java领域微服务架构实施的利器，帮助我们有效的应对服务实践时的构建支撑组件的挑战。</p>
+
+<p>后续我们将使用Spring Cloud构建本案例服务的支撑组件。</p>
+
+<p>关于课程，请看<a href="http://www.stuq.org/course/detail/1088">这里</a></p></blockquote>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-11-07T23:37:00+08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2016</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/microservices/'>Microservices</a>
+  
+</span>
+
+
+    </p>
+
+    <p class="meta">
+      <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">原文链接</a>，
+<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/" data-via="" data-counturl="http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2016/11/06/microservices-in-action-spring-boot-101/" title="Previous Post: 微服务实战(3) - Spring Boot 101">&laquo; 微服务实战(3) - Spring Boot 101</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2016/11/08/microservices-in-action-rest-hal/" title="Next Post: 微服务实战(5) - HAL 101">微服务实战(5) - HAL 101 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战(5) - HAL 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">微服务实战(4) - Spring Cloud 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/05/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/04/microservices-in-action-outline/">微服务实战(1) - 内容大纲</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/';
+        var disqus_url = 'http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
