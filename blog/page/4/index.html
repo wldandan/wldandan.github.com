@@ -9,8 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="Setup blog Install RVM bash &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-rvm install 1.9.2 rvm use 1.9. &hellip;">
+  <meta name="description" content="背景介绍 最近的Java项目是个同海外团队合作的遗留系统，包括数据库服务器、邮件服务器、Web服务器、FAST搜索引擎、JBOSS中间件等等节点。为了便于团队使用，我们在Amazon 的EC2上建立了一套完整的端到端的运行环境。
+团队成员在本地搭建了Web环境，数据库环境，便于开发及调试。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,105 @@ rvm install 1.9.2 rvm use 1.9. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/01/vagrant-build-env-easy/">Vagrant - Make Dev Environment Easy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-01T18:37:00+08:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/01/vagrant-build-env-easy/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>背景介绍</h3>
+
+<ul>
+<li><p>最近的Java项目是个同海外团队合作的遗留系统，包括数据库服务器、邮件服务器、Web服务器、FAST搜索引擎、JBOSS中间件等等节点。为了便于团队使用，我们在Amazon 的EC2上建立了一套完整的端到端的运行环境。</p></li>
+<li><p>团队成员在本地搭建了Web环境，数据库环境，便于开发及调试。但由于Mac上安装FAST并不是一件易事，因此在本地跑应用的时候依赖于Amazon EC2的FAST节点。</p></li>
+<li><p>持续集成、CI在当今的时代已经不是什么新鲜玩意了，越来越多的团队已经了解并运用在实践中。对于我们和海外客户共同开发的这种情况，CI挂了可不是太好，因此在每次提交代码之前，需要确保本地所有的测试都能通过，才能提交代码。</p></li>
+</ul>
+
+
+<p>于是乎，问题就来了:</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/01/vagrant-build-env-easy/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/11/twu-pune-bungalow/">TWU - the Bungalow in Pune of India</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-11T12:07:00+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/11/twu-pune-bungalow/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>TWU32届的Trainer陆陆续续的都撤了，于是乎，我们就有了机会搬进他们的House，Pune的人民称之为&#8221;Bungalow&#8221;，实际上我觉得是个2层的别墅。</p>
+
+<p>有趣的事情来了，我们住得bugalow，我之前两次没记住具体的地址，以至于做三轮车的时候都和师傅说不太清楚。某天一个同事给我说，你就这样说bungalow的地址&#8221;guo de gao park&#8221;，oh my god，这下我记住了，“郭德纲 park&#8221;。其实原本的拼写是这样的“Koregaon Park”，发音有那么一丁点类似而已 :)</p>
+
+<p><img src="/images/twu/koregaon.png" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/10/11/twu-pune-bungalow/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -493,112 +592,6 @@ rake deploy</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/24/gradle-learning-three/">Gradle Learning - 3 (Multiple Projects)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-24T18:20:00+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/24/gradle-learning-three/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p> 随着信息化的快速发展，IT项目变得越来越复杂，通常都是由多个子系统共同协作完成。对于这种多系统、多项目的情况，很多构建工具都已经提供了不错的支持，像maven、ant。Gradle除了借鉴了ant或者maven的继承的方式定义子项目，也提供了一种更为方便的集中配置的方式，大大减少了构建带来的复杂度。除此之外，Gradle还提供了清晰的Project树模型来映射多项目的组织结构。下面，让我们了解一下如何使用Gradle构建多项目。</p>
-
-<h3>1. 多项目定义及结构</h3>
-
-<p> 在Gradle中，使用文件settings.gradle定义当前项目的子项目，格式如下所示：</p>
-
-<p>include &#8216;sub-project1&#8217;, &#8216;sub-project2&#8217;, &#8216;sub-project3&#8217;，
-它表示在当前的项目下建立三个子项目，分别为&#8217;sub-project1&#8217;, &#8216;sub-project2&#8217;, &#8216;sub-project3&#8217;。默认情况下，每个子项目的名称对应着当前操作系统目录下的一个子目录。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/24/gradle-learning-three/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/23/gradle-learning-two/">Gradle Learning - 2 (Project&task)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-01-23T17:14:00+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/01/23/gradle-learning-two/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>上一篇文章中，我们提到了Gradle的一些基本概念，如Project、Task以及Action，并且创建了我们的第一个Task。这次我们来看看Gradle中关于Project和Task的更多细节。</p>
-
-<h3>1. Project和Task</h3>
-
-<p>对于build.gradle配置文件，当运行Gradle <Task> 时，Gradle会为我们创建一个Project的对象，加载build.gradle中的所有代码。其中呢，对于Task中定义的代码，Gradle会创建Task的实例，而对于那些不属于任何Task定义的代码，Gradle会创建一个Script类的实例，加载并执行这些代码。下面，让我们看一个简单的例子：</p>
-
-<h5>创建目录basic，并在其中创建文件build.gradle，然后加入如下代码：</h5>
-
-<pre><code>println "the project name is $name"
-task hello &lt;&lt; {
-    println "the current task name is $name"
-    println "hello world"
-}
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/23/gradle-learning-two/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -619,8 +612,9 @@ task hello &lt;&lt; {
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (13)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -636,7 +630,11 @@ task hello &lt;&lt; {
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战(5) - HAL 101</a>
+        <a href="/blog/2019/03/15/k8s-architecture/">K8s architecture</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
       </li>
     
       <li class="post">
@@ -649,10 +647,6 @@ task hello &lt;&lt; {
     
       <li class="post">
         <a href="/blog/2016/11/05/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/04/microservices-in-action-outline/">微服务实战(1) - 内容大纲</a>
       </li>
     
   </ul>
@@ -684,7 +678,7 @@ task hello &lt;&lt; {
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - wldandan -
+  Copyright &copy; 2019 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

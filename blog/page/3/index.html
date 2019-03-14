@@ -9,8 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="什么是WebRTC 如今，互联网主流的音频、视频通信服务产品，如Skype, QQ, GTalk等， 都是各自厂商私有的技术。用户需要安装插件或者桌面客户端，才能使用其提供的音频或者视频通信功能。
-如果某天，不使用任何插件，只通过浏览器，就能实现手机、平板、电视和电脑的视频或者音频通信； &hellip;">
+  <meta name="description" content="在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。 RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。 还记得之前讨论过的WebRTC架构图吗？
+实际上， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +77,107 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">WebRTC - Understand the PeerConnection</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T18:55:00+08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
+
+<p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
+
+<p>还记得之前讨论过的WebRTC架构图吗？
+实际上，虽然RTCPeerConnection是一个暴露的连接接口，
+但其内部封装了大量WebRTC编解码和协议处理的工作，因此使浏览器之间点到点的即时通讯变得简单。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/06/webrtc-understand-the-media-stream/">WebRTC - Understand the MediaStream</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-06T23:59:00+08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/01/06/webrtc-understand-the-media-stream/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>WebRTC从设计之初，目的就是为开发人员提供更加简便的方式构建基于Web的视频、音频应用。对于任何的WebRTC应用程序，只需要做如下几件事情：</p>
+
+<ul>
+<li>1）获取本地媒体流(音频、视频)。</li>
+<li>2）与对端建立连接(包括防火墙和NAT的穿透)。</li>
+<li>3）初始化双方通信信道。</li>
+<li>4）交换通信元数据信息，比如分辨率、编解码方案、网络地址等。</li>
+<li>5）开始音频，视频或数据的通信。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/01/06/webrtc-understand-the-media-stream/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -727,105 +828,6 @@ the comments in the Vagrantfile as well as documentation on
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/01/vagrant-build-env-easy/">Vagrant - Make Dev Environment Easy</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-01T18:37:00+08:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
-        
-         | <a href="/blog/2013/11/01/vagrant-build-env-easy/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>背景介绍</h3>
-
-<ul>
-<li><p>最近的Java项目是个同海外团队合作的遗留系统，包括数据库服务器、邮件服务器、Web服务器、FAST搜索引擎、JBOSS中间件等等节点。为了便于团队使用，我们在Amazon 的EC2上建立了一套完整的端到端的运行环境。</p></li>
-<li><p>团队成员在本地搭建了Web环境，数据库环境，便于开发及调试。但由于Mac上安装FAST并不是一件易事，因此在本地跑应用的时候依赖于Amazon EC2的FAST节点。</p></li>
-<li><p>持续集成、CI在当今的时代已经不是什么新鲜玩意了，越来越多的团队已经了解并运用在实践中。对于我们和海外客户共同开发的这种情况，CI挂了可不是太好，因此在每次提交代码之前，需要确保本地所有的测试都能通过，才能提交代码。</p></li>
-</ul>
-
-
-<p>于是乎，问题就来了:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/01/vagrant-build-env-easy/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/11/twu-pune-bungalow/">TWU - the Bungalow in Pune of India</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-11T12:07:00+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/10/11/twu-pune-bungalow/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>TWU32届的Trainer陆陆续续的都撤了，于是乎，我们就有了机会搬进他们的House，Pune的人民称之为&#8221;Bungalow&#8221;，实际上我觉得是个2层的别墅。</p>
-
-<p>有趣的事情来了，我们住得bugalow，我之前两次没记住具体的地址，以至于做三轮车的时候都和师傅说不太清楚。某天一个同事给我说，你就这样说bungalow的地址&#8221;guo de gao park&#8221;，oh my god，这下我记住了，“郭德纲 park&#8221;。其实原本的拼写是这样的“Koregaon Park”，发音有那么一丁点类似而已 :)</p>
-
-<p><img src="/images/twu/koregaon.png" /></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/10/11/twu-pune-bungalow/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -846,8 +848,9 @@ the comments in the Vagrantfile as well as documentation on
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (13)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -863,7 +866,11 @@ the comments in the Vagrantfile as well as documentation on
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战(5) - HAL 101</a>
+        <a href="/blog/2019/03/15/k8s-architecture/">K8s architecture</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
       </li>
     
       <li class="post">
@@ -876,10 +883,6 @@ the comments in the Vagrantfile as well as documentation on
     
       <li class="post">
         <a href="/blog/2016/11/05/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/04/microservices-in-action-outline/">微服务实战(1) - 内容大纲</a>
       </li>
     
   </ul>
@@ -911,7 +914,7 @@ the comments in the Vagrantfile as well as documentation on
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - wldandan -
+  Copyright &copy; 2019 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

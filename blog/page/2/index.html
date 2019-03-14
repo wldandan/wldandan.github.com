@@ -9,7 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="[请勿转载] 单块架构系统以及其面临的挑战 概述 多年来，我们一直在技术的浪潮中乘风破浪，扬帆奋进，寻找更优秀的方法来构建IT系统，也一直在积极的学习并观察先进的公司如何以不同的架构方式构建或者优化其IT系统，来积极应对市场的变化，迅速做出响应，从而为客户提供更多的价值。 微服务架构模式（ &hellip;">
+  <meta name="description" content="[请勿转载] 微服务架构的核心特征 什么是核心特征，就是当我们谈论同一件事情的时候，那些不同的人们所关注的相同的部分。从业界的讨论来看，微服务通
+常有如下几个显著特征: 服务与组件 一直以来，我们都比较提倡使用组件（Component）的方式，模块化应用系统。它类似生活中的汽车，由不同的零件组成， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +77,119 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构(三)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-16T22:07:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time>
+        
+         | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[请勿转载]</p>
+
+<h1>微服务架构的核心特征</h1>
+
+<p>   什么是核心特征，就是当我们谈论同一件事情的时候，那些不同的人们所关注的相同的部分。从业界的讨论来看，微服务通
+常有如下几个显著特征:</p>
+
+<ul>
+<li><h5>服务与组件</h5></li>
+</ul>
+
+
+<p>  一直以来，我们都比较提倡使用组件（Component）的方式，模块化应用系统。它类似生活中的汽车，由不同的零件组成，每个零件都是可以独立替换的。因此，这类通常都有很好的灵活性和替换性。</p>
+
+<p>  在软件领域，我们也将组件定义为应用软件构建中独立的单元，它的最大特点是，对整个应用软件而言，组件能够被容易的替代或者更新。</p>
+
+<p>   传统实现组件的方式是采用和应用程序一样的的编程语言，构建独立的共享库（Libaray），从而达到解耦和复用的效果。对于共享库而言，我们知道它是语言相关、平台相关，并且是和应用程序运行在同一个进程中的，因此，任何共享库的变化都意味着整个应用程序也要被更新，并且需要被重新部署。换句话说，如果应用由多个共享库组件组成，那么任何库的变更都将导致整体应用的重新发布。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-16T22:07:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time>
+        
+         | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[请勿转载]</p>
+
+<h1>什么是微服务架构</h1>
+
+<p>在上一章中，我们认识了什么是单块架构应用，并分析了随着互联网时代的快速发展，随着市场变化快，用户需求变化快以及用户访问量的增加，单块架构应用的维护成本、人员的培养成本、缺陷修复成本以及技术架构演进的成本和系统扩展成本等都在增加，因此单块架构曾经的优势已逐渐无法适应互联网时代的快速变化，面临着越来越多的挑战。</p>
+
+<p>在本章中，我们来了解到底什么是微服务架构，以及为什么微服务架构能有效解决单块架构在互联网时代所面临的挑战。</p>
+
+<h3>概述</h3>
+
+<p>   微服务架构一词在过去几年里，得到了广泛的讨论和关注。微服务架构提倡通过对特定业务领域的分析与建模，将复杂的、
+集中的、耦合度高的应用系统分解成小而专、耦合度低并且高度自治的一组服务。这些服务与服务之间相互协作、相互配合，从而为最终用户或其他系统提供相应的功能。微服务将每个独立的业务逻辑划分出来，运行在它们自己的进程中，然后通过分布式的网络互相通信与协作，从而为终端用户或其他调用者提供灵活的接口。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -575,107 +689,6 @@ rs.status()
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">WebRTC - Understand the PeerConnection</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-07T18:55:00+08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
-
-<p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
-
-<p>还记得之前讨论过的WebRTC架构图吗？
-实际上，虽然RTCPeerConnection是一个暴露的连接接口，
-但其内部封装了大量WebRTC编解码和协议处理的工作，因此使浏览器之间点到点的即时通讯变得简单。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/06/webrtc-understand-the-media-stream/">WebRTC - Understand the MediaStream</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-06T23:59:00+08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2014</time>
-        
-         | <a href="/blog/2014/01/06/webrtc-understand-the-media-stream/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>WebRTC从设计之初，目的就是为开发人员提供更加简便的方式构建基于Web的视频、音频应用。对于任何的WebRTC应用程序，只需要做如下几件事情：</p>
-
-<ul>
-<li>1）获取本地媒体流(音频、视频)。</li>
-<li>2）与对端建立连接(包括防火墙和NAT的穿透)。</li>
-<li>3）初始化双方通信信道。</li>
-<li>4）交换通信元数据信息，比如分辨率、编解码方案、网络地址等。</li>
-<li>5）开始音频，视频或数据的通信。</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/01/06/webrtc-understand-the-media-stream/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -696,8 +709,9 @@ rs.status()
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (1)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (13)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -713,7 +727,11 @@ rs.status()
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战(5) - HAL 101</a>
+        <a href="/blog/2019/03/15/k8s-architecture/">K8s architecture</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
       </li>
     
       <li class="post">
@@ -726,10 +744,6 @@ rs.status()
     
       <li class="post">
         <a href="/blog/2016/11/05/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/04/microservices-in-action-outline/">微服务实战(1) - 内容大纲</a>
       </li>
     
   </ul>
@@ -761,7 +775,7 @@ rs.status()
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - wldandan -
+  Copyright &copy; 2019 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

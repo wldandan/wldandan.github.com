@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: K8s | Happy Coding, Happy Life]]></title>
+  <link href="http://wldandan.github.com/blog/categories/k8s/atom.xml" rel="self"/>
+  <link href="http://wldandan.github.com/"/>
+  <updated>2019-03-15T07:21:50+08:00</updated>
+  <id>http://wldandan.github.com/</id>
+  <author>
+    <name><![CDATA[wldandan]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[K8s architecture]]></title>
+    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-architecture/"/>
+    <updated>2019-03-15T23:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/03/15/k8s-architecture</id>
+    <content type="html"><![CDATA[<!-- More -->
+
+
+<h3>综述</h3>
+
+<p>Kubernetes主要由以下几个核心组件组成：</p>
+
+<ul>
+<li>etcd保存了整个集群的状态；</li>
+<li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
+<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
+<li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
+<li>kubelet负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；</li>
+<li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
+<li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
+</ul>
+
+
+<p>除了核心组件，还有一些推荐的插件，其中有的已经成为CNCF中的托管项目：</p>
+
+<ul>
+<li>CoreDNS负责为整个集群提供DNS服务</li>
+<li>Ingress Controller为服务提供外网入口</li>
+<li>Prometheus提供资源监控</li>
+<li>Dashboard提供GUI</li>
+<li>Federation提供跨可用区的集群</li>
+</ul>
+
+
+<h3>K8s整体架构</h3>
+
+<p><img src="/images/k8s/kubernetes-whole-arch.png" /></p>
+
+<h5>K8s-Master架构图</h5>
+
+<p><img src="/images/k8s/kubernetes-master-arch.png" /></p>
+
+<h5>K8s-Node架构图</h5>
+
+<p><img src="/images/k8s/kubernetes-master-arch.png" /></p>
+
+<h3>K8s分层架构</h3>
+
+<p><img src="/images/k8s/kubernetes-layers-arch.png" /></p>
+
+<ul>
+<li>核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</li>
+<li>应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）、Service Mesh（部分位于应用层）</li>
+<li>管理层：系统度量（如基础设施、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC、Quota、PSP、NetworkPolicy等）、Service Mesh（部分位于管理层）</li>
+<li>接口层：kubectl命令行工具、客户端SDK以及集群联邦</li>
+<li><p>生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分为两个范畴</p>
+
+<ul>
+<li><p>Kubernetes外部：日志、监控、配置管理、CI/CD、Workflow、FaaS、OTS应用、ChatOps、GitOps、SecOps等</p></li>
+<li><p>Kubernetes内部：CRI、CNI、CSI、镜像仓库、Cloud Provider、集群自身的配置和管理等</p></li>
+</ul>
+</li>
+</ul>
+
+
+<blockquote><p>关于分层架构，可以关注下Kubernetes社区正在推进的<a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a>。</p></blockquote>
+
+<h3>参考资料</h3>
+
+<p><a href="http://queue.acm.org/detail.cfm?id=2898444">Borg, Omega, and Kubernetes - Lessons learned from three container-management systems over a decade</a></p>
+
+<p><a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/43438.pdf">Paper - Large-scale cluster management at Google with Borg</a></p>
+
+<p><a href="http://thenewstack.io/kubernetes-an-overview">KUBERNETES: AN OVERVIEW</a></p>
+
+<p><a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2016-12-08T23:11:45+08:00</updated>
+  <updated>2019-03-15T07:21:50+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -14,17 +14,96 @@
 
   
   <entry>
-    <title type="html"><![CDATA[微服务实战(5) - HAL 101]]></title>
+    <title type="html"><![CDATA[K8s architecture]]></title>
+    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-architecture/"/>
+    <updated>2019-03-15T23:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/03/15/k8s-architecture</id>
+    <content type="html"><![CDATA[<!-- More -->
+
+
+<h3>综述</h3>
+
+<p>Kubernetes主要由以下几个核心组件组成：</p>
+
+<ul>
+<li>etcd保存了整个集群的状态；</li>
+<li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
+<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
+<li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
+<li>kubelet负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；</li>
+<li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
+<li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
+</ul>
+
+
+<p>除了核心组件，还有一些推荐的插件，其中有的已经成为CNCF中的托管项目：</p>
+
+<ul>
+<li>CoreDNS负责为整个集群提供DNS服务</li>
+<li>Ingress Controller为服务提供外网入口</li>
+<li>Prometheus提供资源监控</li>
+<li>Dashboard提供GUI</li>
+<li>Federation提供跨可用区的集群</li>
+</ul>
+
+
+<h3>K8s整体架构</h3>
+
+<p><img src="http://wldandan.github.com/images/k8s/kubernetes-whole-arch.png" /></p>
+
+<h5>K8s-Master架构图</h5>
+
+<p><img src="http://wldandan.github.com/images/k8s/kubernetes-master-arch.png" /></p>
+
+<h5>K8s-Node架构图</h5>
+
+<p><img src="http://wldandan.github.com/images/k8s/kubernetes-master-arch.png" /></p>
+
+<h3>K8s分层架构</h3>
+
+<p><img src="http://wldandan.github.com/images/k8s/kubernetes-layers-arch.png" /></p>
+
+<ul>
+<li>核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</li>
+<li>应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）、Service Mesh（部分位于应用层）</li>
+<li>管理层：系统度量（如基础设施、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC、Quota、PSP、NetworkPolicy等）、Service Mesh（部分位于管理层）</li>
+<li>接口层：kubectl命令行工具、客户端SDK以及集群联邦</li>
+<li><p>生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分为两个范畴</p>
+
+<ul>
+<li><p>Kubernetes外部：日志、监控、配置管理、CI/CD、Workflow、FaaS、OTS应用、ChatOps、GitOps、SecOps等</p></li>
+<li><p>Kubernetes内部：CRI、CNI、CSI、镜像仓库、Cloud Provider、集群自身的配置和管理等</p></li>
+</ul>
+</li>
+</ul>
+
+
+<blockquote><p>关于分层架构，可以关注下Kubernetes社区正在推进的<a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a>。</p></blockquote>
+
+<h3>参考资料</h3>
+
+<p><a href="http://queue.acm.org/detail.cfm?id=2898444">Borg, Omega, and Kubernetes - Lessons learned from three container-management systems over a decade</a></p>
+
+<p><a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/43438.pdf">Paper - Large-scale cluster management at Google with Borg</a></p>
+
+<p><a href="http://thenewstack.io/kubernetes-an-overview">KUBERNETES: AN OVERVIEW</a></p>
+
+<p><a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[微服务实战系列(5) - HAL 101]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/"/>
     <updated>2016-11-08T23:45:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
 
 <p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+<p>所以，希望通过本系列的文章以及视频，以一个真实的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
 
 <p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
 
@@ -345,11 +424,11 @@ Content-Type: application/json
     <id>http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
 
 <p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+<p>所以，希望通过本系列的文章以及视频，以一个真实的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
 
 <p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
 
@@ -467,11 +546,11 @@ Content-Type: application/json
     <id>http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
 
 <p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+<p>所以，希望通过本系列的文章以及视频，以一个真实的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
 
 <p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
 
@@ -820,13 +899,13 @@ Content-Type: application/json
 
 <p>[如需转载，请联系本人]</p>
 
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
 
 <p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+<p>所以，希望通过本系列的文章以及视频，以一个真实的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
 
-<p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
+<p>精彩视频课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
 
 <!-- More -->
 
@@ -908,17 +987,17 @@ Content-Type: application/json
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[微服务实战(0) - 聊聊开篇]]></title>
+    <title type="html"><![CDATA[微服务实战视频课(0) - 聊聊开篇]]></title>
     <link href="http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
+<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
 
 <p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
 
-<p>所以，希望通过本系列的文章，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
+<p>所以，希望通过本系列的文章以及视频，以一个模拟的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
 
 <p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
 
@@ -950,7 +1029,7 @@ Content-Type: application/json
 
 <p>对于这么多的内容，如果能基于模拟场景的理解与练习，再借鉴各大会议上诸多公司的微服务实施案例，能够快速理解并开始尝试。</p>
 
-<h3>2.《微服务与实践》一书，该更新更新了</h3>
+<h3>2.《微服务与实践》一书，该更新了</h3>
 
 <p>2015年4月，我开始撰写《微服务架构与实践》一书，当时国内微服务架构的概念还谈的比较少，所以《微服务架构与实践》侧重讲了微服务的理论基础和诞生背景，并分享了我在ThoughtWorks就职期间，实现微服务的工作方式（我们以持续交付和DevOps为核心，构建服务开发模板，并基于AWS实现快速发布，快速监控，快速反馈）。同时，也探讨了我们如何将遗留系统改造成微服务架构的策略和步骤，但由于精力有限，很多细节无法一一展开讨论。</p>
 
@@ -991,6 +1070,314 @@ Content-Type: application/json
 <h2>总结</h2>
 
 <blockquote><p>好的，进入正题，请移步<a href="http://www.stuq.org/course/detail/1088">课程</a></p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[微服务实践 - 使用HAL设计REST API]]></title>
+    <link href="http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/"/>
+    <updated>2016-10-09T23:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua</id>
+    <content type="html"><![CDATA[<p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。</p>
+
+<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中REST API设计的挑战。</p>
+
+<p>本篇结合我在微服务项目中的实践，谈谈如何使用HAL优雅的设计REST API</p>
+
+<!-- More -->
+
+
+<h3>REST 101</h3>
+
+<p>REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。</p>
+
+<p>REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。</p>
+
+<p>通过资源表述、状态转移以及统一接口，REST将客户端的请求、服务器端的响应基于资源联系起来，形成一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的通信机制。</p>
+
+<p>同时，由于HTTP协议本身的无状态性，使用REST，能够有效保持服务应用的无状态型，并利于水平伸缩。</p>
+
+<h3>REST不是银弹</h3>
+
+<p>随着组织业务的不断增长，服务规模化的实施，以及响应内容复杂度的增加，REST的使用面临如下两个挑战：</p>
+
+<ul>
+<li>如何标准化资源结构</li>
+</ul>
+
+
+<p>使用REST，需要将业务场景的响应抽象为资源，并基于JSON或者XML的格式，返回给客户端。随着业务复杂度的增加，响应的内容会愈发复杂。</p>
+
+<p>REST架构风格，并没有定义响应结构应该遵循什么标准。这也就意味着，在企业内部，不同的部门，不同的开发团队，对同一类资源，所定义的结构可能不尽相同；</p>
+
+<p>譬如，如下是服务器端对客户端获取产品请求的的响应结果，两种结构都是合理的，但存在着差异</p>
+
+<pre><code>GET http://bookstore.com/books/12 
+Accept: application/json
+</code></pre>
+
+<hr />
+
+<pre><code>响应结构一
+{  
+    "name":"Spring Boot In Action",  
+    "category": "Book",  
+    "price":69.00,  
+    "ref": "http://bookstore.com/books/12",
+    "created_at": "2015-05-01 10:00:00",
+    "updated_at": "2015-06-01 11:00:00"
+}  
+</code></pre>
+
+<hr />
+
+<pre><code>响应结构二
+{
+  "basic_info":
+  {
+    "name":"Spring Boot In Action",
+    "category":"Book"
+    "price":69.00,
+  },
+
+  "ref":{
+    "self": "http://bookstore.com/books/12”,
+    “list": "http://bookstore.com/books"
+  },
+
+  "timestamp":{
+    "created_at": "2015-05-01 10:00:00",
+    "updated_at": "2015-06-01 11:00:00"
+  }
+}
+</code></pre>
+
+<p>因此，如何定义一套标准的资源响应结构，成为服务规模化后使用REST面临的一个挑战。</p>
+
+<ul>
+<li>如何处理资源的跳转链接</li>
+</ul>
+
+
+<p>在<a href="http://martinfowler.com/articles/richardsonMaturityModel.html">《Richardson Maturity Model》</a>模型中，定义了REST API不同成熟度应该具备的特征。</p>
+
+<p>对于REST API Level 3，明确提出了&#8221;资源跳转的重要性&#8221;。</p>
+
+<p>对于实际情况而言，大部分REST的实现，都是基于JSON作为传输格式，不过JSON最大的遗憾，正如W3C所描述的：</p>
+
+<blockquote><p>JSON has no built-in support for hyperlinks, which are a fundamental building block on the Web.</p>
+
+<p>没有对超链接处理做内建的支持，是JSON最大的遗憾。而这部分却恰恰是互联网的基石。</p></blockquote>
+
+<p>这带来的潜在问题是，对于调用接口的Consumer而言，需要通过查看相关文档，才能了解如何获取相关的资源信息。譬如，某些社交系统可能会提供类似如下的接口文档，来帮助Consumer了解如何使用其提供的接口。</p>
+
+<pre><code>https://api.example.com/users/1234567890      GET 获取用户明细
+https://api.example.com/users/[ID]/friends    GET 获取用户相关的好友
+https://api.example.com/users/[ID]/posts      GET 获取用户相关的文章
+</code></pre>
+
+<h3>HAL 101</h3>
+
+<p>HAL（Hypertext Application Language）是一种轻量级超文本应用描述协议。HAL的实现基于REST，并对REST中资源结构无法标准化和不支持资源间跳转链接做了有效的互补。</p>
+
+<p>目前，越来越多的企业和组织开始使用HAL提供标准化的服务接口，譬如</p>
+
+<ul>
+<li><p><a href="http://docs.aws.amazon.com/appstream/latest/developerguide/rest-api-application.html">AWS APP Stream API</a></p></li>
+<li><p><a href="https://smxemail.com">SMXEmail API</a></p></li>
+<li><p><a href="http://api.m.ox.ac.uk/browser/#/">牛津大学官方数据API</a></p></li>
+</ul>
+
+
+<p>更多案例请可以参考<a href="http://stateless.co/hal_specification.html">HAL官方网站</a>。</p>
+
+<h3>HAL核心</h3>
+
+<p>在HAL中，任何响应都被定义成一种资源（Resource），这是遵循REST原则对资源的定义标准。
+同REST不同的是，在每个资源中，HAL又将其分成了如下三个标准的部分：</p>
+
+<ul>
+<li>状态(Resource State) - 通常指资源本身固有的属性，如之前提到的book的title、price等</li>
+<li>链接(Links) - 定义了与当前资源相关的资源链接的集合</li>
+<li>子资源(Embedded Resource) - 描述在当前资源的内部，其嵌套的资源。</li>
+</ul>
+
+
+<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
+
+<h4>使用HAL定义单一资源(Resource)</h4>
+
+<p>对于单一资源而言，如果没有使用HAL，通常我们会定义成这样：</p>
+
+<pre><code>GET - /api/users/wldandan
+Content-Type: application/json
+
+{
+    "id": "wldandan",
+    "name": "Wang Lei",
+    "email": "useremail@email.com",
+    "wechat": "abcdefg"
+}   
+</code></pre>
+
+<p>如果要访问用户相关的联系人资源，可以查看文档获取其他的API接口，如下所示：</p>
+
+<pre><code>GET - /api/contacts/wldandan
+Content-Type: application/json
+.......
+</code></pre>
+
+<p>或者将相关信息放在之前返回的结果里：</p>
+
+<pre><code>{
+    "id": "wldandan",
+    "name": "Wang Lei",
+    "email": "useremail@email.com",
+    "wechat": "abcdefg",
+    "contacts": [
+        {
+            "id": "chenyue",
+            "name": "Chen Yue"
+            "link": "/api/users/chenyue"
+        },
+        {
+            "id": "kouxi",
+            "name": "Kou Xi"
+            "link": "/api/users/chenyue"
+        }
+    ]
+}   
+</code></pre>
+
+<p>如果基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，也就是：</p>
+
+<pre><code>{
+    "_links": {
+        "self": {
+            "href": "http://example.org/api/users/wldandan"
+        }
+    },
+    "id": "wldandan",
+    email: 'useremail@email.com',
+    "name": "Wang Lei"
+    wechat: 'abcdefg',
+
+    "_embedded": {
+        "contacts": [
+        {
+            "_links": {
+                "self": {
+                    "href": "http://example.org/api/users/chenyue"
+                }
+            },
+            "id": "chenyue",
+            "name": "Chen Yue"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "http://example.org/api/users/kouxi"
+                }
+            },
+            "id": "kouxi",
+            "name": "Kou Xi"
+        }
+        ]
+    }
+}
+</code></pre>
+
+<h4>使用HAL定义集合资源(Collection Resource)</h4>
+
+<p>对于集合资源而言，如果没有使用HAL，通常我们会定义成这样：</p>
+
+<pre><code>GET - /api/users
+Content-Type: application/json
+
+{
+    total: 10
+    page: 5
+    page_size: 2
+    users: [
+    {
+        id: 'wldandan',
+        name: 'Wang Lei'
+    },
+    {
+        id: 'chenyue',
+        name: 'Chen Yue'
+    },
+    ]
+}
+</code></pre>
+
+<p>基于HAL，则使用<em>links描述相关链接，同时使用</em>embedded描述嵌套资源，则如下所示：</p>
+
+<pre><code>{
+    "_links": {
+        "self": {
+            "href": "http://example.org/api/users?page=3"
+        },
+        "first": {
+            "href": "http://example.org/api/users"
+        },
+        "prev": {
+            "href": "http://example.org/api/users?page=2"
+        },
+        "next": {
+            "href": "http://example.org/api/users?page=4"
+        },
+        "last": {
+            "href": "http://example.org/api/users?page=5"
+        }
+    },
+    "page_size": 2,
+    "total": 10,
+    "page": 5,
+    "_embedded": {
+        "users": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://example.org/api/users/wldandan"
+                    }
+                },
+                "id": "wldandan",
+                "name": "Wang Lei"
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "http://example.org/api/user/chenyue"
+                    }
+                },
+                "id": "chenyue",
+                "name": "Chen Yue"
+            }
+        ]
+    }
+}
+</code></pre>
+
+<h3>在微服务实现中使用HAL</h3>
+
+<h4>使用Spring-Data-Rest实现HAL</h4>
+
+<h4>在Spring Boot中定制HAL</h4>
+
+<h3>HAL与HATEOAS</h3>
+
+<h3>参考资料</h3>
+
+<p><a href="https://apigility.org/documentation/api-primer/halprimer">Hypertext Application Language</a>
+<a href="http://blog.stateless.co/post/13296666138/json-linking-with-hal">JSON Linking with HAL</a>
+<a href="Creating%20Service%20Contract%20with%20AutoRest,%20Swagger%20and%20HAL">Creating Service Contract with AutoRest, Swagger and HAL</a>
+<a href="https://opencredo.com/hal-hypermedia-api-spring-hateoas/">Implementing HAL hypermedia REST API using Spring HATEOAS</a>
+<a href="http://stateless.co/hal_specification.html">HAL Specification</a>
+<a href="https://groups.google.com/forum/#!forum/hal-discuss">hal-discuss@google groups</a>
+<a href="http://hyperschema.org/mediatypes/hal">HAL+JSON</a>
+<a href="https://opencredo.com/rest-api-tooling-review/">Documenting REST APIs – a tooling review</a>
+<a href="http://phlyrestfully.readthedocs.io/en/latest/halprimer.html">HAL Primer</a></p>
 ]]></content>
   </entry>
   
@@ -2233,272 +2620,6 @@ Android的Native APP有了雏形，使用USB将手机连接到Arduino，能够�
 小家伙不负众望，为我们赢得了“<strong>The ‘Marvin‘ Winners for innovation</strong>”奖项。</p>
 
 <p>至此，Dora诞生了。接下来，我们会为Dora提供更多有意思的功能，敬请期待 :)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[WebRTC - Understand the PeerConnection]]></title>
-    <link href="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/"/>
-    <updated>2014-01-07T18:55:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection</id>
-    <content type="html"><![CDATA[<p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
-
-<p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
-
-<p>还记得之前讨论过的WebRTC架构图吗？
-实际上，虽然RTCPeerConnection是一个暴露的连接接口，
-但其内部封装了大量WebRTC编解码和协议处理的工作，因此使浏览器之间点到点的即时通讯变得简单。</p>
-
-<!--More-->
-
-
-<h4>什么是信令处理(Signaling)</h4>
-
-<p>WebRTC使得浏览器之间能够点对点通信，但是作为浏览器的一端，茫茫大海，如何知道另一端在哪里？怎么能通过网络连接到对端？如何知道是否能够连接成功？</p>
-
-<p>所以，即便是点对点通信，依然需要服务器协助双方建立连接。不过此时的服务器，其职责更多的是 交换元数据，如编解码机制、数据加密、流量控制等信息。</p>
-
-<p>对于这些看似不重要但却必要的信息交换过程，我们称之为信令处理。</p>
-
-<p><img src="http://wldandan.github.com/images/webrtc/webrtc-signaling.png" /></p>
-
-<h4>NAT、防火墙和现实的网络世界</h4>
-
-<p>NAT(Net Address Translation)是负责网络地址转换的一个协议。通俗的说，它负责把私网内的的IP和端口转换成公网的IP和端口，也即使我们所说的IP地址映射。</p>
-
-<p>由于IPv4地址的数量有限，大多数企业或者团体通常都使用局域网地址，并通过NAT转换，连接到互联网上。另外，
-许多企业内部网络都存在防火墙，因此这就为点对点通信带来寻址问题。</p>
-
-<p><img src="http://wldandan.github.com/images/webrtc/nat.png" /></p>
-
-<p><a href="http://en.wikipedia.org/wiki/STUN">STUN</a>,TURN,ICE是由IETF提出的处理网络中NAT穿越问题的协议族。
-STUN能够为NAT后的终端定位公网地址，因此它可以被用来在两个同时处于NAT之后的终端建立UDP通信。
-TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT之后的终端建立TCP连接。ICE则是综合STUN及TURN的产物，是一个框架。</p>
-
-<p>使用STUN服务器后，通信双方能够完成NAT穿透，从而建立连接，如下图所示：</p>
-
-<p><img src="http://wldandan.github.com/images/webrtc/stun.png" /></p>
-
-<p>使用TURN服务器后，通信双方需要通过中继完成NAT穿透，从而建立连接，如下图所示。从某种角度而言，这种方式已经不是传统意义上的点对点连接了，因为它依赖于中继服务器完成数据的传输。</p>
-
-<p><img src="http://wldandan.github.com/images/webrtc/turn.png" /></p>
-
-<h4>建立RTCPeerConnection</h4>
-
-<p>了解了STUN，TURN的相关概念后，是深入了解PeerConnection的时候了。</p>
-
-<p>当创建RTCPeerConnection时，需要指定两个参数：</p>
-
-<ul>
-<li>包括STUN或者TURN服务器的列表。</li>
-<li>对于协议元数据的参数设置。</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  var SERVER = {
-</span><span class='line'>    iceServers: [
-</span><span class='line'>        {url: "stun:23.21.150.121"},
-</span><span class='line'>        {url: "stun:stun.l.google.com:19302"},
-</span><span class='line'>        {url: "turn:numb.viagenie.ca", credential: "xxxx", username: "xxx"}
-</span><span class='line'>    ]
-</span><span class='line'>  };
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>  var OPTIONS = {
-</span><span class='line'>        optional: [
-</span><span class='line'>          {DtlsSrtpKeyAgreement: true},
-</span><span class='line'>          {RtpDataChannels: true}
-</span><span class='line'>        ]
-</span><span class='line'>  };
-</span><span class='line'>  peerConnection = new RTCPeerConnection(SERVER, OPTIONS);
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>注意，当RTCPeerConnection执行连接时，首先会尝试使用STUN服务器来协助完成，如果失败，则使用TURN中继服务器完成通信。</p>
-
-<h4>开始通信</h4>
-
-<p>通信的过程如下如所示:
-<img src="http://wldandan.github.com/images/webrtc/peerconnection-process.png" /></p>
-
-<h5>主动发起者将使用createOffer发起连接，并设置SDP(Session Description Protocol)相关信息.</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  navigator.getUserMedia({video: true}, function(stream) {
-</span><span class='line'>    var video = document.getElementById("video");
-</span><span class='line'>    video.srcObject = stream;
-</span><span class='line'>    video.play();
-</span><span class='line'>    pc.addStream(stream);
-</span><span class='line'>
-</span><span class='line'>    pc.createOffer(function(offer) {
-</span><span class='line'>      pc.setLocalDescription(new RTCSessionDescription(offer), function() {
-</span><span class='line'>        // send the offer to a server to be forwarded the friend you're calling.
-</span><span class='line'>      }, error);
-</span><span class='line'>    }, error);
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>对端接受者，收到setRemoteDescription并使用createAnswer回复连接请求。</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  navigator.getUserMedia({video: true}, function(stream) {
-</span><span class='line'>    var video = document.getElementById("video");
-</span><span class='line'>    video.srcObject = stream;
-</span><span class='line'>    video.play();
-</span><span class='line'>    pc.addStream(stream);
-</span><span class='line'>
-</span><span class='line'>    pc.setRemoteDescription(offer, function() {
-</span><span class='line'>      pc.createAnswer(function(answer) {
-</span><span class='line'>        pc.setLocalDescription(new RTCSessionDescription(answer), function() {
-</span><span class='line'>          // send the offer to a server to be forwarded to the caller
-</span><span class='line'>        }, error);
-</span><span class='line'>      }, error);
-</span><span class='line'>    }, error);
-</span><span class='line'>  }</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>主动发起者，处理对端发回的响应，并设置setRemoteDescription信息。</h5>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  var offer = getResponseFromFriend();
-</span><span class='line'>  pc.setRemoteDescription(new RTCSessionDescription(offer), function() { }, error);</span></code></pre></td></tr></table></div></figure>
-
-
-<h5>总结:</h5>
-
-<ul>
-<li>创建RTCPeerConnection对象, 指定相关的STUN、TURN服务器。</li>
-<li>每个RTCPeerConnection对象都关联一个ICE agent。当创建该对象时，ICE agent的相关状态会被初始化。</li>
-<li>每个RTCPeerConnection对象关联两个流媒体集合。</li>
-<li>本地流媒体集合(Local stream set), 本地流媒体集合代表当前发送的数据流，</li>
-<li>远程流集合(Remote stream set), 远程流媒体集合代表RTCPeerConnection对象接收到的流</li>
-</ul>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[WebRTC - Understand the MediaStream]]></title>
-    <link href="http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream/"/>
-    <updated>2014-01-06T23:59:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream</id>
-    <content type="html"><![CDATA[<p>WebRTC从设计之初，目的就是为开发人员提供更加简便的方式构建基于Web的视频、音频应用。对于任何的WebRTC应用程序，只需要做如下几件事情：</p>
-
-<ul>
-<li>1）获取本地媒体流(音频、视频)。</li>
-<li>2）与对端建立连接(包括防火墙和NAT的穿透)。</li>
-<li>3）初始化双方通信信道。</li>
-<li>4）交换通信元数据信息，比如分辨率、编解码方案、网络地址等。</li>
-<li>5）开始音频，视频或数据的通信。</li>
-</ul>
-
-
-<!--More-->
-
-
-<p>为了完成这个过程，WebRTC提供了三个主要的对象接口：</p>
-
-<ul>
-<li>MediaStream</li>
-<li>RTCPeerConnection</li>
-<li>RTCDataChannel</li>
-</ul>
-
-
-<p>在这篇文章里，我们先来看看如何使用MediaStream。</p>
-
-<p>MediaStream代表一个抽象的流媒体对象，通常是音频或视频的内容。每个媒体流对象中，包含零个或多个轨道（MediaStreamTrack)，用来显示并控制该流媒体对象的输入源名称，如音频还是视频，特征或者状态，同时也能控制如静音、开始或者结束等。</p>
-
-<p>每个MediaStream都有输入和输出，输入一般由navigator.getUserMedia()（下面会详细介绍）生成，而输出则可以控制该流媒体对象如何被使用，例如存储到文件，显示在在video元素中，或者绑定到RTCPeerConnection的连接上。</p>
-
-<p><img src="http://wldandan.github.com/images/webrtc/media-stream.png" /></p>
-
-<p>getUserMedia()是浏览器提供的获取音频和视频媒体流的API。对于捕获到的流媒体，其和信号源是紧密相关的，如麦克风只能发出音频流，摄像头只能发出视频流。对于某些高清摄像头，可以产生高清的视频流。</p>
-
-<p>当使用getUserMedia() 获取视频或音频的媒体流时，需要指定三个参数：</p>
-
-<ul>
-<li>设置流媒体的配置参数</li>
-<li>获取视频成功的回调函数</li>
-<li><p>获取视频失败的回调函数</p>
-
-<pre><code>  &lt;video autoplay&gt;&lt;/video&gt;
-  &lt;script&gt;
-      var constraints = {
-          audio: true,
-          video: { 
-              mandatory: {  
-                  width: { min: 320 },
-                  height: { min: 180 }},          
-              optional: [{                 
-                  width: { max: 1280 }, 
-                  height: { max: 720 }},          
-                  { frameRate: 30 }]
-          }
-      }
-
-      function successCallback(stream) {
-          window.stream = stream; 
-          var video = document.querySelector("video");
-          video.src = window.URL.createObjectURL(stream);
-          video.play();
-      }
-
-      function errorCallback(error){
-          console.log("navigator.getUserMedia error: ", error);
-      }
-
-      navigator.getUserMedia(constraints, gotStream, logError);  
-  &lt;/script&gt;
-</code></pre></li>
-</ul>
-
-
-<p>在如上所示的Javascript代码中，
-首先定义了对象constraints，包括容许获取视频、音频，以及获取视频时，可接受的最小分辨率以及可选最大分辨率。<br/>
-然后定义了获取媒体流成功时的处理函数successCallback和失败的处理函数errorCallback。<br/>
-最后，使用navigator.getUserMedia()获取视频和音频的媒体流。</p>
 ]]></content>
   </entry>
   
