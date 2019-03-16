@@ -9,10 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="综述 Paxos发明人Leslie Lamport的理念是分布式系统有两类特性： 安全性(Safety)
-保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。
-活性(Liveness)
-使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事， &hellip;">
+  <meta name="description" content="综述 Paxos发明人Leslie Lamport提出，分布式系统有两类特性： 安全性(Safety) 保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。
+活性(Liveness) 使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -112,29 +110,29 @@
 
   <div class="entry-content"><h3>综述</h3>
 
-<p>Paxos发明人Leslie Lamport的理念是分布式系统有两类特性：</p>
+<p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
 
 <ul>
-<li><p>安全性(Safety)
-保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。</p></li>
-<li><p>活性(Liveness)
-使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事，是尽力而为的。</p></li>
+<li><p>安全性(Safety)</p>
+
+<blockquote><p>保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。</p></blockquote></li>
+<li><p>活性(Liveness)</p>
+
+<blockquote><p>使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事，是尽力而为的。</p></blockquote></li>
 </ul>
 
 
-<p>从Kubernetes的系统架构和设计来看，存在两个最核心的设计理念，也符合Lamport的经典理论：</p>
+<p>从Kubernetes的系统架构和设计来看，存在两个最核心的设计理念，符合Lamport的理论：</p>
 
 <ul>
-<li><p>容错性
-容错性实际是保证Kubernetes系统稳定性和安全性的基础</p></li>
-<li><p>易扩展性
-易扩展性是保证对变更友好，可以快速迭代增加新功能的基础</p></li>
+<li><p>容错性</p>
+
+<blockquote><p>容错性实际是保证Kubernetes系统稳定性和安全性的基础</p></blockquote></li>
+<li><p>易扩展性</p>
+
+<blockquote><p>易扩展性是保证对变更友好，可以快速迭代增加新功能的基础</p></blockquote></li>
 </ul>
 
-
-<p>在K8S核心设计理念的背后，存在着诸多领域对象，支撑这些核心理念的实现。</p>
-
-<p>本文主要梳理了K8S系统中的主要概念。</p>
 
 </div>
   
