@@ -30,6 +30,14 @@ Paxos发明人Leslie Lamport提出，分布式系统有两类特性：
 
 在K8S中，支撑核心设计理念的背后，存在着诸多领域对象，本文主要梳理了K8S系统中存在的主要概念。
 
+|类别|名称|
+|--|--|
+|资源对象|Pod、ReplicaSet、ReplicationController、Deployment、StatefulSet、DaemonSet、Job、CronJob、HorizontalPodAutoscaling、Node、Namespace、Service、Ingress、Label、CustomResourceDefinition|
+|存储对象|Volume、PersistentVolume、Secret、ConfigMap|
+|策略对象|SecurityContext、ResourceQuota、LimitRange|
+|身份对象|ServiceAccount、Role、ClusterRole|
+
+
 #### 1.核心概念
 
 ##### Pod

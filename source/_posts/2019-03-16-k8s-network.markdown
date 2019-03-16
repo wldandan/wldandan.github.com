@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "K8s网络"
+title: "K8s之网络"
 date: 2019-03-15 23:45
 comments: true
 keywords: K8s
@@ -12,9 +12,6 @@ published: true
 K8s的网络介绍
 
 <!-- More -->
-
-在K8S中，支撑核心设计理念的背后，存在着诸多领域对象，本文主要梳理了K8S系统中存在的主要概念。
-
 
 ### K8s集群IP
 
