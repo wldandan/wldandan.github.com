@@ -9,7 +9,10 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="">
+  <meta name="description" content="综述 Paxos发明人Leslie Lamport的理念是分布式系统有两类特性： 安全性(Safety)
+保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。
+活性(Liveness)
+使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -82,7 +85,74 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2019/03/15/k8s-architecture/">K8s Architecture</a></h1>
+      <h1 class="entry-title"><a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-15T23:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
+        
+         | <a href="/blog/2019/03/15/k8s-concepts/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>综述</h3>
+
+<p>Paxos发明人Leslie Lamport的理念是分布式系统有两类特性：</p>
+
+<ul>
+<li><p>安全性(Safety)
+保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。</p></li>
+<li><p>活性(Liveness)
+使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事，是尽力而为的。</p></li>
+</ul>
+
+
+<p>从Kubernetes的系统架构和设计来看，存在两个最核心的设计理念，也符合Lamport的经典理论：</p>
+
+<ul>
+<li><p>容错性
+容错性实际是保证Kubernetes系统稳定性和安全性的基础</p></li>
+<li><p>易扩展性
+易扩展性是保证对变更友好，可以快速迭代增加新功能的基础</p></li>
+</ul>
+
+
+<p>在K8S核心设计理念的背后，存在着诸多领域对象，支撑这些核心理念的实现。</p>
+
+<p>本文主要梳理了K8S系统中的主要概念。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/03/15/k8s-concepts/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/03/15/k8s-architecture/">K8s核心架构</a></h1>
     
     
       <p class="meta">
@@ -107,7 +177,22 @@
   </header>
 
 
-  <div class="entry-content"></div>
+  <div class="entry-content"><h3>综述</h3>
+
+<p>Kubernetes主要由以下几个核心组件组成：</p>
+
+<ul>
+<li>etcd保存了整个集群的状态；</li>
+<li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
+<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
+<li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
+<li>kubelet负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；</li>
+<li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
+<li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
+</ul>
+
+
+</div>
   
   
     <footer>
@@ -435,53 +520,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">微服务实践 - 使用HAL设计REST API</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-10-09T23:45:00+08:00" pubdate data-updated="true">Oct 9<span>th</span>, 2016</time>
-        
-         | <a href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)被广泛采用。</p>
-
-<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中REST API设计的挑战。</p>
-
-<p>本篇结合我在微服务项目中的实践，谈谈如何使用HAL优雅的设计REST API</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a></h1>
     
     
@@ -585,9 +623,9 @@
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (1)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (13)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -603,7 +641,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-architecture/">K8s architecture</a>
+        <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-architecture/">K8s核心架构</a>
       </li>
     
       <li class="post">
@@ -616,10 +658,6 @@
     
       <li class="post">
         <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/05/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
       </li>
     
   </ul>

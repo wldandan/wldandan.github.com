@@ -1,24 +1,110 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: K8s | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/k8s/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
-  <updated>2019-03-16T10:09:21+08:00</updated>
-  <id>http://wldandan.github.com/</id>
-  <author>
-    <name><![CDATA[wldandan]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>K8s核心概念 - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
 
   
-  <entry>
-    <title type="html"><![CDATA[K8s核心概念]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-concepts/"/>
-    <updated>2019-03-15T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-concepts</id>
-    <content type="html"><![CDATA[<h3>综述</h3>
+  <meta name="description" content="K8s">
+  <meta name="keywords" content="K8s">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2019/03/15/k8s-concepts/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">K8s核心概念</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-15T23:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>综述</h3>
 
 <p>Paxos发明人Leslie Lamport的理念是分布式系统有两类特性：</p>
 
@@ -128,86 +214,205 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
 <h3>参考资料</h3>
 
 <p><a href="https://infoq.cn/article/kubernetes-and-cloud-native-applications-part01">《Kubernetes 与云原生应用》系列之 Kubernetes 的系统架构与设计理念</a></p>
-]]></content>
-  </entry>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
   
-  <entry>
-    <title type="html"><![CDATA[K8s核心架构]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-architecture/"/>
-    <updated>2019-03-15T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-architecture</id>
-    <content type="html"><![CDATA[<h3>综述</h3>
 
-<p>Kubernetes主要由以下几个核心组件组成：</p>
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
 
-<ul>
-<li>etcd保存了整个集群的状态；</li>
-<li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
-<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
-<li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
-<li>kubelet负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；</li>
-<li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
-<li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
-</ul>
+      
 
 
-<!-- More -->
 
 
-<p>除了核心组件，还有一些推荐的插件，其中有的已经成为CNCF中的托管项目：</p>
-
-<ul>
-<li>CoreDNS负责为整个集群提供DNS服务</li>
-<li>Ingress Controller为服务提供外网入口</li>
-<li>Prometheus提供资源监控</li>
-<li>Dashboard提供GUI</li>
-<li>Federation提供跨可用区的集群</li>
-</ul>
 
 
-<h3>K8s整体架构</h3>
-
-<p><img src="/images/k8s/kubernetes-whole-arch.png" /></p>
-
-<h5>K8s-Master架构图</h5>
-
-<p><img src="/images/k8s/kubernetes-master-arch.png" /></p>
-
-<h5>K8s-Node架构图</h5>
-
-<p><img src="/images/k8s/kubernetes-node-arch.png" /></p>
-
-<h3>K8s分层架构</h3>
-
-<p><img src="/images/k8s/kubernetes-layers-arch.png" /></p>
-
-<ul>
-<li>核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</li>
-<li>应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）、Service Mesh（部分位于应用层）</li>
-<li>管理层：系统度量（如基础设施、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC、Quota、PSP、NetworkPolicy等）、Service Mesh（部分位于管理层）</li>
-<li>接口层：kubectl命令行工具、客户端SDK以及集群联邦</li>
-<li><p>生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分为两个范畴</p>
-
-<ul>
-<li><p>Kubernetes外部：日志、监控、配置管理、CI/CD、Workflow、FaaS、OTS应用、ChatOps、GitOps、SecOps等</p></li>
-<li><p>Kubernetes内部：CRI、CNI、CSI、镜像仓库、Cloud Provider、集群自身的配置和管理等</p></li>
-</ul>
-</li>
-</ul>
 
 
-<blockquote><p>关于分层架构，可以关注下Kubernetes社区正在推进的<a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a>。</p></blockquote>
-
-<h3>参考资料</h3>
-
-<p><a href="http://queue.acm.org/detail.cfm?id=2898444">Borg, Omega, and Kubernetes - Lessons learned from three container-management systems over a decade</a></p>
-
-<p><a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/43438.pdf">Paper - Large-scale cluster management at Google with Borg</a></p>
-
-<p><a href="http://thenewstack.io/kubernetes-an-overview">KUBERNETES: AN OVERVIEW</a></p>
-
-<p><a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a></p>
-]]></content>
-  </entry>
   
-</feed>
+
+
+<time datetime="2019-03-15T23:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/k8s/'>K8s</a>
+  
+</span>
+
+
+    </p>
+
+    <p class="meta">
+      <a href="/blog/2019/03/15/k8s-concepts/">原文链接</a>，
+<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2019/03/15/k8s-concepts/" data-via="" data-counturl="http://wldandan.github.com/blog/2019/03/15/k8s-concepts/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/03/15/k8s-architecture/" title="Previous Post: K8s核心架构">&laquo; K8s核心架构</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (2)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-architecture/">K8s核心架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">微服务实战(4) - Spring Cloud 101</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2019/03/15/k8s-concepts/';
+        var disqus_url = 'http://wldandan.github.com/blog/2019/03/15/k8s-concepts/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

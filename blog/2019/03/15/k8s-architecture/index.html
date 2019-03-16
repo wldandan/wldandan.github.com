@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>K8s architecture - Happy Coding, Happy Life</title>
+  <title>K8s核心架构 - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">K8s Architecture</h1>
+      <h1 class="entry-title">K8s核心架构</h1>
     
     
       <p class="meta">
@@ -104,10 +104,7 @@
   </header>
 
 
-<div class="entry-content"><!-- More -->
-
-
-<h3>综述</h3>
+<div class="entry-content"><h3>综述</h3>
 
 <p>Kubernetes主要由以下几个核心组件组成：</p>
 
@@ -120,6 +117,9 @@
 <li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
 <li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
 </ul>
+
+
+<!-- More -->
 
 
 <p>除了核心组件，还有一些推荐的插件，其中有的已经成为CNCF中的托管项目：</p>
@@ -143,7 +143,7 @@
 
 <h5>K8s-Node架构图</h5>
 
-<p><img src="/images/k8s/kubernetes-master-arch.png" /></p>
+<p><img src="/images/k8s/kubernetes-node-arch.png" /></p>
 
 <h3>K8s分层架构</h3>
 
@@ -230,6 +230,8 @@
         <a class="basic-alignment left" href="/blog/2016/11/08/microservices-in-action-rest-hal/" title="Previous Post: 微服务实战系列(5) - HAL 101">&laquo; 微服务实战系列(5) - HAL 101</a>
       
       
+        <a class="basic-alignment right" href="/blog/2019/03/15/k8s-concepts/" title="Next Post: K8s核心概念">K8s核心概念 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -265,9 +267,9 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (1)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (2)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (13)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
@@ -283,7 +285,11 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-architecture/">K8s architecture</a>
+        <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-architecture/">K8s核心架构</a>
       </li>
     
       <li class="post">
@@ -296,10 +302,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/05/microservices-in-action-simulation/">微服务实战(2) - 目标系统</a>
       </li>
     
   </ul>

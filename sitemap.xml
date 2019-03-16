@@ -170,12 +170,6 @@
     </url>
     <url>
         <loc>
-            http://wldandan.github.com/blog/2016/10/09/wei-fu-wu-jia-gou-yu-shi-jian-apiwen-dang-hua/
-        </loc>
-        <lastmod>2016-11-17T23:25:56+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
             http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/
         </loc>
         <lastmod>2019-03-15T06:51:24+08:00</lastmod>
@@ -206,7 +200,11 @@
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/2019/03/15/k8s-architecture/</loc>
-        <lastmod>2019-03-15T07:20:57+08:00</lastmod>
+        <lastmod>2019-03-16T09:03:37+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://wldandan.github.com/blog/2019/03/15/k8s-concepts/</loc>
+        <lastmod>2019-03-16T10:06:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/about/</loc>
@@ -214,7 +212,7 @@
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/archives/</loc>
-        <lastmod>2019-03-15T07:20:57+08:00</lastmod>
+        <lastmod>2019-03-16T10:06:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/consulting/</loc>
@@ -222,7 +220,7 @@
     </url>
     <url>
         <loc>http://wldandan.github.com/</loc>
-        <lastmod>2019-03-15T07:20:57+08:00</lastmod>
+        <lastmod>2019-03-16T10:06:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/robots.txt</loc>
