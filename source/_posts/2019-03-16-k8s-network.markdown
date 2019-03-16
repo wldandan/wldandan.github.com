@@ -1,0 +1,25 @@
+---
+layout: post
+title: "K8s网络"
+date: 2019-03-15 23:45
+comments: true
+keywords: K8s
+description: K8s
+categories: K8s
+published: true
+---
+
+K8s的网络介绍
+
+<!-- More -->
+
+在K8S中，支撑核心设计理念的背后，存在着诸多领域对象，本文主要梳理了K8S系统中存在的主要概念。
+
+
+### K8s集群IP
+
+Kubernetes集群内部存在三类IP，分别是：
+
+* Node IP：宿主机的IP地址
+* Pod IP：使用网络插件创建的IP（如flannel），使跨主机的Pod可以互通
+* Cluster IP：虚拟IP，通过iptables规则访问服务
