@@ -9,8 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。 RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。 还记得之前讨论过的WebRTC架构图吗？
-实际上， &hellip;">
+  <meta name="description" content="Create one mongo repliSet mkdir -p /srv/mongodb/rs0-0 /srv/mongodb/rs0-1 /srv/mongodb/rs0-2 Run instances mongod --port 27017 --dbpath /srv/mongodb/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +76,117 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/">How to Setup Mongo repliSet</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-17T09:24:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Create one mongo repliSet</h3>
+
+<pre><code>mkdir -p /srv/mongodb/rs0-0 /srv/mongodb/rs0-1 /srv/mongodb/rs0-2
+</code></pre>
+
+<h3>Run instances</h3>
+
+<pre><code>mongod --port 27017 --dbpath /srv/mongodb/rs0-0 --replSet rs0 --smallfiles --oplogSize 128
+mongod --port 27018 --dbpath /srv/mongodb/rs0-1 --replSet rs0 --smallfiles --oplogSize 128
+mongod --port 27019 --dbpath /srv/mongodb/rs0-2 --replSet rs0 --smallfiles --oplogSize 128
+</code></pre>
+
+<h3>Enable replicaSet</h3>
+
+<pre><code>mongo --port 27017
+rs.initiate()
+rs.conf()
+rs.status()
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/14/the-story-about-dora/">Dora诞生记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-14T23:32:00+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2014</time>
+        
+         | <a href="/blog/2014/02/14/the-story-about-dora/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>趁着在墨尔本和西安Office上Hackday获奖的喜悦劲，赶紧来一篇Dora诞生记。  <br/>
+提醒偶记住这个特殊的日子，同时也感谢在过去两个月，牺牲个人时间，奋斗在Dora(X-Robot)上的Casa的兄弟姐妹们。</p>
+
+<h5>-2013年10月20</h5>
+
+<p>和Charley午餐的时候，无意间谈论起了各自想做但没时间做的idea。</p>
+
+<p>幸运乎，找到一个我俩都认为不错但又没被完全实现的一个想法&lt;&lt;公交来了>>(<strong>旨在帮助等车族们准确的掌握公交将来的时间，为既不想迟到又想多赖几分钟在床上的兄弟提供福音</strong>)。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/02/14/the-story-about-dora/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -710,124 +820,6 @@ public void testListPartialMockByCallRealMethod(){
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/06/vagrant-learning-two-vagrantfile/">Vagrant Learning - 2 (Configuration)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-06T17:26:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/11/06/vagrant-learning-two-vagrantfile/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Vagrantfile</h3>
-
-<p>Vagrantfile是Vagrant启动并设置VM的配置文件，每个VM都必须有一个Vagrantfile。
-当执行<code>Vagrant init</code>，Vagrant便会帮我们生成一个默认的Vagrantfile。
-当然，不同的VM可以根据需求更改Vagrantfile的配置信息。</p>
-
-<p>对于开发团队，我们可以将Vagrant配置文件放入版本管理系统，从而整个团队能够共享并不断改进该文件，在团队内部提供一种方便快捷的方式，构建产品运行环境。</p>
-
-<p>譬如，我们可以执行如下代码生成Vagrantfile</p>
-
-<pre><code>mkdir vm &amp;&amp; cd vm  
-vagrant init precise64 http://files.vagrantup.com/precise64.box
-</code></pre>
-
-<p>Vagrant会提示</p>
-
-<pre><code>A Vagrantfile has been placed in this directory. You are now
-ready to 'vagrant up' your first virtual environment! Please read
-the comments in the Vagrantfile as well as documentation on
-'vagrantup.com' for more information on using Vagrant.
-</code></pre>
-
-<p>查看当前目录，会发现Vagrantfile已经生成。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/06/vagrant-learning-two-vagrantfile/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/04/vagrant-learning-one-introduction/">Vagrant Learning - 1 (Basic Concepts)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-04T20:02:00+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/11/04/vagrant-learning-one-introduction/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>为什么选择Vagrant</h3>
-
-<ul>
-<li>能够构建可配置的、轻量级的、便携式的虚拟服务器</li>
-<li>安装简单，提供不同平台的安装包</li>
-<li>一条命令即可创建出虚拟机环境，而且官方提供各种虚拟机的模板。</li>
-<li>能够最大化的帮助个人或者团队快速配置环境。譬如说，如果你是团队中的一员，通过Vagrant创建出一套独立的运行环境后，团队的其他成员能够使用该配置，创建完全一样地工作环境。所以无论你是工作在Linux，Mac OS X或Windows ，所有的团队成员都能在同一环境下运行代码，拥有相同的依赖。告别环境不一致带来的问题。</li>
-<li>提供Shell、Chef或者Puppet的支持，能够利用这些工具(Infrastructure As Code的方式)配置环境。</li>
-<li>从1.2的版本开始，不但支持VirtualBox,VmWare, 还开始支持Amazon EC2。</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/04/vagrant-learning-one-introduction/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -848,7 +840,7 @@ the comments in the Vagrantfile as well as documentation on
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (2)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (4)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -866,6 +858,14 @@ the comments in the Vagrantfile as well as documentation on
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-network/">K8s之网络</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
       </li>
     
@@ -875,14 +875,6 @@ the comments in the Vagrantfile as well as documentation on
     
       <li class="post">
         <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">微服务实战(4) - Spring Cloud 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
       </li>
     
   </ul>

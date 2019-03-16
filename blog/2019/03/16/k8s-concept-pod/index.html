@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>K8s之Pod - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="K8s">
+  <meta name="keywords" content="K8s">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">K8s之Pod</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-16T23:45:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2019</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。</p>
+
+<!-- More -->
+
+
+<h3>Pod概览</h3>
+
+<p>Pod是一个服务的多个进程的聚合单位，pod通过提供一个更高级别的抽象的方式，极大简化了应用部署管理。
+Pod作为一个独立的部署单位，支持横向扩展和复制、协同调度、命运共同体（例如被同时终结），协同复制，资源共享，依赖管理等，Pod会自动的为容器处理这些问题。</p>
+
+<h4>什么是Pod</h4>
+
+<p>Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。</p>
+
+<p>Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。</p>
+
+<p>在Kubrenetes集群中Pod有如下两种使用方式：</p>
+
+<ul>
+<li><p>一个Pod中运行一个容器。“每个Pod中一个容器”的模式是最常见的用法；在这种使用方式中，你可以把Pod想象成是单容器的封装，kuberentes管理的是Pod而不是容器。</p></li>
+<li><p>在一个Pod中同时运行多个容器。一个Pod中也可以同时封装几个紧密耦合、互相协作的容器，它们之间共享资源。这些在同一个Pod中的容器互相协作，成为一个service单位——如一个容器共享文件，另一个容器更新文件。Pod将这些容器的存储资源作为一个实体来管理。</p></li>
+</ul>
+
+
+<h4>Pod的生命周期</h4>
+
+<p>Pod 的 status 字段是一个 PodStatus 对象，PodStatus中有一个 phase 字段。</p>
+
+<p>下面是 phase 可能的值：</p>
+
+<ul>
+<li>挂起（Pending）：Pod 已被 Kubernetes
+系统接受，但有一个或者多个容器镜像尚未创建。等待时间包括调度 Pod的时间和通过网络下载镜像的时间，这可能需要花点时间。</li>
+<li>运行中（Running）：该 Pod 已经绑定到了一个节点上，Pod 中所有的容器都已被创建。至少有一个容器正在运行，或者正处于启动或重启状态。</li>
+<li>成功（Succeeded）：Pod 中的所有容器都被成功终止，并且不会再重启。</li>
+<li>失败（Failed）：Pod 中的所有容器都已终止了，并且至少有一个容器是因为失败终止。也就是说，容器以非0状态退出或者被系统终止。</li>
+<li>未知（Unknown）：因为某些原因无法取得 Pod 的状态，通常是因为与 Pod 所在主机通信失败。</li>
+</ul>
+
+
+<p>下图是Pod的生命周期示意图，从图中可以看到Pod状态的变化。</p>
+
+<p><img src="/images/k8s/kubernetes-pod-life-cycle.jpg" /></p>
+
+<h4>Pod如何管理多个容器</h4>
+
+<p>Pod中可以同时运行多个容器（独立进程运行）并协同工作。同一个Pod中的容器会自动的分配到同一个node 上运行，同时，同一个Pod中的容器共享存储、网络和依赖，它们总是被同时调度。</p>
+
+<ul>
+<li><p>网络</p>
+
+<blockquote><p>每个Pod都会被分配唯一的一个IP地址。Pod中的所有容器共享网络空间，包括IP地址和端口。Pod内部的容器可以使用localhost互相通信。Pod中的容器与外界通信时，必须分配共享网络资源（例如使用宿主机的端口映射）。</p></blockquote></li>
+<li><p>存储</p>
+
+<blockquote><p>可以为一个Pod指定多个共享的Volume。Pod中的所有容器都可以访问共享的volume。Volume也可以用来持久化Pod中的存储资源，以防容器重启后文件丢失。</p></blockquote></li>
+</ul>
+
+
+<h3>Pod的管理</h3>
+
+<h4>Pod间发现</h4>
+
+<p>Pod中应用容器共享网络空间（IP地址和端口），因此可以通过localhost互相发现。
+Pod中应用容器的hostname被设置成Pod的名字。
+Pod中应用容器可以共享volume。volume能够保证pod重启时使用的数据不丢失。</p>
+
+<h4>Pod的使用</h4>
+
+<p>Pod也可以用于垂直应用（例如LAMP），这样使用的动机是为了支持共同调度和协调应用程序，例如：
+* 内容管理系统、文件和数据加载器、本地换群管理器等。
+* 日志和检查点备份、压缩、旋转、快照等。
+* 数据变更观察者、日志和监控适配器、活动发布者等。
+* 代理、桥接和适配器等。
+* 控制器、管理器、配置器、更新器等。</p>
+
+<h4>Pod的持久性</h4>
+
+<p>Pod不是作为持久化设计的。在调度失败、节点故障、缺少资源或者节点维护的状态下都会失败。</p>
+
+<p>通常，用户不需要手动直接创建Pod，而是应该使用controller（例如Deployments），即使是在创建单个Pod的情况下。Controller可以提供集群级别的自愈功能、复制和升级管理。</p>
+
+<h3>Pod高级特性</h3>
+
+<h4>Pod Preset</h4>
+
+<p>Kubernetes提供了一个准入控制器（PodPreset），当其启用时，Pod Preset 会将应用创建请求传入到该控制器上。因此，<code>Pod Preset</code>是用来在 Pod 被创建的时候向其中注入额外的运行时需求的 API 资源。</p>
+
+<p>您可以使用<code>label selector</code> 来指定为哪些 Pod 应用 Pod Preset。</p>
+
+<h4>Pod和Controller</h4>
+
+<p>Controller可以创建和管理多个Pod，提供副本管理、滚动升级和集群级别的自愈能力。例如，如果一个Node故障，Controller就能自动将该节点上的Pod调度到其他健康的Node上。</p>
+
+<p>包含一个或者多个Pod的Controller示例：</p>
+
+<ul>
+<li>Deployment</li>
+<li>StatefulSet</li>
+<li>DaemonSet</li>
+</ul>
+
+
+<p>通常，Controller会用你提供的Pod Template来创建相应的Pod。</p>
+
+<h4>Init容器</h4>
+
+<p>Init是一种专用的容器，在应用程序容器启动之前运行，包含应用镜像中工具或环境的安装脚本。</p>
+
+<p>Pod 能够有一个或多个先于应用容器启动的 Init 容器。</p>
+
+<p>Init 容器与普通的容器非常像，除了如下两点：
+* Init 容器总是运行到成功完成为止。
+* 每个 Init 容器都必须在下一个 Init 容器启动之前成功完成。</p>
+
+<p>如果 Pod 的 Init 容器失败，Kubernetes 会不断地重启该 Pod，直到 Init容器成功为止。然而，如果 Pod 对应的 restartPolicy 为 Never，它不会重新启动。</p>
+
+<p>因为 Init 容器具有与应用程序容器分离的单独镜像，所以它们的启动相关代码具有如下优势：</p>
+
+<ul>
+<li><p>它们可以包含并运行实用工具，它们可以包含使用工具和定制化代码来安装。例如，创建镜像没必要FROM 另一个镜像，只需要在安装过程中使用类似 sed、 awk、 python 或 dig 这样的工具。</p></li>
+<li><p>应用程序镜像可以分离出创建和部署的角色，而没有必要联合它们构建一个单独的镜像。</p></li>
+<li><p>Init 容器使用 Linux Namespace，所以相对应用程序容器来说具有不同的文件系统视图。因此，它们能够具有访问 Secret 的权限，而应用程序容器则不能。</p></li>
+<li><p>它们必须在应用程序容器启动之前运行完成，所以 Init 容器能够提供一种简单的阻塞或延迟应用容器的启动的方法，直到满足了一组先决条件。</p></li>
+</ul>
+
+
+<h4>Pod 安全策略</h4>
+
+<p>Pod 安全策略 是集群级别的资源，它能够控制 Pod 运行的行为，以及它具有访问什么资源的能力。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-16T23:45:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/k8s/'>K8s</a>
+  
+</span>
+
+
+    </p>
+
+    <p class="meta">
+      <a href="/blog/2019/03/16/k8s-concept-pod/">原文链接</a>，
+<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/" data-via="" data-counturl="http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/03/15/k8s-network/" title="Previous Post: K8s之网络">&laquo; K8s之网络</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (4)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-network/">K8s之网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-architecture/">K8s核心架构</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/';
+        var disqus_url = 'http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

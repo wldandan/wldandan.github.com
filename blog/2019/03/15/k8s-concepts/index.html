@@ -104,9 +104,7 @@
   </header>
 
 
-<div class="entry-content"><h3>综述</h3>
-
-<p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
+<div class="entry-content"><p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
 
 <ul>
 <li><p>安全性(Safety)</p>
@@ -134,6 +132,39 @@
 
 
 <p>在K8S中，支撑核心设计理念的背后，存在着诸多领域对象，本文主要梳理了K8S系统中存在的主要概念。</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>类别</th>
+<th>名称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>资源对象</td>
+<td>Pod、ReplicaSet、ReplicationController、Deployment、StatefulSet、DaemonSet、Job、CronJob、HorizontalPodAutoscaling、Node、Namespace、Service、Ingress、Label、CustomResourceDefinition|</td>
+</tr>
+<tr>
+<td></td>
+<td>存储对象</td>
+<td>Volume、PersistentVolume、Secret、ConfigMap|</td>
+</tr>
+<tr>
+<td></td>
+<td>策略对象</td>
+<td>SecurityContext、ResourceQuota、LimitRange|</td>
+</tr>
+<tr>
+<td></td>
+<td>身份对象</td>
+<td>ServiceAccount、Role、ClusterRole|</td>
+</tr>
+</tbody>
+</table>
+
 
 <h4>1.核心概念</h4>
 
@@ -271,6 +302,8 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
         <a class="basic-alignment left" href="/blog/2019/03/15/k8s-architecture/" title="Previous Post: K8s核心架构">&laquo; K8s核心架构</a>
       
       
+        <a class="basic-alignment right" href="/blog/2019/03/15/k8s-network/" title="Next Post: K8s之网络">K8s之网络 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -306,7 +339,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (2)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (4)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -324,6 +357,14 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-network/">K8s之网络</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
       </li>
     
@@ -333,14 +374,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">微服务实战(4) - Spring Cloud 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
       </li>
     
   </ul>

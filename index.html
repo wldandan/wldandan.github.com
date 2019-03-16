@@ -9,8 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="综述 Paxos发明人Leslie Lamport提出，分布式系统有两类特性： 安全性(Safety) 保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。
-活性(Liveness) 使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事， &hellip;">
+  <meta name="description" content="Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -83,6 +82,92 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-16T23:45:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2019</time>
+        
+         | <a href="/blog/2019/03/16/k8s-concept-pod/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/03/16/k8s-concept-pod/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/03/15/k8s-network/">K8s之网络</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-15T23:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
+        
+         | <a href="/blog/2019/03/15/k8s-network/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>K8s的网络介绍</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/03/15/k8s-network/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a></h1>
     
     
@@ -108,9 +193,7 @@
   </header>
 
 
-  <div class="entry-content"><h3>综述</h3>
-
-<p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
+  <div class="entry-content"><p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
 
 <ul>
 <li><p>安全性(Safety)</p>
@@ -175,9 +258,7 @@
   </header>
 
 
-  <div class="entry-content"><h3>综述</h3>
-
-<p>Kubernetes主要由以下几个核心组件组成：</p>
+  <div class="entry-content"><p>Kubernetes主要由以下几个核心组件组成：</p>
 
 <ul>
 <li>etcd保存了整个集群的状态；</li>
@@ -513,96 +594,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/17/microservice-design-and-implementation/">解析微服务架构</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-17T11:13:00+08:00" pubdate data-updated="true">Mar 17<span>th</span>, 2015</time>
-        
-         | <a href="/blog/2015/03/17/microservice-design-and-implementation/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>过去的1年多，一直在助力澳洲最大的房地产互联网门户，研究并使用微服务架构改造其复杂的遗留系统。鉴于此，准备开个系列，讲讲我个人眼中的微服务是神马样的，它的概念，优缺点，为什么我们要使用它，以及在使用微服务的实践过程中，从开发、测试、部署、运维等几个方面相比以前方式有什么不同；同时，分享一下我们在微服务实践过程中的经验和踩过的那些坑。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/03/17/microservice-design-and-implementation/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构(四)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-16T22:07:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2015</time>
-        
-         | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>[请勿转载]</p>
-
-<h1>微服务架构的优缺点</h1>
-
-<p>将单块架构应用分解为一系列相对独立的微服务，其中每个服务都运行在自己的进程中，并且通过轻量级的机制实现彼此间的通信，这通常是HTTP资源的微服务。这些服务是围绕着业务功能构建的，并且可以通过完全自动化的部署机制进行独立部署。这些服务的集中式管理做到了最小化，每一种服务都可以通过不同的编程语言进行编写，并且可以使用不同的数据存储技术。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -621,7 +612,7 @@
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (2)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (4)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -639,6 +630,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-network/">K8s之网络</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
       </li>
     
@@ -648,14 +647,6 @@
     
       <li class="post">
         <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">微服务实战(4) - Spring Cloud 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
       </li>
     
   </ul>

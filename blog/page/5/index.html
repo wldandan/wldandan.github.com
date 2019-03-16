@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="随着信息化的快速发展，IT项目变得越来越复杂，通常都是由多个子系统共同协作完成。对于这种多系统、多项目的情况，很多构建工具都已经提供了不错的支持，像maven、ant。Gradle除了借鉴了ant或者maven的继承的方式定义子项目，也提供了一种更为方便的集中配置的方式， &hellip;">
+  <meta name="description" content="Tools 1. The Brain(http://www.thebrain.com/) 现在的新知识越来越多，体系越来越庞大，非常需要the brain这样一个软件，将所学的知识分门别类，形成一个整体的、宏观的脑图。 2. Trello(https://trello.com/) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,109 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/03/effective-tool-in-my-every-day-work/">Effective Tool in My Work</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-03T10:33:00+08:00" pubdate data-updated="true">May 3<span>rd</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/03/effective-tool-in-my-every-day-work/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Tools</h3>
+
+<h4>1. The Brain(http://www.thebrain.com/)</h4>
+
+<p>  现在的新知识越来越多，体系越来越庞大，非常需要the brain这样一个软件，将所学的知识分门别类，形成一个整体的、宏观的脑图。</p>
+
+<h4>2. Trello(https://trello.com/)</h4>
+
+<p>  一个方便的电子卡片墙，帮助你记录想做的事，正在做的事，或者已经完成的事，同时提供了Android和Iphone上的支持。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/03/effective-tool-in-my-every-day-work/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/25/gradle-learning-four/">Gradle Learning - 4 (Files&amp;direcoties)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-25T06:20:00+08:00" pubdate data-updated="true">Jan 25<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/01/25/gradle-learning-four/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在我们使用Gradle构建项目的过程中，免不了要经常和文件打交道，譬如文件拷贝、文件重命名、生成压缩包等。在这方面，Gradle已经提供了非常好的支持，下面我们就来尝试一下如何使用Gradle提供的方式，操作文件或者目录。</p>
+
+<h3>1. 文件访问</h3>
+
+<h4>1). 访问单个文件或者目录</h4>
+
+<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/</p>
+
+<pre><code>~&gt; gradle -p ~/work/project1 tasks
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/25/gradle-learning-four/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -265,7 +368,7 @@ task hello &lt;&lt; {
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (2)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (4)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -283,6 +386,14 @@ task hello &lt;&lt; {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-network/">K8s之网络</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
       </li>
     
@@ -292,14 +403,6 @@ task hello &lt;&lt; {
     
       <li class="post">
         <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/07/microservices-in-action-spring-cloud-101/">微服务实战(4) - Spring Cloud 101</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a>
       </li>
     
   </ul>
