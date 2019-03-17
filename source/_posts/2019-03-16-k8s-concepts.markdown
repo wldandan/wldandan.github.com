@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "K8s核心概念"
-date: 2019-03-15 23:45
+date: 2019-03-14 23:45
 comments: true
 keywords: K8s
 description: K8s
