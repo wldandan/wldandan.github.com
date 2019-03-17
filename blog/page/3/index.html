@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="Create one mongo repliSet mkdir -p /srv/mongodb/rs0-0 /srv/mongodb/rs0-1 /srv/mongodb/rs0-2 Run instances mongod --port 27017 --dbpath /srv/mongodb/ &hellip;">
+  <meta name="description" content="Why do I need Splunk Recently, our team is moving several legacy components running in Windows server from data-center to AWS. The transformation &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,110 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/">Splunk - Receive Logs From Distributed Windows Machine</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-21T20:56:00+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+        
+         | <a href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Why do I need Splunk</h3>
+
+<p>Recently, our team is moving several legacy components running in Windows server from data-center to AWS. The transformation itself is not hard, but the eco-system like monitoring, alerting, troubleshooting is most important before getting started the transofrmation.</p>
+
+<p>The article would talk about how to setup and config Splunk Universal Forwarder in Windows machine where the component is running.</p>
+
+<p>Bying using SUF, Splunk central server can easily collect logs from different distributed machines, so that the OPS guy can query and analyze the logs from one portal rather than login on different distributed machines.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/23/how-to-setup-mongo-shard/">How to Setup Mongo Shard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-23T09:44:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2014</time>
+        
+         | <a href="/blog/2014/04/23/how-to-setup-mongo-shard/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>To simulate the process of production deployment of MongoDB, I used Vagrant to create a couples of VMs, and exprienced the journey of deployment mongo step by step as follow mentioned.</p>
+
+<h3>Mongo Shard Concepts</h3>
+
+<p>Before dived into the code, we can review the concepts related to Mongo Shard, it needs 3 components logically at least.</p>
+
+<h4>a) Config Server</h4>
+
+<p>The config server processes are mongod instances that   store the cluster’s metadata. You designate a mongod as a config server using the &#8211;configsvr option. Each config server stores a complete copy of the cluster’s metadata.</p>
+
+<h4>b) Query Server</h4>
+
+<p>The query server are lightweight mongos instances and   do not require data directories. You can run a mongos   instance on a system that runs other cluster    components, such as on an application server or a   server running a mongod process. By default, a mongos   instance runs on port 27017.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/04/23/how-to-setup-mongo-shard/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -723,103 +827,6 @@ public void testListPartialMockByCallRealMethod(){
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/22/vagrant-learning-provision/">Vagrant Learning - 4 (Provision)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-22T23:02:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/11/22/vagrant-learning-provision/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>如何安装应用</h3>
-
-<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
-如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
-
-<p>目前，基本上有两种方式：</p>
-
-<h4>手动安装</h4>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/22/vagrant-learning-provision/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/11/14/vagrant-learning-box/">Vagrant Learning - 3 (Box)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-11-14T17:02:00+08:00" pubdate data-updated="true">Nov 14<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/11/14/vagrant-learning-box/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>什么是Vagrant Box</h3>
-
-<p>谈论完了Vagrantfile，让我们看看Vagrant的另外一个重要概念Box。它是Vagrant运行VM的必要条件。
-基本上，从头开始建立一个VM是相当耗时的工作，于是Vagrant使用一个基础映像(base image), 克隆它并快速创建一个可用的VM。<br/>
-在Vagrant的世界里，所有这些基础映像统称为Box。简单地说，Box可以理解为创建VM时需要的模板，通过这些模板，我们可以创建VM。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/11/14/vagrant-learning-box/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -840,7 +847,7 @@ public void testListPartialMockByCallRealMethod(){
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (4)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (6)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -858,23 +865,23 @@ public void testListPartialMockByCallRealMethod(){
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-network/">K8s之网络</a>
+        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
+        <a href="/blog/2019/03/15/k8s-concept-cluster/">K8s之集群</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-architecture/">K8s核心架构</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
+        <a href="/blog/2019/03/14/k8s-concepts/">K8s核心概念</a>
       </li>
     
   </ul>

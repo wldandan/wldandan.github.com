@@ -4,7 +4,7 @@
   <title><![CDATA[Category: K8s | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/k8s/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2019-03-16T16:28:02+08:00</updated>
+  <updated>2019-03-17T12:04:21+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -14,9 +14,173 @@
 
   
   <entry>
+    <title type="html"><![CDATA[K8s之控制器]]></title>
+    <link href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/"/>
+    <updated>2019-03-16T20:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller</id>
+    <content type="html"><![CDATA[<p>Kubernetes中内建了很多controller（控制器），这些相当于一个状态机，用来控制Pod的具体状态和行为。</p>
+
+<!-- More -->
+
+
+<p>这里已经讲的很详细了，请<a href="https://jimmysong.io/kubernetes-handbook/concepts/deployment.html">参考</a></p>
+
+<h4>Deployment 是什么？</h4>
+
+<p>Deployment为Pod和Replica Set（下一代Replication Controller）提供声明式更新。</p>
+
+<p>您只需要在 Deployment 中描述期望的目标状态，Deployment controller 会帮您将 Pod 和ReplicaSet 的实际状态改变到您的目标状态。</p>
+
+<p>典型的用例如下：</p>
+
+<ul>
+<li>使用Deployment来创建ReplicaSet。ReplicaSet在后台创建pod。检查启动状态，看它是成功还是失败。</li>
+<li>然后，通过更新Deployment的PodTemplateSpec字段来声明Pod的新状态。这会创建一个新的ReplicaSet，Deployment会按照控制的速率将pod从旧的ReplicaSet移动到新的ReplicaSet中。</li>
+<li>如果当前状态不稳定，回滚到之前的Deployment revision。每次回滚都会更新Deployment的revision。</li>
+<li>扩容Deployment以满足更高的负载。</li>
+<li>暂停Deployment来应用PodTemplateSpec的多个修复，然后恢复上线。</li>
+<li>根据Deployment 的状态判断上线是否hang住了。</li>
+<li>清除旧的不必要的 ReplicaSet。</li>
+</ul>
+
+
+<h4>创建 Deployment</h4>
+
+<p><code>
+$ kubectl create -f https://kubernetes.io/docs/user-guide/nginx-deployment.yaml --record
+deployment "nginx-deployment" created
+</code></p>
+
+<h4>更新Deployment</h4>
+
+<p><code>
+$ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
+deployment "nginx-deployment" image updated
+</code></p>
+
+<h4>检查 Deployment 升级的历史记录</h4>
+
+<p><code>
+$ kubectl rollout history deployment/nginx-deployment
+deployments "nginx-deployment":
+REVISION    CHANGE-CAUSE
+1           kubectl create -f https://kubernetes.io/docs/user-guide/nginx-deployment.yaml--record
+2           kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
+3           kubectl set image deployment/nginx-deployment nginx=nginx:1.91
+</code></p>
+
+<h4>回退到历史版本</h4>
+
+<p><code>
+$ kubectl rollout undo deployment/nginx-deployment --to-revision=2
+deployment "nginx-deployment" rolled back
+</code></p>
+
+<h4>Deployment 扩容</h4>
+
+<p><code>
+$ kubectl scale deployment nginx-deployment --replicas 10
+deployment "nginx-deployment" scaled
+</code></p>
+
+<h4>Deployment 状态</h4>
+
+<p>Deployment 在生命周期中有多种状态。在创建一个新的 ReplicaSet 的时候它可以是 <code>progressing</code> 状态， <code>complete</code> 状态，或者 <code>fail to progress</code> 状态。</p>
+
+<h3>编写 Deployment Spec</h3>
+
+<p>在所有的 Kubernetes 配置中，Deployment 也需要<code>apiVersion</code>，<code>kind</code>和<code>metadata</code>这些配置项。配置文件的通用使用说明查看 <a href="https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/">部署应用</a>，配置容器，和 <a href="https://kubernetes.io/docs/tutorials/object-management-kubectl/object-management/">使用 kubectl 管理资源 </a> 文档。</p>
+
+<h4>Pod Template</h4>
+
+<p> <code>.spec.template</code> 是 <code>.spec</code>中唯一要求的字段。</p>
+
+<p><code>.spec.template</code> 是 <a href="https://kubernetes.io/docs/user-guide/replication-controller/#pod-template">pod template</a>. 它跟 <a href="https://kubernetes.io/docs/user-guide/pods">Pod</a>有一模一样的schema，除了它是嵌套的并且不需要<code>apiVersion</code> 和 <code>kind</code>字段。</p>
+
+<p>另外为了划分Pod的范围，Deployment中的pod template必须指定适当的label（不要跟其他controller重复了，参考<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment#selector">selector</a>）和适当的重启策略。</p>
+
+<p><a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle"><code>.spec.template.spec.restartPolicy</code></a> 可以设置为 <code>Always</code> , 如果不指定的话这就是默认配置。</p>
+
+<h4>Replicas</h4>
+
+<p><code>.spec.replicas</code> 是可以选字段，指定期望的pod数量，默认是1。</p>
+
+<h4>Selector</h4>
+
+<p><code>.spec.selector</code>是可选字段，用来指定 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels">label selector</a> ，圈定Deployment管理的pod范围。</p>
+
+<p>如果被指定， <code>.spec.selector</code> 必须匹配 <code>.spec.template.metadata.labels</code>，否则它将被API拒绝。如果 <code>.spec.selector</code> 没有被指定， <code>.spec.selector.matchLabels</code> 默认是 <code>.spec.template.metadata.labels</code>。</p>
+
+<p>在Pod的template跟<code>.spec.template</code>不同或者数量超过了<code>.spec.replicas</code>规定的数量的情况下，Deployment会杀掉label跟selector不同的Pod。</p>
+
+<p><strong>注意：</strong> 您不应该再创建其他label跟这个selector匹配的pod，或者通过其他Deployment，或者通过其他Controller，例如ReplicaSet和ReplicationController。否则该Deployment会被把它们当成都是自己创建的。Kubernetes不会阻止您这么做。</p>
+
+<p>如果您有多个controller使用了重复的selector，controller们就会互相打架并导致不正确的行为。</p>
+
+<h4>策略</h4>
+
+<p><code>.spec.strategy</code> 指定新的Pod替换旧的Pod的策略。 <code>.spec.strategy.type</code> 可以是"Recreate"或者是 "RollingUpdate"。"RollingUpdate"是默认值。</p>
+
+<h5>Recreate Deployment</h5>
+
+<p><code>.spec.strategy.type==Recreate</code>时，在创建出新的Pod之前会先杀掉所有已存在的Pod。</p>
+
+<h5>Rolling Update Deployment</h5>
+
+<p><code>.spec.strategy.type==RollingUpdate</code>时，Deployment使用<a href="https://kubernetes.io/docs/tasks/run-application/rolling-update-replication-controller">rolling update</a> 的方式更新Pod 。您可以指定<code>maxUnavailable</code> 和 <code>maxSurge</code> 来控制 rolling update 进程。</p>
+
+<h5>Max Unavailable</h5>
+
+<p><code>.spec.strategy.rollingUpdate.maxUnavailable</code> 是可选配置项，用来指定在升级过程中不可用Pod的最大数量。该值可以是一个绝对值（例如5），也可以是期望Pod数量的百分比（例如10%）。通过计算百分比的绝对值向下取整。如果<code>.spec.strategy.rollingUpdate.maxSurge</code> 为0时，这个值不可以为0。默认值是1。</p>
+
+<p>例如，该值设置成30%，启动rolling update后旧的ReplicatSet将会立即缩容到期望的Pod数量的70%。新的Pod ready后，随着新的ReplicaSet的扩容，旧的ReplicaSet会进一步缩容，确保在升级的所有时刻可以用的Pod数量至少是期望Pod数量的70%。</p>
+
+<h5>Max Surge</h5>
+
+<p><code>.spec.strategy.rollingUpdate.maxSurge</code> 是可选配置项，用来指定可以超过期望的Pod数量的最大个数。该值可以是一个绝对值（例如5）或者是期望的Pod数量的百分比（例如10%）。当<code>MaxUnavailable</code>为0时该值不可以为0。通过百分比计算的绝对值向上取整。默认值是1。</p>
+
+<p>例如，该值设置成30%，启动rolling update后新的ReplicatSet将会立即扩容，新老Pod的总数不能超过期望的Pod数量的130%。旧的Pod被杀掉后，新的ReplicaSet将继续扩容，旧的ReplicaSet会进一步缩容，确保在升级的所有时刻所有的Pod数量和不会超过期望Pod数量的130%。</p>
+
+<h4>Progress Deadline Seconds</h4>
+
+<p><code>.spec.progressDeadlineSeconds</code> 是可选配置项，用来指定在系统报告Deployment的<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment#failed-deployment">failed progressing</a> ——表现为resource的状态中<code>type=Progressing</code>、<code>Status=False</code>、 <code>Reason=ProgressDeadlineExceeded</code>前可以等待的Deployment进行的秒数。Deployment controller会继续重试该Deployment。未来，在实现了自动回滚后， deployment controller在观察到这种状态时就会自动回滚。</p>
+
+<p>如果设置该参数，该值必须大于 <code>.spec.minReadySeconds</code>。</p>
+
+<h4>Min Ready Seconds</h4>
+
+<p><code>.spec.minReadySeconds</code>是一个可选配置项，用来指定没有任何容器crash的Pod并被认为是可用状态的最小秒数。默认是0（Pod在ready后就会被认为是可用状态）。进一步了解什么什么后Pod会被认为是ready状态，参阅 <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes">Container Probes</a>。</p>
+
+<h4>Rollback To</h4>
+
+<p><code>.spec.rollbackTo</code> 是一个可以选配置项，用来配置Deployment回退的配置。设置该参数将触发回退操作，每次回退完成后，该值就会被清除。</p>
+
+<h4>Revision</h4>
+
+<p><code>.spec.rollbackTo.revision</code>是一个可选配置项，用来指定回退到的revision。默认是0，意味着回退到上一个revision。</p>
+
+<h4>Revision History Limit</h4>
+
+<p>Deployment revision history存储在它控制的ReplicaSets中。</p>
+
+<p><code>.spec.revisionHistoryLimit</code> 是一个可选配置项，用来指定可以保留的旧的ReplicaSet数量。该理想值取决于心Deployment的频率和稳定性。如果该值没有设置的话，默认所有旧的Replicaset或会被保留，将资源存储在etcd中，是用<code>kubectl get rs</code>查看输出。每个Deployment的该配置都保存在ReplicaSet中，然而，一旦您删除的旧的RepelicaSet，您的Deployment就无法再回退到那个revison了。</p>
+
+<p>如果您将该值设置为0，所有具有0个replica的ReplicaSet都会被删除。在这种情况下，新的Deployment rollout无法撤销，因为revision history都被清理掉了。</p>
+
+<h4>Paused</h4>
+
+<p><code>.spec.paused</code>是可以可选配置项，boolean值。用来指定暂停和恢复Deployment。Paused和没有paused的Deployment之间的唯一区别就是，所有对paused deployment中的PodTemplateSpec的修改都不会触发新的rollout。Deployment被创建之后默认是非paused。</p>
+
+<h3>资源参考</h3>
+
+<p><a href="https://jimmysong.io/kubernetes-handbook/concepts/deployment.html">k8s handbook - Deployment</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[K8s之Pod]]></title>
     <link href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/"/>
-    <updated>2019-03-16T23:45:00+08:00</updated>
+    <updated>2019-03-16T19:45:00+08:00</updated>
     <id>http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod</id>
     <content type="html"><![CDATA[<p>Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。</p>
 
@@ -152,9 +316,9 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
   
   <entry>
     <title type="html"><![CDATA[K8s之网络]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-network/"/>
+    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-concept-network/"/>
     <updated>2019-03-15T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-network</id>
+    <id>http://wldandan.github.com/blog/2019/03/15/k8s-concept-network</id>
     <content type="html"><![CDATA[<p>K8s的网络介绍</p>
 
 <!-- More -->
@@ -174,10 +338,72 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[K8s之集群]]></title>
+    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/"/>
+    <updated>2019-03-15T21:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster</id>
+    <content type="html"><![CDATA[<p>为了管理异构和不同配置的主机，为了便于Pod的运维管理，Kubernetes中提供了很多集群管理的配置和管理功能，通过namespace划分的空间，通过为node节点创建label和taint用于pod的调度等。</p>
+
+<!-- More -->
+
+
+<h3>Node</h3>
+
+<p>Node是kubernetes集群的工作节点，可以是物理机也可以是虚拟机。</p>
+
+<h5>Node的状态:</h5>
+
+<ul>
+<li><p>Address</p>
+
+<ul>
+<li>HostName：可以被kubelet中的--hostname-override参数替代。</li>
+<li>ExternalIP：可以被集群外部路由到的IP地址。</li>
+<li>InternalIP：集群内部使用的IP，集群外部无法访问。</li>
+</ul>
+</li>
+<li><p>Condition</p>
+
+<ul>
+<li>OutOfDisk：磁盘空间不足时为True</li>
+<li>Ready：Node controller 40秒内没有收到node的状态报告为Unknown，健康为True，否则为False。</li>
+<li>MemoryPressure：当node没有内存压力时为True，否则为False。</li>
+<li>DiskPressure：当node没有磁盘压力时为True，否则为False。</li>
+</ul>
+</li>
+<li><p>Capacity</p>
+
+<ul>
+<li>CPU</li>
+<li>内存</li>
+<li>可运行的最大Pod个数</li>
+</ul>
+</li>
+<li><p>Info：节点的一些版本信息，如OS、kubernetes、docker等</p></li>
+</ul>
+
+
+<h3>Namespace</h3>
+
+<p>在一个Kubernetes集群中可以使用namespace创建多个“虚拟集群”，这些集群之间可以完全隔离。如当项目和人员众多的时候可以考虑根据项目属性，例如生产、测试、开发划分不同的namespace。</p>
+
+<p>另外，也可以让一个namespace中的service访问到其他的namespace中的服务。</p>
+
+<h3>Label &amp; Annonication</h3>
+
+<p>Label是附在对象上（例如Pod）的键值对。可以在创建对象的时候指定，也可以在对象创建后随时指定。Labels的值对系统本身并没有什么含义，只是对用户有意义。通过label selector，客户端／用户可以指定一个object集合，通过label selector对object的集合进行操作。</p>
+
+<p>Annotation,可以将Kubernetes资源对象关联到任意的非标识性元数据。使用客户端（如工具和库）可以检索到这些元数据。</p>
+
+<p>Label和Annotation都可以将元数据关联到Kubernetes资源对象。Label主要用于选择对象，可以挑选出满足特定条件的对象。相比之下，annotation 不能用于标识及选择对象。annotation中的元数据可多可少，可以是结构化的或非结构化的，也可以包含label中不允许出现的字符。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[K8s核心概念]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-concepts/"/>
-    <updated>2019-03-15T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-concepts</id>
+    <link href="http://wldandan.github.com/blog/2019/03/14/k8s-concepts/"/>
+    <updated>2019-03-14T23:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/03/14/k8s-concepts</id>
     <content type="html"><![CDATA[<p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
 
 <ul>
@@ -321,83 +547,6 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
 <h3>参考资料</h3>
 
 <p><a href="https://infoq.cn/article/kubernetes-and-cloud-native-applications-part01">《Kubernetes 与云原生应用》系列之 Kubernetes 的系统架构与设计理念</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[K8s核心架构]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-architecture/"/>
-    <updated>2019-03-15T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-architecture</id>
-    <content type="html"><![CDATA[<p>Kubernetes主要由以下几个核心组件组成：</p>
-
-<ul>
-<li>etcd保存了整个集群的状态；</li>
-<li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
-<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
-<li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
-<li>kubelet负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；</li>
-<li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
-<li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
-</ul>
-
-
-<!-- More -->
-
-
-<p>除了核心组件，还有一些推荐的插件，其中有的已经成为CNCF中的托管项目：</p>
-
-<ul>
-<li>CoreDNS负责为整个集群提供DNS服务</li>
-<li>Ingress Controller为服务提供外网入口</li>
-<li>Prometheus提供资源监控</li>
-<li>Dashboard提供GUI</li>
-<li>Federation提供跨可用区的集群</li>
-</ul>
-
-
-<h3>K8s整体架构</h3>
-
-<p><img src="/images/k8s/kubernetes-whole-arch.png" /></p>
-
-<h5>K8s-Master架构图</h5>
-
-<p><img src="/images/k8s/kubernetes-master-arch.png" /></p>
-
-<h5>K8s-Node架构图</h5>
-
-<p><img src="/images/k8s/kubernetes-node-arch.png" /></p>
-
-<h3>K8s分层架构</h3>
-
-<p><img src="/images/k8s/kubernetes-layers-arch.png" /></p>
-
-<ul>
-<li>核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</li>
-<li>应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）、Service Mesh（部分位于应用层）</li>
-<li>管理层：系统度量（如基础设施、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC、Quota、PSP、NetworkPolicy等）、Service Mesh（部分位于管理层）</li>
-<li>接口层：kubectl命令行工具、客户端SDK以及集群联邦</li>
-<li><p>生态系统：在接口层之上的庞大容器集群管理调度的生态系统，可以划分为两个范畴</p>
-
-<ul>
-<li><p>Kubernetes外部：日志、监控、配置管理、CI/CD、Workflow、FaaS、OTS应用、ChatOps、GitOps、SecOps等</p></li>
-<li><p>Kubernetes内部：CRI、CNI、CSI、镜像仓库、Cloud Provider、集群自身的配置和管理等</p></li>
-</ul>
-</li>
-</ul>
-
-
-<blockquote><p>关于分层架构，可以关注下Kubernetes社区正在推进的<a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a>。</p></blockquote>
-
-<h3>参考资料</h3>
-
-<p><a href="http://queue.acm.org/detail.cfm?id=2898444">Borg, Omega, and Kubernetes - Lessons learned from three container-management systems over a decade</a></p>
-
-<p><a href="http://static.googleusercontent.com/media/research.google.com/zh-CN//pubs/archive/43438.pdf">Paper - Large-scale cluster management at Google with Borg</a></p>
-
-<p><a href="http://thenewstack.io/kubernetes-an-overview">KUBERNETES: AN OVERVIEW</a></p>
-
-<p><a href="https://docs.google.com/document/d/1XkjVm4bOeiVkj-Xt1LgoGiqWsBfNozJ51dyI-ljzt1o">Kubernetes architectual roadmap</a>和<a href="https://docs.google.com/presentation/d/1GpELyzXOGEPY0Y1ft26yMNV19ROKt8eMN67vDSSHglk/edit">slide</a></p>
 ]]></content>
   </entry>
   

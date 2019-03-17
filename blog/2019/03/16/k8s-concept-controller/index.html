@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>K8s之控制器 - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="K8s">
+  <meta name="keywords" content="K8s">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">K8s之控制器</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-16T20:45:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2019</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Kubernetes中内建了很多controller（控制器），这些相当于一个状态机，用来控制Pod的具体状态和行为。</p>
+
+<!-- More -->
+
+
+<p>这里已经讲的很详细了，请<a href="https://jimmysong.io/kubernetes-handbook/concepts/deployment.html">参考</a></p>
+
+<h4>Deployment 是什么？</h4>
+
+<p>Deployment为Pod和Replica Set（下一代Replication Controller）提供声明式更新。</p>
+
+<p>您只需要在 Deployment 中描述期望的目标状态，Deployment controller 会帮您将 Pod 和ReplicaSet 的实际状态改变到您的目标状态。</p>
+
+<p>典型的用例如下：</p>
+
+<ul>
+<li>使用Deployment来创建ReplicaSet。ReplicaSet在后台创建pod。检查启动状态，看它是成功还是失败。</li>
+<li>然后，通过更新Deployment的PodTemplateSpec字段来声明Pod的新状态。这会创建一个新的ReplicaSet，Deployment会按照控制的速率将pod从旧的ReplicaSet移动到新的ReplicaSet中。</li>
+<li>如果当前状态不稳定，回滚到之前的Deployment revision。每次回滚都会更新Deployment的revision。</li>
+<li>扩容Deployment以满足更高的负载。</li>
+<li>暂停Deployment来应用PodTemplateSpec的多个修复，然后恢复上线。</li>
+<li>根据Deployment 的状态判断上线是否hang住了。</li>
+<li>清除旧的不必要的 ReplicaSet。</li>
+</ul>
+
+
+<h4>创建 Deployment</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ kubectl create -f https://kubernetes.io/docs/user-guide/nginx-deployment.yaml --record
+</span><span class='line'>deployment "nginx-deployment" created</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>更新Deployment</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
+</span><span class='line'>deployment "nginx-deployment" image updated</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>检查 Deployment 升级的历史记录</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ kubectl rollout history deployment/nginx-deployment
+</span><span class='line'>deployments "nginx-deployment":
+</span><span class='line'>REVISION    CHANGE-CAUSE
+</span><span class='line'>1           kubectl create -f https://kubernetes.io/docs/user-guide/nginx-deployment.yaml--record
+</span><span class='line'>2           kubectl set image deployment/nginx-deployment nginx=nginx:1.9.1
+</span><span class='line'>3           kubectl set image deployment/nginx-deployment nginx=nginx:1.91</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>回退到历史版本</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ kubectl rollout undo deployment/nginx-deployment --to-revision=2
+</span><span class='line'>deployment "nginx-deployment" rolled back</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Deployment 扩容</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ kubectl scale deployment nginx-deployment --replicas 10
+</span><span class='line'>deployment "nginx-deployment" scaled</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Deployment 状态</h4>
+
+<p>Deployment 在生命周期中有多种状态。在创建一个新的 ReplicaSet 的时候它可以是 <code>progressing</code> 状态， <code>complete</code> 状态，或者 <code>fail to progress</code> 状态。</p>
+
+<h3>编写 Deployment Spec</h3>
+
+<p>在所有的 Kubernetes 配置中，Deployment 也需要<code>apiVersion</code>，<code>kind</code>和<code>metadata</code>这些配置项。配置文件的通用使用说明查看 <a href="https://kubernetes.io/docs/tasks/run-application/run-stateless-application-deployment/">部署应用</a>，配置容器，和 <a href="https://kubernetes.io/docs/tutorials/object-management-kubectl/object-management/">使用 kubectl 管理资源 </a> 文档。</p>
+
+<h4>Pod Template</h4>
+
+<p> <code>.spec.template</code> 是 <code>.spec</code>中唯一要求的字段。</p>
+
+<p><code>.spec.template</code> 是 <a href="https://kubernetes.io/docs/user-guide/replication-controller/#pod-template">pod template</a>. 它跟 <a href="https://kubernetes.io/docs/user-guide/pods">Pod</a>有一模一样的schema，除了它是嵌套的并且不需要<code>apiVersion</code> 和 <code>kind</code>字段。</p>
+
+<p>另外为了划分Pod的范围，Deployment中的pod template必须指定适当的label（不要跟其他controller重复了，参考<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment#selector">selector</a>）和适当的重启策略。</p>
+
+<p><a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle"><code>.spec.template.spec.restartPolicy</code></a> 可以设置为 <code>Always</code> , 如果不指定的话这就是默认配置。</p>
+
+<h4>Replicas</h4>
+
+<p><code>.spec.replicas</code> 是可以选字段，指定期望的pod数量，默认是1。</p>
+
+<h4>Selector</h4>
+
+<p><code>.spec.selector</code>是可选字段，用来指定 <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels">label selector</a> ，圈定Deployment管理的pod范围。</p>
+
+<p>如果被指定， <code>.spec.selector</code> 必须匹配 <code>.spec.template.metadata.labels</code>，否则它将被API拒绝。如果 <code>.spec.selector</code> 没有被指定， <code>.spec.selector.matchLabels</code> 默认是 <code>.spec.template.metadata.labels</code>。</p>
+
+<p>在Pod的template跟<code>.spec.template</code>不同或者数量超过了<code>.spec.replicas</code>规定的数量的情况下，Deployment会杀掉label跟selector不同的Pod。</p>
+
+<p><strong>注意：</strong> 您不应该再创建其他label跟这个selector匹配的pod，或者通过其他Deployment，或者通过其他Controller，例如ReplicaSet和ReplicationController。否则该Deployment会被把它们当成都是自己创建的。Kubernetes不会阻止您这么做。</p>
+
+<p>如果您有多个controller使用了重复的selector，controller们就会互相打架并导致不正确的行为。</p>
+
+<h4>策略</h4>
+
+<p><code>.spec.strategy</code> 指定新的Pod替换旧的Pod的策略。 <code>.spec.strategy.type</code> 可以是&#8221;Recreate&#8221;或者是 &#8220;RollingUpdate&#8221;。&#8221;RollingUpdate&#8221;是默认值。</p>
+
+<h5>Recreate Deployment</h5>
+
+<p><code>.spec.strategy.type==Recreate</code>时，在创建出新的Pod之前会先杀掉所有已存在的Pod。</p>
+
+<h5>Rolling Update Deployment</h5>
+
+<p><code>.spec.strategy.type==RollingUpdate</code>时，Deployment使用<a href="https://kubernetes.io/docs/tasks/run-application/rolling-update-replication-controller">rolling update</a> 的方式更新Pod 。您可以指定<code>maxUnavailable</code> 和 <code>maxSurge</code> 来控制 rolling update 进程。</p>
+
+<h5>Max Unavailable</h5>
+
+<p><code>.spec.strategy.rollingUpdate.maxUnavailable</code> 是可选配置项，用来指定在升级过程中不可用Pod的最大数量。该值可以是一个绝对值（例如5），也可以是期望Pod数量的百分比（例如10%）。通过计算百分比的绝对值向下取整。如果<code>.spec.strategy.rollingUpdate.maxSurge</code> 为0时，这个值不可以为0。默认值是1。</p>
+
+<p>例如，该值设置成30%，启动rolling update后旧的ReplicatSet将会立即缩容到期望的Pod数量的70%。新的Pod ready后，随着新的ReplicaSet的扩容，旧的ReplicaSet会进一步缩容，确保在升级的所有时刻可以用的Pod数量至少是期望Pod数量的70%。</p>
+
+<h5>Max Surge</h5>
+
+<p><code>.spec.strategy.rollingUpdate.maxSurge</code> 是可选配置项，用来指定可以超过期望的Pod数量的最大个数。该值可以是一个绝对值（例如5）或者是期望的Pod数量的百分比（例如10%）。当<code>MaxUnavailable</code>为0时该值不可以为0。通过百分比计算的绝对值向上取整。默认值是1。</p>
+
+<p>例如，该值设置成30%，启动rolling update后新的ReplicatSet将会立即扩容，新老Pod的总数不能超过期望的Pod数量的130%。旧的Pod被杀掉后，新的ReplicaSet将继续扩容，旧的ReplicaSet会进一步缩容，确保在升级的所有时刻所有的Pod数量和不会超过期望Pod数量的130%。</p>
+
+<h4>Progress Deadline Seconds</h4>
+
+<p><code>.spec.progressDeadlineSeconds</code> 是可选配置项，用来指定在系统报告Deployment的<a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment#failed-deployment">failed progressing</a> ——表现为resource的状态中<code>type=Progressing</code>、<code>Status=False</code>、 <code>Reason=ProgressDeadlineExceeded</code>前可以等待的Deployment进行的秒数。Deployment controller会继续重试该Deployment。未来，在实现了自动回滚后， deployment controller在观察到这种状态时就会自动回滚。</p>
+
+<p>如果设置该参数，该值必须大于 <code>.spec.minReadySeconds</code>。</p>
+
+<h4>Min Ready Seconds</h4>
+
+<p><code>.spec.minReadySeconds</code>是一个可选配置项，用来指定没有任何容器crash的Pod并被认为是可用状态的最小秒数。默认是0（Pod在ready后就会被认为是可用状态）。进一步了解什么什么后Pod会被认为是ready状态，参阅 <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes">Container Probes</a>。</p>
+
+<h4>Rollback To</h4>
+
+<p><code>.spec.rollbackTo</code> 是一个可以选配置项，用来配置Deployment回退的配置。设置该参数将触发回退操作，每次回退完成后，该值就会被清除。</p>
+
+<h4>Revision</h4>
+
+<p><code>.spec.rollbackTo.revision</code>是一个可选配置项，用来指定回退到的revision。默认是0，意味着回退到上一个revision。</p>
+
+<h4>Revision History Limit</h4>
+
+<p>Deployment revision history存储在它控制的ReplicaSets中。</p>
+
+<p><code>.spec.revisionHistoryLimit</code> 是一个可选配置项，用来指定可以保留的旧的ReplicaSet数量。该理想值取决于心Deployment的频率和稳定性。如果该值没有设置的话，默认所有旧的Replicaset或会被保留，将资源存储在etcd中，是用<code>kubectl get rs</code>查看输出。每个Deployment的该配置都保存在ReplicaSet中，然而，一旦您删除的旧的RepelicaSet，您的Deployment就无法再回退到那个revison了。</p>
+
+<p>如果您将该值设置为0，所有具有0个replica的ReplicaSet都会被删除。在这种情况下，新的Deployment rollout无法撤销，因为revision history都被清理掉了。</p>
+
+<h4>Paused</h4>
+
+<p><code>.spec.paused</code>是可以可选配置项，boolean值。用来指定暂停和恢复Deployment。Paused和没有paused的Deployment之间的唯一区别就是，所有对paused deployment中的PodTemplateSpec的修改都不会触发新的rollout。Deployment被创建之后默认是非paused。</p>
+
+<h3>资源参考</h3>
+
+<p><a href="https://jimmysong.io/kubernetes-handbook/concepts/deployment.html">k8s handbook - Deployment</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-16T20:45:00+08:00" pubdate data-updated="true">Mar 16<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/k8s/'>K8s</a>
+  
+</span>
+
+
+    </p>
+
+    <p class="meta">
+      <a href="/blog/2019/03/16/k8s-concept-controller/">原文链接</a>，
+<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/" data-via="" data-counturl="http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/03/16/k8s-concept-pod/" title="Previous Post: K8s之Pod">&laquo; K8s之Pod</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (6)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-concept-cluster/">K8s之集群</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/14/k8s-concepts/">K8s核心概念</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/';
+        var disqus_url = 'http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

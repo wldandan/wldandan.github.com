@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>K8s之网络 - Happy Coding, Happy Life</title>
+  <title>K8s之集群 - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wldandan.github.com/blog/2019/03/15/k8s-network/">
+  <link rel="canonical" href="http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -79,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">K8s之网络</h1>
+      <h1 class="entry-title">K8s之集群</h1>
     
     
       <p class="meta">
@@ -95,7 +95,7 @@
   
 
 
-<time datetime="2019-03-15T23:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
+<time datetime="2019-03-15T21:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -104,21 +104,60 @@
   </header>
 
 
-<div class="entry-content"><p>K8s的网络介绍</p>
+<div class="entry-content"><p>为了管理异构和不同配置的主机，为了便于Pod的运维管理，Kubernetes中提供了很多集群管理的配置和管理功能，通过namespace划分的空间，通过为node节点创建label和taint用于pod的调度等。</p>
 
 <!-- More -->
 
 
-<h3>K8s集群IP</h3>
+<h3>Node</h3>
 
-<p>Kubernetes集群内部存在三类IP，分别是：</p>
+<p>Node是kubernetes集群的工作节点，可以是物理机也可以是虚拟机。</p>
+
+<h5>Node的状态:</h5>
 
 <ul>
-<li>Node IP：宿主机的IP地址</li>
-<li>Pod IP：使用网络插件创建的IP（如flannel），使跨主机的Pod可以互通</li>
-<li>Cluster IP：虚拟IP，通过iptables规则访问服务</li>
+<li><p>Address</p>
+
+<ul>
+<li>HostName：可以被kubelet中的&#8211;hostname-override参数替代。</li>
+<li>ExternalIP：可以被集群外部路由到的IP地址。</li>
+<li>InternalIP：集群内部使用的IP，集群外部无法访问。</li>
+</ul>
+</li>
+<li><p>Condition</p>
+
+<ul>
+<li>OutOfDisk：磁盘空间不足时为True</li>
+<li>Ready：Node controller 40秒内没有收到node的状态报告为Unknown，健康为True，否则为False。</li>
+<li>MemoryPressure：当node没有内存压力时为True，否则为False。</li>
+<li>DiskPressure：当node没有磁盘压力时为True，否则为False。</li>
+</ul>
+</li>
+<li><p>Capacity</p>
+
+<ul>
+<li>CPU</li>
+<li>内存</li>
+<li>可运行的最大Pod个数</li>
+</ul>
+</li>
+<li><p>Info：节点的一些版本信息，如OS、kubernetes、docker等</p></li>
 </ul>
 
+
+<h3>Namespace</h3>
+
+<p>在一个Kubernetes集群中可以使用namespace创建多个“虚拟集群”，这些集群之间可以完全隔离。如当项目和人员众多的时候可以考虑根据项目属性，例如生产、测试、开发划分不同的namespace。</p>
+
+<p>另外，也可以让一个namespace中的service访问到其他的namespace中的服务。</p>
+
+<h3>Label &amp; Annonication</h3>
+
+<p>Label是附在对象上（例如Pod）的键值对。可以在创建对象的时候指定，也可以在对象创建后随时指定。Labels的值对系统本身并没有什么含义，只是对用户有意义。通过label selector，客户端／用户可以指定一个object集合，通过label selector对object的集合进行操作。</p>
+
+<p>Annotation,可以将Kubernetes资源对象关联到任意的非标识性元数据。使用客户端（如工具和库）可以检索到这些元数据。</p>
+
+<p>Label和Annotation都可以将元数据关联到Kubernetes资源对象。Label主要用于选择对象，可以挑选出满足特定条件的对象。相比之下，annotation 不能用于标识及选择对象。annotation中的元数据可多可少，可以是结构化的或非结构化的，也可以包含label中不允许出现的字符。</p>
 </div>
 
 
@@ -141,7 +180,7 @@
   
 
 
-<time datetime="2019-03-15T23:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
+<time datetime="2019-03-15T21:45:00+08:00" pubdate data-updated="true">Mar 15<span>th</span>, 2019</time>
       
 
 <span class="categories">
@@ -154,7 +193,7 @@
     </p>
 
     <p class="meta">
-      <a href="/blog/2019/03/15/k8s-network/">原文链接</a>，
+      <a href="/blog/2019/03/15/k8s-concept-cluster/">原文链接</a>，
 <strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
 
     </p>
@@ -162,7 +201,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2019/03/15/k8s-network/" data-via="" data-counturl="http://wldandan.github.com/blog/2019/03/15/k8s-network/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/" data-via="" data-counturl="http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/" >Tweet</a>
   
   
   
@@ -171,10 +210,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2019/03/15/k8s-concepts/" title="Previous Post: K8s核心概念">&laquo; K8s核心概念</a>
+        <a class="basic-alignment left" href="/blog/2019/03/14/k8s-concepts/" title="Previous Post: K8s核心概念">&laquo; K8s核心概念</a>
       
       
-        <a class="basic-alignment right" href="/blog/2019/03/16/k8s-concept-pod/" title="Next Post: K8s之Pod">K8s之Pod &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2019/03/15/k8s-concept-network/" title="Next Post: K8s之网络">K8s之网络 &raquo;</a>
       
     </p>
   </footer>
@@ -211,7 +250,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (4)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (6)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -229,23 +268,23 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-network/">K8s之网络</a>
+        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-concepts/">K8s核心概念</a>
+        <a href="/blog/2019/03/15/k8s-concept-cluster/">K8s之集群</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2019/03/15/k8s-architecture/">K8s核心架构</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">微服务实战系列(5) - HAL 101</a>
+        <a href="/blog/2019/03/14/k8s-concepts/">K8s核心概念</a>
       </li>
     
   </ul>
@@ -290,8 +329,8 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://wldandan.github.com/blog/2019/03/15/k8s-network/';
-        var disqus_url = 'http://wldandan.github.com/blog/2019/03/15/k8s-network/';
+        var disqus_identifier = 'http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/';
+        var disqus_url = 'http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/';
         var disqus_script = 'embed.js';
       
     (function () {
