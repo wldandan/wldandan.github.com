@@ -200,7 +200,7 @@
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/2019/03/14/k8s-architecture/</loc>
-        <lastmod>2019-03-17T12:02:31+08:00</lastmod>
+        <lastmod>2019-03-18T22:39:57+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/2019/03/14/k8s-concepts/</loc>
@@ -223,12 +223,16 @@
         <lastmod>2019-03-17T12:02:58+08:00</lastmod>
     </url>
     <url>
+        <loc>http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/</loc>
+        <lastmod>2019-03-31T12:19:42+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://wldandan.github.com/about/</loc>
         <lastmod>2016-11-17T23:11:58+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/blog/archives/</loc>
-        <lastmod>2019-03-17T12:03:36+08:00</lastmod>
+        <lastmod>2019-03-31T12:19:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/consulting/</loc>
@@ -236,7 +240,7 @@
     </url>
     <url>
         <loc>http://wldandan.github.com/</loc>
-        <lastmod>2019-03-17T12:03:36+08:00</lastmod>
+        <lastmod>2019-03-31T12:19:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://wldandan.github.com/robots.txt</loc>

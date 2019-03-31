@@ -1,0 +1,545 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>K8s之Service - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="K8s">
+  <meta name="keywords" content="K8s">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push(['_setDomainName','github.io']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">K8s之Service</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-17T20:45:00+08:00" pubdate data-updated="true">Mar 17<span>th</span>, 2019</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>如何访问Pod？</h3>
+
+<p>在非k8s世界中，管理员可以通过在配置文件中指定IP地址或主机名，容许客户端访问，但在k8s中这种方式是行不通的。因为Pod 是有生命周期的，它们可以被创建或销毁。虽然通过 ReplicationController 能够动态地创建Pod，但当Pod被分配到某个节点时，K8s都会为其分配一个IP地址，而该IP地址不总是稳定可依赖的。因此，在 Kubernetes 集群中，如果一组 Pod（称为 backend）为其它 Pod （称为 frontend）提供服务，那么那些 frontend 该如何发现，并连接到这组backend的Pod呢？</p>
+
+<!-- More -->
+
+
+<h3>Service</h3>
+
+<p>Kubernetes中的Service是一种资源的定义，它将Pod逻辑分组，并提供客户端访问。</p>
+
+<p><img src="/images/k8s/k8s-service-1.png" /></p>
+
+<p> 通过 Label Selector，一组 Pod 能够被暴露为Service，供客户端访问。</p>
+
+<p> <img src="/images/k8s/k8s-service-2.png" /></p>
+
+<p>举个例子，考虑一个图片处理 backend，它运行了3个副本。这些副本是可互换的，通过Service能够解耦frontend与backend的关联。</p>
+
+<blockquote><p>frontend 不需要关心它们调用了哪个 backend 副本。 然而组成这一组 backend 程序的 Pod 实际上可能会发生变化，frontend 客户端不应该也没必要知道，而且也不需要跟踪这一组 backend 的状态。</p></blockquote>
+
+<h3>创建Service</h3>
+
+<p>一个 Service 在 Kubernetes 中是一个 REST 对象，和 Pod 类似。 像所有的 REST 对象一样， Service 定义可以基于 POST 方式，请求 apiserver 创建新的实例。 例如，假定有一组 Pod，它们对外暴露了 9376 端口，同时还被打上 &#8220;app=MyApp&#8221; 标签。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Service</span>
+</span><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my-service</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">MyApp            //根据Label选择一组Pod</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">protocol</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">TCP</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80            //用于访问该Service的端口</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">targetPort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">9376    //用于访问容器的端口</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来，我们可以使用<code>kubectl</code>访问该Service</p>
+
+<p><img src="/images/k8s/k8s-service-3.png" /></p>
+
+<h3>Service如何被外部网络的Client访问</h3>
+
+<p>可以通过如下三种方式，容许外部网络的Client访问Service：</p>
+
+<h4>1.将Service Type置为<code>NodePort</code></h4>
+
+<p>对于NotePort的Service，每个节点(Node)都会打开节点本身的端口，并将该端口上接收到的流量重定向到Service。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Service</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia-nodeport</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">NodePort             //NodePort类型</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80                 //Service内部访问的地址</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">targetPort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">8080         //转发给目标Pod的地址</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">nodePort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">30123          //可访问的nodeport端口</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>使用NodePort的Service如下图所示：
+<img src="/images/k8s/k8s-service-4.png" /></p>
+
+<h4>2.将Service Type设置为<code>LoadBalancer</code></h4>
+
+<p>通过设置<code>LoadBalancer</code>，Service可以通过一个专用的负载均衡器来访问（这个均衡器是运行kubernetes的基础设施提供的）。负载均衡器将流量重定向到所有节点上的节点端口。客户机通过负载均衡器的IP连接到服务。</p>
+
+<p>如果kubernetes在不支持LoadBalancer服务的环境中运行，则不会提供负载均衡器，但该服务的行为仍将类似于NodePort服务。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Service</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia-loadbalancer</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">LoadBalancer</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">targetPort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">8080</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>使用如上配置文件创建Service之后，会调用云基础设施，创建负载均衡器并将其IP地址写入Service对象。一旦结束，IP地址将作为Service的外部IP地址列出：</p>
+
+<p>如下图所示：
+<img src="/images/k8s/k8s-service-5.png" /></p>
+
+<h4>3.使用<code>Ingress</code>资源</h4>
+
+<p>这是一种完全不同的机制，通过一个IP地址公开多个服务，它在HTTP（网络层7）上运行，因此可以提供比第4层服务更多的功能。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">extensions/v1beta1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Ingress</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">rules</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia.example.com               //使用domain name访问service</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">http</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">paths</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/                           //访问的路径</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">backend</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">serviceName</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia-nodeport</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">servicePort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>通过Ingress访问Service的流程如下：</p>
+
+<p><img src="/images/k8s/k8s-service-7.png" /></p>
+
+<p>另外，可以通过Ingress访问多个服务：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">...</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">host</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia.example.com</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">http</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">paths</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/kubia</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">backend</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">serviceName</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">kubia</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">servicePort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/foo</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">backend</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">serviceName</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">bar</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">servicePort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><img src="/images/k8s/k8s-service-6.png" /></p>
+
+<h3>Service的诊断</h3>
+
+<p>Service是Kubernetes的关键概念，也是令许多开发人员沮丧的根源。我见过许多开发人员耗费大量时间，来弄清楚为什么无法通过Servic IP或fqdn访问到自己的pods。
+出于这个原因，简单介绍一下如何对服务进行故障排除。当无法通过Service访问您的pod时，可以从以下列表开始：</p>
+
+<ul>
+<li><p>首先，确保从集群内而不是从外部连接到Service的集群IP。</p></li>
+<li><p>不要费心Ping Service的IP来确定服务是否可以访问（记住，服务的集群IP是一个虚拟IP，Ping它永远不会工作）。</p></li>
+<li><p>如果您已经定义了一个readiness probe，请确保它是成功的；否则Pod将不属于服务的一部分。</p></li>
+<li><p>要确认Pod是服务的一部分，请使用kubectl get endpoints检查相应的endpoint对象。</p></li>
+<li><p>如果您试图通过其fqdname或其一部分（例如，myservice.mynamespace.svc.cluster.local或myservice.mynamespace）访问服务，但该服务不起作用，请查看是否可以使用其群集IP而不是fqdname访问该服务。</p></li>
+<li><p>检查您是否连接到服务公开的端口，而不是目标端口。</p></li>
+<li><p>尝试直接连接到pod ip以确认pod是否接受正确端口上的连接。</p></li>
+<li><p>如果你甚至不能通过pod的IP访问你的应用，确保你的应用是否绑定到locahost。</p></li>
+</ul>
+
+
+<h3>总结</h3>
+
+<p>Service是K8s中重要的概念，你应该至少明白Service的这些内容：</p>
+
+<ul>
+<li><p>通过Lable selector，将一组Pod设置为Service，并为Service配置静态的IP和端口</p></li>
+<li><p>Service可以从Cluster内部访问，也可以通过设置为NodePort或者LoadBalancer的方式从外部访问</p></li>
+<li><p>Pod可以通过环境变量获取Service的IP和Port，进行访问</p></li>
+<li><p>可以将对Pod的关联关系，设置到Endpoint资源中，而简化label selector的方式</p></li>
+<li><p>通过设置ServiceType为<code>ExternalName</code>，可以访问外部的Service</p></li>
+<li><p>通过Ingress可以设置多个Service被外部访问</p></li>
+<li><p>使用pod的readiness probe可以决定pod是否被作为service的一部分</p></li>
+<li><p>通过headless Service，可以使用DNS获取Pod的IP</p></li>
+</ul>
+
+
+<h3>参考</h3>
+
+<p>《Kubernetes in action》
+《Kubernetes handbook》</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-03-17T20:45:00+08:00" pubdate data-updated="true">Mar 17<span>th</span>, 2019</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/k8s/'>K8s</a>
+  
+</span>
+
+
+    </p>
+
+    <p class="meta">
+      <a href="/blog/2019/03/17/k8s-concept-service/">原文链接</a>，
+<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
+
+    </p>
+
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/" data-via="" data-counturl="http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2019/03/16/k8s-concept-controller/" title="Previous Post: K8s之控制器">&laquo; K8s之控制器</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+ var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+ dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+ (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (7)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/15/k8s-concept-cluster/">K8s之集群</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2019 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/';
+        var disqus_url = 'http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

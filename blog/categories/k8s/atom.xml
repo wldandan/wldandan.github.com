@@ -4,7 +4,7 @@
   <title><![CDATA[Category: K8s | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/k8s/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2019-03-17T12:04:21+08:00</updated>
+  <updated>2019-03-31T12:20:00+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -12,6 +12,212 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[K8s之Service]]></title>
+    <link href="http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/"/>
+    <updated>2019-03-17T20:45:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/03/17/k8s-concept-service</id>
+    <content type="html"><![CDATA[<h3>如何访问Pod？</h3>
+
+<p>在非k8s世界中，管理员可以通过在配置文件中指定IP地址或主机名，容许客户端访问，但在k8s中这种方式是行不通的。因为Pod 是有生命周期的，它们可以被创建或销毁。虽然通过 ReplicationController 能够动态地创建Pod，但当Pod被分配到某个节点时，K8s都会为其分配一个IP地址，而该IP地址不总是稳定可依赖的。因此，在 Kubernetes 集群中，如果一组 Pod（称为 backend）为其它 Pod （称为 frontend）提供服务，那么那些 frontend 该如何发现，并连接到这组backend的Pod呢？</p>
+
+<!-- More -->
+
+
+<h3>Service</h3>
+
+<p>Kubernetes中的Service是一种资源的定义，它将Pod逻辑分组，并提供客户端访问。</p>
+
+<p><img src="/images/k8s/k8s-service-1.png" /></p>
+
+<p> 通过 Label Selector，一组 Pod 能够被暴露为Service，供客户端访问。</p>
+
+<p> <img src="/images/k8s/k8s-service-2.png" /></p>
+
+<p>举个例子，考虑一个图片处理 backend，它运行了3个副本。这些副本是可互换的，通过Service能够解耦frontend与backend的关联。</p>
+
+<blockquote><p>frontend 不需要关心它们调用了哪个 backend 副本。 然而组成这一组 backend 程序的 Pod 实际上可能会发生变化，frontend 客户端不应该也没必要知道，而且也不需要跟踪这一组 backend 的状态。</p></blockquote>
+
+<h3>创建Service</h3>
+
+<p>一个 Service 在 Kubernetes 中是一个 REST 对象，和 Pod 类似。 像所有的 REST 对象一样， Service 定义可以基于 POST 方式，请求 apiserver 创建新的实例。 例如，假定有一组 Pod，它们对外暴露了 9376 端口，同时还被打上 "app=MyApp" 标签。</p>
+
+<p>```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  selector:</p>
+
+<pre><code>app: MyApp            //根据Label选择一组Pod
+</code></pre>
+
+<p>  ports:</p>
+
+<pre><code>- protocol: TCP
+  port: 80            //用于访问该Service的端口
+  targetPort: 9376    //用于访问容器的端口
+</code></pre>
+
+<p>```</p>
+
+<p>接下来，我们可以使用<code>kubectl</code>访问该Service</p>
+
+<p><img src="/images/k8s/k8s-service-3.png" /></p>
+
+<h3>Service如何被外部网络的Client访问</h3>
+
+<p>可以通过如下三种方式，容许外部网络的Client访问Service：</p>
+
+<h4>1.将Service Type置为<code>NodePort</code></h4>
+
+<p>对于NotePort的Service，每个节点(Node)都会打开节点本身的端口，并将该端口上接收到的流量重定向到Service。</p>
+
+<p>```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-nodeport
+spec:
+  type: NodePort             //NodePort类型
+  ports:
+  - port: 80                 //Service内部访问的地址</p>
+
+<pre><code>targetPort: 8080         //转发给目标Pod的地址
+nodePort: 30123          //可访问的nodeport端口
+</code></pre>
+
+<p>  selector:</p>
+
+<pre><code>app: kubia
+</code></pre>
+
+<p>```</p>
+
+<p>使用NodePort的Service如下图所示：
+<img src="/images/k8s/k8s-service-4.png" /></p>
+
+<h4>2.将Service Type设置为<code>LoadBalancer</code></h4>
+
+<p>通过设置<code>LoadBalancer</code>，Service可以通过一个专用的负载均衡器来访问（这个均衡器是运行kubernetes的基础设施提供的）。负载均衡器将流量重定向到所有节点上的节点端口。客户机通过负载均衡器的IP连接到服务。</p>
+
+<p>如果kubernetes在不支持LoadBalancer服务的环境中运行，则不会提供负载均衡器，但该服务的行为仍将类似于NodePort服务。</p>
+
+<p>```yaml</p>
+
+<p>apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-loadbalancer
+spec:
+  type: LoadBalancer              <br/>
+  ports:
+  - port: 80</p>
+
+<pre><code>targetPort: 8080
+</code></pre>
+
+<p>  selector:</p>
+
+<pre><code>app: kubia
+</code></pre>
+
+<p>```</p>
+
+<p>使用如上配置文件创建Service之后，会调用云基础设施，创建负载均衡器并将其IP地址写入Service对象。一旦结束，IP地址将作为Service的外部IP地址列出：</p>
+
+<p>如下图所示：
+<img src="/images/k8s/k8s-service-5.png" /></p>
+
+<h4>3.使用<code>Ingress</code>资源</h4>
+
+<p>这是一种完全不同的机制，通过一个IP地址公开多个服务，它在HTTP（网络层7）上运行，因此可以提供比第4层服务更多的功能。</p>
+
+<p>```yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubia
+spec:
+  rules:
+  - host: kubia.example.com               //使用domain name访问service</p>
+
+<pre><code>http:
+  paths:
+  - path: /                           //访问的路径
+    backend:
+      serviceName: kubia-nodeport     
+      servicePort: 80                 
+</code></pre>
+
+<p>```</p>
+
+<p>通过Ingress访问Service的流程如下：</p>
+
+<p><img src="/images/k8s/k8s-service-7.png" /></p>
+
+<p>另外，可以通过Ingress访问多个服务：</p>
+
+<p>```yaml
+...
+  - host: kubia.example.com</p>
+
+<pre><code>http:
+  paths:
+  - path: /kubia                
+    backend:                    
+      serviceName: kubia        
+      servicePort: 80           
+  - path: /foo                  
+    backend:                    
+      serviceName: bar          
+      servicePort: 80           
+</code></pre>
+
+<p>```
+<img src="/images/k8s/k8s-service-6.png" /></p>
+
+<h3>Service的诊断</h3>
+
+<p>Service是Kubernetes的关键概念，也是令许多开发人员沮丧的根源。我见过许多开发人员耗费大量时间，来弄清楚为什么无法通过Servic IP或fqdn访问到自己的pods。
+出于这个原因，简单介绍一下如何对服务进行故障排除。当无法通过Service访问您的pod时，可以从以下列表开始：</p>
+
+<ul>
+<li><p>首先，确保从集群内而不是从外部连接到Service的集群IP。</p></li>
+<li><p>不要费心Ping Service的IP来确定服务是否可以访问（记住，服务的集群IP是一个虚拟IP，Ping它永远不会工作）。</p></li>
+<li><p>如果您已经定义了一个readiness probe，请确保它是成功的；否则Pod将不属于服务的一部分。</p></li>
+<li><p>要确认Pod是服务的一部分，请使用kubectl get endpoints检查相应的endpoint对象。</p></li>
+<li><p>如果您试图通过其fqdname或其一部分（例如，myservice.mynamespace.svc.cluster.local或myservice.mynamespace）访问服务，但该服务不起作用，请查看是否可以使用其群集IP而不是fqdname访问该服务。</p></li>
+<li><p>检查您是否连接到服务公开的端口，而不是目标端口。</p></li>
+<li><p>尝试直接连接到pod ip以确认pod是否接受正确端口上的连接。</p></li>
+<li><p>如果你甚至不能通过pod的IP访问你的应用，确保你的应用是否绑定到locahost。</p></li>
+</ul>
+
+
+<h3>总结</h3>
+
+<p>Service是K8s中重要的概念，你应该至少明白Service的这些内容：</p>
+
+<ul>
+<li><p>通过Lable selector，将一组Pod设置为Service，并为Service配置静态的IP和端口</p></li>
+<li><p>Service可以从Cluster内部访问，也可以通过设置为NodePort或者LoadBalancer的方式从外部访问</p></li>
+<li><p>Pod可以通过环境变量获取Service的IP和Port，进行访问</p></li>
+<li><p>可以将对Pod的关联关系，设置到Endpoint资源中，而简化label selector的方式</p></li>
+<li><p>通过设置ServiceType为<code>ExternalName</code>，可以访问外部的Service</p></li>
+<li><p>通过Ingress可以设置多个Service被外部访问</p></li>
+<li><p>使用pod的readiness probe可以决定pod是否被作为service的一部分</p></li>
+<li><p>通过headless Service，可以使用DNS获取Pod的IP</p></li>
+</ul>
+
+
+<h3>参考</h3>
+
+<p>《Kubernetes in action》
+《Kubernetes handbook》</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[K8s之控制器]]></title>
@@ -396,157 +602,6 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
 <p>Annotation,可以将Kubernetes资源对象关联到任意的非标识性元数据。使用客户端（如工具和库）可以检索到这些元数据。</p>
 
 <p>Label和Annotation都可以将元数据关联到Kubernetes资源对象。Label主要用于选择对象，可以挑选出满足特定条件的对象。相比之下，annotation 不能用于标识及选择对象。annotation中的元数据可多可少，可以是结构化的或非结构化的，也可以包含label中不允许出现的字符。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[K8s核心概念]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/14/k8s-concepts/"/>
-    <updated>2019-03-14T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/14/k8s-concepts</id>
-    <content type="html"><![CDATA[<p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
-
-<ul>
-<li><p>安全性(Safety)</p>
-
-<blockquote><p>保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。</p></blockquote></li>
-<li><p>活性(Liveness)</p>
-
-<blockquote><p>使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事，是尽力而为的。</p></blockquote></li>
-</ul>
-
-
-<p>从Kubernetes的系统架构和设计来看，存在两个最核心的设计理念，符合Lamport的理论：</p>
-
-<ul>
-<li><p>容错性</p>
-
-<blockquote><p>容错性实际是保证Kubernetes系统稳定性和安全性的基础</p></blockquote></li>
-<li><p>易扩展性</p>
-
-<blockquote><p>易扩展性是保证对变更友好，可以快速迭代增加新功能的基础</p></blockquote></li>
-</ul>
-
-
-<!-- More -->
-
-
-<p>在K8S中，支撑核心设计理念的背后，存在着诸多领域对象，本文主要梳理了K8S系统中存在的主要概念。</p>
-
-<table>
-<thead>
-<tr>
-<th></th>
-<th>类别</th>
-<th>名称</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td>资源对象</td>
-<td>Pod、ReplicaSet、ReplicationController、Deployment、StatefulSet、DaemonSet、Job、CronJob、HorizontalPodAutoscaling、Node、Namespace、Service、Ingress、Label、CustomResourceDefinition|</td>
-</tr>
-<tr>
-<td></td>
-<td>存储对象</td>
-<td>Volume、PersistentVolume、Secret、ConfigMap|</td>
-</tr>
-<tr>
-<td></td>
-<td>策略对象</td>
-<td>SecurityContext、ResourceQuota、LimitRange|</td>
-</tr>
-<tr>
-<td></td>
-<td>身份对象</td>
-<td>ServiceAccount、Role、ClusterRole|</td>
-</tr>
-</tbody>
-</table>
-
-
-<h4>1.核心概念</h4>
-
-<h5>Pod</h5>
-
-<blockquote><p>Pod是在Kubernetes集群中运行部署应用或服务的最小单元，它是可以支持多容器的。Pod的设计理念是支持多个容器在一个Pod中共享网络地址和文件系统，可以通过进程间通信和文件共享这种简单高效的方式组合完成服务。
-目前Kubernetes中的业务主要可以分为长期伺服型（long-running）、批处理型（batch）、后台支撑型（node-daemon）和有状态应用型（stateful application）；分别对应的控制器为Deployment、Job、DaemonSet和StatefulSet，</p></blockquote>
-
-<h5>部署（Deployment）</h5>
-
-<blockquote><p>部署表示用户对Kubernetes集群的一次更新操作。部署是一个比RS应用模式更广的API对象，可以是创建一个新的服务，更新一个新的服务，也可以是滚动升级一个服务。滚动升级一个服务，实际是创建一个新的RS，然后逐渐将新RS中副本数增加到理想状态。以Kubernetes的发展方向，未来对所有长期伺服型的的业务的管理，都会通过Deployment来管理。</p></blockquote>
-
-<h5>服务（Service）</h5>
-
-<blockquote><p>RC、RS和Deployment只是保证了支撑服务的微服务Pod的数量，但是没有解决如何访问这些服务的问题。一个Pod只是一个运行服务的实例，随时可能在不同节点上停止或者启动，因此不能确定其IP和端口号提供服务。那谁来稳定地提供<code>服务发现</code>和<code>负载均衡</code>的能力呢？在K8集群中，客户端要访问的服务就是Service对象。
-每个Service会对应一个集群内部有效的虚拟IP，集群内部通过虚拟IP访问服务。
-在K8集群中微服务的负载均衡是由Kube-proxy实现的。Kube-proxy是Kubernetes集群内部的负载均衡器。它是一个分布式代理服务器，在Kubernetes的每个节点上都有一个。这一设计体现了它的伸缩性优势，需要访问服务的节点越多，提供负载均衡能力的Kube-proxy就越多，高可用节点也随之增多。</p></blockquote>
-
-<h5>节点（Node）</h5>
-
-<blockquote><p>Kubernetes集群中的计算能力由Node提供，最初Node称为服务节点Minion，后来改名为Node。Kubernetes集群中的Node也就等同于Mesos集群中的Slave节点，是所有Pod运行所在的工作主机，可以是物理机也可以是虚拟机。不论是物理机还是虚拟机，工作主机的统一特征是上面要运行kubelet管理节点上运行的容器。</p></blockquote>
-
-<h5>命名空间（Namespace）</h5>
-
-<blockquote><p>命名空间为Kubernetes集群提供虚拟的隔离作用，Kubernetes集群初始有两个命名空间，分别是默认命名空间default和系统命名空间kube-system，除此以外，管理员可以可以创建新的命名空间满足需要。</p></blockquote>
-
-<h5>任务(Job)</h5>
-
-<blockquote><p>Job是Kubernetes用来控制批处理型任务的API对象。批处理业务与长期伺服业务的主要区别是批处理业务的运行有头有尾，而长期伺服业务在用户不停止的情况下永远运行。Job管理的Pod把任务成功完成就自动退出了。成功完成的标志根据不同的spec.completions策略而不同：单Pod型任务有一个Pod成功就标志完成；多任务的成功保证有N个任务全部执行成功；工作队列型任务根据应用确认的全局成功而标志成功。</p></blockquote>
-
-<h4>2.管理与支撑概念</h4>
-
-<h5>API</h5>
-
-<blockquote><p>API对象是Kubernetes集群中的管理操作单元。Kubernetes集群系统每支持一项新功能，引入一项新概念，一定会新引入对应的API对象，支持对该功能的管理操作。例如副本集Replica Set对应的API对象是RS。
-每个API对象都有3大类属性：元数据metadata、规范spec和状态status</p></blockquote>
-
-<h5>副本控制器（Replication Controller，RC）</h5>
-
-<blockquote><p>RC是Kubernetes集群中最早的保证Pod高可用的API对象。通过监控运行中的Pod来保证集群中运行指定数目的Pod副本。</p></blockquote>
-
-<h5>副本集（Replica Set，RS)</h5>
-
-<blockquote><p>RS是新一代RC，提供同样的高可用能力，区别主要在于RS后来居上，能支持更多种类的匹配模式。副本集对象一般不单独使用，而是作为Deployment的理想状态参数使用。</p></blockquote>
-
-<h5>后台支撑服务集（DaemonSet）</h5>
-
-<blockquote><p>长期伺服型和批处理型服务的核心在业务应用，可能有些节点运行多个同类业务的Pod，有些节点上又没有这类Pod运行；而后台支撑型服务的核心关注点在Kubernetes集群中的节点（物理机或虚拟机），要保证每个节点上都有一个此类Pod运行。节点可能是所有集群节点也可能是通过nodeSelector选定的一些特定节点。典型的后台支撑型服务包括，存储，日志和监控等在每个节点上支持Kubernetes集群运行的服务。</p></blockquote>
-
-<h5>有状态服务集（StatefulSet）</h5>
-
-<blockquote><p>在云原生应用的体系里，有下面两组近义词；第一组是无状态（stateless）、牲畜（cattle）、无名（nameless）、可丢弃（disposable）；第二组是有状态（stateful）、宠物（pet）、有名（having name）、不可丢弃（non-disposable）
-RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是随机设置的，一个Pod出故障了就被丢弃掉，在另一个地方重启一个新的Pod，名字变了和启动在哪儿都不重要，重要的只是Pod总数；而StatefulSet是用来控制有状态服务，StatefulSet中的每个Pod的名字都是事先确定的，不能更改。
-对于RC和RS中的Pod，一般不挂载存储或者挂载共享存储，保存的是所有Pod共享的状态，Pod像牲畜一样没有分别（这似乎也确实意味着失去了人性特征）；对于StatefulSet中的Pod，每个Pod挂载自己独立的存储，如果一个Pod出现故障，从其他节点启动一个同样名字的Pod，要挂载上原来Pod的存储继续以它的状态提供服务。
-适合于StatefulSet的业务包括数据库服务MySQL和PostgreSQL，集群化管理服务ZooKeeper、etcd等有状态服务。使用StatefulSet，Pod仍然可以通过漂移到不同节点提供高可用，而存储也可以通过外挂的存储来提供高可靠性，StatefulSet做的只是将确定的Pod与确定的存储关联起来保证状态的连续性。</p></blockquote>
-
-<h5>集群联邦（Federation）</h5>
-
-<blockquote><p>在云计算环境中，服务的作用距离范围从近到远一般可以有：同主机（Host，Node）、跨主机同可用区（Available Zone）、跨可用区同地区（Region）、跨地区同服务商（Cloud Service Provider）、跨云平台。Kubernetes的设计定位是单一集群在同一个地域内，因为同一个地区的网络性能才能满足Kubernetes的调度和计算存储连接要求。而联合集群服务就是为提供跨Region跨服务商Kubernetes集群服务而设计的。
-每个Kubernetes Federation有自己的分布式存储、API Server和Controller Manager。用户可以通过Federation的API Server注册该Federation的成员Kubernetes Cluster。当用户通过Federation的API Server创建、更改API对象时，Federation API Server会在自己所有注册的子Kubernetes Cluster都创建一份对应的API对象。在提供业务请求服务时，Kubernetes Federation会先在自己的各个子Cluster之间做负载均衡，而对于发送到某个具体Kubernetes Cluster的业务请求，会依照这个Kubernetes Cluster独立提供服务时一样的调度模式去做Kubernetes Cluster内部的负载均衡。而Cluster之间的负载均衡是通过域名服务的负载均衡来实现的。</p></blockquote>
-
-<h4>3.用户与权限概念</h4>
-
-<h5>用户帐户（User Account）</h5>
-
-<blockquote><p>用户帐户为人提供账户标识，对应的是人的身份，人的身份与服务的namespace无关，所以用户账户是跨namespace的</p></blockquote>
-
-<h5>服务帐户（Service Account）</h5>
-
-<blockquote><p>服务账户为计算机进程和Kubernetes集群中运行的Pod提供账户标识。服务帐户对应的是一个运行中程序的身份，与特定namespace是相关的。</p></blockquote>
-
-<h5>密钥对象（Secret）</h5>
-
-<blockquote><p>Secret是用来保存和传递密码、密钥、认证凭证这些敏感信息的对象。为了避免将类似的敏感信息明文写在配置文件中，可以将其存入一个Secret对象，并在配置文件中通过Secret对象引用这些敏感信息</p></blockquote>
-
-<h5>RBAC访问授权</h5>
-
-<blockquote><p>RBAC主要是引入了角色（Role）以及与角色绑定（RoleBinding）的相关抽象概念。</p></blockquote>
-
-<h3>参考资料</h3>
-
-<p><a href="https://infoq.cn/article/kubernetes-and-cloud-native-applications-part01">《Kubernetes 与云原生应用》系列之 Kubernetes 的系统架构与设计理念</a></p>
 ]]></content>
   </entry>
   
