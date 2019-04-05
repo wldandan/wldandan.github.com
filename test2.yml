@@ -1,0 +1,257 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicaSet","namespace":"default","name":"first-deployment-3814922817","uid":"f1cdc043-72d7-11e7-8a11-0800272dd534","apiVersion":"extensions","resourceVersion":"42335"}}
+    creationTimestamp: 2017-07-27T14:29:05Z
+    generateName: first-deployment-3814922817-
+    labels:
+      pod-template-hash: "3814922817"
+      run: first-deployment
+    name: first-deployment-3814922817-dpnn0
+    namespace: default
+    ownerReferences:
+    - apiVersion: extensions/v1beta1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicaSet
+      name: first-deployment-3814922817
+      uid: f1cdc043-72d7-11e7-8a11-0800272dd534
+    resourceVersion: "251809"
+    selfLink: /api/v1/namespaces/default/pods/first-deployment-3814922817-dpnn0
+    uid: f1cfbb42-72d7-11e7-8a11-0800272dd534
+  spec:
+    containers:
+    - image: katacoda/docker-http-server
+      imagePullPolicy: Always
+      name: first-deployment
+      ports:
+      - containerPort: 9090
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-rv2k0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    nodeName: minikube
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: default-token-rv2k0
+      secret:
+        defaultMode: 420
+        secretName: default-token-rv2k0
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2017-07-27T14:29:05Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-23T06:49:37Z
+      status: "True"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: 2017-07-27T14:29:05Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - containerID: docker://0f28a7223bdefd0dd63c5216849ac54e38d4f64305b4c722d8f227c129ec7c77
+      image: katacoda/docker-http-server:latest
+      imageID: docker://sha256:0d6ee549ae1314ff0c0b8fea18042f3891250ba6b920fc714563be624e3c62a3
+      lastState:
+        terminated:
+          containerID: docker://8b5f88579de837648b03747c96005c09ed2c3b1b86a2af2f6da571d779181b1a
+          exitCode: 2
+          finishedAt: 2019-03-23T06:48:56Z
+          reason: Error
+          startedAt: null
+      name: first-deployment
+      ready: true
+      restartCount: 3
+      state:
+        running:
+          startedAt: 2019-03-23T06:49:37Z
+    hostIP: 192.168.99.100
+    phase: Running
+    podIP: 172.17.0.4
+    qosClass: BestEffort
+    startTime: 2017-07-27T14:29:05Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicationController","namespace":"default","name":"kubia","uid":"ee8cc742-4ddb-11e9-8ec4-0800272dd534","apiVersion":"v1","resourceVersion":"253186"}}
+    creationTimestamp: 2019-03-24T02:24:20Z
+    generateName: kubia-
+    labels:
+      run: kubia
+    name: kubia-zn42q
+    namespace: default
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: kubia
+      uid: ee8cc742-4ddb-11e9-8ec4-0800272dd534
+    resourceVersion: "260943"
+    selfLink: /api/v1/namespaces/default/pods/kubia-zn42q
+    uid: ee8daffb-4ddb-11e9-8ec4-0800272dd534
+  spec:
+    containers:
+    - image: luksa/kubia
+      imagePullPolicy: Always
+      name: kubia
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-rv2k0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    nodeName: minikube
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: default-token-rv2k0
+      secret:
+        defaultMode: 420
+        secretName: default-token-rv2k0
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-24T02:24:20Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-24T02:24:20Z
+      message: 'containers with unready status: [kubia]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-24T02:24:20Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - image: luksa/kubia
+      imageID: ""
+      lastState: {}
+      name: kubia
+      ready: false
+      restartCount: 0
+      state:
+        waiting:
+          message: Back-off pulling image "luksa/kubia"
+          reason: ImagePullBackOff
+    hostIP: 192.168.99.100
+    phase: Pending
+    podIP: 172.17.0.5
+    qosClass: BestEffort
+    startTime: 2019-03-24T02:24:20Z
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicationController","namespace":"default","name":"wldandan","uid":"02d4c451-4ddc-11e9-8ec4-0800272dd534","apiVersion":"v1","resourceVersion":"253232"}}
+    creationTimestamp: 2019-03-24T02:24:54Z
+    generateName: wldandan-
+    labels:
+      run: wldandan
+    name: wldandan-rshvl
+    namespace: default
+    ownerReferences:
+    - apiVersion: v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: ReplicationController
+      name: wldandan
+      uid: 02d4c451-4ddc-11e9-8ec4-0800272dd534
+    resourceVersion: "260971"
+    selfLink: /api/v1/namespaces/default/pods/wldandan-rshvl
+    uid: 02d5dd35-4ddc-11e9-8ec4-0800272dd534
+  spec:
+    containers:
+    - image: wldandan/latest
+      imagePullPolicy: Always
+      name: wldandan
+      ports:
+      - containerPort: 8081
+        protocol: TCP
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-rv2k0
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    nodeName: minikube
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: default-token-rv2k0
+      secret:
+        defaultMode: 420
+        secretName: default-token-rv2k0
+  status:
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-24T02:24:54Z
+      status: "True"
+      type: Initialized
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-24T02:24:54Z
+      message: 'containers with unready status: [wldandan]'
+      reason: ContainersNotReady
+      status: "False"
+      type: Ready
+    - lastProbeTime: null
+      lastTransitionTime: 2019-03-24T02:24:54Z
+      status: "True"
+      type: PodScheduled
+    containerStatuses:
+    - image: wldandan/latest
+      imageID: ""
+      lastState: {}
+      name: wldandan
+      ready: false
+      restartCount: 0
+      state:
+        waiting:
+          message: Back-off pulling image "wldandan/latest"
+          reason: ImagePullBackOff
+    hostIP: 192.168.99.100
+    phase: Pending
+    podIP: 172.17.0.6
+    qosClass: BestEffort
+    startTime: 2019-03-24T02:24:54Z
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

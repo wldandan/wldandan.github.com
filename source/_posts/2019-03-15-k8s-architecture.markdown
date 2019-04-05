@@ -44,6 +44,10 @@ Kubernetes主要由以下几个核心组件组成：
 ### K8s分层架构
 <img src="{{ root_url }}/images/k8s/kubernetes-layers-arch.png" />
 
+### K8s简化图
+<img src="{{ root_url }}/images/k8s/k8s-control-plane.jpg" />
+
+
 * 核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境
 * 应用层：部署（无状态应用、有状态应用、批处理任务、集群应用等）和路由（服务发现、DNS解析等）、Service Mesh（部分位于应用层）
 * 管理层：系统度量（如基础设施、容器和网络的度量），自动化（如自动扩展、动态Provision等）以及策略管理（RBAC、Quota、PSP、NetworkPolicy等）、Service Mesh（部分位于管理层）
