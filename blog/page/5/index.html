@@ -9,7 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="什么是Module Pattern? Javascript，是面向对象但并不是面向对象编程的一门语言。在Javascript的世界里，你遇到的所有东西都是对象(如Function, Number, String等)，但它本身的语法中却不提供类(class)的关键字或者访问符(private, &hellip;">
+  <meta name="description" content="在这篇文章中，我将介绍Javascript中变量的作用域以及变量提升的一些相关知识。 变量作用域 变量作用域是指变量存在的上下文环境，它表明了当定义一个变量后，代码如何能够访问该变量。基本上，Javascript的变量有两种：
+局部变量和全局变量（废话，哪门语言没有这两种！） ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +77,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/26/javascript-variable-scope-and-hoisting/">Understanding Javascript Variable Scope &amp; Hoisting</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-26T22:10:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/05/26/javascript-variable-scope-and-hoisting/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在这篇文章中，我将介绍Javascript中变量的作用域以及变量提升的一些相关知识。</p>
+
+<h2>变量作用域</h2>
+
+<p>变量作用域是指变量存在的上下文环境，它表明了当定义一个变量后，代码如何能够访问该变量。基本上，Javascript的变量有两种：
+局部变量和全局变量（废话，哪门语言没有这两种！）</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/26/javascript-variable-scope-and-hoisting/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -511,7 +560,7 @@ task hello &lt;&lt; {
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (7)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -529,6 +578,10 @@ task hello &lt;&lt; {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
       </li>
     
@@ -542,10 +595,6 @@ task hello &lt;&lt; {
     
       <li class="post">
         <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-cluster/">K8s之集群</a>
       </li>
     
   </ul>

@@ -9,7 +9,10 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="如何访问Pod？ 在非k8s世界中，管理员可以通过在配置文件中指定IP地址或主机名，容许客户端访问，但在k8s中这种方式是行不通的。因为Pod 是有生命周期的，它们可以被创建或销毁。虽然通过 ReplicationController 能够动态地创建Pod，但当Pod被分配到某个节点时， &hellip;">
+  <meta name="description" content="本篇文章主要介绍在K8S中，pod的容器如何访问外部磁盘存储，以及容器间如何实现共享存储，主要内容包括 通过volume和emptyDir在容器中共享数据
+在Pod中使用Git Repo
+使用外部存储，如GCE
+使用PV(PersistentVolume)和PVC( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +79,57 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-04-05T21:04:00+08:00" pubdate data-updated="true">Apr 5<span>th</span>, 2019</time>
+        
+         | <a href="/blog/2019/04/05/k8s-concept-volume/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本篇文章主要介绍在K8S中，pod的容器如何访问外部磁盘存储，以及容器间如何实现共享存储，主要内容包括</p>
+
+<ul>
+<li>通过volume和emptyDir在容器中共享数据</li>
+<li>在Pod中使用Git Repo</li>
+<li>使用外部存储，如GCE</li>
+<li>使用PV(PersistentVolume)和PVC(PersistentVolumeClaim)</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/04/05/k8s-concept-volume/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -515,57 +569,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">微服务实战(3) - Spring Boot 101</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-11-06T17:57:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2016</time>
-        
-         | <a href="/blog/2016/11/06/microservices-in-action-spring-boot-101/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>[如需转载，请联系本人]</p>
-
-<p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
-
-<p>经过2015年的快速普及，微服务的优势被越来越多的传统组织和企业所认可，但由于架构相关的知识本身比较抽象，虽然各大会议上有很多互联网公司的案例分享，但开发者似乎依然很难全面了解微服务架构。</p>
-
-<p>所以，希望通过本系列的文章以及视频，以一个真实的案例为背景，以持续交付和DevOps为主线，帮助初学者理解微服务架构，并能通过动手实验，了解相关的实践以及方法论。</p>
-
-<p>精彩课程已经出炉，请移步<a href="http://www.stuq.org/course/detail/1088">这里</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2016/11/06/microservices-in-action-spring-boot-101/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -584,7 +587,7 @@
 <li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
 <li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (7)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
 <li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
@@ -602,6 +605,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
       </li>
     
@@ -615,10 +622,6 @@
     
       <li class="post">
         <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-cluster/">K8s之集群</a>
       </li>
     
   </ul>
