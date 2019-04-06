@@ -66,7 +66,7 @@ volumes:
 
 #### 二. 使用Git Repo
 
-Git Repo卷基本上是基于emptyDir，通过克隆Git仓库并在pod启动时（但在创建其容器之前）签出特定版本填充该卷。如图6.3所示:
+Git Repo卷基本上是基于emptyDir，通过克隆Git仓库并在pod启动时（但在创建其容器之前）签出特定版本。如图6.3所示:
 
 <img src="{{ root_url }}/images/k8s/k8s-volume-gitrepo.png" />
 
@@ -95,13 +95,13 @@ spec:
       directory: .       
 ```
 
-注意，默认情况下，使用gitrepo卷时存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新的pod，才会获取最新的提交。
-
-> 可以使用其他容器来实现文件的同步，更多细节可以在dokerhub上搜索“git sync.”
+默认情况下，使用gitrepo卷存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新pod时，才会从Got仓库获取最新的内容。
 
 #### 三. 使用hostPath
 
-hostPath是一种持久性存储，它指向Node文件系统上的目录（如图）。运行在同一节点上的Pod，如果使用相同的hostPath卷，则可以彼此看到相同的文件。
+hostPath是一种持久性存储，它指向Node文件系统中的目录，如下图所示。
+
+运行在同一节点上的Pod，如果使用相同的hostPath卷，则可以彼此访问相同的文件。
 
 <img src="{{ root_url }}/images/k8s/k8s-volume-hostpath.png" />
 
@@ -119,9 +119,9 @@ Volumes:
 
 ```
 
-当一个pod被删除时，gitrepo和emptydir卷的内容都会被删除，但hostPath卷的内容不会。当pod被删除时，运行在该Node上新的pod，如果有相同路径的hostPath卷，它将能访问到之前Pod写入的数据。
+当一个pod被删除时，gitrepo和emptydir卷的内容都会被删除，但hostPath卷的内容不会。对于在某Node上创建的新pod，如果设置hostPath卷与之前pod的路径一致，那么它能也能访问到之前Pod写入的数据。
 
-如果您考虑使用hostPath作为数据库数据目录的话，请谨慎考虑。因为卷的内容存储在特定Node的文件系统中，当数据库pod被重新调度到另一个节点时，它将无法看到数据。
+但是，如果您考虑使用hostPath作为数据库数据目录的话，请谨慎考虑。因为卷的内容存储在特定Node的文件系统中，当数据库pod被重新调度到另一个节点时，数据将无法被看到。
 
 
 #### 四. 使用网络文件存储
@@ -155,6 +155,7 @@ spec:
 
 #### 五. 自建文件系统存储
 
+除此之外，也可以使用自建的文件系统，如
 NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVolume, cinder, cephfs, flocker, fc (Fibre Channel)等
 
 
