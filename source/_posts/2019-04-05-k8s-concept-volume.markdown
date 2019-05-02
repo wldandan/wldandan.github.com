@@ -95,7 +95,7 @@ spec:
       directory: .       
 ```
 
-默认情况下，使用gitrepo卷存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新pod时，才会从Got仓库获取最新的内容。
+默认情况下，使用gitrepo卷存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新pod时，才会从Git仓库获取最新的内容。
 
 #### 三. 使用hostPath
 
