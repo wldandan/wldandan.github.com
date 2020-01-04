@@ -1,0 +1,253 @@
+---
+layout: post
+title: "Serverless 101"
+date: 2020-01-05 07:15
+comments: true
+categories: 
+keywords: Serverles
+description: Serverless 
+categories: Serverless
+published: false
+---
+
+今天，我们聊聊2019，也会是2020，的技术热门话题之一 -- Serverless。
+
+上周，在2019即将结束之际，OReilly发布的Serverless调查报告，从中可以看出Serverless受到的关注度持续增长，Serverless经过几年的酝酿，很快将迎来一轮大规模应用的爆发期。
+
+* 英文原文
+* 中文翻译
+
+
+本文将从几个维度，梳理Serverless的核心概念、使用场景以及面临的挑战，帮助像我一样的新手更快的入门Serverless。
+
+### 1.什么是Serverless
+
+#### 最Formal的定义 - CNCF
+
+CNCF对Serverless的定义已经相当清晰了：
+> CNCF定义
+
+
+#### 最通俗易懂的定义 - Martin Flower的定义
+
+原文作者是，不过是发在老马博客上的。核心内容是
+> 
+Serverless = FaaS + BaaS
+
+#### Serverless xx 定义
+
+
+
+随着配置信息增多，考虑到维护成本，可以将配置信息存储到配置文件中。但对于容器而言，使用配置文件的方式需要将配置项打包到镜像中，而且每次配置信息的变更都会导致重新生成镜像，重新部署，维护和变更成本较高。
+
+* 环境变量
+
+在容器应用中，使用环境变量来实现配置，也是较普遍的一种做法，通过将参数传递给容器中的应用，变更容器运行期的配置信息，如MySQL官方的镜像就使用环境变量```MYSQL_ROOT_PASSWORD``` 来修改超级用户root的密码。
+
+* volume
+
+另外，基于volume的方式获取配置信息也是一种可行的方式，如使用Git Repo存储配置信息，能有效的做到版本化管理会随时回退。
+
+在K8S中，存储配置信息的资源被称ConfigMap，本部分将介绍ConfigMap、Secret的使用。
+
+### 2.Serverless场景
+
+#### 适合场景
+#### 不适合场景
+
+
+### 3.AWS Serverless生态图
+
+在Docker容器中，通常使用如下方式传递参数：
+
+* 使用```ENTRYPOINT```定义可执行命令
+* 使用```CMD```传递参数
+
+在ENTRYPOINT中，可以使用如下两种方式启动应用：
+
+* Shell方式，如```ENTRYPOINT node app.js```
+* exec方式，如```ENTRYPOINT ["node", "app.js"]```
+
+> 注意: 这两种方式的区别在于前者是先启动Shell，由Shell调用node，而后者直接启动node应用。
+
+在K8S中，可以通过配置文件中的```command```和```args```来设置容器中的```ENTRYPOINT```和```CMD```
+譬如
+
+```yaml
+kind: Pod
+spec:
+  containers:
+  - image: some/image
+    command: ["/bin/command"]
+    args: ["arg1", "arg2", "arg3"]
+```
+
+它们之间的区别如下图所示：
+
+|Docker|Kubernetes|描述|
+|------|----------|---|
+|ENTRYPOINT|command|在容器中执行命令|
+|CMD|args|给命令传递参数|
+
+#### 3.使用环境变量
+
+在K8S中，使用```env```设置镜像中定义的环境变量。
+譬如，容器中存在如下脚本，其中的```INTERVAL```使用环境变量进行设置：
+
+```bash
+#!/bin/bash
+while :
+do
+  echo $(date)
+  sleep $INTERVAL
+done
+```
+在K8S中，其配置文件类似如下：
+```yaml
+kind: Pod
+spec:
+ containers:
+ - image: xxxxx
+   env:                            
+   - name: INTERVAL                
+     value: "30"                   
+...     
+```
+
+#### 4.使用CONFIGMAP解耦配置
+
+Kubernetes允许将配置项分离到一个称为```ConfigMap```的单独对象中，它包含若干键/值对，并且值的范围可以从文本到整个配置文件。
+
+应用程序不需要直接读取ConfigMap，甚至不需要知道它的存在。Map的内容可以作为环境变量或者卷传递给容器。
+
+使用```kubectl```创建ConfigMap的过程中，可以指定多样化的配置机制，类似如下所示：
+
+```bash
+$ kubectl create configmap my-config
+  --from-file=foo.json                     //导入JSON文件
+  --from-file=bar=foobar.conf              //导入配置文件   
+  --from-file=config-opts/                 //导入目录
+  --from-literal=some=thing                //导入文本配置
+```
+
+##### 4.1 使用ConfigMap Entry设置环境变量的值
+接下来， 在如上环境变量的例子中，我们使用ConfigMap配置环境变量```$INTERVAL```的值。
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-from-configmap
+spec:
+  containers:
+  - image: xxxx
+    env:                            
+    - name: INTERVAL                 //环境变量名
+      valueFrom:                     
+        configMapKeyRef:             //使用ConfigMap
+          name: fortune-config       //ConfigMap的名称
+          key: sleep-interval        //ConfigMap的key
+...
+```
+
+在如上的例子中，读取ConfigMap```fortune-config```中Key```sleep-interval```对应的值，作为```$INTERVAL```的值。
+
+##### 4.2 使用ConfigMap Entry作为环境变量
+
+譬如有个ConfigMap，它有两个键，分别是foo、bar。您可以使用envFrom属性将它们全部公开为环境变量，而不是像在前面的示例中那样依次使用env。
+
+如下所示：
+
+```yaml
+spec:
+  containers:
+  - image: some-image
+    envFrom:                      //使用envFrom代替Env
+    - prefix: CONFIG_             //使用前缀
+      configMapRef:               //引用ConfigMap
+        name: my-config-map       
+...
+```
+```CONFIG_```作为前缀，将导出如下环境变量CONFIG_foo和CONFIG_bar。当然，前缀是可选的，如不设置，则容器中的环境变量为foo和bar。
+
+##### 4.3 使用ConfigMap Entry作为命令行参数
+
+接下来，让我们看看如何将ConfigMap中的值作为参数传递给容器中运行的进程。我们不能在pod.spec.containers.args字段中直接引用ConfigMap，但是可以从ConfigMap中初始化一个环境变量，然后引用参数中的值，相关代码如下所示:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-args-from-configmap
+spec:
+  containers:
+  - image: xxxxx
+    env:                               
+    - name: INTERVAL                   
+      valueFrom:                       
+        configMapKeyRef:               
+          name: fortune-config         
+          key: sleep-interval          
+    args: ["$(INTERVAL)"]              
+...
+```
+
+其关系如图所示：
+
+<img src="{{ root_url }}/images/k8s/k8s-volume-configmap-as-cmd-args.png" />
+
+##### 4.3 使用ConfigMap volume导出ConfigMap的Entry
+
+ConfigMap除了可以作为环境变量以及命令行参数外，还可以包括整个目录中的配置文件。
+
+譬如，在```configmap-files```目录下存在如下2个文件：
+
+* my-nginx-config.conf
+
+```yaml
+
+server {
+  listen              80;
+  server_name         www.kubia-example.com;
+
+  gzip on;                                       1
+  gzip_types text/plain application/xml;         1
+
+  location / {
+    root   /usr/share/nginx/html;
+    index  index.html index.htm;
+  }
+}
+```
+
+* sleep-interval.txt
+```text
+25
+```
+接下来，使用命令创建```ConfigMap```
+```
+$ kubectl create configmap fortune-config --from-file=configmap-files
+```
+然后，我们可以使用volume将ConfigMap中的内容暴露给容器：
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-configmap-volume
+spec:
+  containers:
+  - image: nginx:alpine
+    name: web-server
+    volumeMounts:
+    ...
+    - name: config
+      mountPath: /etc/nginx/conf.d      //挂载到Pod中的目录
+      readOnly: true
+    ...
+  volumes:
+  ...
+  - name: config
+    configMap:                          //使用configMap作为volume的内容
+      name: fortune-config              
+  ...
+```
