@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Microservices | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/microservices/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2019-04-06T12:37:26+08:00</updated>
+  <updated>2020-01-18T08:16:21+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -43,7 +43,7 @@
 
 <p>REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" /></p>
 
 <p>REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。</p>
 
@@ -55,7 +55,7 @@
 
 <p>REST成熟度模型描述了REST在实施过程中不同的级别。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" /></p>
 
 <h3>REST不是银弹</h3>
 
@@ -163,7 +163,7 @@ https://api.example.com/users/[ID]/posts      GET 获取用户相关的文章
 </ul>
 
 
-<p><img src="/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
 
 <h4>使用HAL定义单一资源(Resource)</h4>
 
@@ -374,7 +374,7 @@ Content-Type: application/json
 
 <p>但是，对于微服务的实施而言，服务单元不会孤立存在，必然相互协作，共同实现业务价值。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
 
 <p>而随着服务规模化的推进，服务间协作和管理的成本会越来越高，包括但不限于：</p>
 
@@ -424,7 +424,7 @@ Content-Type: application/json
 
 <p>在Spring Cloud中，整合了很多功能组件，包括Config、Messaging、Netflix OSS以及对Heroku、Amazon Web Service、Cloud Foundry等云平台的接口支持。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
 
 <p>基于这些组件，能够帮助我们解决之前提到的服务实施后面临的挑战。</p>
 
@@ -484,13 +484,13 @@ Content-Type: application/json
 
 <p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
 
 <p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
 
 <p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
 
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
 
 <h2>Spring Boot的优势</h2>
 
@@ -589,7 +589,7 @@ public CharacterEncodingFilter characterEncodingFilter() {
 <p>关于更多<code>Conditional</code>的细节，请查看包
 <em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
 
-<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
 
 <h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
 
@@ -739,7 +739,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>该活动报名系统的应用架构图如下：</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
 
 <h2>服务实现</h2>
 
@@ -776,7 +776,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>该活动报名系统的微服务生态系统图如下：</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
 
 <h2>总结</h2>
 
@@ -843,7 +843,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>微服务生态系统</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
 
 <h4>3.理解微服务的高级话题</h4>
 
@@ -856,7 +856,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>基于消费者驱动的契约测试</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
 
 <h4>4.理解实施微服务与DevOps(基于Docker)</h4>
 
@@ -872,11 +872,11 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>部署模型图</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
 
 <blockquote><p>持续交付流水线</p></blockquote>
 
-<p><img src="/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
+<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
 
 <h2>总结</h2>
 

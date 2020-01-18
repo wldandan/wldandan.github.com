@@ -4,7 +4,7 @@
   <title><![CDATA[Category: K8s | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/k8s/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2019-04-06T12:37:26+08:00</updated>
+  <updated>2020-01-18T08:16:21+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -12,6 +12,329 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[k8s之Deployment]]></title>
+    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-deployment/"/>
+    <updated>2019-04-06T14:48:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/04/06/k8s-deployment</id>
+    <content type="html"><![CDATA[<p>之前我们了解了如何打包，作为Pod中的容器运行，使用临时或者永久存储机制，设置配置项，接下来我们探讨如何部署和升级。</p>
+
+<h5>应用更新的方式</h5>
+
+<p>假定在K8S中存在这样的应用：
+* Service
+* 3个Pod
+* 使用ReplicaSet
+* Clients</p>
+
+<p>初始情况，运行V1版本的应用。接下来，我们希望生成V2版本的镜像，并使用V2版本的Pod/容器进行升级。
+存在两种方式：
+* 先删除V1版本的应用，然后部署V2版本。
+* 先新增V2版本的应用，然后删除V1版本。（对于V2版本的新增，可以选择 <code>一次新增全部数量</code>，<code>多次新增，每次部分数量</code>）</p>
+
+<blockquote><p>对于第一种方式：简单，但是存在部署的停机时间<br/>
+  对于第二种方式：系统需要同时处理两个版本的应用，尤其是数据Schema需要兼容新旧两个版本</p></blockquote>
+
+<h6>ttt</h6>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[k8s之configmap]]></title>
+    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap/"/>
+    <updated>2019-04-06T14:48:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap</id>
+    <content type="html"><![CDATA[<p>几乎所有的应用程序都需要配置（实例的配置信息，外部系统的访问信息等），而这些配置显然不应该被打包到应用程序本身中。</p>
+
+<p>本篇文章看看如何在Kubernetes中配置应用程序的信息。</p>
+
+<h4>1.配置容器应用的方式</h4>
+
+<ul>
+<li><p>命令行
+最简单的应用配置方式，是使用命令行。</p></li>
+<li><p>配置文件</p></li>
+</ul>
+
+
+<p>随着配置信息增多，考虑到维护成本，可以将配置信息存储到配置文件中。但对于容器而言，使用配置文件的方式需要将配置项打包到镜像中，而且每次配置信息的变更都会导致重新生成镜像，重新部署，维护和变更成本较高。</p>
+
+<ul>
+<li>环境变量</li>
+</ul>
+
+
+<p>在容器应用中，使用环境变量来实现配置，也是较普遍的一种做法，通过将参数传递给容器中的应用，变更容器运行期的配置信息，如MySQL官方的镜像就使用环境变量<code>MYSQL_ROOT_PASSWORD</code> 来修改超级用户root的密码。</p>
+
+<ul>
+<li>volume</li>
+</ul>
+
+
+<p>另外，基于volume的方式获取配置信息也是一种可行的方式，如使用Git Repo存储配置信息，能有效的做到版本化管理会随时回退。</p>
+
+<p>在K8S中，存储配置信息的资源被称ConfigMap，本部分将介绍ConfigMap、Secret的使用。</p>
+
+<h4>2.从命令行传递参数</h4>
+
+<p>在Docker容器中，通常使用如下方式传递参数：</p>
+
+<ul>
+<li>使用<code>ENTRYPOINT</code>定义可执行命令</li>
+<li>使用<code>CMD</code>传递参数</li>
+</ul>
+
+
+<p>在ENTRYPOINT中，可以使用如下两种方式启动应用：</p>
+
+<ul>
+<li>Shell方式，如<code>ENTRYPOINT node app.js</code></li>
+<li>exec方式，如<code>ENTRYPOINT ["node", "app.js"]</code></li>
+</ul>
+
+
+<blockquote><p>注意: 这两种方式的区别在于前者是先启动Shell，由Shell调用node，而后者直接启动node应用。</p></blockquote>
+
+<p>在K8S中，可以通过配置文件中的<code>command</code>和<code>args</code>来设置容器中的<code>ENTRYPOINT</code>和<code>CMD</code>
+譬如</p>
+
+<p>```yaml
+kind: Pod
+spec:
+  containers:
+  - image: some/image</p>
+
+<pre><code>command: ["/bin/command"]
+args: ["arg1", "arg2", "arg3"]
+</code></pre>
+
+<p>```</p>
+
+<p>它们之间的区别如下图所示：</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Docker</th>
+<th>Kubernetes</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>ENTRYPOINT</td>
+<td>command</td>
+<td>在容器中执行命令|</td>
+</tr>
+<tr>
+<td></td>
+<td>CMD</td>
+<td>args</td>
+<td>给命令传递参数|</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>3.使用环境变量</h4>
+
+<p>在K8S中，使用<code>env</code>设置镜像中定义的环境变量。
+譬如，容器中存在如下脚本，其中的<code>INTERVAL</code>使用环境变量进行设置：</p>
+
+<p>```bash</p>
+
+<h1>!/bin/bash</h1>
+
+<p>while :
+do
+  echo $(date)
+  sleep $INTERVAL
+done
+<code>
+在K8S中，其配置文件类似如下：
+</code>yaml
+kind: Pod
+spec:
+ containers:
+ - image: xxxxx
+   env:                          <br/>
+   - name: INTERVAL</p>
+
+<pre><code> value: "30"                   
+</code></pre>
+
+<p>...   <br/>
+```</p>
+
+<h4>4.使用CONFIGMAP解耦配置</h4>
+
+<p>Kubernetes允许将配置项分离到一个称为<code>ConfigMap</code>的单独对象中，它包含若干键/值对，并且值的范围可以从文本到整个配置文件。</p>
+
+<p>应用程序不需要直接读取ConfigMap，甚至不需要知道它的存在。Map的内容可以作为环境变量或者卷传递给容器。</p>
+
+<p>使用<code>kubectl</code>创建ConfigMap的过程中，可以指定多样化的配置机制，类似如下所示：</p>
+
+<p><code>bash
+$ kubectl create configmap my-config
+  --from-file=foo.json                     //导入JSON文件
+  --from-file=bar=foobar.conf              //导入配置文件   
+  --from-file=config-opts/                 //导入目录
+  --from-literal=some=thing                //导入文本配置
+</code></p>
+
+<h5>4.1 使用ConfigMap Entry设置环境变量的值</h5>
+
+<p>接下来， 在如上环境变量的例子中，我们使用ConfigMap配置环境变量<code>$INTERVAL</code>的值。</p>
+
+<p>```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: env-from-configmap
+spec:
+  containers:
+  - image: xxxx</p>
+
+<pre><code>env:                            
+- name: INTERVAL                 //环境变量名
+  valueFrom:                     
+    configMapKeyRef:             //使用ConfigMap
+      name: fortune-config       //ConfigMap的名称
+      key: sleep-interval        //ConfigMap的key
+</code></pre>
+
+<p>...
+```</p>
+
+<p>在如上的例子中，读取ConfigMap<code>fortune-config</code>中Key<code>sleep-interval</code>对应的值，作为<code>$INTERVAL</code>的值。</p>
+
+<h5>4.2 使用ConfigMap Entry作为环境变量</h5>
+
+<p>譬如有个ConfigMap，它有两个键，分别是foo、bar。您可以使用envFrom属性将它们全部公开为环境变量，而不是像在前面的示例中那样依次使用env。</p>
+
+<p>如下所示：</p>
+
+<p>```yaml
+spec:
+  containers:
+  - image: some-image</p>
+
+<pre><code>envFrom:                      //使用envFrom代替Env
+- prefix: CONFIG_             //使用前缀
+  configMapRef:               //引用ConfigMap
+    name: my-config-map       
+</code></pre>
+
+<p>...
+<code>
+</code>CONFIG_```作为前缀，将导出如下环境变量CONFIG_foo和CONFIG_bar。当然，前缀是可选的，如不设置，则容器中的环境变量为foo和bar。</p>
+
+<h5>4.3 使用ConfigMap Entry作为命令行参数</h5>
+
+<p>接下来，让我们看看如何将ConfigMap中的值作为参数传递给容器中运行的进程。我们不能在pod.spec.containers.args字段中直接引用ConfigMap，但是可以从ConfigMap中初始化一个环境变量，然后引用参数中的值，相关代码如下所示:</p>
+
+<p>```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fortune-args-from-configmap
+spec:
+  containers:
+  - image: xxxxx</p>
+
+<pre><code>env:                               
+- name: INTERVAL                   
+  valueFrom:                       
+    configMapKeyRef:               
+      name: fortune-config         
+      key: sleep-interval          
+args: ["$(INTERVAL)"]              
+</code></pre>
+
+<p>...
+```</p>
+
+<p>其关系如图所示：</p>
+
+<p><img src="{{ root_url }}/images/k8s/k8s-volume-configmap-as-cmd-args.png" /></p>
+
+<h5>4.3 使用ConfigMap volume导出ConfigMap的Entry</h5>
+
+<p>ConfigMap除了可以作为环境变量以及命令行参数外，还可以包括整个目录中的配置文件。</p>
+
+<p>譬如，在<code>configmap-files</code>目录下存在如下2个文件：</p>
+
+<ul>
+<li>my-nginx-config.conf</li>
+</ul>
+
+
+<p>```yaml</p>
+
+<p>server {
+  listen              80;
+  server_name         www.kubia-example.com;</p>
+
+<p>  gzip on;                                       1
+  gzip_types text/plain application/xml;         1</p>
+
+<p>  location / {</p>
+
+<pre><code>root   /usr/share/nginx/html;
+index  index.html index.htm;
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<ul>
+<li>sleep-interval.txt
+<code>text
+25
+</code>
+接下来，使用命令创建<code>ConfigMap</code>
+<code>
+$ kubectl create configmap fortune-config --from-file=configmap-files
+</code>
+然后，我们可以使用volume将ConfigMap中的内容暴露给容器：
+```
+apiVersion: v1
+kind: Pod
+metadata:
+name: fortune-configmap-volume
+spec:
+containers:
+
+<ul>
+<li>image: nginx:alpine
+name: web-server
+volumeMounts:
+...
+
+<ul>
+<li>name: config
+mountPath: /etc/nginx/conf.d      //挂载到Pod中的目录
+readOnly: true
+...
+volumes:
+...</li>
+</ul>
+</li>
+<li>name: config
+configMap:                          //使用configMap作为volume的内容
+  name: fortune-config            <br/>
+...
+```</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[K8s之Volume]]></title>
@@ -97,9 +420,9 @@ volumes:
 
 <h4>二. 使用Git Repo</h4>
 
-<p>Git Repo卷基本上是基于emptyDir，通过克隆Git仓库并在pod启动时（但在创建其容器之前）签出特定版本填充该卷。如图6.3所示:</p>
+<p>Git Repo卷基本上是基于emptyDir，通过克隆Git仓库并在pod启动时（但在创建其容器之前）签出特定版本。如图6.3所示:</p>
 
-<p><img src="/images/k8s/k8s-volume-gitrepo.png" /></p>
+<p><img src="{{ root_url }}/images/k8s/k8s-volume-gitrepo.png" /></p>
 
 <p>示例代码如下所示：
 ```yaml
@@ -132,15 +455,15 @@ ports:
 
 <p>```</p>
 
-<p>注意，默认情况下，使用gitrepo卷时存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新的pod，才会获取最新的提交。</p>
-
-<blockquote><p>可以使用其他容器来实现文件的同步，更多细节可以在dokerhub上搜索“git sync.”</p></blockquote>
+<p>默认情况下，使用gitrepo卷存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新pod时，才会从Git仓库获取最新的内容。</p>
 
 <h4>三. 使用hostPath</h4>
 
-<p>hostPath是一种持久性存储，它指向Node文件系统上的目录（如图）。运行在同一节点上的Pod，如果使用相同的hostPath卷，则可以彼此看到相同的文件。</p>
+<p>hostPath是一种持久性存储，它指向Node文件系统中的目录，如下图所示。</p>
 
-<p><img src="/images/k8s/k8s-volume-hostpath.png" /></p>
+<p>运行在同一节点上的Pod，如果使用相同的hostPath卷，则可以彼此访问相同的文件。</p>
+
+<p><img src="{{ root_url }}/images/k8s/k8s-volume-hostpath.png" /></p>
 
 <p>使用hostPath的方式如下所示：</p>
 
@@ -161,9 +484,9 @@ Path:       /var/lib/docker/containers
 
 <p>```</p>
 
-<p>当一个pod被删除时，gitrepo和emptydir卷的内容都会被删除，但hostPath卷的内容不会。当pod被删除时，运行在该Node上新的pod，如果有相同路径的hostPath卷，它将能访问到之前Pod写入的数据。</p>
+<p>当一个pod被删除时，gitrepo和emptydir卷的内容都会被删除，但hostPath卷的内容不会。对于在某Node上创建的新pod，如果设置hostPath卷与之前pod的路径一致，那么它能也能访问到之前Pod写入的数据。</p>
 
-<p>如果您考虑使用hostPath作为数据库数据目录的话，请谨慎考虑。因为卷的内容存储在特定Node的文件系统中，当数据库pod被重新调度到另一个节点时，它将无法看到数据。</p>
+<p>但是，如果您考虑使用hostPath作为数据库数据目录的话，请谨慎考虑。因为卷的内容存储在特定Node的文件系统中，当数据库pod被重新调度到另一个节点时，数据将无法被看到。</p>
 
 <h4>四. 使用网络文件存储</h4>
 
@@ -207,7 +530,8 @@ ports:
 
 <h4>五. 自建文件系统存储</h4>
 
-<p>NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVolume, cinder, cephfs, flocker, fc (Fibre Channel)等</p>
+<p>除此之外，也可以使用自建的文件系统，如
+NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVolume, cinder, cephfs, flocker, fc (Fibre Channel)等</p>
 
 <h4>六. 如何将Pod与存储机制解耦</h4>
 
@@ -225,7 +549,7 @@ ports:
 
 <p>使用方式如下所示:</p>
 
-<p><img src="/images/k8s/k8s-volume-pv-and-pvc.png" /></p>
+<p><img src="{{ root_url }}/images/k8s/k8s-volume-pv-and-pvc.png" /></p>
 
 <p>如图所示，开发人员不需要在pod中使用特定的存储机制，集群管理员设置底层存储，然后通过kubernetes创建PV，并且指定其大小和支持的访问模式。</p>
 
@@ -233,7 +557,7 @@ ports:
 
 <p>当使用了PV和PVC后，使用GCE Persisent Disk的机制如下所示：</p>
 
-<p><img src="/images/k8s/k8s-volume-pv-vs-volume.png" /></p>
+<p><img src="{{ root_url }}/images/k8s/k8s-volume-pv-vs-volume.png" /></p>
 
 <p>总而言之，在pod中使用持久性存储的最佳方法是创建pvc（必要时使用显式指定的storageclassname），并由动态PersistentVolume Provider负责创建。</p>
 
@@ -268,11 +592,11 @@ ports:
 
 <p>Kubernetes中的Service是一种资源的定义，它将Pod逻辑分组，并提供客户端访问。</p>
 
-<p><img src="/images/k8s/k8s-service-1.png" /></p>
+<p><img src="{{ root_url }}/images/k8s/k8s-service-1.png" /></p>
 
 <p> 通过 Label Selector，一组 Pod 能够被暴露为Service，供客户端访问。</p>
 
-<p> <img src="/images/k8s/k8s-service-2.png" /></p>
+<p> <img src="{{ root_url }}/images/k8s/k8s-service-2.png" /></p>
 
 <p>举个例子，考虑一个图片处理 backend，它运行了3个副本。这些副本是可互换的，通过Service能够解耦frontend与backend的关联。</p>
 
@@ -304,7 +628,7 @@ spec:
 
 <p>接下来，我们可以使用<code>kubectl</code>访问该Service</p>
 
-<p><img src="/images/k8s/k8s-service-3.png" /></p>
+<p><img src="{{ root_url }}/images/k8s/k8s-service-3.png" /></p>
 
 <h3>Service如何被外部网络的Client访问</h3>
 
@@ -336,7 +660,7 @@ nodePort: 30123          //可访问的nodeport端口
 <p>```</p>
 
 <p>使用NodePort的Service如下图所示：
-<img src="/images/k8s/k8s-service-4.png" /></p>
+<img src="{{ root_url }}/images/k8s/k8s-service-4.png" /></p>
 
 <h4>2.将Service Type设置为<code>LoadBalancer</code></h4>
 
@@ -368,7 +692,7 @@ spec:
 <p>使用如上配置文件创建Service之后，会调用云基础设施，创建负载均衡器并将其IP地址写入Service对象。一旦结束，IP地址将作为Service的外部IP地址列出：</p>
 
 <p>如下图所示：
-<img src="/images/k8s/k8s-service-5.png" /></p>
+<img src="{{ root_url }}/images/k8s/k8s-service-5.png" /></p>
 
 <h4>3.使用<code>Ingress</code>资源</h4>
 
@@ -395,7 +719,7 @@ spec:
 
 <p>通过Ingress访问Service的流程如下：</p>
 
-<p><img src="/images/k8s/k8s-service-7.png" /></p>
+<p><img src="{{ root_url }}/images/k8s/k8s-service-7.png" /></p>
 
 <p>另外，可以通过Ingress访问多个服务：</p>
 
@@ -416,7 +740,7 @@ spec:
 </code></pre>
 
 <p>```
-<img src="/images/k8s/k8s-service-6.png" /></p>
+<img src="{{ root_url }}/images/k8s/k8s-service-6.png" /></p>
 
 <h3>Service的诊断</h3>
 
@@ -619,166 +943,6 @@ deployment "nginx-deployment" scaled
 <h3>资源参考</h3>
 
 <p><a href="https://jimmysong.io/kubernetes-handbook/concepts/deployment.html">k8s handbook - Deployment</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[K8s之Pod]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/"/>
-    <updated>2019-03-16T19:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod</id>
-    <content type="html"><![CDATA[<p>Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。</p>
-
-<!-- More -->
-
-
-<h3>Pod概览</h3>
-
-<p>Pod是一个服务的多个进程的聚合单位，pod通过提供一个更高级别的抽象的方式，极大简化了应用部署管理。
-Pod作为一个独立的部署单位，支持横向扩展和复制、协同调度、命运共同体（例如被同时终结），协同复制，资源共享，依赖管理等，Pod会自动的为容器处理这些问题。</p>
-
-<h4>什么是Pod</h4>
-
-<p>Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。</p>
-
-<p>Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。</p>
-
-<p>在Kubrenetes集群中Pod有如下两种使用方式：</p>
-
-<ul>
-<li><p>一个Pod中运行一个容器。“每个Pod中一个容器”的模式是最常见的用法；在这种使用方式中，你可以把Pod想象成是单容器的封装，kuberentes管理的是Pod而不是容器。</p></li>
-<li><p>在一个Pod中同时运行多个容器。一个Pod中也可以同时封装几个紧密耦合、互相协作的容器，它们之间共享资源。这些在同一个Pod中的容器互相协作，成为一个service单位——如一个容器共享文件，另一个容器更新文件。Pod将这些容器的存储资源作为一个实体来管理。</p></li>
-</ul>
-
-
-<h4>Pod的生命周期</h4>
-
-<p>Pod 的 status 字段是一个 PodStatus 对象，PodStatus中有一个 phase 字段。</p>
-
-<p>下面是 phase 可能的值：</p>
-
-<ul>
-<li>挂起（Pending）：Pod 已被 Kubernetes
-系统接受，但有一个或者多个容器镜像尚未创建。等待时间包括调度 Pod的时间和通过网络下载镜像的时间，这可能需要花点时间。</li>
-<li>运行中（Running）：该 Pod 已经绑定到了一个节点上，Pod 中所有的容器都已被创建。至少有一个容器正在运行，或者正处于启动或重启状态。</li>
-<li>成功（Succeeded）：Pod 中的所有容器都被成功终止，并且不会再重启。</li>
-<li>失败（Failed）：Pod 中的所有容器都已终止了，并且至少有一个容器是因为失败终止。也就是说，容器以非0状态退出或者被系统终止。</li>
-<li>未知（Unknown）：因为某些原因无法取得 Pod 的状态，通常是因为与 Pod 所在主机通信失败。</li>
-</ul>
-
-
-<p>下图是Pod的生命周期示意图，从图中可以看到Pod状态的变化。</p>
-
-<p><img src="/images/k8s/kubernetes-pod-life-cycle.jpg" /></p>
-
-<h4>Pod如何管理多个容器</h4>
-
-<p>Pod中可以同时运行多个容器（独立进程运行）并协同工作。同一个Pod中的容器会自动的分配到同一个node 上运行，同时，同一个Pod中的容器共享存储、网络和依赖，它们总是被同时调度。</p>
-
-<ul>
-<li><p>网络</p>
-
-<blockquote><p>每个Pod都会被分配唯一的一个IP地址。Pod中的所有容器共享网络空间，包括IP地址和端口。Pod内部的容器可以使用localhost互相通信。Pod中的容器与外界通信时，必须分配共享网络资源（例如使用宿主机的端口映射）。</p></blockquote></li>
-<li><p>存储</p>
-
-<blockquote><p>可以为一个Pod指定多个共享的Volume。Pod中的所有容器都可以访问共享的volume。Volume也可以用来持久化Pod中的存储资源，以防容器重启后文件丢失。</p></blockquote></li>
-</ul>
-
-
-<h3>Pod的管理</h3>
-
-<h4>Pod间发现</h4>
-
-<p>Pod中应用容器共享网络空间（IP地址和端口），因此可以通过localhost互相发现。
-Pod中应用容器的hostname被设置成Pod的名字。
-Pod中应用容器可以共享volume。volume能够保证pod重启时使用的数据不丢失。</p>
-
-<h4>Pod的使用</h4>
-
-<p>Pod也可以用于垂直应用（例如LAMP），这样使用的动机是为了支持共同调度和协调应用程序，例如：
-* 内容管理系统、文件和数据加载器、本地换群管理器等。
-* 日志和检查点备份、压缩、旋转、快照等。
-* 数据变更观察者、日志和监控适配器、活动发布者等。
-* 代理、桥接和适配器等。
-* 控制器、管理器、配置器、更新器等。</p>
-
-<h4>Pod的持久性</h4>
-
-<p>Pod不是作为持久化设计的。在调度失败、节点故障、缺少资源或者节点维护的状态下都会失败。</p>
-
-<p>通常，用户不需要手动直接创建Pod，而是应该使用controller（例如Deployments），即使是在创建单个Pod的情况下。Controller可以提供集群级别的自愈功能、复制和升级管理。</p>
-
-<h3>Pod高级特性</h3>
-
-<h4>Pod Preset</h4>
-
-<p>Kubernetes提供了一个准入控制器（PodPreset），当其启用时，Pod Preset 会将应用创建请求传入到该控制器上。因此，<code>Pod Preset</code>是用来在 Pod 被创建的时候向其中注入额外的运行时需求的 API 资源。</p>
-
-<p>您可以使用<code>label selector</code> 来指定为哪些 Pod 应用 Pod Preset。</p>
-
-<h4>Pod和Controller</h4>
-
-<p>Controller可以创建和管理多个Pod，提供副本管理、滚动升级和集群级别的自愈能力。例如，如果一个Node故障，Controller就能自动将该节点上的Pod调度到其他健康的Node上。</p>
-
-<p>包含一个或者多个Pod的Controller示例：</p>
-
-<ul>
-<li>Deployment</li>
-<li>StatefulSet</li>
-<li>DaemonSet</li>
-</ul>
-
-
-<p>通常，Controller会用你提供的Pod Template来创建相应的Pod。</p>
-
-<h4>Init容器</h4>
-
-<p>Init是一种专用的容器，在应用程序容器启动之前运行，包含应用镜像中工具或环境的安装脚本。</p>
-
-<p>Pod 能够有一个或多个先于应用容器启动的 Init 容器。</p>
-
-<p>Init 容器与普通的容器非常像，除了如下两点：
-* Init 容器总是运行到成功完成为止。
-* 每个 Init 容器都必须在下一个 Init 容器启动之前成功完成。</p>
-
-<p>如果 Pod 的 Init 容器失败，Kubernetes 会不断地重启该 Pod，直到 Init容器成功为止。然而，如果 Pod 对应的 restartPolicy 为 Never，它不会重新启动。</p>
-
-<p>因为 Init 容器具有与应用程序容器分离的单独镜像，所以它们的启动相关代码具有如下优势：</p>
-
-<ul>
-<li><p>它们可以包含并运行实用工具，它们可以包含使用工具和定制化代码来安装。例如，创建镜像没必要FROM 另一个镜像，只需要在安装过程中使用类似 sed、 awk、 python 或 dig 这样的工具。</p></li>
-<li><p>应用程序镜像可以分离出创建和部署的角色，而没有必要联合它们构建一个单独的镜像。</p></li>
-<li><p>Init 容器使用 Linux Namespace，所以相对应用程序容器来说具有不同的文件系统视图。因此，它们能够具有访问 Secret 的权限，而应用程序容器则不能。</p></li>
-<li><p>它们必须在应用程序容器启动之前运行完成，所以 Init 容器能够提供一种简单的阻塞或延迟应用容器的启动的方法，直到满足了一组先决条件。</p></li>
-</ul>
-
-
-<h4>Pod 安全策略</h4>
-
-<p>Pod 安全策略 是集群级别的资源，它能够控制 Pod 运行的行为，以及它具有访问什么资源的能力。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[K8s之网络]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-concept-network/"/>
-    <updated>2019-03-15T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-concept-network</id>
-    <content type="html"><![CDATA[<p>K8s的网络介绍</p>
-
-<!-- More -->
-
-
-<h3>K8s集群IP</h3>
-
-<p>Kubernetes集群内部存在三类IP，分别是：</p>
-
-<ul>
-<li>Node IP：宿主机的IP地址</li>
-<li>Pod IP：使用网络插件创建的IP（如flannel），使跨主机的Pod可以互通</li>
-<li>Cluster IP：虚拟IP，通过iptables规则访问服务</li>
-</ul>
-
 ]]></content>
   </entry>
   

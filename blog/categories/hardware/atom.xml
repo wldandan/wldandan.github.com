@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hardware | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/hardware/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2019-04-06T12:37:26+08:00</updated>
+  <updated>2020-01-18T08:16:21+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -107,7 +107,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 </ul>
 
 
-<p><img src="/images/arduino/arduino.png" /></p>
+<p><img src="{{ root_url }}/images/arduino/arduino.png" /></p>
 
 <ul>
 <li>下载<a href="http://arduino.cc/en/Main/Software">Arduino IDE</a>， 开发更容易。</li>
@@ -124,7 +124,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 </ul>
 
 
-<p><img src="/images/arduino/power.png" /></p>
+<p><img src="{{ root_url }}/images/arduino/power.png" /></p>
 
 <ul>
 <li>连上发光二极管
@@ -133,7 +133,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 </ul>
 
 
-<p><img src="/images/arduino/diode.png" /></p>
+<p><img src="{{ root_url }}/images/arduino/diode.png" /></p>
 
 <ul>
 <li>烧录程序到Arduino
@@ -144,7 +144,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 
 <p>如图所示</p>
 
-<p><img src="/images/arduino/blink.png" /></p>
+<p><img src="{{ root_url }}/images/arduino/blink.png" /></p>
 
 <p>这里，我们使用的是Arduino IDE自带的例子，当然也可以自己编程，实现不同的效果。</p>
 
