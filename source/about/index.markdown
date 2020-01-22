@@ -9,7 +9,6 @@ description: "微服务架构培训"
 keywords: 微服务架构培训, 微服务架构咨询
 ---
 
-
 大家好，我是王磊，现任华为公司架构技术专家。14年软件行业经验，在Serverless、微服务架构、DevOps及持续交付领域有丰富经验。同时我也是国内较早实践微服务、DevOps的先行者，著有《微服务架构与实践》(国内首本微服务架构书籍)、《DevOps 36计》、译作《DevOps实践指南》；另外，我也是EXIN认证的DevOps Master，西安DevOps Meetup的联合发起人；多次受邀在大型技术会议分享“微服务架构/DevOps”相关议题，并在InfoQ以及《架构师》上发表多篇关于架构相关文章，也在多个线上社群（InfoQ、StuQ、CSDN、聊聊架构）分享过架构经验。
 
 
@@ -17,7 +16,6 @@ keywords: 微服务架构培训, 微服务架构咨询
 
 * [Linkedin Profile 链接](http://www.linkedin.com/in/liuzheng)
 * [个人Blog](http://wldandan.github.com)
-
 
 
 ### 发表的文章

@@ -145,7 +145,8 @@ spec:
         name: my-config-map       
 ...
 ```
-```CONFIG_```作为前缀，将导出如下环境变量CONFIG_foo和CONFIG_bar。当然，前缀是可选的，如不设置，则容器中的环境变量为foo和bar。
+
+CONFIG_作为前缀，将导出如下环境变量CONFIG_foo和CONFIG_bar。当然，前缀是可选的，如不设置，则容器中的环境变量为foo和bar。
 
 ##### 4.3 使用ConfigMap Entry作为命令行参数
 
