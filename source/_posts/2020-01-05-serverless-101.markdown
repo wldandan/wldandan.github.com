@@ -10,31 +10,30 @@ categories: Serverless
 published: false
 ---
 
-今天，我们聊聊2019，也会是2020，的技术热门话题之一 -- Serverless。
+今天，我们聊聊Serverless，它是2019年技术领域的热门话题，也必将是2020的技术重点发展方向。
 
-上周，在2019即将结束之际，OReilly发布的Serverless调查报告，从中可以看出Serverless受到的关注度持续增长，Serverless经过几年的酝酿，很快将迎来一轮大规模应用的爆发期。
+上周，在2019即将结束之际，OReilly发布了Serverless调查报告，从中可以看出Serverless受到的关注度持续增长，Serverless经过几年的酝酿，相信很快将迎来一轮应用的爆发期。
 
 * 英文原文
 * 中文翻译
 
-
-本文将从几个维度，梳理Serverless的核心概念、使用场景以及面临的挑战，帮助像我一样的新手更快的入门Serverless。
+本文将从几个维度，梳理Serverless的核心概念、使用场景以及面临的挑战。
 
 ### 1.什么是Serverless
 
-#### 最Formal的定义 - CNCF
+#### CNCF的定义 - Formal
 
 CNCF对Serverless的定义已经相当清晰了：
 > CNCF定义
 
 
-#### 最通俗易懂的定义 - Martin Flower的定义
+#### Martin Flower的定义 - 全
 
 原文作者是，不过是发在老马博客上的。核心内容是
 > 
 Serverless = FaaS + BaaS
 
-#### Serverless xx 定义
+#### xxx定义 - 
 
 
 
