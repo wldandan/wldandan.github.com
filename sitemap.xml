@@ -1,261 +1,261 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/01/23/gradle-learning-one/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/01/24/gradle-learning-three/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/05/03/effective-tool-in-my-every-day-work/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/05/23/understanding-unix-bash/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2013/05/26/javascript-variable-scope-and-hoisting/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/08/22/twu-pune-first-week/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/10/08/create-blog-on-github/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/10/11/twu-pune-bungalow/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/11/06/vagrant-learning-two-vagrantfile/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2014/01/02/webrtc-the-revolution-of-media-communication/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2014/02/14/the-story-about-dora/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2015/03/17/microservice-design-and-implementation/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2016/11/04/microservices-in-action-outline/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2016/11/05/microservices-in-action-simulation/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/
-        </loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/03/14/k8s-architecture/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/03/14/k8s-concepts/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/03/15/k8s-concept-network/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/04/05/k8s-concept-volume/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/2019/04/06/k8s-deployment/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/about/</loc>
-        <lastmod>2020-01-22T22:21:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/blog/archives/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/consulting/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
-    <url>
-        <loc>http://wldandan.github.com/robots.txt</loc>
-        <lastmod>2020-01-18T08:35:48+08:00</lastmod>
-    </url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>http://wldandan.github.com/blog/2019/04/06/k8s-deployment/</loc>
+<lastmod>2019-04-06T14:48:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap/</loc>
+<lastmod>2019-04-06T14:48:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/04/05/k8s-concept-volume/</loc>
+<lastmod>2019-04-05T21:04:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/</loc>
+<lastmod>2019-03-17T20:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/</loc>
+<lastmod>2019-03-16T20:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/</loc>
+<lastmod>2019-03-16T19:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/03/15/k8s-concept-network/</loc>
+<lastmod>2019-03-15T23:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/</loc>
+<lastmod>2019-03-15T21:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/03/14/k8s-concepts/</loc>
+<lastmod>2019-03-14T23:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2019/03/14/k8s-architecture/</loc>
+<lastmod>2019-03-14T23:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/</loc>
+<lastmod>2016-11-08T23:45:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/</loc>
+<lastmod>2016-11-07T23:37:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/</loc>
+<lastmod>2016-11-06T17:57:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2016/11/05/microservices-in-action-simulation/</loc>
+<lastmod>2016-11-05T14:28:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2016/11/04/microservices-in-action-outline/</loc>
+<lastmod>2016-11-04T14:28:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/</loc>
+<lastmod>2016-11-03T14:28:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2015/03/17/microservice-design-and-implementation/</loc>
+<lastmod>2015-03-17T11:13:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/</loc>
+<lastmod>2015-03-16T22:07:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/</loc>
+<lastmod>2015-03-16T22:07:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/</loc>
+<lastmod>2015-03-16T22:07:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/</loc>
+<lastmod>2015-03-16T22:07:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/</loc>
+<lastmod>2014-09-16T21:57:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/</loc>
+<lastmod>2014-06-19T04:56:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/</loc>
+<lastmod>2014-05-27T20:55:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/</loc>
+<lastmod>2014-05-21T20:56:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/</loc>
+<lastmod>2014-04-23T09:44:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/</loc>
+<lastmod>2014-04-17T09:24:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/02/14/the-story-about-dora/</loc>
+<lastmod>2014-02-14T23:32:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/</loc>
+<lastmod>2014-01-07T18:55:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream/</loc>
+<lastmod>2014-01-06T23:59:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2014/01/02/webrtc-the-revolution-of-media-communication/</loc>
+<lastmod>2014-01-02T19:29:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber/</loc>
+<lastmod>2013-12-23T11:39:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1/</loc>
+<lastmod>2013-12-18T17:02:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/</loc>
+<lastmod>2013-12-09T17:09:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/</loc>
+<lastmod>2013-11-22T23:02:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box/</loc>
+<lastmod>2013-11-14T17:02:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/11/06/vagrant-learning-two-vagrantfile/</loc>
+<lastmod>2013-11-06T17:26:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/</loc>
+<lastmod>2013-11-04T20:02:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/</loc>
+<lastmod>2013-11-01T18:37:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/10/11/twu-pune-bungalow/</loc>
+<lastmod>2013-10-11T12:07:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/10/08/create-blog-on-github/</loc>
+<lastmod>2013-10-08T14:20:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/08/22/twu-pune-first-week/</loc>
+<lastmod>2013-08-22T15:27:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/05/26/javascript-variable-scope-and-hoisting/</loc>
+<lastmod>2013-05-26T22:10:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/</loc>
+<lastmod>2013-05-26T22:10:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/05/23/understanding-unix-bash/</loc>
+<lastmod>2013-05-23T22:10:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/</loc>
+<lastmod>2013-05-05T13:02:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/05/03/effective-tool-in-my-every-day-work/</loc>
+<lastmod>2013-05-03T10:33:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/</loc>
+<lastmod>2013-01-25T06:20:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/01/24/gradle-learning-three/</loc>
+<lastmod>2013-01-24T18:20:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/</loc>
+<lastmod>2013-01-23T17:14:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/2013/01/23/gradle-learning-one/</loc>
+<lastmod>2013-01-23T10:58:00+08:00</lastmod>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/archives/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/about/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/gradle/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/tools/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/javascript/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/linux/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/travel/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/vagrant/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/test/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/hardware/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/webrtc/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/nosql/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/splunk/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/aws/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/java/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/microservices/</loc>
+</url>
+<url>
+<loc>http://wldandan.github.com/blog/categories/k8s/</loc>
+</url>
 </urlset>

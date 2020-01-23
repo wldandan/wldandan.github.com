@@ -9,8 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="顺应Open Hardware的潮流，Team里最近买了块 Arduino的板子。于是乎，偶也就有个机会，能倒腾倒腾了。 介绍 Arduino 是一个开源、易于使用的硬件设备。其上的微控制器可以通过Arduino Style的编程语言来编写程序，编译成二进制文件，并烧录进微控制器。
-Arduino &hellip;">
+  <meta name="description" content="什么是WebRTC 如今，互联网主流的音频、视频通信服务产品，如Skype, QQ, GTalk等， 都是各自厂商私有的技术。用户需要安装插件或者桌面客户端，才能使用其提供的音频或者视频通信功能。
+如果某天，不使用任何插件，只通过浏览器，就能实现手机、平板、电视和电脑的视频或者音频通信； &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,13 +19,14 @@ Arduino &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wldandan.github.com/blog/page/4/">
+  <link rel="canonical" href="http://wldandan.github.com/posts/4/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -35,7 +36,6 @@ Arduino &hellip;">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -61,7 +61,7 @@ Arduino &hellip;">
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -83,6 +83,93 @@ Arduino &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/">WebRTC - the Revolution of Media Communication</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-01-02T19:29:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>2</span><span class='date-suffix'>nd</span>, <span class='date-year'>2014</span></span> <span class='time'>7:29 pm</span></time>
+        
+           | <a href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/01/02/webrtc-the-revolution-of-media-communication/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>什么是WebRTC</h3>
+
+<p>如今，互联网主流的音频、视频通信服务产品，如Skype, QQ, GTalk等， 都是各自厂商私有的技术。用户需要安装插件或者桌面客户端，才能使用其提供的音频或者视频通信功能。
+如果某天，不使用任何插件，只通过浏览器，就能实现手机、平板、电视和电脑的视频或者音频通信；那会是什么场景？ 而这正是WebRTC的愿景。</p>
+
+<p>WebRTC（Web Real-Time Communication）由一套开放的标准、协议和一组JavaScript API构成。2010年，谷歌收购了VoIP软件开发商GIPS(Global IP Solutions)，并获得了视频采集、编解码、网络传输、回音消除等RTC相关技术。2011年6月，谷歌开放了该部分源码，并积极推动该项技术，这奠定了RTC在Web领域发展的基础。</p>
+
+<p>WebRTC使浏览器之间能够通过点对点的通信方式，直接完成视频、音频以及数据的实时传输。同时，WebRTC容许开发人员通过调用浏览器支持的API，使用HTML5标签和JavaScript轻松的实现基于Web的音频、视频应用。</p>
+
+<p>目前，WebRTC的标准还在不断完善中，W3C、IETF和其他一些浏览器厂商正在积极的推动WebRTC的发展。WebRTC开创了浏览器之间能够直接通信并完成视频或者音频传输的新时代。对于构建开放的、标准的，无插件，免费的视频音频通信应用，迈出了划时代的一步。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Page Object Understanding</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-12-23T11:39:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>11:39 am</span></time>
+        
+           | <a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是Page Object</h2>
+
+<p>Page Object是<a href="http://www.seleniumhq.org/">Selenium</a>中提出的一种测试设计模式。在Web前端自动化测试的过程中，Page Object可以称得上是居家必备的良品之一。PageObject将与Web测试页面交互的行为封装在其内部，旨在将每个页面或者相似页面的功能封装，例如页面中需要测试的元素（按钮，输入框，标题等），这样，通过在测试中访问Page类的相应方法来获取页面相应的元素，从而巧妙的避免了当页面元素id或者位置变化时，需要修改测试代码的情况。</p>
+
+<p>言而总之，总而言之，PageObject就是将Web页面元素的变化封装起来，提供API供外部测试代码调用，从而达到将测试代码于Web页面元素的变化解耦。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/12/18/arduino-open-hardware-learning-1/">Arduino, Make Hardware Development Easy</a></h1>
     
     
@@ -92,16 +179,10 @@ Arduino &hellip;">
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-12-18T17:02:00+08:00" pubdate data-updated="true">Dec 18<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-12-18T17:02:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>18</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>5:02 pm</span></time>
         
-         | <a href="/blog/2013/12/18/arduino-open-hardware-learning-1/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/12/18/arduino-open-hardware-learning-1/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1/">Comments</a>
         
       </p>
     
@@ -118,7 +199,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 <h3>环境搭建</h3>
 
 <ul>
-<li>当然，先买块Arduino的板子。国内的商家&#8217;奥松&#8217;还不错（非广告贴，只是个人经验），可以天猫之。:)</li>
+<li>当然，先买块Arduino的板子。国内的商家'奥松'还不错（非广告贴，只是个人经验），可以天猫之。:)</li>
 </ul>
 
 
@@ -154,16 +235,10 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-12-09T17:09:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-12-09T17:09:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>5:09 pm</span></time>
         
-         | <a href="/blog/2013/12/09/mockito-partial-mocking-learning/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/12/09/mockito-partial-mocking-learning/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/">Comments</a>
         
       </p>
     
@@ -240,15 +315,11 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>如代码所示，对于抽象方法fechName()，直接mock其返回值</p>
+<p>如代码所示，对于抽象方法fechName()，直接mock其返回值
+    when(handler.fetchName()).thenReturn(&ldquo;Geek&rdquo;);</p>
 
-<pre><code>when(handler.fetchName()).thenReturn("Geek");
-</code></pre>
-
-<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。</p>
-
-<pre><code>when(handler.greet()).thenCallRealMethod();
-</code></pre>
+<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。
+    when(handler.greet()).thenCallRealMethod();</p>
 
 <h4>b)测试过分依赖于I/O操作的类</h4>
 
@@ -427,16 +498,10 @@ public void testListPartialMockByCallRealMethod(){
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-11-22T23:02:00+08:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2013</time>
+<time class='entry-date' datetime='2013-11-22T23:02:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2013</span></span> <span class='time'>11:02 pm</span></time>
         
-         | <a href="/blog/2013/11/22/vagrant-learning-provision/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/11/22/vagrant-learning-provision/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/">Comments</a>
         
       </p>
     
@@ -477,16 +542,10 @@ public void testListPartialMockByCallRealMethod(){
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-11-14T17:02:00+08:00" pubdate data-updated="true">Nov 14<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-11-14T17:02:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>5:02 pm</span></time>
         
-         | <a href="/blog/2013/11/14/vagrant-learning-box/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/11/14/vagrant-learning-box/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box/">Comments</a>
         
       </p>
     
@@ -524,16 +583,10 @@ public void testListPartialMockByCallRealMethod(){
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-11-06T17:26:00+08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-11-06T17:26:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>5:26 pm</span></time>
         
-         | <a href="/blog/2013/11/06/vagrant-learning-two-vagrantfile/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/11/06/vagrant-learning-two-vagrantfile/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/11/06/vagrant-learning-two-vagrantfile/">Comments</a>
         
       </p>
     
@@ -589,16 +642,10 @@ the comments in the Vagrantfile as well as documentation on
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-11-04T20:02:00+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-11-04T20:02:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:02 pm</span></time>
         
-         | <a href="/blog/2013/11/04/vagrant-learning-one-introduction/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/11/04/vagrant-learning-one-introduction/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/">Comments</a>
         
       </p>
     
@@ -642,16 +689,10 @@ the comments in the Vagrantfile as well as documentation on
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-11-01T18:37:00+08:00" pubdate data-updated="true">Nov 1<span>st</span>, 2013</time>
+<time class='entry-date' datetime='2013-11-01T18:37:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2013</span></span> <span class='time'>6:37 pm</span></time>
         
-         | <a href="/blog/2013/11/01/vagrant-build-env-easy/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/11/01/vagrant-build-env-easy/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/">Comments</a>
         
       </p>
     
@@ -694,25 +735,19 @@ the comments in the Vagrantfile as well as documentation on
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-10-11T12:07:00+08:00" pubdate data-updated="true">Oct 11<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-10-11T12:07:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>11</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:07 pm</span></time>
         
-         | <a href="/blog/2013/10/11/twu-pune-bungalow/#disqus_thread">Comments</a>
+           | <a href="/blog/2013/10/11/twu-pune-bungalow/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/10/11/twu-pune-bungalow/">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>TWU32届的Trainer陆陆续续的都撤了，于是乎，我们就有了机会搬进他们的House，Pune的人民称之为&#8221;Bungalow&#8221;，实际上我觉得是个2层的别墅。</p>
+  <div class="entry-content"><p>TWU32届的Trainer陆陆续续的都撤了，于是乎，我们就有了机会搬进他们的House，Pune的人民称之为"Bungalow"，实际上我觉得是个2层的别墅。</p>
 
-<p>有趣的事情来了，我们住得bugalow，我之前两次没记住具体的地址，以至于做三轮车的时候都和师傅说不太清楚。某天一个同事给我说，你就这样说bungalow的地址&#8221;guo de gao park&#8221;，oh my god，这下我记住了，“郭德纲 park&#8221;。其实原本的拼写是这样的“Koregaon Park”，发音有那么一丁点类似而已 :)</p>
+<p>有趣的事情来了，我们住得bugalow，我之前两次没记住具体的地址，以至于做三轮车的时候都和师傅说不太清楚。某天一个同事给我说，你就这样说bungalow的地址"guo de gao park"，oh my god，这下我记住了，“郭德纲 park"。其实原本的拼写是这样的“Koregaon Park”，发音有那么一丁点类似而已 :)</p>
 
 <p><img src="/images/twu/koregaon.png" /></p>
 
@@ -727,134 +762,13 @@ the comments in the Vagrantfile as well as documentation on
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/10/08/create-blog-on-github/">How to Use Octopress to Set Up Blog</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-10-08T14:20:00+08:00" pubdate data-updated="true">Oct 8<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/10/08/create-blog-on-github/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Setup blog</h2>
-
-<h5>Install RVM</h5>
-
-<p>bash &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
-rvm install 1.9.2 rvm use 1.9.2 &#8211;default</p>
-
-<h5>Clone repo</h5>
-
-<p>git clone git://github.com/imathis/octopress.git octopress</p>
-
-<p>gem install bundler
-bundle install
-bundle update # 不执行，则下一步rake会报版本不匹配
-rake install
-rake setup_github_pages</p>
-
-<h2>Publish new article</h2>
-
-<p>rake new_post[&#8220;My first post&#8221;]
-rake generate # 第一次使用，最好先编辑一下_config.yml</p>
-
-<p>rake preview # 本地查看，地址是http://localhost:4000
-rake deploy</p>
-
-<h2>Update Source</h2>
-
-<p>git commit -m &#8216;your message&#8217;</p>
-
-<p>git push origin source</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/22/twu-pune-first-week/">TWU - the First Week in Pune of India</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-22T15:27:00+08:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/22/twu-pune-first-week/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>还在墨尔本出差的最后一周，Mark问我愿意去TWU当coach不…….于是乎，我就在8月中旬来了浦那(Pune)。一路上同行的还有JK和邱大师，中午从西安出发，先抵达香港，再转机到班加罗尔时已经是第二天凌晨5点多，又搭乘印度国内的航班，总算在早上10点多下榻酒店。</p>
-
-<p>浦那位于印度西部的城市，位于孟买东南140公里，设有不少学院及大学，素有「东方牛津」的美名。城内有著名的Magapatta City软件园和塔塔汽车公司。</p>
-
-<p>Pune的基础建设比想象中落后些，基本上都是单向双车道，挤满了各类车辆，卡车，私家车，中巴车，这种情况下，当然小巧方便的摩托车和三轮车更胜一筹。钻来钻去，穿梭在大大小小的缝隙中，我想这也是为什么摩托车和三轮车成为主要交通工具的原因之一。道路的两边并没有明显的划分出人行道，大概能走的部分可能不到半米宽。除了在主干道的十字路口见到一组红绿灯，其余的道路基本没有红绿灯，过马路绝对是个不小的挑战。千万记得，是看左边哦 :)</p>
-
-<p>Shalina安排的很周到，抵达的第一天，就给我们发了大礼包(有手机，充电器，耳机，还有印度地图和SIM卡)，哈哈，最重要的当然就这张SIM卡了。这里赞一下小米，无缝即插即用，邱大师的IPhone就没这么幸运了，和他找了个地方花了100卢比把卡裁的小点，也能使了。不过赞一下，印度人民的服务真是不错啊，相当仔细嘞。</p>
-
-<p>住了几天Keys Hotel后，公司决定把我们搬到O Hotel, 因为TWU的培训地就在O hotel。O hotel的电梯设计的很别致，很难想象这是电梯的顶部装修吧(有漂亮的小星星哦)，而且还有优美的旋律伴奏。</p>
-
-<p><img src="/images/twu/elevator.png" /></p>
-
-<p>早餐很精致，有水果，煎蛋还有各种干货，哈哈。午饭一般就是米饭和印度传统的鸡肉糊糊，不过汤有时候还是蛮不错的，毕了，还有各种甜点。</p>
-
-<p>TWU的培训地点就在2楼，上午10点半和下午的3点半，提供咖啡、茶、牛奶和甜点。</p>
-
-<p>前面2周主要都是TTT(Train the Trainer)，就是我们新来的小样接受以前Trainer的培训。到下午6点，结束了一天的培训，基本上就可以自由活动了。哈，Pune有很多有趣的东西等着我们explore呢……</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
-      <a class="prev" href="/blog/page/5/">&larr; Older</a>
+      <a class="prev" href="/posts/5">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
-    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    <a class="next" href="/posts/3">Newer &rarr;</a>
     
   </div>
 </div>
@@ -863,27 +777,35 @@ rake deploy</p>
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -895,14 +817,6 @@ rake deploy</p>
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -917,7 +831,7 @@ rake deploy</p>
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -934,7 +848,7 @@ rake deploy</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -949,7 +863,7 @@ rake deploy</p>
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -959,16 +873,6 @@ rake deploy</p>
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

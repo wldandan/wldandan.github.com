@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Gradle Learning - 1 (basic concepts) - Happy Coding, Happy Life</title>
+  <title>Gradle Learning - 1 (Basic Concepts) - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
@@ -21,10 +21,11 @@
   <link rel="canonical" href="http://wldandan.github.com/blog/2013/01/23/gradle-learning-one/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -34,7 +35,6 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -60,7 +60,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -88,16 +88,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-23T10:58:00+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2013</time>
+<time class='entry-date' datetime='2013-01-23T10:58:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>10:58 am</span></time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com">Comments</a>
         
       </p>
     
@@ -116,7 +110,7 @@
 
 <h3>2.构建第一个Task</h3>
 
-<p>和Ant运行时读取build.xml类似，Gradle运行时默认会读取build.gradle这个文件, 当然你也可以使用参数&#8221;-b&#8221;来指定其他的gradle文件。</p>
+<p>和Ant运行时读取build.xml类似，Gradle运行时默认会读取build.gradle这个文件, 当然你也可以使用参数"-b"来指定其他的gradle文件。</p>
 
 <p>下面，让我们新建一个build.gradle文件，然后输入如下内容:</p>
 
@@ -130,7 +124,7 @@
 <!--more-->
 
 
-<p>这个构建的脚本很简单，只是简单的打印出hello world。为了执行这个构建，我们应该在当前目录下执行&#8221;gradle hello&#8221;，即gradle {TaskName}。其中，doLast意思是定义一段code(映射Gradle中的Action类)，并将其放在task的最后执行。类似的，还有doFirst，表示将定义的code放在当前task的最前面执行，例如</p>
+<p>这个构建的脚本很简单，只是简单的打印出hello world。为了执行这个构建，我们应该在当前目录下执行"gradle hello"，即gradle {TaskName}。其中，doLast意思是定义一段code(映射Gradle中的Action类)，并将其放在task的最后执行。类似的，还有doFirst，表示将定义的code放在当前task的最前面执行，例如</p>
 
 <pre><code>task hello {
     doLast{
@@ -142,25 +136,20 @@
 }
 </code></pre>
 
-<p>执行gradle hello, 将输出</p>
+<p>执行gradle hello, 将输出
+    &ldquo;I am twer&rdquo;
+    &ldquo;Hello world&rdquo;</p>
 
-<pre><code>"I am twer"
-"Hello world"
-</code></pre>
+<p>另外，你也可以使用如下更简洁的方式来定义task：
+    task hello &lt;&lt;  {
+        println &ldquo;hello world&rdquo;
+    }</p>
 
-<p>另外，你也可以使用如下更简洁的方式来定义task：</p>
+<p>这里也许大家可能会觉得很奇怪，为什么可以用"&lt;&lt;&ldquo;来定义Task的执行内容呢，还是让我们看看Gradle的代码是怎么实现的吧:
+    public abstract class AbstractTask implements TaskInternal, DynamicObjectAware {
+        private List&lt;Action&lt;? super Task>> actions = new ArrayList&lt;Action&lt;?   super Task>>();</p>
 
-<pre><code>task hello &lt;&lt;  {
-    println "hello world"
-}
-</code></pre>
-
-<p>这里也许大家可能会觉得很奇怪，为什么可以用&#8221;&lt;&lt;&#8221;来定义Task的执行内容呢，还是让我们看看Gradle的代码是怎么实现的吧:</p>
-
-<pre><code>public abstract class AbstractTask implements TaskInternal, DynamicObjectAware {
-    private List&lt;Action&lt;? super Task&gt;&gt; actions = new ArrayList&lt;Action&lt;?   super Task&gt;&gt;();
-
-    public Task doFirst(Action&lt;superTask&gt; action) {
+<pre><code>    public Task doFirst(Action&lt;superTask&gt; action) {
         if (action == null) {
             throw new InvalidUserDataException("Action must not be null!");
         }
@@ -203,35 +192,19 @@ actions集合里。</p>
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-23T10:58:00+08:00" pubdate data-updated="true">Jan 23<span>rd</span>, 2013</time>
+<time class='entry-date' datetime='2013-01-23T10:58:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>10:58 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/gradle/'>Gradle</a>
+    <a class='category' href='/blog/categories/gradle/'>gradle</a>
   
 </span>
 
 
     </p>
-
-    <p class="meta">
-      <a href="/blog/2013/01/23/gradle-learning-one/">原文链接</a>，
-<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
-
-    </p>
-
     
       <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/01/23/gradle-learning-one/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/01/23/gradle-learning-one/" >Tweet</a>
   
   
   
@@ -249,20 +222,7 @@ actions集合里。</p>
 
   <section>
     <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
-<script type="text/javascript">
-  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
-
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
- var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
- dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
- (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
   </section>
 
@@ -273,27 +233,35 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -305,14 +273,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -327,7 +287,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -345,7 +305,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -363,7 +323,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -373,16 +333,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

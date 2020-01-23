@@ -21,10 +21,11 @@
   <link rel="canonical" href="http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -34,7 +35,6 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -60,7 +60,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -88,16 +88,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2016-11-08T23:45:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2016</time>
+<time class='entry-date' datetime='2016-11-08T23:45:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:45 pm</span></time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com">Comments</a>
         
       </p>
     
@@ -121,7 +115,7 @@
 
 <p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)，被微服务架构广泛采用。</p>
 
-<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中API设计面临的挑战。</p>
+<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&hellip;..这些都成为微服务实践中API设计面临的挑战。</p>
 
 <p>本篇将介绍REST、REST成熟度模型、为什么使用HAL以及HAL的核心。</p>
 
@@ -207,7 +201,7 @@ Accept: application/json
 
 <p>在<a href="http://martinfowler.com/articles/richardsonMaturityModel.html">《Richardson Maturity Model》</a>模型中，定义了REST API不同成熟度应该具备的特征。</p>
 
-<p>对于REST API Level 3，明确提出了&#8221;资源跳转的重要性&#8221;，即<code>HATEOAS</code>。</p>
+<p>对于REST API Level 3，明确提出了"资源跳转的重要性"，即<code>HATEOAS</code>。</p>
 
 <p>对于实际情况而言，大部分REST的实现，都是基于JSON作为传输格式，不过JSON最大的遗憾，正如W3C所描述的：</p>
 
@@ -350,53 +344,51 @@ Content-Type: application/json
 }
 </code></pre>
 
-<p>基于HAL，则使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似则如下所示：</p>
-
-<pre><code>{
-    "_links": {
-        "self": {
-            "href": "http://example.org/api/users?page=3"
-        },
-        "first": {
-            "href": "http://example.org/api/users"
-        },
-        "prev": {
-            "href": "http://example.org/api/users?page=2"
-        },
-        "next": {
-            "href": "http://example.org/api/users?page=4"
-        },
-        "last": {
-            "href": "http://example.org/api/users?page=5"
-        }
-    },
-    "page_size": 2,
-    "total": 10,
-    "page": 5,
-    "_embedded": {
-        "users": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/users/wldandan"
-                    }
-                },
-                "id": "wldandan",
-                "name": "Wang Lei"
+<p>基于HAL，则使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似则如下所示：
+    {
+        &ldquo;<em>links&rdquo;: {
+            &ldquo;self&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=3">http://example.org/api/users?page=3</a>&rdquo;
             },
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/user/chenyue"
-                    }
-                },
-                "id": "chenyue",
-                "name": "Chen Yue"
+            &ldquo;first&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users">http://example.org/api/users</a>&rdquo;
+            },
+            &ldquo;prev&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=2">http://example.org/api/users?page=2</a>&rdquo;
+            },
+            &ldquo;next&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=4">http://example.org/api/users?page=4</a>&rdquo;
+            },
+            &ldquo;last&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=5">http://example.org/api/users?page=5</a>&rdquo;
             }
-        ]
-    }
-}
-</code></pre>
+        },
+        &ldquo;page_size&rdquo;: 2,
+        &ldquo;total&rdquo;: 10,
+        &ldquo;page&rdquo;: 5,
+        &ldquo;</em>embedded&rdquo;: {
+            &ldquo;users&rdquo;: [
+                {
+                    &ldquo;<em>links&rdquo;: {
+                        &ldquo;self&rdquo;: {
+                            &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users/wldandan">http://example.org/api/users/wldandan</a>&rdquo;
+                        }
+                    },
+                    &ldquo;id&rdquo;: &ldquo;wldandan&rdquo;,
+                    &ldquo;name&rdquo;: &ldquo;Wang Lei&rdquo;
+                },
+                {
+                    &ldquo;</em>links&rdquo;: {
+                        &ldquo;self&rdquo;: {
+                            &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/user/chenyue">http://example.org/api/user/chenyue</a>&rdquo;
+                        }
+                    },
+                    &ldquo;id&rdquo;: &ldquo;chenyue&rdquo;,
+                    &ldquo;name&rdquo;: &ldquo;Chen Yue&rdquo;
+                }
+            ]
+        }
+    }</p>
 
 <blockquote><p>所以，HAL的最大价值，帮助我们标准化定义了Resource的结构，并同时实现了HATEOAS。</p></blockquote>
 
@@ -436,35 +428,19 @@ Content-Type: application/json
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2016-11-08T23:45:00+08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2016</time>
+<time class='entry-date' datetime='2016-11-08T23:45:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>11:45 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/microservices/'>Microservices</a>
+    <a class='category' href='/blog/categories/microservices/'>microservices</a>
   
 </span>
 
 
     </p>
-
-    <p class="meta">
-      <a href="/blog/2016/11/08/microservices-in-action-rest-hal/">原文链接</a>，
-<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
-
-    </p>
-
     
       <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/" data-via="" data-counturl="http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/" >Tweet</a>
   
   
   
@@ -484,20 +460,7 @@ Content-Type: application/json
 
   <section>
     <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
-<script type="text/javascript">
-  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
-
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
- var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
- dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
- (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
   </section>
 
@@ -508,27 +471,35 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -540,14 +511,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -562,7 +525,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -580,7 +543,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -598,7 +561,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -608,16 +571,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

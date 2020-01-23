@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Microservices | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: microservices | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/microservices/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -35,7 +35,7 @@
 
 <p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)，被微服务架构广泛采用。</p>
 
-<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率.....这些都成为微服务实践中API设计面临的挑战。</p>
+<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&hellip;..这些都成为微服务实践中API设计面临的挑战。</p>
 
 <p>本篇将介绍REST、REST成熟度模型、为什么使用HAL以及HAL的核心。</p>
 
@@ -43,7 +43,7 @@
 
 <p>REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。</p>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" /></p>
 
 <p>REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。</p>
 
@@ -55,7 +55,7 @@
 
 <p>REST成熟度模型描述了REST在实施过程中不同的级别。</p>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" /></p>
 
 <h3>REST不是银弹</h3>
 
@@ -163,7 +163,7 @@ https://api.example.com/users/[ID]/posts      GET 获取用户相关的文章
 </ul>
 
 
-<p><img src="{{ root_url }}/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
+<p><img src="/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
 
 <h4>使用HAL定义单一资源(Resource)</h4>
 
@@ -264,53 +264,51 @@ Content-Type: application/json
 }
 </code></pre>
 
-<p>基于HAL，则使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似则如下所示：</p>
-
-<pre><code>{
-    "_links": {
-        "self": {
-            "href": "http://example.org/api/users?page=3"
-        },
-        "first": {
-            "href": "http://example.org/api/users"
-        },
-        "prev": {
-            "href": "http://example.org/api/users?page=2"
-        },
-        "next": {
-            "href": "http://example.org/api/users?page=4"
-        },
-        "last": {
-            "href": "http://example.org/api/users?page=5"
-        }
-    },
-    "page_size": 2,
-    "total": 10,
-    "page": 5,
-    "_embedded": {
-        "users": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/users/wldandan"
-                    }
-                },
-                "id": "wldandan",
-                "name": "Wang Lei"
+<p>基于HAL，则使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似则如下所示：
+    {
+        &ldquo;<em>links&rdquo;: {
+            &ldquo;self&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=3">http://example.org/api/users?page=3</a>&rdquo;
             },
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/user/chenyue"
-                    }
-                },
-                "id": "chenyue",
-                "name": "Chen Yue"
+            &ldquo;first&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users">http://example.org/api/users</a>&rdquo;
+            },
+            &ldquo;prev&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=2">http://example.org/api/users?page=2</a>&rdquo;
+            },
+            &ldquo;next&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=4">http://example.org/api/users?page=4</a>&rdquo;
+            },
+            &ldquo;last&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=5">http://example.org/api/users?page=5</a>&rdquo;
             }
-        ]
-    }
-}
-</code></pre>
+        },
+        &ldquo;page_size&rdquo;: 2,
+        &ldquo;total&rdquo;: 10,
+        &ldquo;page&rdquo;: 5,
+        &ldquo;</em>embedded&rdquo;: {
+            &ldquo;users&rdquo;: [
+                {
+                    &ldquo;<em>links&rdquo;: {
+                        &ldquo;self&rdquo;: {
+                            &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users/wldandan">http://example.org/api/users/wldandan</a>&rdquo;
+                        }
+                    },
+                    &ldquo;id&rdquo;: &ldquo;wldandan&rdquo;,
+                    &ldquo;name&rdquo;: &ldquo;Wang Lei&rdquo;
+                },
+                {
+                    &ldquo;</em>links&rdquo;: {
+                        &ldquo;self&rdquo;: {
+                            &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/user/chenyue">http://example.org/api/user/chenyue</a>&rdquo;
+                        }
+                    },
+                    &ldquo;id&rdquo;: &ldquo;chenyue&rdquo;,
+                    &ldquo;name&rdquo;: &ldquo;Chen Yue&rdquo;
+                }
+            ]
+        }
+    }</p>
 
 <blockquote><p>所以，HAL的最大价值，帮助我们标准化定义了Resource的结构，并同时实现了HATEOAS。</p></blockquote>
 
@@ -368,13 +366,13 @@ Content-Type: application/json
 
 <blockquote><p>从IT社区的发展来看，工具正在变得越来越强大，开发人员的大部分重复性工作都将会被简化。</p>
 
-<p>伴随着人工智能的快速发展，将来编码的工作都可以交给机器了，喝着咖啡告诉它，你想要什么语言，你的验收条件，啦啦啦....</p></blockquote>
+<p>伴随着人工智能的快速发展，将来编码的工作都可以交给机器了，喝着咖啡告诉它，你想要什么语言，你的验收条件，啦啦啦&hellip;.</p></blockquote>
 
 <h3>但服务间的协作、管理成本越来越高</h3>
 
 <p>但是，对于微服务的实施而言，服务单元不会孤立存在，必然相互协作，共同实现业务价值。</p>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
 
 <p>而随着服务规模化的推进，服务间协作和管理的成本会越来越高，包括但不限于：</p>
 
@@ -424,7 +422,7 @@ Content-Type: application/json
 
 <p>在Spring Cloud中，整合了很多功能组件，包括Config、Messaging、Netflix OSS以及对Heroku、Amazon Web Service、Cloud Foundry等云平台的接口支持。</p>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
 
 <p>基于这些组件，能够帮助我们解决之前提到的服务实施后面临的挑战。</p>
 
@@ -484,13 +482,13 @@ Content-Type: application/json
 
 <p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
 
 <p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
 
 <p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
 
 <h2>Spring Boot的优势</h2>
 
@@ -532,9 +530,8 @@ Content-Type: application/json
 
 <p>譬如，<code>Spring-boot-starter-web</code>中的<code>spring.providers文件</code>描述的依赖如下所示：</p>
 
-<p><code>
-provides: spring-webmvc,spring-web,jackson-databind
-</code></p>
+<pre><code>provides: spring-webmvc,spring-web,jackson-databind
+</code></pre>
 
 <p>包括<code>spring-webmvc</code>，<code>spring-web</code>，<code>jackson-databind</code>，分别提供mvc，web和JSON解析绑定的功能。</p>
 
@@ -553,9 +550,8 @@ ConditionalOnMissingBean(A.class)
 
 <blockquote><p>表示当前指定的A实例不存在，才创建@Bean.</p></blockquote>
 
-<p><code>
-ConditionalOnWebApplication
-</code></p>
+<pre><code>ConditionalOnWebApplication
+</code></pre>
 
 <blockquote><p>表示当前是在Web Application才创建@Bean</p></blockquote>
 
@@ -563,22 +559,18 @@ ConditionalOnWebApplication
 
 <blockquote><p>仅当ApplicationContext中没有CharacterEncodingFilter的时候，才会创建<code>CharacterEncodingFilter</code></p></blockquote>
 
-<p>```</p>
-
-<pre><code>@Bean
-@ConditionalOnMissingBean(CharacterEncodingFilter.class)
-public CharacterEncodingFilter characterEncodingFilter() {
-    CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
-    filter.setEncoding(this.properties.getCharset().name());
-    filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
-    filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
-    return filter;
-}
+<pre><code>    @Bean
+    @ConditionalOnMissingBean(CharacterEncodingFilter.class)
+    public CharacterEncodingFilter characterEncodingFilter() {
+        CharacterEncodingFilter filter = new OrderedCharacterEncodingFilter();
+        filter.setEncoding(this.properties.getCharset().name());
+        filter.setForceRequestEncoding(this.properties.shouldForce(Type.REQUEST));
+        filter.setForceResponseEncoding(this.properties.shouldForce(Type.RESPONSE));
+        return filter;
+    }
 </code></pre>
 
-<p>```</p>
-
-<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌....)</p></blockquote>
+<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌&hellip;.)</p></blockquote>
 
 <ul>
 <li><code>Starter打包提供相关的包依赖，加载到ClassPath</code></li>
@@ -589,7 +581,7 @@ public CharacterEncodingFilter characterEncodingFilter() {
 <p>关于更多<code>Conditional</code>的细节，请查看包
 <em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
 
 <h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
 
@@ -604,33 +596,26 @@ public CharacterEncodingFilter characterEncodingFilter() {
 
 <p>譬如以前我们通常使用类似如下XML配置Spring Bean</p>
 
-<p>```
-&lt;beans xmlns="http://www.springframework.org/schema/beans"</p>
+<pre><code>&lt;beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
 
-<pre><code>xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.springframework.org/schema/beans
-http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"&gt;
-
-&lt;bean id="helloBean" class=“com.microservice.training.HelloWorldImpl"&gt;
+    &lt;bean id="helloBean" class=“com.microservice.training.HelloWorldImpl"&gt;
+&lt;/beans&gt;
 </code></pre>
-
-<p></beans>
-```</p>
 
 <p>通过使用Java Configuration，声明当前类是一个配置类， 相当于声明一个Spring配置的XML文件</p>
 
-<p>```
-@Configuration
-public class AppConfig {</p>
+<pre><code>@Configuration
+public class AppConfig {
 
-<pre><code>@Bean(name="helloBean")
-public HelloWorld helloWorld() {
-    return new HelloWorldImpl();
+    @Bean(name="helloBean")
+    public HelloWorld helloWorld() {
+        return new HelloWorldImpl();
+    }
 }
 </code></pre>
-
-<p>}
-```</p>
 
 <ul>
 <li>@EnableAutoConfiguration</li>
@@ -639,21 +624,19 @@ public HelloWorld helloWorld() {
 
 <p>它帮助我们加载当前Spring Boot中META-INF/spring.factories，并使用其中的*AutoConfiguration</p>
 
-<p><code>
-HttpEncodingAutoConfiguration
-RabbitAutoConfiguration
+<pre><code>HttpEncodingAutoConfiguration
+RabbitAutoConfiguration 
 EmbeddedServletContainerAutoConfiguration
 ……
-</code></p>
+</code></pre>
 
 <p>每个AutoConfiguration都会根据其中的Condition条件，在合适的场景完成对相关Bean的创建</p>
 
-<p><code>
-@ConditionalOnBean //容器里有指定Bean存在
+<pre><code>@ConditionalOnBean //容器里有指定Bean存在
 @ConditionalOnClass //类路径下有指定Class存在
 @ConditionalOnWebApplication //当前项目是Web项目
 ……
-</code></p>
+</code></pre>
 
 <ul>
 <li>@ComponentScan</li>
@@ -739,7 +722,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>该活动报名系统的应用架构图如下：</p></blockquote>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
 
 <h2>服务实现</h2>
 
@@ -776,7 +759,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>该活动报名系统的微服务生态系统图如下：</p></blockquote>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
 
 <h2>总结</h2>
 
@@ -843,7 +826,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>微服务生态系统</p></blockquote>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
 
 <h4>3.理解微服务的高级话题</h4>
 
@@ -856,7 +839,7 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>基于消费者驱动的契约测试</p></blockquote>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
 
 <h4>4.理解实施微服务与DevOps(基于Docker)</h4>
 
@@ -872,11 +855,11 @@ EmbeddedServletContainerAutoConfiguration
 
 <blockquote><p>部署模型图</p></blockquote>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
 
 <blockquote><p>持续交付流水线</p></blockquote>
 
-<p><img src="{{ root_url }}/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
+<p><img src="/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
 
 <h2>总结</h2>
 

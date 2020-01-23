@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="One of the most prominent and widely used languages in the world has Evolved. Java ever gave us power on object oriented progrmming and we did the &hellip;">
+  <meta name="description" content="[请勿转载] 单块架构系统以及其面临的挑战 概述 多年来，我们一直在技术的浪潮中乘风破浪，扬帆奋进，寻找更优秀的方法来构建IT系统，也一直在积极的学习并观察先进的公司如何以不同的架构方式构建或者优化其IT系统，来积极应对市场的变化，迅速做出响应，从而为客户提供更多的价值。 微服务架构模式（ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,13 +18,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wldandan.github.com/blog/page/3/">
+  <link rel="canonical" href="http://wldandan.github.com/posts/3/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -34,7 +35,6 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -60,7 +60,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -82,6 +82,111 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">解析微服务架构(一)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-16T22:07:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 pm</span></time>
+        
+           | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[请勿转载]</p>
+
+<h1>单块架构系统以及其面临的挑战</h1>
+
+<h3>概述</h3>
+
+<p>多年来，我们一直在技术的浪潮中乘风破浪，扬帆奋进，寻找更优秀的方法来构建IT系统，也一直在积极的学习并观察先进的公司如何以不同的架构方式构建或者优化其IT系统，来积极应对市场的变化，迅速做出响应，从而为客户提供更多的价值。</p>
+
+<p>微服务架构模式（Microservice Architect Pattern）是近两年在软件架构模式领域里出现的一个新名词。虽然其诞生的时间不长，但其在各种演讲、文章、书籍上所出现的频率已经让很多人意识到它对软件领域所带来的影响。那到底什么是微服务，当我们谈论微服务时，它代表着一种什么样的含义？微服务适合应用在什么场景下，以及它有什么样的优缺点？微服务和SOA到底有没有区别？在接下来的几部分里，我将为大家揭开微服务的神秘面纱。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">基于微服务架构，改造企业核心系统之实践</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2014-09-16T21:57:00+08:00'><span class='date'><span class='date-month'>Sep</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:57 pm</span></time>
+        
+           | <a href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>本文已经发表于InfoQ，请参考<a href="http://www.infoq.com/cn/articles/enterprise-core-systems-transformation-practice">这里</a></p>
+
+<h2>背景与挑战</h2>
+
+<p>随着公司国际化战略的推行以及本土业务的高速发展，后台支撑系统已经不堪重负。</p>
+
+<p>在吞吐量、稳定性以及可扩展性上都无法满足日益增长的业务需求。对于每10万元额度的合同，从销售团队准备材料、与客户签单、递交给合同部门，再到合同生效大概需要3.5人天。随着业务量的快速增长，签订合同的成本急剧增加。</p>
+
+<p>合同管理系统是后台支撑系统中重要的一部分。当前的合同系统是5年前使用.NET，基于<a href="http://www.sagecrm.com/">SAGE CRM</a>二次开发的产品。
+一方面，系统架构过于陈旧，性能、可靠性无法满足现有的需求。另一方面，功能繁杂，结构混乱，定制的代码与SAGE CRM系统耦合度极高。</p>
+
+<p>由于是遗留系统，熟悉该代码的人早已离职多时，新团队对其望而却步，只能做些周边的修补工作。同时，还要承担着边补测试，边整理逻辑的工作。</p>
+
+<p>在无法中断业务处理的情况下，为了解决当前面临的问题，团队制定了如下的策略：</p>
+
+<p><img src="http://wldandan.github.com/images/microservice/crm-rebuild-strategy-600x400.png" /></p>
+
+<ol>
+<li>在现有合同管理系统的外围，构建功能服务接口，将系统核心的功能分离出来。</li>
+<li>利用这些功能服务接口作为代理，解耦原合同系统与其调用者之间的依赖；</li>
+<li>通过不断构建功能服务接口，逐渐将原有系统分解成多个独立的服务。</li>
+<li>摒弃原有的合同管理系统，使用全新构建的(微)服务接口替代。</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/">Java 8 - First Impression of Lambda Expression</a></h1>
     
     
@@ -91,16 +196,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-06-19T04:56:00+08:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time>
+<time class='entry-date' datetime='2014-06-19T04:56:00+08:00'><span class='date'><span class='date-month'>Jun</span> <span class='date-day'>19</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>4:56 am</span></time>
         
-         | <a href="/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/">Comments</a>
         
       </p>
     
@@ -115,7 +214,7 @@
 
 <h3>Lambda Expression</h3>
 
-<p>Let&#8217;s start from a simple example:</p>
+<p>Let&rsquo;s start from a simple example:</p>
 
 <p><code>Suppose we’re asked to total the prices greater than $20, discounted by 10%. Let’s do that in the habitual Java way first.</code></p>
 
@@ -198,16 +297,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-05-27T20:55:00+08:00" pubdate data-updated="true">May 27<span>th</span>, 2014</time>
+<time class='entry-date' datetime='2014-05-27T20:55:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>8:55 pm</span></time>
         
-         | <a href="/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/">Comments</a>
         
       </p>
     
@@ -219,7 +312,7 @@ As the words described, it is closely relevant to the management and control in 
 
 <p>Netflix build a tool named Asgard, which is used to control and manage their AWS cloud.  In 2012, Netflix announced that Asgard was open-sourced.</p>
 
-<p>Then&#8230;&#8230; it is time to start the story.</p>
+<p>Then&hellip;&hellip; it is time to start the story.</p>
 
 <h2>What is Asgard</h2>
 
@@ -257,16 +350,10 @@ As the words described, it is closely relevant to the management and control in 
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-05-21T20:56:00+08:00" pubdate data-updated="true">May 21<span>st</span>, 2014</time>
+<time class='entry-date' datetime='2014-05-21T20:56:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2014</span></span> <span class='time'>8:56 pm</span></time>
         
-         | <a href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/05/21/collect-log-of-windows-machine-into-splunk/">Comments</a>
         
       </p>
     
@@ -306,16 +393,10 @@ As the words described, it is closely relevant to the management and control in 
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-04-23T09:44:00+08:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2014</time>
+<time class='entry-date' datetime='2014-04-23T09:44:00+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2014</span></span> <span class='time'>9:44 am</span></time>
         
-         | <a href="/blog/2014/04/23/how-to-setup-mongo-shard/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/04/23/how-to-setup-mongo-shard/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/">Comments</a>
         
       </p>
     
@@ -330,7 +411,7 @@ As the words described, it is closely relevant to the management and control in 
 
 <h4>a) Config Server</h4>
 
-<p>The config server processes are mongod instances that   store the cluster’s metadata. You designate a mongod as a config server using the &#8211;configsvr option. Each config server stores a complete copy of the cluster’s metadata.</p>
+<p>The config server processes are mongod instances that   store the cluster’s metadata. You designate a mongod as a config server using the &ndash;configsvr option. Each config server stores a complete copy of the cluster’s metadata.</p>
 
 <h4>b) Query Server</h4>
 
@@ -361,16 +442,10 @@ As the words described, it is closely relevant to the management and control in 
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-04-17T09:24:00+08:00" pubdate data-updated="true">Apr 17<span>th</span>, 2014</time>
+<time class='entry-date' datetime='2014-04-17T09:24:00+08:00'><span class='date'><span class='date-month'>Apr</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>9:24 am</span></time>
         
-         | <a href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/">Comments</a>
         
       </p>
     
@@ -422,16 +497,10 @@ rs.status()
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-02-14T23:32:00+08:00" pubdate data-updated="true">Feb 14<span>th</span>, 2014</time>
+<time class='entry-date' datetime='2014-02-14T23:32:00+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:32 pm</span></time>
         
-         | <a href="/blog/2014/02/14/the-story-about-dora/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/02/14/the-story-about-dora/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/02/14/the-story-about-dora/">Comments</a>
         
       </p>
     
@@ -472,16 +541,10 @@ rs.status()
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-01-07T18:55:00+08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+<time class='entry-date' datetime='2014-01-07T18:55:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:55 pm</span></time>
         
-         | <a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/">Comments</a>
         
       </p>
     
@@ -521,16 +584,10 @@ rs.status()
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2014-01-06T23:59:00+08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2014</time>
+<time class='entry-date' datetime='2014-01-06T23:59:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:59 pm</span></time>
         
-         | <a href="/blog/2014/01/06/webrtc-understand-the-media-stream/#disqus_thread">Comments</a>
+           | <a href="/blog/2014/01/06/webrtc-understand-the-media-stream/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream/">Comments</a>
         
       </p>
     
@@ -559,112 +616,13 @@ rs.status()
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/">WebRTC - the Revolution of Media Communication</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-02T19:29:00+08:00" pubdate data-updated="true">Jan 2<span>nd</span>, 2014</time>
-        
-         | <a href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>什么是WebRTC</h3>
-
-<p>如今，互联网主流的音频、视频通信服务产品，如Skype, QQ, GTalk等， 都是各自厂商私有的技术。用户需要安装插件或者桌面客户端，才能使用其提供的音频或者视频通信功能。
-如果某天，不使用任何插件，只通过浏览器，就能实现手机、平板、电视和电脑的视频或者音频通信；那会是什么场景？ 而这正是WebRTC的愿景。</p>
-
-<p>WebRTC（Web Real-Time Communication）由一套开放的标准、协议和一组JavaScript API构成。2010年，谷歌收购了VoIP软件开发商GIPS(Global IP Solutions)，并获得了视频采集、编解码、网络传输、回音消除等RTC相关技术。2011年6月，谷歌开放了该部分源码，并积极推动该项技术，这奠定了RTC在Web领域发展的基础。</p>
-
-<p>WebRTC使浏览器之间能够通过点对点的通信方式，直接完成视频、音频以及数据的实时传输。同时，WebRTC容许开发人员通过调用浏览器支持的API，使用HTML5标签和JavaScript轻松的实现基于Web的音频、视频应用。</p>
-
-<p>目前，WebRTC的标准还在不断完善中，W3C、IETF和其他一些浏览器厂商正在积极的推动WebRTC的发展。WebRTC开创了浏览器之间能够直接通信并完成视频或者音频传输的新时代。对于构建开放的、标准的，无插件，免费的视频音频通信应用，迈出了划时代的一步。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/01/02/webrtc-the-revolution-of-media-communication/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Page Object Understanding</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-12-23T11:39:00+08:00" pubdate data-updated="true">Dec 23<span>rd</span>, 2013</time>
-        
-         | <a href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>什么是Page Object</h2>
-
-<p>Page Object是<a href="http://www.seleniumhq.org/">Selenium</a>中提出的一种测试设计模式。在Web前端自动化测试的过程中，Page Object可以称得上是居家必备的良品之一。PageObject将与Web测试页面交互的行为封装在其内部，旨在将每个页面或者相似页面的功能封装，例如页面中需要测试的元素（按钮，输入框，标题等），这样，通过在测试中访问Page类的相应方法来获取页面相应的元素，从而巧妙的避免了当页面元素id或者位置变化时，需要修改测试代码的情况。</p>
-
-<p>言而总之，总而言之，PageObject就是将Web页面元素的变化封装起来，提供API供外部测试代码调用，从而达到将测试代码于Web页面元素的变化解耦。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/12/23/page-object-understanding-based-on-cucumber/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
-      <a class="prev" href="/blog/page/4/">&larr; Older</a>
+      <a class="prev" href="/posts/4">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
-    <a class="next" href="/blog/page/2/">Newer &rarr;</a>
+    <a class="next" href="/posts/2">Newer &rarr;</a>
     
   </div>
 </div>
@@ -673,27 +631,35 @@ rs.status()
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -705,14 +671,6 @@ rs.status()
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -727,7 +685,7 @@ rs.status()
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -744,7 +702,7 @@ rs.status()
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -759,7 +717,7 @@ rs.status()
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -769,16 +727,6 @@ rs.status()
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

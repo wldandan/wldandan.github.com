@@ -21,10 +21,11 @@
   <link rel="canonical" href="http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -34,7 +35,6 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -60,7 +60,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -88,16 +88,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-12-09T17:09:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-12-09T17:09:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>5:09 pm</span></time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com">Comments</a>
         
       </p>
     
@@ -174,15 +168,11 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>如代码所示，对于抽象方法fechName()，直接mock其返回值</p>
+<p>如代码所示，对于抽象方法fechName()，直接mock其返回值
+    when(handler.fetchName()).thenReturn(&ldquo;Geek&rdquo;);</p>
 
-<pre><code>when(handler.fetchName()).thenReturn("Geek");
-</code></pre>
-
-<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。</p>
-
-<pre><code>when(handler.greet()).thenCallRealMethod();
-</code></pre>
+<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。
+    when(handler.greet()).thenCallRealMethod();</p>
 
 <h4>b)测试过分依赖于I/O操作的类</h4>
 
@@ -355,35 +345,19 @@ public void testListPartialMockByCallRealMethod(){
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-12-09T17:09:00+08:00" pubdate data-updated="true">Dec 9<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-12-09T17:09:00+08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>9</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>5:09 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/test/'>Test</a>
+    <a class='category' href='/blog/categories/test/'>test</a>
   
 </span>
 
 
     </p>
-
-    <p class="meta">
-      <a href="/blog/2013/12/09/mockito-partial-mocking-learning/">原文链接</a>，
-<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
-
-    </p>
-
     
       <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/" >Tweet</a>
   
   
   
@@ -403,20 +377,7 @@ public void testListPartialMockByCallRealMethod(){
 
   <section>
     <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
-<script type="text/javascript">
-  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
-
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
- var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
- dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
- (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
   </section>
 
@@ -427,27 +388,35 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -459,14 +428,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -481,7 +442,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -499,7 +460,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -517,7 +478,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -527,16 +488,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

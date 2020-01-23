@@ -4,7 +4,7 @@
   <title><![CDATA[Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2019-04-06T12:37:26+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -12,6 +12,401 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[k8s之Deployment]]></title>
+    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-deployment/"/>
+    <updated>2019-04-06T14:48:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/04/06/k8s-deployment</id>
+    <content type="html"><![CDATA[<p>之前我们了解了如何打包，作为Pod中的容器运行，使用临时或者永久存储机制，设置配置项，接下来我们探讨如何部署和升级。</p>
+
+<h5>应用更新的方式</h5>
+
+<p>假定在K8S中存在这样的应用：
+* Service
+* 3个Pod
+* 使用ReplicaSet
+* Clients</p>
+
+<p>初始情况，运行V1版本的应用。接下来，我们希望生成V2版本的镜像，并使用V2版本的Pod/容器进行升级。
+存在两种方式：
+* 先删除V1版本的应用，然后部署V2版本。
+* 先新增V2版本的应用，然后删除V1版本。（对于V2版本的新增，可以选择 <code>一次新增全部数量</code>，<code>多次新增，每次部分数量</code>）</p>
+
+<blockquote><p>对于第一种方式：简单，但是存在部署的停机时间<br/>
+  对于第二种方式：系统需要同时处理两个版本的应用，尤其是数据Schema需要兼容新旧两个版本</p></blockquote>
+
+<h6>ttt</h6>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[K8s之configmap]]></title>
+    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap/"/>
+    <updated>2019-04-06T14:48:00+08:00</updated>
+    <id>http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap</id>
+    <content type="html"><![CDATA[<p>几乎所有的应用程序都需要配置（实例的配置信息，外部系统的访问信息等），而这些配置显然不应该被打包到应用程序本身中。</p>
+
+<p>本篇文章看看如何在Kubernetes中配置应用程序的信息。</p>
+
+<h4>1.配置容器应用的方式</h4>
+
+<ul>
+<li><p>命令行
+最简单的应用配置方式，是使用命令行。</p></li>
+<li><p>配置文件</p></li>
+</ul>
+
+
+<p>随着配置信息增多，考虑到维护成本，可以将配置信息存储到配置文件中。但对于容器而言，使用配置文件的方式需要将配置项打包到镜像中，而且每次配置信息的变更都会导致重新生成镜像，重新部署，维护和变更成本较高。</p>
+
+<ul>
+<li>环境变量</li>
+</ul>
+
+
+<p>在容器应用中，使用环境变量来实现配置，也是较普遍的一种做法，通过将参数传递给容器中的应用，变更容器运行期的配置信息，如MySQL官方的镜像就使用环境变量<code>MYSQL_ROOT_PASSWORD</code> 来修改超级用户root的密码。</p>
+
+<ul>
+<li>volume</li>
+</ul>
+
+
+<p>另外，基于volume的方式获取配置信息也是一种可行的方式，如使用Git Repo存储配置信息，能有效的做到版本化管理会随时回退。</p>
+
+<p>在K8S中，存储配置信息的资源被称ConfigMap，本部分将介绍ConfigMap、Secret的使用。</p>
+
+<h4>2.从命令行传递参数</h4>
+
+<p>在Docker容器中，通常使用如下方式传递参数：</p>
+
+<ul>
+<li>使用<code>ENTRYPOINT</code>定义可执行命令</li>
+<li>使用<code>CMD</code>传递参数</li>
+</ul>
+
+
+<p>在ENTRYPOINT中，可以使用如下两种方式启动应用：</p>
+
+<ul>
+<li>Shell方式，如<code>ENTRYPOINT node app.js</code></li>
+<li>exec方式，如<code>ENTRYPOINT ["node", "app.js"]</code></li>
+</ul>
+
+
+<blockquote><p>注意: 这两种方式的区别在于前者是先启动Shell，由Shell调用node，而后者直接启动node应用。</p></blockquote>
+
+<p>在K8S中，可以通过配置文件中的<code>command</code>和<code>args</code>来设置容器中的<code>ENTRYPOINT</code>和<code>CMD</code>
+譬如</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Pod</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">some/image</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">command</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;/bin/command&quot;</span><span class="p-Indicator">]</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;arg1&quot;</span><span class="p-Indicator">,</span> <span class="s">&quot;arg2&quot;</span><span class="p-Indicator">,</span> <span class="s">&quot;arg3&quot;</span><span class="p-Indicator">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>它们之间的区别如下图所示：</p>
+
+<table>
+<thead>
+<tr>
+<th>Docker</th>
+<th>Kubernetes</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ENTRYPOINT</td>
+<td>command</td>
+<td>在容器中执行命令</td>
+</tr>
+<tr>
+<td>CMD</td>
+<td>args</td>
+<td>给命令传递参数</td>
+</tr>
+</tbody>
+</table>
+
+
+<h4>3.使用环境变量</h4>
+
+<p>在K8S中，使用<code>env</code>设置镜像中定义的环境变量。
+譬如，容器中存在如下脚本，其中的<code>INTERVAL</code>使用环境变量进行设置：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="k">while</span> :
+</span><span class='line'><span class="k">do</span>
+</span><span class='line'><span class="k">  </span><span class="nb">echo</span> <span class="k">$(</span>date<span class="k">)</span>
+</span><span class='line'>  sleep <span class="nv">$INTERVAL</span>
+</span><span class='line'><span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在K8S中，其配置文件类似如下：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Pod</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">xxxxx</span>
+</span><span class='line'>   <span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+</span><span class='line'>   <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">INTERVAL</span>
+</span><span class='line'>     <span class="l-Scalar-Plain">value</span><span class="p-Indicator">:</span> <span class="s">&quot;30&quot;</span>
+</span><span class='line'><span class="nn">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>4.使用CONFIGMAP解耦配置</h4>
+
+<p>Kubernetes允许将配置项分离到一个称为<code>ConfigMap</code>的单独对象中，它包含若干键/值对，并且值的范围可以从文本到整个配置文件。</p>
+
+<p>应用程序不需要直接读取ConfigMap，甚至不需要知道它的存在。Map的内容可以作为环境变量或者卷传递给容器。</p>
+
+<p>使用<code>kubectl</code>创建ConfigMap的过程中，可以指定多样化的配置机制，类似如下所示：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>kubectl create configmap my-config
+</span><span class='line'>  --from-file<span class="o">=</span>foo.json                     //导入JSON文件
+</span><span class='line'>  --from-file<span class="o">=</span><span class="nv">bar</span><span class="o">=</span>foobar.conf              //导入配置文件
+</span><span class='line'>  --from-file<span class="o">=</span>config-opts/                 //导入目录
+</span><span class='line'>  --from-literal<span class="o">=</span><span class="nv">some</span><span class="o">=</span>thing                //导入文本配置
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h5>4.1 使用ConfigMap Entry设置环境变量的值</h5>
+
+<p>接下来， 在如上环境变量的例子中，我们使用ConfigMap配置环境变量<code>$INTERVAL</code>的值。</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Pod</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">env-from-configmap</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">xxxx</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">INTERVAL                 //环境变量名</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">valueFrom</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">configMapKeyRef</span><span class="p-Indicator">:</span>             <span class="l-Scalar-Plain">//使用ConfigMap</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fortune-config       //ConfigMap的名称</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">key</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sleep-interval        //ConfigMap的key</span>
+</span><span class='line'><span class="nn">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在如上的例子中，读取ConfigMap<code>fortune-config</code>中Key<code>sleep-interval</code>对应的值，作为<code>$INTERVAL</code>的值。</p>
+
+<h5>4.2 使用ConfigMap Entry作为环境变量</h5>
+
+<p>譬如有个ConfigMap，它有两个键，分别是foo、bar。您可以使用envFrom属性将它们全部公开为环境变量，而不是像在前面的示例中那样依次使用env。</p>
+
+<p>如下所示：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">some-image</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">envFrom</span><span class="p-Indicator">:</span>                      <span class="l-Scalar-Plain">//使用envFrom代替Env</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">prefix</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">CONFIG_             //使用前缀</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">configMapRef</span><span class="p-Indicator">:</span>               <span class="l-Scalar-Plain">//引用ConfigMap</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my-config-map</span>
+</span><span class='line'><span class="nn">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>CONFIG_作为前缀，将导出如下环境变量CONFIG_foo和CONFIG_bar。当然，前缀是可选的，如不设置，则容器中的环境变量为foo和bar。</p>
+
+<h5>4.3 使用ConfigMap Entry作为命令行参数</h5>
+
+<p>接下来，让我们看看如何将ConfigMap中的值作为参数传递给容器中运行的进程。我们不能在pod.spec.containers.args字段中直接引用ConfigMap，但是可以从ConfigMap中初始化一个环境变量，然后引用参数中的值，相关代码如下所示:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Pod</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fortune-args-from-configmap</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">xxxxx</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">INTERVAL</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">valueFrom</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">configMapKeyRef</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fortune-config</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">key</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sleep-interval</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">args</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;$(INTERVAL)&quot;</span><span class="p-Indicator">]</span>
+</span><span class='line'><span class="nn">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其关系如图所示：</p>
+
+<p><img src="http://wldandan.github.com/images/k8s/k8s-volume-configmap-as-cmd-args.png" /></p>
+
+<h5>4.3 使用ConfigMap volume导出ConfigMap的Entry</h5>
+
+<p>ConfigMap除了可以作为环境变量以及命令行参数外，还可以包括整个目录中的配置文件。</p>
+
+<p>譬如，在<code>configmap-files</code>目录下存在如下2个文件：</p>
+
+<ul>
+<li>my-nginx-config.conf</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">server {</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">listen              80;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">server_name         www.kubia-example.com;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">gzip on;                                       1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">gzip_types text/plain application/xml;         1</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">location / {</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">root   /usr/share/nginx/html;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">index  index.html index.htm;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">}</span>
+</span><span class='line'><span class="l-Scalar-Plain">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>sleep-interval.txt</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>25
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来，使用命令创建<code>ConfigMap</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>$ kubectl create configmap fortune-config --from-file=configmap-files
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后，我们可以使用volume将ConfigMap中的内容暴露给容器：</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>apiVersion: v1
+</span><span class='line'>kind: Pod
+</span><span class='line'>metadata:
+</span><span class='line'>  name: fortune-configmap-volume
+</span><span class='line'>spec:
+</span><span class='line'>  containers:
+</span><span class='line'>  - image: nginx:alpine
+</span><span class='line'>    name: web-server
+</span><span class='line'>    volumeMounts:
+</span><span class='line'>    ...
+</span><span class='line'>    - name: config
+</span><span class='line'>      mountPath: /etc/nginx/conf.d      //挂载到Pod中的目录
+</span><span class='line'>      readOnly: true
+</span><span class='line'>    ...
+</span><span class='line'>  volumes:
+</span><span class='line'>  ...
+</span><span class='line'>  - name: config
+</span><span class='line'>    configMap:                          //使用configMap作为volume的内容
+</span><span class='line'>      name: fortune-config
+</span><span class='line'>  ...
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[K8s之Volume]]></title>
@@ -112,7 +507,7 @@
 
 <h4>二. 使用Git Repo</h4>
 
-<p>Git Repo卷基本上是基于emptyDir，通过克隆Git仓库并在pod启动时（但在创建其容器之前）签出特定版本填充该卷。如图6.3所示:</p>
+<p>Git Repo卷基本上是基于emptyDir，通过克隆Git仓库并在pod启动时（但在创建其容器之前）签出特定版本。如图6.3所示:</p>
 
 <p><img src="http://wldandan.github.com/images/k8s/k8s-volume-gitrepo.png" /></p>
 
@@ -163,13 +558,13 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>注意，默认情况下，使用gitrepo卷时存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新的pod，才会获取最新的提交。</p>
-
-<blockquote><p>可以使用其他容器来实现文件的同步，更多细节可以在dokerhub上搜索“git sync.”</p></blockquote>
+<p>默认情况下，使用gitrepo卷存在一个缺点，它不会与所引用的git repo保持同步。只有当pod重启或者创建一个新pod时，才会从Git仓库获取最新的内容。</p>
 
 <h4>三. 使用hostPath</h4>
 
-<p>hostPath是一种持久性存储，它指向Node文件系统上的目录（如图）。运行在同一节点上的Pod，如果使用相同的hostPath卷，则可以彼此看到相同的文件。</p>
+<p>hostPath是一种持久性存储，它指向Node文件系统中的目录，如下图所示。</p>
+
+<p>运行在同一节点上的Pod，如果使用相同的hostPath卷，则可以彼此访问相同的文件。</p>
 
 <p><img src="http://wldandan.github.com/images/k8s/k8s-volume-hostpath.png" /></p>
 
@@ -192,9 +587,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>当一个pod被删除时，gitrepo和emptydir卷的内容都会被删除，但hostPath卷的内容不会。当pod被删除时，运行在该Node上新的pod，如果有相同路径的hostPath卷，它将能访问到之前Pod写入的数据。</p>
+<p>当一个pod被删除时，gitrepo和emptydir卷的内容都会被删除，但hostPath卷的内容不会。对于在某Node上创建的新pod，如果设置hostPath卷与之前pod的路径一致，那么它能也能访问到之前Pod写入的数据。</p>
 
-<p>如果您考虑使用hostPath作为数据库数据目录的话，请谨慎考虑。因为卷的内容存储在特定Node的文件系统中，当数据库pod被重新调度到另一个节点时，它将无法看到数据。</p>
+<p>但是，如果您考虑使用hostPath作为数据库数据目录的话，请谨慎考虑。因为卷的内容存储在特定Node的文件系统中，当数据库pod被重新调度到另一个节点时，数据将无法被看到。</p>
 
 <h4>四. 使用网络文件存储</h4>
 
@@ -251,7 +646,8 @@
 
 <h4>五. 自建文件系统存储</h4>
 
-<p>NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVolume, cinder, cephfs, flocker, fc (Fibre Channel)等</p>
+<p>除此之外，也可以使用自建的文件系统，如
+NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVolume, cinder, cephfs, flocker, fc (Fibre Channel)等</p>
 
 <h4>六. 如何将Pod与存储机制解耦</h4>
 
@@ -324,7 +720,7 @@
 
 <h3>创建Service</h3>
 
-<p>一个 Service 在 Kubernetes 中是一个 REST 对象，和 Pod 类似。 像所有的 REST 对象一样， Service 定义可以基于 POST 方式，请求 apiserver 创建新的实例。 例如，假定有一组 Pod，它们对外暴露了 9376 端口，同时还被打上 &#8220;app=MyApp&#8221; 标签。</p>
+<p>一个 Service 在 Kubernetes 中是一个 REST 对象，和 Pod 类似。 像所有的 REST 对象一样， Service 定义可以基于 POST 方式，请求 apiserver 创建新的实例。 例如，假定有一组 Pod，它们对外暴露了 9376 端口，同时还被打上 &ldquo;app=MyApp&rdquo; 标签。</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -656,7 +1052,7 @@
 
 <h4>策略</h4>
 
-<p><code>.spec.strategy</code> 指定新的Pod替换旧的Pod的策略。 <code>.spec.strategy.type</code> 可以是&#8221;Recreate&#8221;或者是 &#8220;RollingUpdate&#8221;。&#8221;RollingUpdate&#8221;是默认值。</p>
+<p><code>.spec.strategy</code> 指定新的Pod替换旧的Pod的策略。 <code>.spec.strategy.type</code> 可以是"Recreate"或者是 &ldquo;RollingUpdate"。"RollingUpdate"是默认值。</p>
 
 <h5>Recreate Deployment</h5>
 
@@ -894,7 +1290,7 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
 <li><p>Address</p>
 
 <ul>
-<li>HostName：可以被kubelet中的&#8211;hostname-override参数替代。</li>
+<li>HostName：可以被kubelet中的&ndash;hostname-override参数替代。</li>
 <li>ExternalIP：可以被集群外部路由到的IP地址。</li>
 <li>InternalIP：集群内部使用的IP，集群外部无法访问。</li>
 </ul>
@@ -973,31 +1369,26 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
 <table>
 <thead>
 <tr>
-<th></th>
 <th>类别</th>
 <th>名称</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td></td>
 <td>资源对象</td>
-<td>Pod、ReplicaSet、ReplicationController、Deployment、StatefulSet、DaemonSet、Job、CronJob、HorizontalPodAutoscaling、Node、Namespace、Service、Ingress、Label、CustomResourceDefinition|</td>
+<td>Pod、ReplicaSet、ReplicationController、Deployment、StatefulSet、DaemonSet、Job、CronJob、HorizontalPodAutoscaling、Node、Namespace、Service、Ingress、Label、CustomResourceDefinition</td>
 </tr>
 <tr>
-<td></td>
 <td>存储对象</td>
-<td>Volume、PersistentVolume、Secret、ConfigMap|</td>
+<td>Volume、PersistentVolume、Secret、ConfigMap</td>
 </tr>
 <tr>
-<td></td>
 <td>策略对象</td>
-<td>SecurityContext、ResourceQuota、LimitRange|</td>
+<td>SecurityContext、ResourceQuota、LimitRange</td>
 </tr>
 <tr>
-<td></td>
 <td>身份对象</td>
-<td>ServiceAccount、Role、ClusterRole|</td>
+<td>ServiceAccount、Role、ClusterRole</td>
 </tr>
 </tbody>
 </table>
@@ -1190,7 +1581,7 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
 
 <p>REST API通常作为服务间协作的轻量级通信协议(语言无关、平台无关)，被微服务架构广泛采用。</p>
 
-<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&#8230;..这些都成为微服务实践中API设计面临的挑战。</p>
+<p>在微服务架构的中，如何有效的设计REST API，如何处理API响应中资源的依赖关系，服务规模化后如何提高服务团队间的协作效率&hellip;..这些都成为微服务实践中API设计面临的挑战。</p>
 
 <p>本篇将介绍REST、REST成熟度模型、为什么使用HAL以及HAL的核心。</p>
 
@@ -1276,7 +1667,7 @@ Accept: application/json
 
 <p>在<a href="http://martinfowler.com/articles/richardsonMaturityModel.html">《Richardson Maturity Model》</a>模型中，定义了REST API不同成熟度应该具备的特征。</p>
 
-<p>对于REST API Level 3，明确提出了&#8221;资源跳转的重要性&#8221;，即<code>HATEOAS</code>。</p>
+<p>对于REST API Level 3，明确提出了"资源跳转的重要性"，即<code>HATEOAS</code>。</p>
 
 <p>对于实际情况而言，大部分REST的实现，都是基于JSON作为传输格式，不过JSON最大的遗憾，正如W3C所描述的：</p>
 
@@ -1419,53 +1810,51 @@ Content-Type: application/json
 }
 </code></pre>
 
-<p>基于HAL，则使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似则如下所示：</p>
-
-<pre><code>{
-    "_links": {
-        "self": {
-            "href": "http://example.org/api/users?page=3"
-        },
-        "first": {
-            "href": "http://example.org/api/users"
-        },
-        "prev": {
-            "href": "http://example.org/api/users?page=2"
-        },
-        "next": {
-            "href": "http://example.org/api/users?page=4"
-        },
-        "last": {
-            "href": "http://example.org/api/users?page=5"
-        }
-    },
-    "page_size": 2,
-    "total": 10,
-    "page": 5,
-    "_embedded": {
-        "users": [
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/users/wldandan"
-                    }
-                },
-                "id": "wldandan",
-                "name": "Wang Lei"
+<p>基于HAL，则使用<code>_links</code>描述相关链接，同时使用<code>_embedded</code>描述嵌套资源，类似则如下所示：
+    {
+        &ldquo;<em>links&rdquo;: {
+            &ldquo;self&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=3">http://example.org/api/users?page=3</a>&rdquo;
             },
-            {
-                "_links": {
-                    "self": {
-                        "href": "http://example.org/api/user/chenyue"
-                    }
-                },
-                "id": "chenyue",
-                "name": "Chen Yue"
+            &ldquo;first&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users">http://example.org/api/users</a>&rdquo;
+            },
+            &ldquo;prev&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=2">http://example.org/api/users?page=2</a>&rdquo;
+            },
+            &ldquo;next&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=4">http://example.org/api/users?page=4</a>&rdquo;
+            },
+            &ldquo;last&rdquo;: {
+                &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users?page=5">http://example.org/api/users?page=5</a>&rdquo;
             }
-        ]
-    }
-}
-</code></pre>
+        },
+        &ldquo;page_size&rdquo;: 2,
+        &ldquo;total&rdquo;: 10,
+        &ldquo;page&rdquo;: 5,
+        &ldquo;</em>embedded&rdquo;: {
+            &ldquo;users&rdquo;: [
+                {
+                    &ldquo;<em>links&rdquo;: {
+                        &ldquo;self&rdquo;: {
+                            &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/users/wldandan">http://example.org/api/users/wldandan</a>&rdquo;
+                        }
+                    },
+                    &ldquo;id&rdquo;: &ldquo;wldandan&rdquo;,
+                    &ldquo;name&rdquo;: &ldquo;Wang Lei&rdquo;
+                },
+                {
+                    &ldquo;</em>links&rdquo;: {
+                        &ldquo;self&rdquo;: {
+                            &ldquo;href&rdquo;: &ldquo;<a href="http://example.org/api/user/chenyue">http://example.org/api/user/chenyue</a>&rdquo;
+                        }
+                    },
+                    &ldquo;id&rdquo;: &ldquo;chenyue&rdquo;,
+                    &ldquo;name&rdquo;: &ldquo;Chen Yue&rdquo;
+                }
+            ]
+        }
+    }</p>
 
 <blockquote><p>所以，HAL的最大价值，帮助我们标准化定义了Resource的结构，并同时实现了HATEOAS。</p></blockquote>
 
@@ -1523,7 +1912,7 @@ Content-Type: application/json
 
 <blockquote><p>从IT社区的发展来看，工具正在变得越来越强大，开发人员的大部分重复性工作都将会被简化。</p>
 
-<p>伴随着人工智能的快速发展，将来编码的工作都可以交给机器了，喝着咖啡告诉它，你想要什么语言，你的验收条件，啦啦啦&#8230;.</p></blockquote>
+<p>伴随着人工智能的快速发展，将来编码的工作都可以交给机器了，喝着咖啡告诉它，你想要什么语言，你的验收条件，啦啦啦&hellip;.</p></blockquote>
 
 <h3>但服务间的协作、管理成本越来越高</h3>
 
@@ -1739,7 +2128,7 @@ Content-Type: application/json
 </span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌&#8230;.)</p></blockquote>
+<blockquote><p>所以, 我对SpringBoot的理解为，如下两个核心点(配合起来，天下无敌&hellip;.)</p></blockquote>
 
 <ul>
 <li><code>Starter打包提供相关的包依赖，加载到ClassPath</code></li>
@@ -2099,7 +2488,7 @@ Content-Type: application/json
 <li>服务间的<code>接口测试</code></li>
 <li><code>持续集成</code>/<code>持续交付流水线</code></li>
 <li><code>服务依赖</code>关系管理</li>
-<li>&#8230;&#8230;</li>
+<li>&hellip;&hellip;</li>
 </ul>
 
 
@@ -2390,8 +2779,8 @@ Content-Type: application/json
 <!-- More -->
 
 
-<p>   与传统IT行业的&#8217;服务架构&#8217;概念不一样的是，微服务更强调的是一种独立测试、独立部署、独立运行的软件架构模式。微服
-务中的每个服务，都可以作为一个独立的业务单元进行测试、部署，而且每个服务都能独立运行在不同的进程中。这些微服务满足细粒度的业务需求，并使用自动化部署工具进行发布。同时，这些微服务可以使用不同的开发语言，不同框架，以及不同的数据存储技术，因此相比与&#8217;服务架构&#8217;，它是一种高度自治的、非集中式管理的、细粒度的业务单元。</p>
+<p>   与传统IT行业的'服务架构'概念不一样的是，微服务更强调的是一种独立测试、独立部署、独立运行的软件架构模式。微服
+务中的每个服务，都可以作为一个独立的业务单元进行测试、部署，而且每个服务都能独立运行在不同的进程中。这些微服务满足细粒度的业务需求，并使用自动化部署工具进行发布。同时，这些微服务可以使用不同的开发语言，不同框架，以及不同的数据存储技术，因此相比与'服务架构'，它是一种高度自治的、非集中式管理的、细粒度的业务单元。</p>
 
 <p>   实际上，微服务架构并不是一个全新的概念。早在二十几年前，面向服务架构（SOA）概念的提出，就已经阐述了类似的思
 想，“对于复杂的企业IT系统，应按照不同的、可重用的粒度划分，将功能相关的一组提供者组织在一起为消费者提供服务”。
@@ -2512,444 +2901,6 @@ mechanisms, often an HTTP resource API. These services are built around business
 <p>综上所述，微服务架构将一个复杂应用拆分成多个服务，服务与服务间能够互相协作、相互配合，从而为终端用户提供业务价值。每个服务独立运行在不同的进程中，服务与服务之间通过轻量的通讯机制交互，并且每个服务可以通过自动化部署方式独立部署。</p>
 
 <p>微服务强调的是一种独立测试、独立部署、独立运行的软件架构模式。微服务中的每个服务，都可以作为一个独立的业务单元进行测试、部署，而且每个服务都能独立运行在不同的进程中。这些微服务满足细粒度的业务需求，并使用自动化部署工具进行发布。同时，这些微服务可以使用不同的开发语言，不同框架，以及不同的数据存储技术，因此它是一种高度自治的、非集中式管理的、细粒度的服务单元。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[解析微服务架构(一)]]></title>
-    <link href="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou/"/>
-    <updated>2015-03-16T22:07:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-1-dan-kuai-ying-yong-jia-gou</id>
-    <content type="html"><![CDATA[<p>[请勿转载]</p>
-
-<h1>单块架构系统以及其面临的挑战</h1>
-
-<h3>概述</h3>
-
-<p>多年来，我们一直在技术的浪潮中乘风破浪，扬帆奋进，寻找更优秀的方法来构建IT系统，也一直在积极的学习并观察先进的公司如何以不同的架构方式构建或者优化其IT系统，来积极应对市场的变化，迅速做出响应，从而为客户提供更多的价值。</p>
-
-<p>微服务架构模式（Microservice Architect Pattern）是近两年在软件架构模式领域里出现的一个新名词。虽然其诞生的时间不长，但其在各种演讲、文章、书籍上所出现的频率已经让很多人意识到它对软件领域所带来的影响。那到底什么是微服务，当我们谈论微服务时，它代表着一种什么样的含义？微服务适合应用在什么场景下，以及它有什么样的优缺点？微服务和SOA到底有没有区别？在接下来的几部分里，我将为大家揭开微服务的神秘面纱。</p>
-
-<!-- More -->
-
-
-<p>不过，在我们开始探讨微服务架构之前，让我们先回顾一下三层应用架构的发展历程并认识一下什么是单块架构应用。</p>
-
-<h3>三层应用架构的发展</h3>
-
-<p>对于任何一个软件应用系统而言，其构建目标都是为了满足某类用户的需求，即为用户传递价值。一直以来，软件的架构设计是决定应用系统是否能够被正确、有效实现的关键要素之一。架构设计描述了在应用系统的内部，如何根据业务、技术、组织，以及灵活性、可扩展性、可维护性等多种因素，将应用系统划分成不同的部分，并使这些部分彼此之间相互分工、相互协作，从而为用户提供某种特定价值的方式。</p>
-
-<h4>应用的三层架构</h4>
-
-<p>   现实生活中，“层”这个字的含义，对大家一点都不陌生。我们经常说楼房高多少层，蛋糕有几层等。通常来说，层有好几种定义，但其中最耳
-熟能详的，莫过于“层”能帮助我们划分出构成某整体事物的，上下相互支撑的的不同部分。譬如说，我们喜欢吃的蛋糕，一般是由三层组成：第一层的蛋糕体、第二层的奶油，和第三层的水果。从顶部至底部，每一层依赖于下一层，从底部到顶部，每一层又支撑着上一层。</p>
-
-<p>   在软件架构模式的领域，经过多年的发展，也有了层的概念：</p>
-
-<ul>
-<li> 层能够被单独构造；</li>
-<li> 层具有区别于其他层的显著特点；</li>
-<li> 层与层之间能够互相连接、互相支撑、互相作用，相互协作构成一个整体。</li>
-<li> 层的内部，可以被替换成其他可工作的部分，但对整体的影响不大。</li>
-</ul>
-
-
-<p>   以WEB应用程序为例，在WEB应用程序开发的早期，由于受到面向过程的思维及设计方式的影响，所有的逻辑代码并没有明显的区分，因此代码
-之间的调用相互交错，错综复杂。譬如，我们早期使用的ASP、JSP以及PHP，都是将所有的页面逻辑、业务逻辑以及数据库访问逻辑放在一起，这是我们通常提到的一层架构。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/1-layer-800-600.png" /></p>
-
-<p>   随着JAVA，.NET等高级语言的快速发展，这些语言为开发者提供了越来越方便的的数据访问机制，如Java语言的JDBC、IO流，或者.NET的ADO.NET等。这时候，数据访问部分的代码逐渐有了清晰的结构，但表示逻辑和业务逻辑依然交织在一起，我们称这个阶段为二层架构阶段。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/2-layer-800-600.png" /></p>
-
-<p>   随着面向对象分析、面向对象设计、面向对象原则、设计模式、企业架构模式等理念以及方法论的不断发展，从为用户提供功能、以及有效组织软件结构的角度考虑，WEB
-应用中不同职责的部分逐渐被定义在了不同的层次，每一层负责的部分更趋向于具体化，细致化，于是软件的三层架构逐渐出现了。三层架构通常包括表示层、业务逻辑层以及数据访问层。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/3-layer-800-600.png" /></p>
-
-<ul>
-<li> 表示层</li>
-</ul>
-
-
-<p>   表示层部分通常指当用户使用应用程序时，看见的、听见的、输入的或者交互的部分。譬如，有可能是信息的显示，音乐的的播放或者可以输
-入的文本框，单选按钮以及可点击的按钮等。通过这些元素，用户同软件进行交互并获取期望的价值。目前的用户接口大部分情况下为WEB方式，当然也可以是桌面软件的形式，例如. NET的WINFORM或者Java的SWING。</p>
-
-<ul>
-<li> 业务逻辑层</li>
-</ul>
-
-
-<p>   业务逻辑部分是根据用户输入的信息，进行逻辑计算或者业务处理的部分。业务逻辑层则主要聚焦应用程序对业务问题的逻辑处理，以及业务
-流程的操作，它是大部分软件系统区别与其他系统的核心。譬如，当用户点击一个按钮后，它可能会触发业务逻辑部分的代码进行运算，生成用户期望的结果。举例来说，在一个电子商务平台中，作为用户，当我们下单购买某个商品后，应用程序的业务逻辑层会对订单如何进行处理，如何计算折扣、如何配送等进行处理。</p>
-
-<ul>
-<li> 数据访问层</li>
-</ul>
-
-
-<p>  在用户同应用程序交互的过程中，会产生数据。这类数据需要通过某种机制被有效的保存，并在将来能够被重复使用，或者提供给其他系统。这
-种机制或者方法就是数据访问层最关注的部分。也就是说，它关注的是应用程序是如何有效的将数据存储到数据库、文件系统或者其他存储介质中。有一点要注意的是，它关心的是对原始数据的操作（数据库或者文本文件等存放数据的形式），而非原始数据的存储介质本身。譬如，在一个电子商务平台中，商品的信息是如何存储，图片的信息是如何获取的等。</p>
-
-<p>   三层架构的出现，一方面是为了解决应用程序中代码间调用复杂、代码职责不清的问题。其通过在各层间定义接口，并将接
-口与实现分离，可以很容易的用不同的实现来替换原有层次的实现，从而有效降低层与层之间的依赖。这种方式不仅有利于帮助团队理解整个应用架构，降低后期维护成本，同时也有利于制定整个应用程序架构的标准。</p>
-
-<p>   另一方面，三层结构的出现从某种程度上也解决了企业内部如何有效的根据技能调配人员，提高生产效率的问题。在大环境
-下，有效的分层能使不同职责的人员各司其职，更聚焦与个人专业技能的发展和培养。三层结构的出现不仅标准化了复杂系统的逻辑划分，更帮助企业解决了如何有效形成技术人员组织结构的问题，因此在很长的一段时间里，它一直是软件架构的经典模式之一。</p>
-
-<h4>非三层架构</h4>
-
-<p>有些人认为，对于一个WEB应用程序，其被自动地分成了三层架构，因为它有三个分离的部件，如图所示：</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/not-3-layer-800-600.png" /></p>
-
-<p>   这三个部分看起来虽然满足“层”的概念，但它并不是我们所说的软件架构的层。就像我们所说的奶油蛋糕，我们可以在蛋糕
-的底部加上稳固的底座，在蛋糕的外部加上漂亮的包装盒，但仔细想想，底座可以用不同品牌的底座，可以用纸质材料的，也可以用树脂材料的；包装盒可以用红色的一次性纸袋，也可以用蓝色的带着花纹的铁盒，它们并不是我们蛋糕组成的必须一部分。</p>
-
-<p>   浏览器可以独立存在与WEB应用程序之外，WEB应用程序也可以被不同的浏览器访问，因此浏览器不是WEB应用程序的部分
-。虽然最近几年，在浏览器端，我们可以使用很多JavaScript库或者框架独立开发前端应用，但它的范畴超出了我们目前讨论的三层架构，更多的属于富客户端以及前后端分离的应用。</p>
-
-<p>   类似的，数据库服务器也可以独立存在于应用程序之外，因此它也不是应用程序的一部分。虽然有些应用程序的逻辑代码，
-被设计成必须是在数据库中运行，例如存储过程或者触发器，但这种用法并不推荐，原因是将业务逻辑放在了数据库本身，大大增加了后期维护的复杂度和数据迁移的成本。</p>
-
-<h3>单块架构应用</h3>
-
-<h4>什么是单块架构应用</h4>
-
-<p>   虽然软件的三层架构帮助我们将应用在逻辑上分成了三层，但它并不是物理上的分层。这也就意味着，即便我们将应用架构分成了 所谓的三层
-，经过开发团队对不同层的代码实现，经历过编译（如果非静态语言，可以跳过编译阶段）、打包、部署后，不考虑负载均衡以及水平扩展的情况，最终还是运行在同一个机器的同一个进程中。
-对于这种功能集中、代码和数据中心化、一个发布包、部署后运行在同一进程的应用程序，我们通常称之为单块架构应用。典型的单块架构应用，莫过于传统的J2EE项目所构建的产品或者项目，它们存在的形态一般是WAR包或者EAR包。当部署这类应用时，通常是将整个一块都作为一个整体，部署在同一个WEB容器，如Tomcat或者Jetty中。当这类应用运行起来后，所有的功能也都运行在同一个进程中。</p>
-
-<p>   类似的，基于Ruby On Rails的单块架构应用，一般逻辑上分为控制器层、模型层以及视图层，同时代码存放在遵循一定层级结构 的目录中
-。当部署这类应用的时候，通常是使用SSH或者其他一些工具，如<a href="https://github.com/capistrano/capistrano">Capistrano</a>将整个目录部署在<a href="https://www.phusionpassenger.com/">Passenger</a>或者其他WEB容器中。当这类应用运行起来后，所有的功能也都运行在同一个进程中。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/in-a-web-container-800-600.png" /></p>
-
-<p>因此，对于单块架构应用的定义，其实是基于分层软件架构设计的系统基础之上，从部署模式、运行模式角度去考虑的一种定义方式。</p>
-
-<h4>单块架构应用的优势</h4>
-
-<ul>
-<li> 易于开发</li>
-</ul>
-
-
-<p>   对单块架构的应用程序而言，开发方式相对较简单。首先从概念上，现有的大部分工具、应用服务器、框架都是这类单块架构应用程序，容易
-理解而且为人所熟知。如果从实践角度出发，现有的集成开发工具比较适合单块架构的应用程序，像NetBeans、Eclipse、IDEA等，它们都能够有效加载并配置整个应用程序的依赖，方便开发人员开发、运行、调试等。</p>
-
-<ul>
-<li> 易于测试</li>
-</ul>
-
-
-<p>   单块架构应用程序也非常容易被测试，因为所有的功能都运行在一个进程中，启动集成开发环境或者将发布包部署到某一环境，一旦启动该进程，就可以立即开始系统测试或者功能测试。</p>
-
-<ul>
-<li> 易于部署</li>
-</ul>
-
-
-<p>   对单块架构的应用程序而言，部署也比较容易。实际上，由于所有的功能最终都会打成一个包，因此只需复制该软件包到服务器相应的位置即
-可。当然，部署的方式可以有很多种，最简单的可以使用SCP远程拷贝到指定的目录下，当然也可以使用某些自动化的工具来完成。</p>
-
-<ul>
-<li> 易于水平伸缩</li>
-</ul>
-
-
-<p>   对单块架构的应用程序而言，水平伸缩也比较容易。实际上，由于所有的功能最终都会打成一个包，且只能运行在一个进程中，因此单块架构
-的水平伸缩，更确切的理解其实是克隆，即新建一个服务器节点，配置好该节点的运行环境，复制软件包到相应的位置，运行改应用程序。当然，必须要确保负载均衡器能采取某种分发策略，有效的将请求分发到新创建的节点。</p>
-
-<h4>单块架构面临的挑战</h4>
-
-<p>   随着最近几年互联网行业的迅猛发展，随着公司或者组织业务的不断扩张，需求不断的增加以及用户量的不断增加，单块架构的优势已逐渐无法
-适应互联网时代的快速变化，面临着越来越多的挑战。譬如说，一方面，随着业务的扩大，如何为用户提供可靠的服务，如何有效处理用户增多后导致并发请求数增多，导致的响应慢的问题，以及如何有效解决用户增多后带来的大数据量的问题等。另外一方面，随着公司或者组织业务的不断扩张，需求不断的增加，越来越多的人加入开发团队，代码库也在急剧膨胀。在这种情况下，单块架构的可维护性、灵活性在降低，而测试成本、构建成本以及维护成本却在显著增加。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/advantages-vs-disadvantages-800-600.png" /></p>
-
-<h5>1.维护成本增加</h5>
-
-<p>   随着应用程序的功能越来越多，团队越来越大，相应的沟通成本、管理成本、人员协调成本必然会显著增加。譬如说，对于使
-用Java编写的中型应用而言，当代码量为几万行时，可能只需要几人左右的团队维护。当代码量上升到几十万行级别时，可能需要几十人甚至是上百人的团队。</p>
-
-<p>   另外，随着应用程序功能的增多，当出现缺陷时，有可能引起缺陷的原因组合就会比较多，这也会导致分析缺陷、定位缺陷、修复缺陷的成本相应增高，也就意味着缺陷的平均修复周期可能会花费更长时间。</p>
-
-<p>   另外，随着代码量的增大，在开发人员对全局功能缺乏深度理解的情况下，修复一个缺陷，还有可能引入其他的缺陷，在自动
-化测试机制不完善的情况下，很可能导致该过程陷入“修复越多，缺陷越多”的恶性循环。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/complexity-increase-as-feauture-growing-800-600.png" /></p>
-
-<h5>2.持续交付周期长</h5>
-
-<p>   随着应用程序的功能越来越多，代码越来越复杂，构建和部署时间也会相应的增长。在现有部署流水线稳定工作的情况下，对
-单块架构应用程序做任何细微的修改以及代码提交，都会触发部署流水线，对整个应用程序进行代码编译、运行单元测试、代码检查、构建并生成部署包、验证功能等，这也就意味着流水线的反馈周期变长，单位时间内构建的效率变低了。</p>
-
-<p>   另一方面，团队人员的增多，部署流水线运行的时间增加，开发人员能够提交代码的时间窗口就相应减少，（因为流水线运行
-的过程中，是禁止提交代码的），可能出现长时间等待代码提交，却无法提交的情况，极大破坏了团队的灵活性并降低了团队工作效率。几年前，我曾经工作在一个50万代码行的单块架构应用上，整个应用由一个50人左右的分布式团队负责。通常情况下，从开发人员提交代码到运行单元测试、构建发布包、运行功能测试、标记为可发布状态大概需要40分钟，时间稍微有点长，但团还能忍受。关键的问题是开发人员通常都是集中在下午3点左右，完成一定功能的情况下提交代码，结果就导致3点至5点那个时间段，成了代码提交的瓶颈，极大影响了该应用的持续集成和构建的效率。</p>
-
-<h5>3.新人培养周期长</h5>
-
-<p>   随着应用程序的功能越来越多，代码变得越来越复杂的同时，对于新加入团队的成员而言，了解行业背景、熟悉应用程序业
-务、配置本地开发环境，这些看似简单的任务，将会花费更长的时间。我曾经有个朋友，在加入一家世界500强的知名IT公司后，被安排到了一个百万级代码的产品组里。他花了将近1个月的时间来熟悉产品文档、配置开发环境后，才在本地成功的运行起了这个应用。在他从事这份新工作的头一个月里，我们好几次聊到他的新工作，得到的答案都是一样，“看文档，装环境”。对个人而言，花一个月时间来配置本地开发环境，其中的滋味和感受大家可想而知，我估计人世间比这更痛苦的事情也没几件了。而对公司或者部门而言，本期望员工花费数天就能配置好的环境，却花了一个月才能完成，这更是极大的浪费。更有甚者，在第一次配置完开发环境后，好几年都不愿意再升级或者重装系统，真是一招被蛇咬，十年怕井绳。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/new-employee-chanlleges-800-600.png" /></p>
-
-<h5>4.技术选型成本高</h5>
-
-<p>   传统的单块架构系统倾向采用统一的技术平台或方案来解决所有问题。通常，技术栈的决策是在团队开发之前经过架构师、技术经理慎重评估后选定的，每个团队成员都必须使用相同的开发语言、持久化存储及消息系统，而且要使用类似的工具。随着应用程序的复杂性逐渐增加以及功能越来越多，如果团队希望尝试引入新的框架、技术，或者对现有技术栈升级，通常会面临不小的风险。</p>
-
-<p>   另一方面，互联网行业不仅市场变化快，而且技术变化也快。譬如，短短几年几年时间，光前端JavaScript的框架，就出现了好几十个，从早一点的<a href="http://backbonejs.org/">Backbone</a>、<a href="http://emberjs.com">Ember</a>到<a href="https://angularjs.org">AngularJS</a>、<a href="http://www.ractivejs.org/">Ractive</a>等等。类似的，后端的框架、工具等也是层出不穷，有兴趣的朋友可以参考下<a href="http://www.thoughtworks.com/radar">ThoughtWorks的技术雷达</a>(该技术雷达是ThoughtWorks对业界技术、工具、语言等发展趋势的分析以及预测报告)。因此，对单块架构的应用而言，初始的技术选型严重限制了其将来采用不同语言或框架的能力。如果想尝试新的编程语言或者框架，没有完备的功能测试集，很难平滑的完成替换，而且系统规模越大，风险越高。</p>
-
-<h5>5.可伸缩性差</h5>
-
-<p>  如果应用程序的所有功能代码都运行在同一个服务器上，将会导致应用程序的扩展非常困难。如果迫切的需要扩展，那么垂直扩展可能是最容
-易的（钱不是问题）。在大多数情况下，如果舍得砸钱上IBM的服务器、Oracle的数据库或者来自EMC的存储设备，不用改变一行代码，整个世界都变好了。不幸的是，伴随着业务的增长，数据的增长，垂直扩展会变得越来越吃力，成本越来越高。这也是为什么在业很多公司开始尝试使用开源，放弃这些昂贵的IOE产品的原因。这下明白为什么近几年去IOE的呼声越来越高了吧。</p>
-
-<p>  当考虑水平扩展时，通常的做法是建立一个集群，通过在集群中不断的添加新节点，然后借助前端的负载均衡器，将用户的
-请求按照某种算法，譬如轮转法、散列法或者最小连接法等合理的将请求分配到不同的节点上。但是，由于所有程序代码都运行在服务器上的同一个进程中，会导致应用程序的水平扩展成本非常高。譬如说，如果应用程序某部分的功能是内存密集型的，如需要缓存大量数据，而另外一部分功能是CPU密集型的，如需要进行大量的运算，那么每次实施水平扩展，运行该应用的服务器都必须有足够的内存和强劲的CPU来满足需求。因此，鉴于每个服务器都要提供该应用系统所需要的各种资源，基础设施的整体花费可能会非常高。当然，如果某些节点保持状态，如用户登陆后的会话信息等，更增加了水平扩展的难度。</p>
-
-<h5>6.构建全功能团队难</h5>
-
-<p>   最后，非常微妙的是，随着应用程序的功能越来越多，代码变得越来越复杂，其应用程序的复杂结构也会逐渐映射到研发团队的
-结构上。康威定律指出：一个组织的设计成果，其结构往往对应于这个组织中的沟通结构。单块架构的开发模式在分工时往往以技能为单位，比如UX团队、服务端团队和数据库团队，这样的分工可能会导致任何功能上的改变都需要跨团队沟通和协调。譬如说，用户体验工程师（UX）更专注负责用户接口部分，业务层开发者则负责建立服务器后端的业务逻辑，数据库工程师和DBA们更关注数据访问组件和数据库。鉴于这些问题，随着时间的推移，不仅代码越来越难以管理，其对团队结构的影响也越来越明显。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/chapter1/build-team-aroud-business-800-600.png" /></p>
-
-<p>综上所述，随着业务的不断扩大，需求功能的持续增加，单块架构已经很难满足业务快速变化的需要。一方面，代码的可维护性、扩展性、灵活性在降低；而另一方面，系统的测试成本、构建成本以及维护成本却在显著增加。因此，随着项目或者产品规模的不断扩大，单块架构应用的改造与重构势在必行。</p>
-
-<hr />
-
-<h3>总结</h3>
-
-<p>   互联网时代的产品通常有几类特点：创新成本低、需求变化快，用户群体庞大，它和几年前我们熟悉的单块
-架构应用有着本质的不同。随着市场变化快、用户需求变化快、用户访问量增加的同时，单块架构应用的维护成本、人员的培养成本、缺陷修复成本、技术架构演进的成本、系统扩展成本等都在增加，因此单块架构曾经的优势已逐渐无法适应互联网时代的快速变化，面临着越来越多的挑战。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[基于微服务架构，改造企业核心系统之实践]]></title>
-    <link href="http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian/"/>
-    <updated>2014-09-16T21:57:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/09/16/shi-yong-wei-fu-wu-gai-zao-qi-ye-he-xin-ye-wu-xi-tong-shi-jian</id>
-    <content type="html"><![CDATA[<p>本文已经发表于InfoQ，请参考<a href="http://www.infoq.com/cn/articles/enterprise-core-systems-transformation-practice">这里</a></p>
-
-<h2>背景与挑战</h2>
-
-<p>随着公司国际化战略的推行以及本土业务的高速发展，后台支撑系统已经不堪重负。</p>
-
-<p>在吞吐量、稳定性以及可扩展性上都无法满足日益增长的业务需求。对于每10万元额度的合同，从销售团队准备材料、与客户签单、递交给合同部门，再到合同生效大概需要3.5人天。随着业务量的快速增长，签订合同的成本急剧增加。</p>
-
-<p>合同管理系统是后台支撑系统中重要的一部分。当前的合同系统是5年前使用.NET，基于<a href="http://www.sagecrm.com/">SAGE CRM</a>二次开发的产品。
-一方面，系统架构过于陈旧，性能、可靠性无法满足现有的需求。另一方面，功能繁杂，结构混乱，定制的代码与SAGE CRM系统耦合度极高。</p>
-
-<p>由于是遗留系统，熟悉该代码的人早已离职多时，新团队对其望而却步，只能做些周边的修补工作。同时，还要承担着边补测试，边整理逻辑的工作。</p>
-
-<p>在无法中断业务处理的情况下，为了解决当前面临的问题，团队制定了如下的策略：</p>
-
-<p><img src="http://wldandan.github.com/images/microservice/crm-rebuild-strategy-600x400.png" /></p>
-
-<ol>
-<li>在现有合同管理系统的外围，构建功能服务接口，将系统核心的功能分离出来。</li>
-<li>利用这些功能服务接口作为代理，解耦原合同系统与其调用者之间的依赖；</li>
-<li>通过不断构建功能服务接口，逐渐将原有系统分解成多个独立的服务。</li>
-<li>摒弃原有的合同管理系统，使用全新构建的(微)服务接口替代。</li>
-</ol>
-
-
-<!--more-->
-
-
-<h2>什么是微服务</h2>
-
-<p>多年来，我们一直在技术的浪潮中不断乘风破浪，扬帆奋进，寻找更好的方式构建IT系统。</p>
-
-<p>微服务架构(Micro Service Architect)，是近一段时间在软件体架构领域里出现的一个新名词。它通过将功能分解到多个独立的服务中以实现对解决方案或者复杂系统的解耦。</p>
-
-<p>微服务的诞生并非偶然：<a href="http://dddcommunity.org/">领域驱动设计</a>指导我们如何分析并模型化复杂的业务；<a href="http://agilemethodology.org/">敏捷方法论</a>帮助我们消除浪费，快速反馈；<a href="http://agilemethodology.org/">持续交付</a>促使我们构建更快、更可靠、更频繁的软件部署和交付能力；虚拟化和基础设施自动化(Infrasture As Code)则帮助我们简化环境的创建、安装；<a href="http://dev2ops.org/2010/02/what-is-devops/">DevOps</a>文化的流行以及特性团队的出现，使得小团队更加全功能化。这些都是推动微服务诞生的重要因素。</p>
-
-<p>实际上，微服务本身并没有一个严格的定义。不过从业界的讨论来看，微服务通常有如下几个特征:</p>
-
-<h3>小，且专注于做一件事情</h3>
-
-<p>每个服务都是个很小的应用，至于有多小，是一个非常有趣的话题。有人喜欢100行以内，有人赞成1000行以内。数字并不是最重要的，仁者见仁，智者见智，只要团队觉得合适就好。</p>
-
-<p>只关注一个业务功能。这一点和我们平常谈论的面向对象原则中的&#8221;单一原则&#8221;类似，每个服务只做一件事情，并且把它做好。</p>
-
-<h3>运行在独立的进程中</h3>
-
-<p>每个服务都运行在一个独立的操作系统进程，这意味着不同的服务能被部署到不同的主机上。</p>
-
-<h3>轻量级的通信机制</h3>
-
-<p>服务和服务之间通过轻量级的机制实现彼此间的通信。所谓轻量级通信机制，通常指基于语言无关、平台无关的这类协议，例如XML、JSON，而不是传统我们熟知的Java RMI或者.Net Remoting等。</p>
-
-<h3>松耦合</h3>
-
-<p>不需要改变依赖，只更改当前服务本身，就可以独立部署。这意味着该服务和其他者服务之间在部署和运行上呈现相互独立的状态。</p>
-
-<p>综上所述，微服务架构采用多个服务间互相协作的方式构建传统应用。每个服务独立运行在不同的进程中，服务之与服务之间通过轻量的通讯机制交互，并且每个服务可以通过自动化部署方式独立部署。</p>
-
-<h2>微服务的优势</h2>
-
-<p>相比传统的单块架构系统(monolithic)，微服务在如下诸多方面有着显著的优势：</p>
-
-<h4>异构性</h4>
-
-<p>问题有其具体性，解决方案也应有其针对性。用最适合的技术方案去解决具体的问题，往往会事半功倍。传统的单块架构系统倾向采用统一的技术平台或方案来解决所有问题。而微服务的异构性，可以针对不同的业务特征选择不同的技术方案，有针对性的解决具体的业务问题。</p>
-
-<p>对于单块架构的系统，初始的技术选型严重限制将来采用不同语言或框架的能力。如果想尝试新的编程语言或者框架，没有完备的功能测试集，很难平滑的完成替换，而且系统规模越大，风险越高。基于微服务架构，使我们更容易地在遗留系统上尝试新的技术或解决方案。譬如说，
-可以先挑选风险最小的服务作为尝试，快速得到反馈后再决定是否试用于其他服务。这也意味着，即便对一项新技术的尝试失败的话，尽可以抛弃这个方案，并不会对整个产品带来风险。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice/micro-service-advantages-600x400.png" /></p>
-
-<p>上图引用自Martin Fowler的<a href="http://martinfowler.com/articles/microservices.html">Microservices</a>一文。</p>
-
-<h4>独立测试与部署</h4>
-
-<p>单块架构系统运行在一个进程中，因此系统中任何程序的改变，都需要对整个系统重新测试并部署。
-而对微服务架构而言，不同服务之间的打包、测试或者部署等，与其它服务都是完全独立的。对某个服务所做的改动，只需要关注该服务本身。从这个角度来说，使用微服务后，代码修改、测试、打包以及部署的成本和风险都比单块架构系统降低很多。</p>
-
-<h4>按需伸缩</h4>
-
-<p>单块架构系统由于单进程的局限性，水平扩展时只能基于整个系统进行扩展，无法针对某一个功能模块按需扩展。
-而服务架构则可以完美的解决伸缩性的扩展问题。系统可以根据需要，实施细粒度的自由扩展。</p>
-
-<h4>错误隔离性</h4>
-
-<p>微服务架构同时也能提升故障的隔离性。例如，如果某个服务的内存泄露，则只会影响到自己，其他服务能够继续正常地工作。与之形成对比的是，单块架构中如果有一个不合格的组件发生异常，有可能会拖垮整个系统。</p>
-
-<h4>团队全功能化</h4>
-
-<p>康威定律（Conway&#8217;s law）指出：</p>
-
-<p><code>organizations which design systems are constrained to produce designs which are copies of the communication structures of these organizations.</code></p>
-
-<p><code>一个组织的设计成果，其结构往往对应于这个组织中的沟通结构。</code></p>
-
-<p>传统的开发模式在分工时往往以技术为单位，比如UI团队、服务端团队和数据库团队，这样的分工可能会导致任何功能上的改变都需要跨团队沟通和协调。而微服务则倡导围绕服务来分工，团队需要具备服务设计、开发、测试到部署所需的所有技能。</p>
-
-<h2>微服务快速开发实践</h2>
-
-<p>随着团队对业务的理解加深和对微服务实践的尝试，数个微服务程序已经成功构建出来。不过，问题同时也出现了：对于这些不同的微服务程序而言，虽然具体实现的代码细节不同，但其结构、开发方式、持续集成环境、测试策略、部署机制以及监控和告警等，都有着类似的实现方式。那么如何满足<a href="http://programmer.97things.oreilly.com/wiki/index.php/Don't_Repeat_Yourself">DRY原则</a>并消除浪费呢？</p>
-
-<p>带着这个问题，经过团队的努力，Stencil诞生了。
-Stencil是一个帮助快速构建Ruby微服务应用的开发框架，主要包括四部分：Stencil模板、代码生成工具，持续集成模板以及一键部署工具。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice/stencil-template-structure-details-600x400.png" /></p>
-
-<h3>Stencil模板</h3>
-
-<p>Stencil模板是一个独立的Ruby代码工程库，主要包括代码模板以及一组配置文件模板。</p>
-
-<p>代码模板使用<a href="https://github.com/basho/webmachine">Webmachine</a>作为Web框架，<a href="http://en.wikipedia.org/wiki/Representational_state_transfer">RESTful</a>和JSON构建服务之间的通信方式，RSpec作为测试框架。同时，代码模板还定义了一组Rake任务，譬如运行测试，查看测试报告，将当前的微服务生成RPM包，使用Koji给RPM包打标签等。</p>
-
-<p>除此之外，该模板也提供了一组通用的URL，帮助使用者查看微服务的当前版本、配置信息以及检测该微服务程序是否健康运行等。</p>
-
-<pre><code>[
-    {
-        rel: "index",
-        path: "/diagnostic/"
-    },
-    {
-        rel: "version",
-        path: "/diagnostic/version"
-    },
-    {
-        rel: "config",
-        path: "/diagnostic/config"
-    },
-    {
-        rel: "hostname",
-        path: "/diagnostic/hostname"
-    },
-    {
-        rel: "heartbeat",
-        path: "/diagnostic/status/heartbeat"
-    },
-    {
-        rel: "nagios",
-        path: "/diagnostic/status/nagios"
-    }
-]
-</code></pre>
-
-<p>配置文件模板主要包括<a href="http://newrelic.com/">NewRelic</a>配置，<a href="https://www.phusionpassenger.com/">Passenger</a>配置、<a href="http://www.nagios.org/">Nagios</a>配置、<a href="http://httpd.apache.org/">Apache</a>配置以及<a href="http://www.splunk.com/">Splunk</a>配置。通过定义这些配置文件模板，当把新的微服务程序部署到验收环境或者产品环境时，我们立刻就可以使用Nagios、NewRelic以及Splunk等第三方服务提供的功能，帮助我们有效的监控微服务，并在超过初始阈值时获得告警。</p>
-
-<h3>代码生成工具</h3>
-
-<p>借助Stencil代码生成工具，我们能在很短的时间内就构建出一个可以立即运行的微服务应用程序。随着系统越来越复杂，微服务程序的不断增多，Stencil模板和代码生成工具帮助我们大大简化了创建微服务的流程，让开发人员更关注如何实现业务逻辑并快速验证。</p>
-
-<pre><code>Create a project from the stencil template (version 0.1.27)
-        --name, -n &lt;s&gt;:   New project name. eg. things-and-stuff
-   --git-owner, -g &lt;s&gt;:   Git owner (default: which team or owner)
-        --database, -d:   Include database connection code
-  --triggered-task, -t:   Include triggered task code
-        --provider, -p:   Is it a service provider? (other services use this service)
-        --consumer, -c:   Is it a service consumer? (it uses other services)
-      --branch, -b &lt;s&gt;:   Specify a particular branch of Stencil
-       --face-palm, -f:   Overide name validation 
-            --help, -h:   Show this message
-</code></pre>
-
-<p>如上图所示，通过指定不同参数，我们能创建具有数据库访问能力的微服务程序、或者是包含异步队列处理的微服务程序。同时，我们也可以标记该服务是数据消费者还是数据生产者，能帮助我们理解多个微服务之间的联系。</p>
-
-<h3>持续集成模板</h3>
-
-<p>基于持续集成服务器<a href="https://www.atlassian.com/software/bamboo">Bamboo</a>，团队创建了针对Stencil的持续集成模板工程，并定义了三个主要阶段：</p>
-
-<ul>
-<li>打包：运行单元测试，集成测试，等待测试通过后生成RPM包。</li>
-<li>发布：将RPM包发布到<a href="http://koji.fedoraproject.org/koji/">Koji</a>服务器上，并打上相应的Tag。然后使用<a href="http://www.packer.io/">Packer</a>在亚马逊AWS云环境中创建AMI，建好的AMI上已经安装了当前微服务程序的最新RPM包。</li>
-<li>部署：基于指定版本的AMI，将应用快速部署到验收环境或者产品环境上。</li>
-</ul>
-
-
-<p>利用持续集成模板工程，团队仅需花费很少的时间，就可以针对新建的微应用程序，在Bamboo上快速定义其对应的持续集成环境。</p>
-
-<h3>一键部署工具</h3>
-
-<p>所有的微服务程序都部署并运行在亚马逊AWS云环境上。同时，我们使用<a href="https://github.com/Netflix/asgard">Asgard</a>对AWS云环境中的资源进行创建、部署和管理。
-Asgard是一套功能强大的基于Web的AWS云部署和管理工具，由Netflix采用<a href="http://grails.org/">Groovy on Grails</a>开发，其主要优点有：</p>
-
-<pre><code>- 基于B/S的AWS部署及管理工具，使用户能通过浏览器直接访问AWS云资源，无需设置Secret Key和Access Key；
-- 定义了`Application`以及`Cluster`等逻辑概念，更清晰、有效地描述了应用程序在AWS云环境中对应的部署拓扑结构。
-- 在对应用的部署操作中，集成了AWS Elastic Load Balancer、AWS EC2以及AWS Autoscaling Group，并将这些资源自动关联起来。
-- 提供RESTful接口，能够方便的与其他系统集成。
-- 简洁易用的用户接口，提供可视化的方式完成一键部署以及流量切换。
-</code></pre>
-
-<p>由于Asgard对RESTful的良好支持，团队实现了一套基于Asgard的命令行部署工具，只需如下一条命令，提供应用程序的名称以及版本号，就可自动完成资源的创建、部署、流量切换、删除旧的应用等操作。</p>
-
-<pre><code>asgard-deploy [AppName] [AppVersion]
-</code></pre>
-
-<p>同时，基于命令行的部署工具，也可以很容易的将自动化部署集成到Bamboo持续集成环境。</p>
-
-<p>通过使用微服务框架Stencil，大大缩短了团队开发微服务的周期。同时，基于Stencil，我们定义了一套团队内部的开发流程，帮助团队的每一位成员理解并快速构建微服务。</p>
-
-<h2>微服务架构下的新系统</h2>
-
-<p>经过5个月的努力，我们重新构建了合同管理系统，将之前的产品、价格、销售人员、合同签署、合同审查以及PDF生成都定义成了独立的服务接口。相比之前大而全、难以维护的合同管理系统而言，新的系统由不同功能的微服务组成，每个微服务程序只关注单一的功能。每个微服务应用都有相关的负责人，通过使用<a href="http://www.pagerduty.com/">Page Duty</a>建立消息通知机制。每当有监控出现告警的时候，责任人能立即收到消息并快速做出响应。</p>
-
-<p><img src="http://wldandan.github.com/images/microservice/micro-service-app-600x400.png" /></p>
-
-<p>由于微服务具有高内聚，低耦合的特点，每个应用都是一个独立的个体，当出现问题时，很容易定位问题并解决问题，大大缩短了修复缺陷的周期。
-另外，通过使用不同功能的微服务接口提供数据，用户接口(UI)部分变成了一个非常简洁、轻量级的应用，更关注如何渲染页面以及表单提交等交互功能。</p>
-
-<h3>总结</h3>
-
-<p>通过使用微服务架构，在不影响现有业务运转的情况下，我们有效的将遗留的大系统逐渐分解成不同功能的微服务接口。</p>
-
-<p>同时，通过Stencil微服务开发框架，我们能够快速的构建不同功能的微服务接口，并能方便的将其部署到验收环境或者产品环境。</p>
-
-<p>最后，得益于微服务架构的灵活性以及扩展性，使得我们能够快速构建低耦合、易扩展、易伸缩性的应用系统。</p>
-
-<h3>参考文献</h3>
-
-<p>http://martinfowler.com/articles/microservices.html <br/>
-http://jaxenter.com/cracking-microservices-practices-50692.html<br/>
-http://microservices.io/patterns/microservices.html</p>
 ]]></content>
   </entry>
   

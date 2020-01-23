@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Java | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: java | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -26,45 +26,37 @@
 
 <h3>Lambda Expression</h3>
 
-<p>Let's start from a simple example:</p>
+<p>Let&rsquo;s start from a simple example:</p>
 
 <p><code>Suppose we’re asked to total the prices greater than $20, discounted by 10%. Let’s do that in the habitual Java way first.</code></p>
 
 <h4>Old way</h4>
 
-<p>```</p>
+<pre><code>    final List&lt;BigDecimal&gt; prices = Arrays.asList(
+        new BigDecimal("10"), new BigDecimal("30"), new BigDecimal("17"), 
+        new BigDecimal("20"), new BigDecimal("15"), new BigDecimal("18"), 
+    new BigDecimal("45"), new BigDecimal("12"));
 
-<pre><code>final List&lt;BigDecimal&gt; prices = Arrays.asList(
-    new BigDecimal("10"), new BigDecimal("30"), new BigDecimal("17"), 
-    new BigDecimal("20"), new BigDecimal("15"), new BigDecimal("18"), 
-new BigDecimal("45"), new BigDecimal("12"));
-
-BigDecimal totalOfDiscountedPrices = BigDecimal.ZERO;   
-for(BigDecimal price : prices) { 
-        if(price.compareTo(BigDecimal.valueOf(20)) &gt; 0)
-                totalOfDiscountedPrices = totalOfDiscountedPrices.add(price.multiply(BigDecimal.valueOf(0.9)));
-            }
-    System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);
+    BigDecimal totalOfDiscountedPrices = BigDecimal.ZERO;   
+    for(BigDecimal price : prices) { 
+            if(price.compareTo(BigDecimal.valueOf(20)) &gt; 0)
+                    totalOfDiscountedPrices = totalOfDiscountedPrices.add(price.multiply(BigDecimal.valueOf(0.9)));
+                }
+        System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);
 </code></pre>
-
-<p>```</p>
 
 <h4>A Better way</h4>
 
 <p>Now we can do better, a lot better. Our code can resemble the requirement specification. This will help reduce the gap between the business needs and the code that implements it, further reducing the chances of the requirements being misinterpreted.</p>
 
-<p>```</p>
+<pre><code>    final BigDecimal totalOfDiscountedPrices = 
+    prices.stream()
+      .filter(price -&gt; price.compareTo(BigDecimal.valueOf(20)) &gt; 0)
+      .map(price -&gt; price.multiply(BigDecimal.valueOf(0.9)))
+      .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-<pre><code>final BigDecimal totalOfDiscountedPrices = 
-prices.stream()
-  .filter(price -&gt; price.compareTo(BigDecimal.valueOf(20)) &gt; 0)
-  .map(price -&gt; price.multiply(BigDecimal.valueOf(0.9)))
-  .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);
+    System.out.println("Total of discounted prices: " + totalOfDiscountedPrices);
 </code></pre>
-
-<p>```</p>
 
 <p>Instead of explicitly iterating through the prices list, we’re using a few special methods:</p>
 

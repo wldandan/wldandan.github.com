@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Travel | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: travel | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/travel/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -22,13 +22,13 @@
 
 <p>有趣的事情来了，我们住得bugalow，我之前两次没记住具体的地址，以至于做三轮车的时候都和师傅说不太清楚。某天一个同事给我说，你就这样说bungalow的地址"guo de gao park"，oh my god，这下我记住了，“郭德纲 park"。其实原本的拼写是这样的“Koregaon Park”，发音有那么一丁点类似而已 :)</p>
 
-<p><img src="{{ root_url }}/images/twu/koregaon.png" /></p>
+<p><img src="/images/twu/koregaon.png" /></p>
 
 <!--More-->
 
 
 <p>基本上，koregaon这一片属于富人区，整体的环境还是很好的，街道两边都是高大的榕树，茂密的根须从枝干垂下来，落入土中又会长出新的分支。路上也没有什么太多的过往车辆，所以很安静。即使是太阳当空的晌午，这里也充满了丝丝凉意。
-<img src="{{ root_url }}/images/twu/banian.png" /></p>
+<img src="/images/twu/banian.png" /></p>
 
 <p>每个House都有一个入户大门，我们所住的House，是个大铁门，没太多的装饰，看着有些简陋。有些House的门则修的相当豪华大气，经常看到大门打开后，里面开出宝马、奥迪、卡宴之类的豪车，门口通常还会站着4~5个保安。说道卡宴，不得不说一句，在Pune这个摩托、三轮盛行的城市，卡宴的数量也绝对不少。这一点确实让我挺诧异的，印度的贫富差距，天堂和地狱并存的现象比中国要严重的多,而且至今还有等级之分。由于印度人口众多，有钱人做生意越做越大，如Tata集团等，而普通人收入极有限，随着物价的不断上涨，富人越来越富，穷人越来越穷。许多家族性富商是几代延续，形成当今印度巨大的贫富差距。</p>
 
@@ -53,7 +53,7 @@
 
 <p>住了几天Keys Hotel后，公司决定把我们搬到O Hotel, 因为TWU的培训地就在O hotel。O hotel的电梯设计的很别致，很难想象这是电梯的顶部装修吧(有漂亮的小星星哦)，而且还有优美的旋律伴奏。</p>
 
-<p><img src="{{ root_url }}/images/twu/elevator.png" /></p>
+<p><img src="/images/twu/elevator.png" /></p>
 
 <p>早餐很精致，有水果，煎蛋还有各种干货，哈哈。午饭一般就是米饭和印度传统的鸡肉糊糊，不过汤有时候还是蛮不错的，毕了，还有各种甜点。</p>
 

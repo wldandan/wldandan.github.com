@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Javascript | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: javascript | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -78,13 +78,11 @@ function fullName () {
 }
 </code></pre>
 
-<p>重构后改成</p>
-
-<pre><code>function fullName () {
-    var firstName = "Hello", lastName = "World";
-    console.log ("Full Name: " + firstName + " " + lastName );
-}
-</code></pre>
+<p>重构后改成
+    function fullName () {
+        var firstName = &ldquo;Hello&rdquo;, lastName = &ldquo;World&rdquo;;
+        console.log (&ldquo;Full Name: &rdquo; + firstName + &ldquo; &rdquo; + lastName );
+    }</p>
 
 <h2>变量提升</h2>
 
@@ -99,13 +97,11 @@ showName ();
 </code></pre>
 
 <p>在如上的例子中，会先输出“undefined”，再输出“Last Name: Hello”，证明在执行第一句代码时，变量name实际上是已经存在的，只是undefine而已。
-但是，如果执行如下代码，则JavaScript会报错:</p>
-
-<pre><code>function showName () {
-    console.log ("First Name: " + name); //undefined
-}
-showName ();    
-</code></pre>
+但是，如果执行如下代码，则JavaScript会报错:
+    function showName () {
+        console.log (&ldquo;First Name: &rdquo; + name); //undefined
+    }
+    showName ();</p>
 
 <h4>函数申明的优先级会高于变量申明的优先级。</h4>
 
@@ -145,15 +141,14 @@ console.log(typeof myName); // string
 <!--More-->
 
 
-<p>下面，先让我们来看一段代码，看看Module Pattern是如何帮助我们完成面向对象的封装的：</p>
+<p>下面，先让我们来看一段代码，看看Module Pattern是如何帮助我们完成面向对象的封装的：
+    var Module = (function(){
+      var myPrivateVar = 0;
+      var myPrivateMethod = function(msg){
+        console.log(msg);
+      }</p>
 
-<pre><code>var Module = (function(){
-  var myPrivateVar = 0;
-  var myPrivateMethod = function(msg){
-    console.log(msg);
-  }
-
-  return {
+<pre><code>  return {
     myPublicVar: "publicFoo",
     myPublicMethod: function(msg){
         myPrivateVar++;
@@ -190,72 +185,58 @@ console.log(typeof myName); // string
 <p>不过，对于上面这种方式的实现，存在一个较明显的弊端:整个Module的定义只能在一个文件里完成，对于一些大型的应用，codebase已经很复杂了，如果再定义某个数千行以上的JS Module，这无疑大大增加了维护的难度，因此我们这里衍生出一个Argumentation Module Pattern，帮助我们将一个复杂Module的实现，拆分到多个行数较少的小文件里实现，</p>
 
 <p>譬如说，对于一个复杂的Module，可能会分出几个相对独立的功能，例如A,B等等。那么这个时候，我们可以将这相对独立的三部分放在3个文件里实现：
-首先定义一个专门处理A的文件module_a.js</p>
+首先定义一个专门处理A的文件module_a.js
+    var Module = (function (s) {
+        &hellip;&hellip;
+        s.a=function(){//Implementation of A part}
+        &hellip;&hellip;
+        return s;
+    }(Module || {}));</p>
 
-<pre><code>var Module = (function (s) {
-    ......
-    s.a=function(){//Implementation of A part}
-    ......
-    return s;
-}(Module || {}));
-</code></pre>
-
-<p>然后，再定义一个Module_b.js，专门处理该Module中B的部分</p>
-
-<pre><code>var Module = (function (s) {
-  ......
-  s.b=function(){//Implementation of B part}
-  ......
-  return s;
-}(Module || {}));
-</code></pre>
+<p>然后，再定义一个Module_b.js，专门处理该Module中B的部分
+    var Module = (function (s) {
+      &hellip;&hellip;
+      s.b=function(){//Implementation of B part}
+      &hellip;&hellip;
+      return s;
+    }(Module || {}));</p>
 
 <p>类似的，可以根据具体Module的需要决定如何划分不同的js文件。</p>
 
 <p>接下来可以在html页面上引用这两个js，然后使用里面的方法,类似如下：
-  <html></p>
-
-<pre><code>&lt;header&gt;
-  &lt;script type="text/javascript" src="module_a.js"&gt;&lt;/script&gt;
-  &lt;script type="text/javascript" src="module_b.js"&gt;&lt;/script&gt;
-&lt;/header&gt;
-&lt;script&gt;
-  module.a();
-  module.b()
-&lt;/script&gt;
-&lt;body&gt;
-&lt;/body&gt;
-</code></pre>
-
-<p>  </html></p>
+  <html>
+    <header>
+      <script type="text/javascript" src="module_a.js"></script>
+      <script type="text/javascript" src="module_b.js"></script>
+    </header>
+    <script>
+      module.a();
+      module.b()
+    </script>
+    <body>
+    </body>
+  </html></p>
 
 <h2>Sub-Module</h2>
 
 <p>对于一个复杂的项目，也可能会存在不同级别的Module，而不仅仅是对Module内部功能的划分。这时候我们就可以引入sub module的概念，代码如下所示：</p>
 
-<p>  MODULE = (function () {</p>
+<p>  MODULE = (function () {
+    var my = {};
+    // &hellip;</p>
 
-<pre><code>var my = {};
-// ...
-
-return my;
+<pre><code>return my;
 </code></pre>
 
 <p>  }());</p>
 
-<p>  MODULE.subA = (function () {</p>
+<p>  MODULE.subA = (function () {
+    // &hellip;
+  }());</p>
 
-<pre><code>// ...
-</code></pre>
-
-<p>  }());</p>
-
-<p>  MODULE.subB = (function () {</p>
-
-<pre><code>// ...
-</code></pre>
-
-<p>  }());</p>
+<p>  MODULE.subB = (function () {
+    // &hellip;
+  }());</p>
 
 <p>从上面的代码中，我们可以看出，只是利用Module以及Sub-Module对变量名称的定义，将其作为不同的命名空间，从而在逻辑上将其划分成模块和子模块。这种方式其实也是Javascript中最简单，最有效的结构组织的方式。</p>
 ]]></content>
@@ -280,16 +261,13 @@ Node.js摒弃了传统平台依靠多线程来实现高并发的设计思路,采
 
 <h2>2. Node.js能做什么</h2>
 
-<p>Node.js 内建了 HTTP 服务器支持,也就是说你可以轻而易举地实现一个网站和服务器的组合。当然，Node.js 能做的远不止开发一个网站那么简单,使用 Node.js,你可以轻松地开发:</p>
-
-<pre><code>a) 具有复杂逻辑的网站;
-b) Web Socket 服务器;
-c) 命令行工具;
-d) 带有图形用户界面的本地应用程序;
-e) 单元测试工具;
-</code></pre>
-
-<p>等等。</p>
+<p>Node.js 内建了 HTTP 服务器支持,也就是说你可以轻而易举地实现一个网站和服务器的组合。当然，Node.js 能做的远不止开发一个网站那么简单,使用 Node.js,你可以轻松地开发:
+    a) 具有复杂逻辑的网站;
+    b) Web Socket 服务器;
+    c) 命令行工具;
+    d) 带有图形用户界面的本地应用程序;
+    e) 单元测试工具;
+等等。</p>
 
 <h2>3.采用异步式 I/O与事件驱动的编程模型</h2>
 
@@ -323,7 +301,7 @@ e) 单元测试工具;
 
 <h2>5. 参考</h2>
 
-<p>http://code.danyork.com/2011/01/25/node-js-doctors-offices-and-fast-food-restaurants-understanding-event-driven-programming/</p>
+<p><a href="http://code.danyork.com/2011/01/25/node-js-doctors-offices-and-fast-food-restaurants-understanding-event-driven-programming/">http://code.danyork.com/2011/01/25/node-js-doctors-offices-and-fast-food-restaurants-understanding-event-driven-programming/</a></p>
 ]]></content>
   </entry>
   

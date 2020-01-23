@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Splunk | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: splunk | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/splunk/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -48,15 +48,15 @@
 <li><p>Run Universal Forwarder Wizard, following the <a href="http://docs.splunk.com/Documentation/WindowsApp/5.0.2/User/InstallauniversalforwarderonaWindowsserver">guide</a></p>
 
 <ul>
-<li>Click 'Next' until "Receiving Indexer" dialog appears</li>
-<li>In["Receiving Indexer" dialog] page, enter hostname with splunk central server and port with "9997".</li>
-<li>Click 'Next' and finish the installation.</li>
+<li>Click &lsquo;Next&rsquo; until &ldquo;Receiving Indexer&rdquo; dialog appears</li>
+<li>In[&ldquo;Receiving Indexer&rdquo; dialog] page, enter hostname with splunk central server and port with &ldquo;9997&rdquo;.</li>
+<li>Click &lsquo;Next&rsquo; and finish the installation.</li>
 </ul>
 </li>
 <li><p>Config Universal Forwarder</p>
 
 <ul>
-<li>Open file "C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf"</li>
+<li>Open file &ldquo;C:\Program Files\SplunkUniversalForwarder\etc\system\local\inputs.conf&rdquo;</li>
 <li>Append the following content into the file
 <pre>
   [monitor://C:\inetpub\logs\OnlinePayment*.log]
@@ -64,9 +64,9 @@
   disabled = 0
   followTail = 0
   //logs will be grouped by index in splunk central server
-  index = "listing"<br/>
+  index = &ldquo;listing&rdquo;<br/>
   //<a href="http://docs.splunk.com/Documentation/Storm/Storm/User/Sourcesandsourcetypes">Pre-defined source type</a>, or you can specify any value as you like
-  sourcetype = "YOUR-SOURCE-TYPE"
+  sourcetype = &ldquo;YOUR-SOURCE-TYPE&rdquo;
 </pre></li>
 </ul>
 
@@ -84,16 +84,16 @@
 
 <h4>Create new index in SCS</h4>
 
-<p>Right now, there is no index named 'listing', so we need to create a new index in splunk central server.</p>
+<p>Right now, there is no index named &lsquo;listing&rsquo;, so we need to create a new index in splunk central server.</p>
 
 <p>The step is as below:</p>
 
 <ol>
 <li>Login Splunk central server</li>
-<li>Click "Manager" menu at top right navigator and go to "Manager" page.</li>
-<li>Click "Indexes" and go to "Indexes" page.</li>
-<li>Click "New" and input "bs" as 'index name'</li>
-<li>Keep others blank and Click "Save"</li>
+<li>Click &ldquo;Manager&rdquo; menu at top right navigator and go to &ldquo;Manager&rdquo; page.</li>
+<li>Click &ldquo;Indexes&rdquo; and go to &ldquo;Indexes&rdquo; page.</li>
+<li>Click &ldquo;New&rdquo; and input &ldquo;bs&rdquo; as &lsquo;index name&rsquo;</li>
+<li>Keep others blank and Click &ldquo;Save&rdquo;</li>
 </ol>
 
 

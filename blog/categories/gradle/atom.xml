@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Gradle | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: gradle | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/gradle/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -24,10 +24,8 @@
 
 <h4>1). 访问单个文件或者目录</h4>
 
-<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/</p>
-
-<pre><code>~&gt; gradle -p ~/work/project1 tasks
-</code></pre>
+<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/
+    ~> gradle -p ~/work/project1 tasks</p>
 
 <!--More-->
 
@@ -59,11 +57,10 @@ def listOfFileNames = ['src', 'test']    def mainDirectories = files(listOfFileN
 
 <h4>3). 过滤文件或者目录</h4>
 
-<p>除此之外，我们可以使用fileTree()获取文件/目录列表，并使用include或者exclude过滤感兴趣的文件</p>
+<p>除此之外，我们可以使用fileTree()获取文件/目录列表，并使用include或者exclude过滤感兴趣的文件
+    def srcDir = fileTree(&lsquo;src/main&rsquo;).include(&lsquo;<em>*/</em>.java&rsquo;)</p>
 
-<pre><code>def srcDir = fileTree('src/main').include('**/*.java')
-
-// Use map with arguments to create a file tree.
+<pre><code>// Use map with arguments to create a file tree.
 def resources = fileTree(dir: 'src/main', excludes: ['**/*.java,'**/*.groovy'])
 
 
@@ -104,32 +101,27 @@ def javaFiles = fileTree {
 
 <h3>3. 文件重命名</h3>
 
-<p>实际上，CopySpec接口已经提供了rename()方法，因此我们可以类似上面的方式配置Copy Task，完成对文件的重命名。</p>
-
-<pre><code>task copyAndRename(type: Copy) {
-    from 'src'
-    // Change extension .txt to .text.
-    rename '(.*).txt', '$1.text'
-    // Rename files that start with sample-
-    // and remove the sample- part.
-    rename ~/^sample-(.*)/, '$1'
-    into 'dist'
-}
-</code></pre>
+<p>实际上，CopySpec接口已经提供了rename()方法，因此我们可以类似上面的方式配置Copy Task，完成对文件的重命名。
+    task copyAndRename(type: Copy) {
+        from &lsquo;src&rsquo;
+        // Change extension .txt to .text.
+        rename &lsquo;(.<em>).txt&rsquo;, &lsquo;$1.text&rsquo;
+        // Rename files that start with sample-
+        // and remove the sample- part.
+        rename ~/^sample-(.</em>)/, &lsquo;$1&rsquo;
+        into &lsquo;dist&rsquo;
+    }</p>
 
 <h3>4. 文件打包</h3>
 
-<p>和拷贝文件非常类似，Gradle内建了Zip, Tar, Jar, War, and Ear等task帮助我们实现文件的打包。不过，比拷贝文件稍微复杂一点的是，当生成压缩包的时候，Gradle会使用一些属性来决定压缩包的文件名：</p>
+<p>和拷贝文件非常类似，Gradle内建了Zip, Tar, Jar, War, and Ear等task帮助我们实现文件的打包。不过，比拷贝文件稍微复杂一点的是，当生成压缩包的时候，Gradle会使用一些属性来决定压缩包的文件名：
+    [baseName]-[appendix]-[version]-[classifier].[extension]</p>
 
-<pre><code>[baseName]-[appendix]-[version]-[classifier].[extension]    
-</code></pre>
+<p>如果没有设置其中的某个属性，也没有问题，只是该属性不会出现在压缩包的文件名上。下面例子将生成一个名为<code>dist-files-archive-1.0-sample.zip</code>的压缩包：
+    task archiveDist(type: Zip) {
+       from &lsquo;dist&rsquo;</p>
 
-<p>如果没有设置其中的某个属性，也没有问题，只是该属性不会出现在压缩包的文件名上。下面例子将生成一个名为<code>dist-files-archive-1.0-sample.zip</code>的压缩包：</p>
-
-<pre><code>task archiveDist(type: Zip) {
-   from 'dist'
-
-   baseName = 'dist-files'
+<pre><code>   baseName = 'dist-files'
    appendix = 'archive'
    extension = 'zip'
    version = '1.0'
@@ -167,8 +159,8 @@ def javaFiles = fileTree {
 
 <p> 在Gradle中，使用文件settings.gradle定义当前项目的子项目，格式如下所示：</p>
 
-<p>include 'sub-project1', 'sub-project2', 'sub-project3'，
-它表示在当前的项目下建立三个子项目，分别为'sub-project1', 'sub-project2', 'sub-project3'。默认情况下，每个子项目的名称对应着当前操作系统目录下的一个子目录。</p>
+<p>include &lsquo;sub-project1&rsquo;, &lsquo;sub-project2&rsquo;, &lsquo;sub-project3'，
+它表示在当前的项目下建立三个子项目，分别为'sub-project1&rsquo;, &lsquo;sub-project2&rsquo;, &lsquo;sub-project3'。默认情况下，每个子项目的名称对应着当前操作系统目录下的一个子目录。</p>
 
 <!--More-->
 
@@ -180,10 +172,10 @@ def javaFiles = fileTree {
 
 <p>例如，我们有个产品A，包括以下几个组件core，web，mobile。分别代表"核心逻辑"、"网站"、“手机客户端”。 因为每个组件是独立的部分，这个时候最好我们能定义多个子项目，让每个子项目分别管理自己的构建。于是我们可以这样定义A/settings.gradle</p>
 
-<p>include 'core', 'web', 'mobile'
+<p>include &lsquo;core&rsquo;, &lsquo;web&rsquo;, &lsquo;mobile&rsquo;
 按照之前描述的，core组件对应A/core目录，web组件对应A/web目录，mobile组件对应A/mobile目录。接下来，我们就可以在每个组件内部，定义build.gradle负责管理当前组件的构建。</p>
 
-<p>Gradle提供了一个内建的task 'gradle projects'，可以 帮助我们查看当前项目所包含的子项目，下面让我们看看gradle projects的输出结果：</p>
+<p>Gradle提供了一个内建的task &lsquo;gradle projects'，可以 帮助我们查看当前项目所包含的子项目，下面让我们看看gradle projects的输出结果：</p>
 
 <pre><code>$ gradle projects
 :projects
@@ -196,7 +188,7 @@ Root project 'A'
 \--- Project ':web
 </code></pre>
 
-<p>结果一目了然，首先是Root级别的项目A，然后是A下面的子项目'core', 'mobile', 'mobile'</p>
+<p>结果一目了然，首先是Root级别的项目A，然后是A下面的子项目'core', &lsquo;mobile&rsquo;, &lsquo;mobile&rsquo;</p>
 
 <p>最终的文件以及目录结构如下所示：</p>
 
@@ -232,7 +224,7 @@ project(':mobile').projectDir = new File(settingsDir, 'mobile-xxx')
 <pre><code>include 'android', 'ios'
 </code></pre>
 
-<p>现在，mobile组件下将存在两个新的子项目 "android"和"ios"</p>
+<p>现在，mobile组件下将存在两个新的子项目 &ldquo;android"和"ios&rdquo;</p>
 
 <p>于是，这时候'gradle projects'的目录结构就变成</p>
 
@@ -267,13 +259,13 @@ project(':core').hello &lt;&lt; {
 
 <p>对于上面所示的代码，已经很表意了：</p>
 
-<p>allprojects{xxx}  这段代码表示，对于所有的project，Gradle都将定义一个名称是hello的Task { println "I'm $task.project.name"} 。</p>
+<p>allprojects{xxx}  这段代码表示，对于所有的project，Gradle都将定义一个名称是hello的Task { println &ldquo;I&rsquo;m $task.project.name&rdquo;} 。</p>
 
-<p>subprojects{xxxx}的这段代码表示，对于所有的子project，将在名称为hello的Task上追加Action {println "- I am the sub project of A"}</p>
+<p>subprojects{xxxx}的这段代码表示，对于所有的子project，将在名称为hello的Task上追加Action {println &ldquo;- I am the sub project of A&rdquo;}</p>
 
 <p>注意：关于Task和Action的关系，请看我之前写的本系列的第一部分。</p>
 
-<p>project(':core')的这段代码表示，对于名称为core的project，将在名称为hello的Task上追加Action { println "- I'm the core component and provide service for other parts." }</p>
+<p>project(&lsquo;:core&rsquo;)的这段代码表示，对于名称为core的project，将在名称为hello的Task上追加Action { println &ldquo;- I&rsquo;m the core component and provide service for other parts.&rdquo; }</p>
 
 <h3>3. 多项目的Task执行</h3>
 
@@ -309,20 +301,16 @@ task hello &lt;&lt; {
 }
 </code></pre>
 
-<!--more-->
+<!--more-->    
 
 
-<p>  <br/>
-在basic目录下直接执行gradle，不带任何参数：</p>
-
-<pre><code>gradle
-</code></pre>
-
-<p>此时，Gradle会创建一个Porject的实例，并将build.gradle的所有内容都加载到该实例中，作为不同的实例变量存在。在这个例子中，project包括两部分：</p>
+<p>在basic目录下直接执行gradle，不带任何参数：
+    gradle
+此时，Gradle会创建一个Porject的实例，并将build.gradle的所有内容都加载到该实例中，作为不同的实例变量存在。在这个例子中，project包括两部分：</p>
 
 <h5>1)可执行脚本的定义</h5>
 
-<p>按照之前提到的，可执行脚本的定义将被创建成Script类的实例并直接执行。在这个例子中，Script的部分就是第一行代码（因为它被定义在Task之外），然后执行的结果就是打印出 "the project name is basic"。</p>
+<p>按照之前提到的，可执行脚本的定义将被创建成Script类的实例并直接执行。在这个例子中，Script的部分就是第一行代码（因为它被定义在Task之外），然后执行的结果就是打印出 &ldquo;the project name is basic"。</p>
 
 <h4>默认的，当前project的名字是build.gradle所在目录的名字，在这个例子中，build.gradle放在basic目录下，因此，project的name也就是basic.</h4>
 
@@ -334,10 +322,8 @@ task hello &lt;&lt; {
 
 <p>另外，有一点要注意的是，在这个例子中，<code>task hello &lt;&lt;</code>使用的$name，和task定义之外使用的$name并不一样，前者是project的name，而后者是当前task的name，因为它被使用在Task的scope里。</p>
 
-<p>在basic目录下执行</p>
-
-<pre><code>Gradle hello
-</code></pre>
+<p>在basic目录下执行
+    Gradle hello</p>
 
 <p>输出的结果将是：</p>
 
@@ -387,7 +373,7 @@ hello world
 <pre><code>另外，我们还可以为Project或者Task定义Ext属性，也称动态属性，我们必须使用关键字ext(对应ExtraPropertiesExtension的实例)去定义动态属性。从这点可以看出，Gradle已经为我们设计了很多不同的类，去做不同的事情，我们只需要遵循Convention，使用他们即可。如果忘记写ext关键字，gradle运行时则会提示:
 </code></pre>
 
-<p>"Dynamic properties are deprecated...."。这是因为以前版本的gradle定义动态属性时，不需要加ext关键字的。</p>
+<p>&ldquo;Dynamic properties are deprecated&hellip;."。这是因为以前版本的gradle定义动态属性时，不需要加ext关键字的。</p>
 
 <p>对于Project和Task而言，动态属性定义的方式完全一样，只是作用域不一样。
 当定义完成后，我们就可以使用project.prop 或者 task.prop来访问这些动态属性了。下面让我们看一个例子：</p>
@@ -422,13 +408,10 @@ task intro(dependsOn: hello) &lt;&lt; {
 }
 </code></pre>
 
-<p>执行 "gradle intro"，结果将是:</p>
-
-<pre><code>Hello World
-I'm Gradle
-</code></pre>
-
-<p>由此可见，当执行gradle intro时，intro依赖的task hello会先被执行。除此之外，dependensOn也支持定义多个task的依赖，使用[]括起来即可。例如</p>
+<p>执行 &ldquo;gradle intro"，结果将是:
+    Hello World
+    I&rsquo;m Gradle
+由此可见，当执行gradle intro时，intro依赖的task hello会先被执行。除此之外，dependensOn也支持定义多个task的依赖，使用[]括起来即可。例如</p>
 
 <pre><code>task A(dependensOn:['B','C','D']) &lt;&lt;{ xxx }
 </code></pre>
@@ -516,25 +499,20 @@ hello.onlyIf { !project.hasProperty('skipHello') }
 }
 </code></pre>
 
-<p>执行gradle hello, 将输出</p>
+<p>执行gradle hello, 将输出
+    &ldquo;I am twer&rdquo;
+    &ldquo;Hello world&rdquo;</p>
 
-<pre><code>"I am twer"
-"Hello world"
-</code></pre>
+<p>另外，你也可以使用如下更简洁的方式来定义task：
+    task hello &lt;&lt;  {
+        println &ldquo;hello world&rdquo;
+    }</p>
 
-<p>另外，你也可以使用如下更简洁的方式来定义task：</p>
+<p>这里也许大家可能会觉得很奇怪，为什么可以用"&lt;&lt;&ldquo;来定义Task的执行内容呢，还是让我们看看Gradle的代码是怎么实现的吧:
+    public abstract class AbstractTask implements TaskInternal, DynamicObjectAware {
+        private List&lt;Action&lt;? super Task>> actions = new ArrayList&lt;Action&lt;?   super Task>>();</p>
 
-<pre><code>task hello &lt;&lt;  {
-    println "hello world"
-}
-</code></pre>
-
-<p>这里也许大家可能会觉得很奇怪，为什么可以用"&lt;&lt;"来定义Task的执行内容呢，还是让我们看看Gradle的代码是怎么实现的吧:</p>
-
-<pre><code>public abstract class AbstractTask implements TaskInternal, DynamicObjectAware {
-    private List&lt;Action&lt;? super Task&gt;&gt; actions = new ArrayList&lt;Action&lt;?   super Task&gt;&gt;();
-
-    public Task doFirst(Action&lt;superTask&gt; action) {
+<pre><code>    public Task doFirst(Action&lt;superTask&gt; action) {
         if (action == null) {
             throw new InvalidUserDataException("Action must not be null!");
         }

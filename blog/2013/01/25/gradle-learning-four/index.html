@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Gradle Learning - 4 (files&amp;direcoties) - Happy Coding, Happy Life</title>
+  <title>Gradle Learning - 4 (Files&amp;direcoties) - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
@@ -21,10 +21,11 @@
   <link rel="canonical" href="http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -34,7 +35,6 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -60,7 +60,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -88,16 +88,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-25T06:20:00+08:00" pubdate data-updated="true">Jan 25<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-01-25T06:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 am</span></time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com">Comments</a>
         
       </p>
     
@@ -110,10 +104,8 @@
 
 <h4>1). 访问单个文件或者目录</h4>
 
-<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/</p>
-
-<pre><code>~&gt; gradle -p ~/work/project1 tasks
-</code></pre>
+<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/
+    ~> gradle -p ~/work/project1 tasks</p>
 
 <!--More-->
 
@@ -145,11 +137,10 @@ def listOfFileNames = ['src', 'test']    def mainDirectories = files(listOfFileN
 
 <h4>3). 过滤文件或者目录</h4>
 
-<p>除此之外，我们可以使用fileTree()获取文件/目录列表，并使用include或者exclude过滤感兴趣的文件</p>
+<p>除此之外，我们可以使用fileTree()获取文件/目录列表，并使用include或者exclude过滤感兴趣的文件
+    def srcDir = fileTree(&lsquo;src/main&rsquo;).include(&lsquo;<em>*/</em>.java&rsquo;)</p>
 
-<pre><code>def srcDir = fileTree('src/main').include('**/*.java')
-
-// Use map with arguments to create a file tree.
+<pre><code>// Use map with arguments to create a file tree.
 def resources = fileTree(dir: 'src/main', excludes: ['**/*.java,'**/*.groovy'])
 
 
@@ -190,32 +181,27 @@ def javaFiles = fileTree {
 
 <h3>3. 文件重命名</h3>
 
-<p>实际上，CopySpec接口已经提供了rename()方法，因此我们可以类似上面的方式配置Copy Task，完成对文件的重命名。</p>
-
-<pre><code>task copyAndRename(type: Copy) {
-    from 'src'
-    // Change extension .txt to .text.
-    rename '(.*).txt', '$1.text'
-    // Rename files that start with sample-
-    // and remove the sample- part.
-    rename ~/^sample-(.*)/, '$1'
-    into 'dist'
-}
-</code></pre>
+<p>实际上，CopySpec接口已经提供了rename()方法，因此我们可以类似上面的方式配置Copy Task，完成对文件的重命名。
+    task copyAndRename(type: Copy) {
+        from &lsquo;src&rsquo;
+        // Change extension .txt to .text.
+        rename &lsquo;(.<em>).txt&rsquo;, &lsquo;$1.text&rsquo;
+        // Rename files that start with sample-
+        // and remove the sample- part.
+        rename ~/^sample-(.</em>)/, &lsquo;$1&rsquo;
+        into &lsquo;dist&rsquo;
+    }</p>
 
 <h3>4. 文件打包</h3>
 
-<p>和拷贝文件非常类似，Gradle内建了Zip, Tar, Jar, War, and Ear等task帮助我们实现文件的打包。不过，比拷贝文件稍微复杂一点的是，当生成压缩包的时候，Gradle会使用一些属性来决定压缩包的文件名：</p>
+<p>和拷贝文件非常类似，Gradle内建了Zip, Tar, Jar, War, and Ear等task帮助我们实现文件的打包。不过，比拷贝文件稍微复杂一点的是，当生成压缩包的时候，Gradle会使用一些属性来决定压缩包的文件名：
+    [baseName]-[appendix]-[version]-[classifier].[extension]</p>
 
-<pre><code>[baseName]-[appendix]-[version]-[classifier].[extension]    
-</code></pre>
+<p>如果没有设置其中的某个属性，也没有问题，只是该属性不会出现在压缩包的文件名上。下面例子将生成一个名为<code>dist-files-archive-1.0-sample.zip</code>的压缩包：
+    task archiveDist(type: Zip) {
+       from &lsquo;dist&rsquo;</p>
 
-<p>如果没有设置其中的某个属性，也没有问题，只是该属性不会出现在压缩包的文件名上。下面例子将生成一个名为<code>dist-files-archive-1.0-sample.zip</code>的压缩包：</p>
-
-<pre><code>task archiveDist(type: Zip) {
-   from 'dist'
-
-   baseName = 'dist-files'
+<pre><code>   baseName = 'dist-files'
    appendix = 'archive'
    extension = 'zip'
    version = '1.0'
@@ -254,35 +240,19 @@ def javaFiles = fileTree {
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-25T06:20:00+08:00" pubdate data-updated="true">Jan 25<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-01-25T06:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/gradle/'>Gradle</a>
+    <a class='category' href='/blog/categories/gradle/'>gradle</a>
   
 </span>
 
 
     </p>
-
-    <p class="meta">
-      <a href="/blog/2013/01/25/gradle-learning-four/">原文链接</a>，
-<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
-
-    </p>
-
     
       <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/" >Tweet</a>
   
   
   
@@ -302,20 +272,7 @@ def javaFiles = fileTree {
 
   <section>
     <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
-<script type="text/javascript">
-  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
-
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
- var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
- dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
- (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
   </section>
 
@@ -326,27 +283,35 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -358,14 +323,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -380,7 +337,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -398,7 +355,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -416,7 +373,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -426,16 +383,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

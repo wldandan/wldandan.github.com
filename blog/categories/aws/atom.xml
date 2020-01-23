@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: AWS | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: aws | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -23,7 +23,7 @@ As the words described, it is closely relevant to the management and control in 
 
 <p>Netflix build a tool named Asgard, which is used to control and manage their AWS cloud.  In 2012, Netflix announced that Asgard was open-sourced.</p>
 
-<p>Then...... it is time to start the story.</p>
+<p>Then&hellip;&hellip; it is time to start the story.</p>
 
 <h2>What is Asgard</h2>
 

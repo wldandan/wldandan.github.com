@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: NoSQL | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: nosql | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/nosql/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -26,7 +26,7 @@
 
 <h4>a) Config Server</h4>
 
-<p>The config server processes are mongod instances that   store the cluster’s metadata. You designate a mongod as a config server using the --configsvr option. Each config server stores a complete copy of the cluster’s metadata.</p>
+<p>The config server processes are mongod instances that   store the cluster’s metadata. You designate a mongod as a config server using the &ndash;configsvr option. Each config server stores a complete copy of the cluster’s metadata.</p>
 
 <h4>b) Query Server</h4>
 

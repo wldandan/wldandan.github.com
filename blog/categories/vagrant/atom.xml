@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Vagrant | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: vagrant | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/vagrant/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -59,7 +59,7 @@ vagrant up
   ln -fs /vagrant /var/www
 </code></pre></li>
 <li><p>在Vagrantfile中使用provision.sh
-  config.vm.provision "shell", path: "provision.sh"</p></li>
+  config.vm.provision &ldquo;shell&rdquo;, path: &ldquo;provision.sh&rdquo;</p></li>
 <li><p>执行<code>vagrant up</code></p></li>
 </ul>
 
@@ -263,7 +263,7 @@ the comments in the Vagrantfile as well as documentation on
 <!--More-->
 
 
-<h3>Ruby Style But Don't panic</h3>
+<h3>Ruby Style But Don&rsquo;t panic</h3>
 
 <p>你可能注意到该文件的格式不是简单的文本。实际上，Vagrantfile使用了ruby的语法来定义配置信息。不过别担心，即便不是Ruby开发者，通过后续的例子，也能随心所欲的配置你的VM。</p>
 
@@ -308,17 +308,13 @@ end
 <h3>Basic Networking</h3>
 
 <p>和文件共享同等重要的还有网络配置。通过更改网络配置信息，能帮助我们更有效的使用VM。
-举例来说，如下的代码设置了端口映射(网络配置里的一部分)</p>
-
-<pre><code>config.vm.network :forwarded_port, guest: 80, host: 9090
-</code></pre>
+举例来说，如下的代码设置了端口映射(网络配置里的一部分)
+    config.vm.network :forwarded_port, guest: 80, host: 9090</p>
 
 <p>当访问主机端口9090时候，该请求会被转发到VM的80端口上。
-譬如说，执行如下代码，在VM上启动一个Web Server</p>
-
-<pre><code>vagrant ssh
-sudo python -m SimpleHTTPServer 80
-</code></pre>
+譬如说，执行如下代码，在VM上启动一个Web Server
+    vagrant ssh
+    sudo python -m SimpleHTTPServer 80</p>
 
 <p>然后在主机上访问localhost:9090, 将显示该目录下对应的文件。也就是说，访问主机的端口已经被转发到了VM上。</p>
 
@@ -348,7 +344,7 @@ sudo python -m SimpleHTTPServer 80
 end
 </code></pre>
 
-<h3>More …...</h3>
+<h3>More …&hellip;</h3>
 
 <p>类似的，还有很多参数可以帮助我们定制VM，更多的细节这里就不一一列举了，请根据需要自行参考Vagrant的<a href="http://www.vagrantup.com/">官方文档</a>哦。</p>
 ]]></content>
@@ -473,11 +469,9 @@ end
 </ul>
 
 
-<p>最终，团队的成员只需Clone代码，敲入如下命令，花2分钟时间，就启动了本地的FAST环境，完全解决了之前遇到的两点问题。</p>
-
-<pre><code>vagrant init fast http://dist-server/fast.box
-vagrant up
-</code></pre>
+<p>最终，团队的成员只需Clone代码，敲入如下命令，花2分钟时间，就启动了本地的FAST环境，完全解决了之前遇到的两点问题。
+    vagrant init fast <a href="http://dist-server/fast.box">http://dist-server/fast.box</a>
+    vagrant up</p>
 
 <p>当然，这只是一个简单地尝试，接下来会使用Vagrant搭建整个环境，让团队的开发、测试以及部署流程变得更加行云流水，并更易维护。</p>
 ]]></content>

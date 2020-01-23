@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Understanding javascript module pattern - Happy Coding, Happy Life</title>
+  <title>Understanding Javascript Module Pattern - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
@@ -21,10 +21,11 @@
   <link rel="canonical" href="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -34,7 +35,6 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -60,7 +60,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -88,16 +88,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-05-26T22:10:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-05-26T22:10:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>10:10 pm</span></time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com">Comments</a>
         
       </p>
     
@@ -113,15 +107,14 @@
 <!--More-->
 
 
-<p>下面，先让我们来看一段代码，看看Module Pattern是如何帮助我们完成面向对象的封装的：</p>
+<p>下面，先让我们来看一段代码，看看Module Pattern是如何帮助我们完成面向对象的封装的：
+    var Module = (function(){
+      var myPrivateVar = 0;
+      var myPrivateMethod = function(msg){
+        console.log(msg);
+      }</p>
 
-<pre><code>var Module = (function(){
-  var myPrivateVar = 0;
-  var myPrivateMethod = function(msg){
-    console.log(msg);
-  }
-
-  return {
+<pre><code>  return {
     myPublicVar: "publicFoo",
     myPublicMethod: function(msg){
         myPrivateVar++;
@@ -158,72 +151,58 @@
 <p>不过，对于上面这种方式的实现，存在一个较明显的弊端:整个Module的定义只能在一个文件里完成，对于一些大型的应用，codebase已经很复杂了，如果再定义某个数千行以上的JS Module，这无疑大大增加了维护的难度，因此我们这里衍生出一个Argumentation Module Pattern，帮助我们将一个复杂Module的实现，拆分到多个行数较少的小文件里实现，</p>
 
 <p>譬如说，对于一个复杂的Module，可能会分出几个相对独立的功能，例如A,B等等。那么这个时候，我们可以将这相对独立的三部分放在3个文件里实现：
-首先定义一个专门处理A的文件module_a.js</p>
+首先定义一个专门处理A的文件module_a.js
+    var Module = (function (s) {
+        &hellip;&hellip;
+        s.a=function(){//Implementation of A part}
+        &hellip;&hellip;
+        return s;
+    }(Module || {}));</p>
 
-<pre><code>var Module = (function (s) {
-    ......
-    s.a=function(){//Implementation of A part}
-    ......
-    return s;
-}(Module || {}));
-</code></pre>
-
-<p>然后，再定义一个Module_b.js，专门处理该Module中B的部分</p>
-
-<pre><code>var Module = (function (s) {
-  ......
-  s.b=function(){//Implementation of B part}
-  ......
-  return s;
-}(Module || {}));
-</code></pre>
+<p>然后，再定义一个Module_b.js，专门处理该Module中B的部分
+    var Module = (function (s) {
+      &hellip;&hellip;
+      s.b=function(){//Implementation of B part}
+      &hellip;&hellip;
+      return s;
+    }(Module || {}));</p>
 
 <p>类似的，可以根据具体Module的需要决定如何划分不同的js文件。</p>
 
 <p>接下来可以在html页面上引用这两个js，然后使用里面的方法,类似如下：
-  <html></p>
-
-<pre><code>&lt;header&gt;
-  &lt;script type="text/javascript" src="module_a.js"&gt;&lt;/script&gt;
-  &lt;script type="text/javascript" src="module_b.js"&gt;&lt;/script&gt;
-&lt;/header&gt;
-&lt;script&gt;
-  module.a();
-  module.b()
-&lt;/script&gt;
-&lt;body&gt;
-&lt;/body&gt;
-</code></pre>
-
-<p>  </html></p>
+  <html>
+    <header>
+      <script type="text/javascript" src="module_a.js"></script>
+      <script type="text/javascript" src="module_b.js"></script>
+    </header>
+    <script>
+      module.a();
+      module.b()
+    </script>
+    <body>
+    </body>
+  </html></p>
 
 <h2>Sub-Module</h2>
 
 <p>对于一个复杂的项目，也可能会存在不同级别的Module，而不仅仅是对Module内部功能的划分。这时候我们就可以引入sub module的概念，代码如下所示：</p>
 
-<p>  MODULE = (function () {</p>
+<p>  MODULE = (function () {
+    var my = {};
+    // &hellip;</p>
 
-<pre><code>var my = {};
-// ...
-
-return my;
+<pre><code>return my;
 </code></pre>
 
 <p>  }());</p>
 
-<p>  MODULE.subA = (function () {</p>
+<p>  MODULE.subA = (function () {
+    // &hellip;
+  }());</p>
 
-<pre><code>// ...
-</code></pre>
-
-<p>  }());</p>
-
-<p>  MODULE.subB = (function () {</p>
-
-<pre><code>// ...
-</code></pre>
-
-<p>  }());</p>
+<p>  MODULE.subB = (function () {
+    // &hellip;
+  }());</p>
 
 <p>从上面的代码中，我们可以看出，只是利用Module以及Sub-Module对变量名称的定义，将其作为不同的命名空间，从而在逻辑上将其划分成模块和子模块。这种方式其实也是Javascript中最简单，最有效的结构组织的方式。</p>
 </div>
@@ -241,35 +220,19 @@ return my;
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-05-26T22:10:00+08:00" pubdate data-updated="true">May 26<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-05-26T22:10:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>10:10 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/javascript/'>Javascript</a>
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>
   
 </span>
 
 
     </p>
-
-    <p class="meta">
-      <a href="/blog/2013/05/26/javascript-module-pattern/">原文链接</a>，
-<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
-
-    </p>
-
     
       <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/" >Tweet</a>
   
   
   
@@ -289,20 +252,7 @@ return my;
 
   <section>
     <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
-<script type="text/javascript">
-  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
-
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
- var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
- dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
- (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
   </section>
 
@@ -313,27 +263,35 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -345,14 +303,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -367,7 +317,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -385,7 +335,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -403,7 +353,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -413,16 +363,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

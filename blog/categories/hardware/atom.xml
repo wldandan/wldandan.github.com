@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Hardware | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: hardware | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/hardware/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -36,7 +36,7 @@
 
 <p>为了保证大家能够集中火力在一个项目上，于是每个人都做了自己Idea的present，然后团队集体投票选出一个可以一起做的idea，并开工。</p>
 
-<p>为这个活动起了个洋气的名字<strong>LBS</strong> (Let's Build Something)，并且暂定为每周一晚6:00~8:00是我们的官方活动时间。</p>
+<p>为这个活动起了个洋气的名字<strong>LBS</strong> (Let&rsquo;s Build Something)，并且暂定为每周一晚6:00~8:00是我们的官方活动时间。</p>
 
 <h5>-2013年11月18</h5>
 
@@ -81,7 +81,7 @@ Android的Native APP有了雏形，使用USB将手机连接到Arduino，能够�
 
 <h5>-2014年2月14</h5>
 
-<p>X-Robot有了一双迷人的大眼睛并正式命名为"<strong>Dora</strong>"。  <br/>
+<p>X-Robot有了一双迷人的大眼睛并正式命名为"<strong>Dora</strong>&ldquo;。  <br/>
 小家伙不负众望，为我们赢得了“<strong>The ‘Marvin‘ Winners for innovation</strong>”奖项。</p>
 
 <p>至此，Dora诞生了。接下来，我们会为Dora提供更多有意思的功能，敬请期待 :)</p>
@@ -107,7 +107,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 </ul>
 
 
-<p><img src="{{ root_url }}/images/arduino/arduino.png" /></p>
+<p><img src="/images/arduino/arduino.png" /></p>
 
 <ul>
 <li>下载<a href="http://arduino.cc/en/Main/Software">Arduino IDE</a>， 开发更容易。</li>
@@ -124,7 +124,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 </ul>
 
 
-<p><img src="{{ root_url }}/images/arduino/power.png" /></p>
+<p><img src="/images/arduino/power.png" /></p>
 
 <ul>
 <li>连上发光二极管
@@ -133,7 +133,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 </ul>
 
 
-<p><img src="{{ root_url }}/images/arduino/diode.png" /></p>
+<p><img src="/images/arduino/diode.png" /></p>
 
 <ul>
 <li>烧录程序到Arduino
@@ -144,7 +144,7 @@ Arduino 能通过各种各样的传感器来感知环境，通过控制灯光、
 
 <p>如图所示</p>
 
-<p><img src="{{ root_url }}/images/arduino/blink.png" /></p>
+<p><img src="/images/arduino/blink.png" /></p>
 
 <p>这里，我们使用的是Arduino IDE自带的例子，当然也可以自己编程，实现不同的效果。</p>
 

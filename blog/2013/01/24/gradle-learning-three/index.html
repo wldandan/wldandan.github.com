@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Gradle Learning - 3 (multiple projects) - Happy Coding, Happy Life</title>
+  <title>Gradle Learning - 3 (Multiple Projects) - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
@@ -21,10 +21,11 @@
   <link rel="canonical" href="http://wldandan.github.com/blog/2013/01/24/gradle-learning-three/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
@@ -34,7 +35,6 @@
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-47321446-1']);
     _gaq.push(['_trackPageview']);
-    _gaq.push(['_setDomainName','github.io']);
 
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -60,7 +60,7 @@
   
 <form action="http://google.com/search" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:wldandan.github.com" />
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
@@ -88,16 +88,10 @@
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-24T18:20:00+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-01-24T18:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 pm</span></time>
         
-         | <a href="#disqus_thread">Comments</a>
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com">Comments</a>
         
       </p>
     
@@ -110,8 +104,8 @@
 
 <p> 在Gradle中，使用文件settings.gradle定义当前项目的子项目，格式如下所示：</p>
 
-<p>include &#8216;sub-project1&#8217;, &#8216;sub-project2&#8217;, &#8216;sub-project3&#8217;，
-它表示在当前的项目下建立三个子项目，分别为&#8217;sub-project1&#8217;, &#8216;sub-project2&#8217;, &#8216;sub-project3&#8217;。默认情况下，每个子项目的名称对应着当前操作系统目录下的一个子目录。</p>
+<p>include &lsquo;sub-project1&rsquo;, &lsquo;sub-project2&rsquo;, &lsquo;sub-project3'，
+它表示在当前的项目下建立三个子项目，分别为'sub-project1&rsquo;, &lsquo;sub-project2&rsquo;, &lsquo;sub-project3'。默认情况下，每个子项目的名称对应着当前操作系统目录下的一个子目录。</p>
 
 <!--More-->
 
@@ -121,12 +115,12 @@
 <p>Root:&lt;Level1-子节点>:&lt;Level2-子节点>:&lt;Level3-子节点>
 也可以简写成“:&lt;Level1-子节点>:&lt;Level2-子节点>:&lt;Level3-子节点>”。借助这种路径的定义方式，我们可以在build.gradle去访问不同的子项目。另外，对于单项目，实际上是一种特殊的、只存在根节点，没有子节点的项目树。</p>
 
-<p>例如，我们有个产品A，包括以下几个组件core，web，mobile。分别代表&#8221;核心逻辑&#8221;、&#8221;网站&#8221;、“手机客户端”。 因为每个组件是独立的部分，这个时候最好我们能定义多个子项目，让每个子项目分别管理自己的构建。于是我们可以这样定义A/settings.gradle</p>
+<p>例如，我们有个产品A，包括以下几个组件core，web，mobile。分别代表"核心逻辑"、"网站"、“手机客户端”。 因为每个组件是独立的部分，这个时候最好我们能定义多个子项目，让每个子项目分别管理自己的构建。于是我们可以这样定义A/settings.gradle</p>
 
-<p>include &#8216;core&#8217;, &#8216;web&#8217;, &#8216;mobile&#8217;
+<p>include &lsquo;core&rsquo;, &lsquo;web&rsquo;, &lsquo;mobile&rsquo;
 按照之前描述的，core组件对应A/core目录，web组件对应A/web目录，mobile组件对应A/mobile目录。接下来，我们就可以在每个组件内部，定义build.gradle负责管理当前组件的构建。</p>
 
-<p>Gradle提供了一个内建的task &#8216;gradle projects&#8217;，可以 帮助我们查看当前项目所包含的子项目，下面让我们看看gradle projects的输出结果：</p>
+<p>Gradle提供了一个内建的task &lsquo;gradle projects'，可以 帮助我们查看当前项目所包含的子项目，下面让我们看看gradle projects的输出结果：</p>
 
 <pre><code>$ gradle projects
 :projects
@@ -139,7 +133,7 @@ Root project 'A'
 \--- Project ':web
 </code></pre>
 
-<p>结果一目了然，首先是Root级别的项目A，然后是A下面的子项目&#8217;core&#8217;, &#8216;mobile&#8217;, &#8216;mobile&#8217;</p>
+<p>结果一目了然，首先是Root级别的项目A，然后是A下面的子项目'core', &lsquo;mobile&rsquo;, &lsquo;mobile&rsquo;</p>
 
 <p>最终的文件以及目录结构如下所示：</p>
 
@@ -175,9 +169,9 @@ project(':mobile').projectDir = new File(settingsDir, 'mobile-xxx')
 <pre><code>include 'android', 'ios'
 </code></pre>
 
-<p>现在，mobile组件下将存在两个新的子项目 &#8220;android&#8221;和&#8221;ios&#8221;</p>
+<p>现在，mobile组件下将存在两个新的子项目 &ldquo;android"和"ios&rdquo;</p>
 
-<p>于是，这时候&#8217;gradle projects&#8217;的目录结构就变成</p>
+<p>于是，这时候'gradle projects'的目录结构就变成</p>
 
 <pre><code>A
    --settings.gradle
@@ -210,13 +204,13 @@ project(':core').hello &lt;&lt; {
 
 <p>对于上面所示的代码，已经很表意了：</p>
 
-<p>allprojects{xxx}  这段代码表示，对于所有的project，Gradle都将定义一个名称是hello的Task { println &#8220;I&#8217;m $task.project.name&#8221;} 。</p>
+<p>allprojects{xxx}  这段代码表示，对于所有的project，Gradle都将定义一个名称是hello的Task { println &ldquo;I&rsquo;m $task.project.name&rdquo;} 。</p>
 
-<p>subprojects{xxxx}的这段代码表示，对于所有的子project，将在名称为hello的Task上追加Action {println &#8220;- I am the sub project of A&#8221;}</p>
+<p>subprojects{xxxx}的这段代码表示，对于所有的子project，将在名称为hello的Task上追加Action {println &ldquo;- I am the sub project of A&rdquo;}</p>
 
 <p>注意：关于Task和Action的关系，请看我之前写的本系列的第一部分。</p>
 
-<p>project(&#8216;:core&#8217;)的这段代码表示，对于名称为core的project，将在名称为hello的Task上追加Action { println &#8220;- I&#8217;m the core component and provide service for other parts.&#8221; }</p>
+<p>project(&lsquo;:core&rsquo;)的这段代码表示，对于名称为core的project，将在名称为hello的Task上追加Action { println &ldquo;- I&rsquo;m the core component and provide service for other parts.&rdquo; }</p>
 
 <h3>3. 多项目的Task执行</h3>
 
@@ -244,35 +238,19 @@ project(':core').hello &lt;&lt; {
 
 
 
-
-
-
-
-  
-
-
-<time datetime="2013-01-24T18:20:00+08:00" pubdate data-updated="true">Jan 24<span>th</span>, 2013</time>
+<time class='entry-date' datetime='2013-01-24T18:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/gradle/'>Gradle</a>
+    <a class='category' href='/blog/categories/gradle/'>gradle</a>
   
 </span>
 
 
     </p>
-
-    <p class="meta">
-      <a href="/blog/2013/01/24/gradle-learning-three/">原文链接</a>，
-<strong>版权声明</strong>：自由转载-非商用-非衍生-保持署名| <a href='http://creativecommons.org/licenses/by-nc-nd/3.0/deed.zh'>Creative Commons BY-NC-ND 3.0</a>
-
-    </p>
-
     
       <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://wldandan.github.com/blog/2013/01/24/gradle-learning-three/" data-via="" data-counturl="http://wldandan.github.com/blog/2013/01/24/gradle-learning-three/" >Tweet</a>
   
   
   
@@ -292,20 +270,7 @@ project(':core').hello &lt;&lt; {
 
   <section>
     <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><div id="disqus_thread"></div>
-<script type="text/javascript">
-  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'happycodehappylife'; // required: replace example with your forum shortname
-
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
- var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
- dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
- (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
   </section>
 
@@ -316,27 +281,35 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     <section>
 <h1>Categories</h1>
 <ul id="categories">
-  <li class='category'><a href='/blog/categories/aws/'>AWS (1)</a></li>
-<li class='category'><a href='/blog/categories/gradle/'>Gradle (4)</a></li>
-<li class='category'><a href='/blog/categories/hardware/'>Hardware (2)</a></li>
-<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
-<li class='category'><a href='/blog/categories/javascript/'>Javascript (3)</a></li>
-<li class='category'><a href='/blog/categories/k8s/'>K8s (8)</a></li>
-<li class='category'><a href='/blog/categories/linux/'>Linux (1)</a></li>
-<li class='category'><a href='/blog/categories/microservices/'>Microservices (12)</a></li>
-<li class='category'><a href='/blog/categories/nosql/'>NoSQL (2)</a></li>
-<li class='category'><a href='/blog/categories/splunk/'>Splunk (1)</a></li>
-<li class='category'><a href='/blog/categories/test/'>Test (2)</a></li>
-<li class='category'><a href='/blog/categories/tools/'>Tools (2)</a></li>
-<li class='category'><a href='/blog/categories/travel/'>Travel (2)</a></li>
-<li class='category'><a href='/blog/categories/vagrant/'>Vagrant (5)</a></li>
-<li class='category'><a href='/blog/categories/webrtc/'>WebRTC (3)</a></li>
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
@@ -348,14 +321,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     
       <li class="post">
         <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-pod/">K8s之Pod</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/15/k8s-concept-network/">K8s之网络</a>
       </li>
     
   </ul>
@@ -370,7 +335,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 </section>
 
 
-<section class="googleplus googleplus-hidden">
+<section class="googleplus">
   <h1>
     <a href="https://plus.google.com/wldandan?rel=author">
       <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
@@ -388,7 +353,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2019 - wldandan -
+  Copyright &copy; 2020 - wldandan -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
@@ -406,7 +371,7 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
@@ -416,16 +381,6 @@ var disqus_shortname = 'happycodehappylife'; // required: replace example with y
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

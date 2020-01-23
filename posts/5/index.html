@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="Setup blog Install RVM bash &lt; &lt;(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)
+rvm install 1.9.2 rvm use 1.9. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/posts/5/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/08/create-blog-on-github/">How to Use Octopress to Set Up Blog</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-10-08T14:20:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>8</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>2:20 pm</span></time>
+        
+           | <a href="/blog/2013/10/08/create-blog-on-github/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/10/08/create-blog-on-github/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>Setup blog</h2>
+
+<h5>Install RVM</h5>
+
+<p>bash &lt; &lt;(curl -s <a href="https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer">https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer</a>)
+rvm install 1.9.2 rvm use 1.9.2 &ndash;default</p>
+
+<h5>Clone repo</h5>
+
+<p>git clone git://github.com/imathis/octopress.git octopress</p>
+
+<p>gem install bundler
+bundle install
+bundle update # 不执行，则下一步rake会报版本不匹配
+rake install
+rake setup_github_pages</p>
+
+<h2>Publish new article</h2>
+
+<p>rake new_post[&ldquo;My first post&rdquo;]
+rake generate # 第一次使用，最好先编辑一下_config.yml</p>
+
+<p>rake preview # 本地查看，地址是<a href="http://localhost:4000">http://localhost:4000</a>
+rake deploy</p>
+
+<h2>Update Source</h2>
+
+<p>git commit -m &lsquo;your message&rsquo;</p>
+
+<p>git push origin source</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/22/twu-pune-first-week/">TWU - the First Week in Pune of India</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-08-22T15:27:00+08:00'><span class='date'><span class='date-month'>Aug</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2013</span></span> <span class='time'>3:27 pm</span></time>
+        
+           | <a href="/blog/2013/08/22/twu-pune-first-week/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/08/22/twu-pune-first-week/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>还在墨尔本出差的最后一周，Mark问我愿意去TWU当coach不…….于是乎，我就在8月中旬来了浦那(Pune)。一路上同行的还有JK和邱大师，中午从西安出发，先抵达香港，再转机到班加罗尔时已经是第二天凌晨5点多，又搭乘印度国内的航班，总算在早上10点多下榻酒店。</p>
+
+<p>浦那位于印度西部的城市，位于孟买东南140公里，设有不少学院及大学，素有「东方牛津」的美名。城内有著名的Magapatta City软件园和塔塔汽车公司。</p>
+
+<p>Pune的基础建设比想象中落后些，基本上都是单向双车道，挤满了各类车辆，卡车，私家车，中巴车，这种情况下，当然小巧方便的摩托车和三轮车更胜一筹。钻来钻去，穿梭在大大小小的缝隙中，我想这也是为什么摩托车和三轮车成为主要交通工具的原因之一。道路的两边并没有明显的划分出人行道，大概能走的部分可能不到半米宽。除了在主干道的十字路口见到一组红绿灯，其余的道路基本没有红绿灯，过马路绝对是个不小的挑战。千万记得，是看左边哦 :)</p>
+
+<p>Shalina安排的很周到，抵达的第一天，就给我们发了大礼包(有手机，充电器，耳机，还有印度地图和SIM卡)，哈哈，最重要的当然就这张SIM卡了。这里赞一下小米，无缝即插即用，邱大师的IPhone就没这么幸运了，和他找了个地方花了100卢比把卡裁的小点，也能使了。不过赞一下，印度人民的服务真是不错啊，相当仔细嘞。</p>
+
+<p>住了几天Keys Hotel后，公司决定把我们搬到O Hotel, 因为TWU的培训地就在O hotel。O hotel的电梯设计的很别致，很难想象这是电梯的顶部装修吧(有漂亮的小星星哦)，而且还有优美的旋律伴奏。</p>
+
+<p><img src="/images/twu/elevator.png" /></p>
+
+<p>早餐很精致，有水果，煎蛋还有各种干货，哈哈。午饭一般就是米饭和印度传统的鸡肉糊糊，不过汤有时候还是蛮不错的，毕了，还有各种甜点。</p>
+
+<p>TWU的培训地点就在2楼，上午10点半和下午的3点半，提供咖啡、茶、牛奶和甜点。</p>
+
+<p>前面2周主要都是TTT(Train the Trainer)，就是我们新来的小样接受以前Trainer的培训。到下午6点，结束了一天的培训，基本上就可以自由活动了。哈，Pune有很多有趣的东西等着我们explore呢……</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/26/javascript-variable-scope-and-hoisting/">Understanding Javascript Variable Scope &amp; Hoisting</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-05-26T22:10:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>10:10 pm</span></time>
+        
+           | <a href="/blog/2013/05/26/javascript-variable-scope-and-hoisting/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/05/26/javascript-variable-scope-and-hoisting/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在这篇文章中，我将介绍Javascript中变量的作用域以及变量提升的一些相关知识。</p>
+
+<h2>变量作用域</h2>
+
+<p>变量作用域是指变量存在的上下文环境，它表明了当定义一个变量后，代码如何能够访问该变量。基本上，Javascript的变量有两种：
+局部变量和全局变量（废话，哪门语言没有这两种！）</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/26/javascript-variable-scope-and-hoisting/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/26/javascript-module-pattern/">Understanding Javascript Module Pattern</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-05-26T22:10:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>10:10 pm</span></time>
+        
+           | <a href="/blog/2013/05/26/javascript-module-pattern/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/05/26/javascript-module-pattern/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>什么是Module Pattern?</h2>
+
+<p>Javascript，是面向对象但并不是面向对象编程的一门语言。在Javascript的世界里，你遇到的所有东西都是对象(如Function, Number, String等)，但它本身的语法中却不提供类(class)的关键字或者访问符(private, public, protected)等的定义。</p>
+
+<p>不过，通过使用Module Pattern，我们可以有效的筑起一道屏障，让私有状态的变量或者方法只能在module的内部被访问，从而达到面向对象封装的目的。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/26/javascript-module-pattern/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/23/understanding-unix-bash/">Understanding *nix Bash Profile</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-05-23T22:10:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>10:10 pm</span></time>
+        
+           | <a href="/blog/2013/05/23/understanding-unix-bash/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/05/23/understanding-unix-bash/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>工作在*nix环境下的兄弟们，多多少少都应该见过这么几个文件:</p>
+
+<pre><code>/etc/profile
+/etc/bashrc
+~/.bash_profile
+~/.bashrc
+~/.bash_login
+</code></pre>
+
+<p>说实话，我一直没搞清楚这些文件是干什么的，以及他们是什么联系。今天组里正好有人讲这个，就给自己长长见识吧。其实吧，最主要的区别就在于两个词: &ldquo;Login shell&rdquo; 和 &ldquo;Non-login shell"。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/23/understanding-unix-bash/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/05/nodejs-learning-one/">Node.js Learning Summary</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-05-05T13:02:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>5</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>1:02 pm</span></time>
+        
+           | <a href="/blog/2013/05/05/nodejs-learning-one/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/05/05/nodejs-learning-one/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>一直以来，我对Javascript都不是怎么感兴趣，主要的原因还是由于JavaScript 和浏览器之间复杂的历史渊源，导致javascript被浏览器严重束缚。
+不过，Node.js的出现，让我看到了一种全新的使用JS的方式（启动、调试等可以完全不care浏览器）。经过几天对Node的了解，发现Node确实有一些与众不同的特点。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/05/nodejs-learning-one/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/03/effective-tool-in-my-every-day-work/">Effective Tool in My Work</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-05-03T10:33:00+08:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>10:33 am</span></time>
+        
+           | <a href="/blog/2013/05/03/effective-tool-in-my-every-day-work/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/05/03/effective-tool-in-my-every-day-work/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Tools</h3>
+
+<h4>1. The Brain(<a href="http://www.thebrain.com/">http://www.thebrain.com/</a>)</h4>
+
+<p>  现在的新知识越来越多，体系越来越庞大，非常需要the brain这样一个软件，将所学的知识分门别类，形成一个整体的、宏观的脑图。</p>
+
+<h4>2. Trello(<a href="https://trello.com/">https://trello.com/</a>)</h4>
+
+<p>  一个方便的电子卡片墙，帮助你记录想做的事，正在做的事，或者已经完成的事，同时提供了Android和Iphone上的支持。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/05/03/effective-tool-in-my-every-day-work/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/25/gradle-learning-four/">Gradle Learning - 4 (Files&amp;direcoties)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-01-25T06:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 am</span></time>
+        
+           | <a href="/blog/2013/01/25/gradle-learning-four/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在我们使用Gradle构建项目的过程中，免不了要经常和文件打交道，譬如文件拷贝、文件重命名、生成压缩包等。在这方面，Gradle已经提供了非常好的支持，下面我们就来尝试一下如何使用Gradle提供的方式，操作文件或者目录。</p>
+
+<h3>1. 文件访问</h3>
+
+<h4>1). 访问单个文件或者目录</h4>
+
+<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/
+    ~> gradle -p ~/work/project1 tasks</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/25/gradle-learning-four/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/24/gradle-learning-three/">Gradle Learning - 3 (Multiple Projects)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-01-24T18:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 pm</span></time>
+        
+           | <a href="/blog/2013/01/24/gradle-learning-three/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/01/24/gradle-learning-three/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p> 随着信息化的快速发展，IT项目变得越来越复杂，通常都是由多个子系统共同协作完成。对于这种多系统、多项目的情况，很多构建工具都已经提供了不错的支持，像maven、ant。Gradle除了借鉴了ant或者maven的继承的方式定义子项目，也提供了一种更为方便的集中配置的方式，大大减少了构建带来的复杂度。除此之外，Gradle还提供了清晰的Project树模型来映射多项目的组织结构。下面，让我们了解一下如何使用Gradle构建多项目。</p>
+
+<h3>1. 多项目定义及结构</h3>
+
+<p> 在Gradle中，使用文件settings.gradle定义当前项目的子项目，格式如下所示：</p>
+
+<p>include &lsquo;sub-project1&rsquo;, &lsquo;sub-project2&rsquo;, &lsquo;sub-project3'，
+它表示在当前的项目下建立三个子项目，分别为'sub-project1&rsquo;, &lsquo;sub-project2&rsquo;, &lsquo;sub-project3'。默认情况下，每个子项目的名称对应着当前操作系统目录下的一个子目录。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/24/gradle-learning-three/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/23/gradle-learning-two/">Gradle Learning - 2 (Project&task)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-01-23T17:14:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>5:14 pm</span></time>
+        
+           | <a href="/blog/2013/01/23/gradle-learning-two/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上一篇文章中，我们提到了Gradle的一些基本概念，如Project、Task以及Action，并且创建了我们的第一个Task。这次我们来看看Gradle中关于Project和Task的更多细节。</p>
+
+<h3>1. Project和Task</h3>
+
+<p>对于build.gradle配置文件，当运行Gradle <Task> 时，Gradle会为我们创建一个Project的对象，加载build.gradle中的所有代码。其中呢，对于Task中定义的代码，Gradle会创建Task的实例，而对于那些不属于任何Task定义的代码，Gradle会创建一个Script类的实例，加载并执行这些代码。下面，让我们看一个简单的例子：</p>
+
+<h5>创建目录basic，并在其中创建文件build.gradle，然后加入如下代码：</h5>
+
+<pre><code>println "the project name is $name"
+task hello &lt;&lt; {
+    println "the current task name is $name"
+    println "hello world"
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/23/gradle-learning-two/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/posts/6">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/posts/4">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+  <h1>Weibo</h1>
+  <ul id="weibo">
+    <li>
+        <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1889327273&verifier=05c35703&dpc=1"></iframe>
+	</li>
+  </ul>
+</section>
+
+
+<section class="googleplus">
+  <h1>
+    <a href="https://plus.google.com/wldandan?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

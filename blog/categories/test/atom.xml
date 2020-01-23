@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Test | Happy Coding, Happy Life]]></title>
+  <title><![CDATA[Category: test | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/test/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-22T22:30:03+08:00</updated>
+  <updated>2020-01-23T08:00:46+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -195,19 +195,17 @@ end
 
 <h4>a) 测试存在具体方法的抽象类</h4>
 
-<p>```
-public abstract class AbstractHandler {</p>
+<pre><code>public abstract class AbstractHandler {
 
-<pre><code>public String greet() {
-    return "Hello " + fetchName() + "!";
+    public String greet() {
+        return "Hello " + fetchName() + "!";
+    }
+
+    protected abstract String fetchName();
 }
-
-protected abstract String fetchName();
 </code></pre>
 
-<p>}
-```
-如上代码所示，抽象类AbstractHandler中定义了方法greet()，并且该方法存在一定逻辑。
+<p>如上代码所示，抽象类AbstractHandler中定义了方法greet()，并且该方法存在一定逻辑。
 此时，如果希望测试greet()，可以选择两种方式：</p>
 
 <ul>
@@ -216,57 +214,47 @@ protected abstract String fetchName();
 </ul>
 
 
-<p>```
-public class AbstractHandlerTest {</p>
+<pre><code>public class AbstractHandlerTest {
 
-<pre><code>@Test
-public void shouldCallRealMethodsAndFakeAbstractMethod() {
-    AbstractHandler handler = mock(AbstractHandler.class);
+    @Test
+    public void shouldCallRealMethodsAndFakeAbstractMethod() {
+        AbstractHandler handler = mock(AbstractHandler.class);
 
-    when(handler.greet()).thenCallRealMethod(); 
-    when(handler.fetchName()).thenReturn("Geek");
+        when(handler.greet()).thenCallRealMethod(); 
+        when(handler.fetchName()).thenReturn("Geek");
 
-    assertThat(handler.greet(), is("Hello Geek!"));
+        assertThat(handler.greet(), is("Hello Geek!"));
+    }
 }
 </code></pre>
 
-<p>}</p>
+<p>如代码所示，对于抽象方法fechName()，直接mock其返回值
+    when(handler.fetchName()).thenReturn(&ldquo;Geek&rdquo;);</p>
 
-<p>```
-如代码所示，对于抽象方法fechName()，直接mock其返回值</p>
-
-<pre><code>when(handler.fetchName()).thenReturn("Geek");
-</code></pre>
-
-<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。</p>
-
-<pre><code>when(handler.greet()).thenCallRealMethod();
-</code></pre>
+<p>对于被测方法greet()，则使用thenCallRealMethod()使Mock对象调用真实的实现方法。
+    when(handler.greet()).thenCallRealMethod();</p>
 
 <h4>b)测试过分依赖于I/O操作的类</h4>
 
-<p>```</p>
+<pre><code>
+public class BooksController {
 
-<p>public class BooksController {</p>
+    protected Map&lt;String, Date&gt; fetchBooks(){
+        //fetch the books from different publishing company.
+        service1.retrieveBooks();
+        service2.retrieveBooks();
+        ......
+        service10.retrieveBooks();
 
-<pre><code>protected Map&lt;String, Date&gt; fetchBooks(){
-    //fetch the books from different publishing company.
-    service1.retrieveBooks();
-    service2.retrieveBooks();
-    ......
-    service10.retrieveBooks();
+    }
 
-}
+    protected List&lt;String&gt; getPublishedBooks(){
 
-protected List&lt;String&gt; getPublishedBooks(){
-
-    books = fetchBooks();
-    //only pick up the books published.
+        books = fetchBooks();
+        //only pick up the books published.
+    }
 }
 </code></pre>
-
-<p>}
-```</p>
 
 <p>如上代码所示，类BooksController中定义了方法fetchBooks()，并且该方法严重依赖于I/O操作。因为fetchBooks()从不同的供应商那里获取最近的书籍信息。</p>
 
@@ -277,36 +265,33 @@ protected List&lt;String&gt; getPublishedBooks(){
 </ul>
 
 
-<p><code>
-doReturn(xxxx).when(service1).retrieveBooks()
+<pre><code>doReturn(xxxx).when(service1).retrieveBooks()
 doReturn(xxxx).when(service2).retrieveBooks()
 doReturn(xxxx).when(service3).retrieveBooks()
-</code></p>
+</code></pre>
 
 <ul>
 <li>除此之外，也可以考虑在测试getPublishedBooks()的时候，对fetchBooks()方法进行mock。如下所示：</li>
 </ul>
 
 
-<p>```
-public class BooksControllerTest {</p>
+<pre><code>public class BooksControllerTest {
 
-<pre><code>@Test
-public void shouldReturnPublishedBooks(){
-    BooksController controller = spy(new BooksController());
+    @Test
+    public void shouldReturnPublishedBooks(){
+        BooksController controller = spy(new BooksController());
 
-    Map&lt;String, Date&gt; books = new HashMap&lt;String, Date&gt;();
-    books.put("XXX1", "2014-2-1");
-    books.put("XXX2", "2014-3-1");
+        Map&lt;String, Date&gt; books = new HashMap&lt;String, Date&gt;();
+        books.put("XXX1", "2014-2-1");
+        books.put("XXX2", "2014-3-1");
 
-    doReturn(books).when(controller).fetchBooks();
+        doReturn(books).when(controller).fetchBooks();
 
-    assertThat(controller.getPublishedBooks(), is(....));
+        assertThat(controller.getPublishedBooks(), is(....));
+    }
+
 }
 </code></pre>
-
-<p>}
-```</p>
 
 <p>在如上的代码中，controller是BookController一个真实的实例，非mock对象。  原因是当前被测类为BooksController，因此不能将该类的实例定义成mock。<br/>
 另外，controller的fetchBooks()方法虽然被partial mock了，但其他的方法还是该实例真正的方法。</p>
