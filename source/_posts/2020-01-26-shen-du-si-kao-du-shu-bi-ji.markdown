@@ -12,6 +12,10 @@ categories: 读书笔记
 
 <img src="{{ root_url }}/images/readings/shendusikao.jpg" />
 
+<!--More-->
+
+
+
 
 
 原以为这是一本思考类或者实践类的书籍，读完后，感觉有一点意外，其实是作者的自传。
