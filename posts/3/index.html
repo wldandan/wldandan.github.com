@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="[请勿转载] 单块架构系统以及其面临的挑战 概述 多年来，我们一直在技术的浪潮中乘风破浪，扬帆奋进，寻找更优秀的方法来构建IT系统，也一直在积极的学习并观察先进的公司如何以不同的架构方式构建或者优化其IT系统，来积极应对市场的变化，迅速做出响应，从而为客户提供更多的价值。 微服务架构模式（ &hellip;">
+  <meta name="description" content="[请勿转载] 什么是微服务架构 在上一章中，我们认识了什么是单块架构应用，并分析了随着互联网时代的快速发展，随着市场变化快，用户需求变化快以及用户访问量的增加，单块架构应用的维护成本、人员的培养成本、缺陷修复成本以及技术架构演进的成本和系统扩展成本等都在增加， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-16T22:07:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 pm</span></time>
+        
+           | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[请勿转载]</p>
+
+<h1>什么是微服务架构</h1>
+
+<p>在上一章中，我们认识了什么是单块架构应用，并分析了随着互联网时代的快速发展，随着市场变化快，用户需求变化快以及用户访问量的增加，单块架构应用的维护成本、人员的培养成本、缺陷修复成本以及技术架构演进的成本和系统扩展成本等都在增加，因此单块架构曾经的优势已逐渐无法适应互联网时代的快速变化，面临着越来越多的挑战。</p>
+
+<p>在本章中，我们来了解到底什么是微服务架构，以及为什么微服务架构能有效解决单块架构在互联网时代所面临的挑战。</p>
+
+<h3>概述</h3>
+
+<p>   微服务架构一词在过去几年里，得到了广泛的讨论和关注。微服务架构提倡通过对特定业务领域的分析与建模，将复杂的、
+集中的、耦合度高的应用系统分解成小而专、耦合度低并且高度自治的一组服务。这些服务与服务之间相互协作、相互配合，从而为最终用户或其他系统提供相应的功能。微服务将每个独立的业务逻辑划分出来，运行在它们自己的进程中，然后通过分布式的网络互相通信与协作，从而为终端用户或其他调用者提供灵活的接口。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -570,52 +618,6 @@ rs.status()
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/06/webrtc-understand-the-media-stream/">WebRTC - Understand the MediaStream</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-01-06T23:59:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>6</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>11:59 pm</span></time>
-        
-           | <a href="/blog/2014/01/06/webrtc-understand-the-media-stream/#disqus_thread"
-             data-disqus-identifier="http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>WebRTC从设计之初，目的就是为开发人员提供更加简便的方式构建基于Web的视频、音频应用。对于任何的WebRTC应用程序，只需要做如下几件事情：</p>
-
-<ul>
-<li>1）获取本地媒体流(音频、视频)。</li>
-<li>2）与对端建立连接(包括防火墙和NAT的穿透)。</li>
-<li>3）初始化双方通信信道。</li>
-<li>4）交换通信元数据信息，比如分辨率、编解码方案、网络地址等。</li>
-<li>5）开始音频，视频或数据的通信。</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/01/06/webrtc-understand-the-media-stream/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -646,12 +648,17 @@ rs.status()
 <li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
 <li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
 <li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
+<li class='category'><a href='/blog/categories/读书笔记/'>读书笔记 (1)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
@@ -667,10 +674,6 @@ rs.status()
     
       <li class="post">
         <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
       </li>
     
   </ul>

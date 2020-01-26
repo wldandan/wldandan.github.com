@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="前提： 安装Gradle 安装过程非常简单: (1)下载Gradle (2)设置GRADLE_HOME (3)将GRADLE_HOME/bin/gradle加入$PATH 1.基本概念(Project 和 Task) Gradle中有两个基本的概念：project和task。 &hellip;">
+  <meta name="description" content="上一篇文章中，我们提到了Gradle的一些基本概念，如Project、Task以及Action，并且创建了我们的第一个Task。这次我们来看看Gradle中关于Project和Task的更多细节。 1. Project和Task 对于build.gradle配置文件，当运行Gradle 时， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,56 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/23/gradle-learning-two/">Gradle Learning - 2 (Project&task)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-01-23T17:14:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>23</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>5:14 pm</span></time>
+        
+           | <a href="/blog/2013/01/23/gradle-learning-two/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/01/23/gradle-learning-two/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上一篇文章中，我们提到了Gradle的一些基本概念，如Project、Task以及Action，并且创建了我们的第一个Task。这次我们来看看Gradle中关于Project和Task的更多细节。</p>
+
+<h3>1. Project和Task</h3>
+
+<p>对于build.gradle配置文件，当运行Gradle <Task> 时，Gradle会为我们创建一个Project的对象，加载build.gradle中的所有代码。其中呢，对于Task中定义的代码，Gradle会创建Task的实例，而对于那些不属于任何Task定义的代码，Gradle会创建一个Script类的实例，加载并执行这些代码。下面，让我们看一个简单的例子：</p>
+
+<h5>创建目录basic，并在其中创建文件build.gradle，然后加入如下代码：</h5>
+
+<pre><code>println "the project name is $name"
+task hello &lt;&lt; {
+    println "the current task name is $name"
+    println "hello world"
+}
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/23/gradle-learning-two/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -163,12 +213,17 @@
 <li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
 <li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
 <li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
+<li class='category'><a href='/blog/categories/读书笔记/'>读书笔记 (1)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
@@ -184,10 +239,6 @@
     
       <li class="post">
         <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
       </li>
     
   </ul>

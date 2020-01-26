@@ -9,7 +9,9 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="[如需转载，请联系本人] 过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧， &hellip;">
+  <meta name="description" content="Kubernetes主要由以下几个核心组件组成： etcd保存了整个集群的状态；
+apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；
+controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等； &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +78,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/03/14/k8s-architecture/">K8s核心架构</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2019-03-14T23:45:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>11:45 pm</span></time>
+        
+           | <a href="/blog/2019/03/14/k8s-architecture/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2019/03/14/k8s-architecture/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Kubernetes主要由以下几个核心组件组成：</p>
+
+<ul>
+<li>etcd保存了整个集群的状态；</li>
+<li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
+<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
+<li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
+<li>kubelet负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；</li>
+<li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
+<li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/03/14/k8s-architecture/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -484,54 +534,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">解析微服务架构(二)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-16T22:07:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 pm</span></time>
-        
-           | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/#disqus_thread"
-             data-disqus-identifier="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>[请勿转载]</p>
-
-<h1>什么是微服务架构</h1>
-
-<p>在上一章中，我们认识了什么是单块架构应用，并分析了随着互联网时代的快速发展，随着市场变化快，用户需求变化快以及用户访问量的增加，单块架构应用的维护成本、人员的培养成本、缺陷修复成本以及技术架构演进的成本和系统扩展成本等都在增加，因此单块架构曾经的优势已逐渐无法适应互联网时代的快速变化，面临着越来越多的挑战。</p>
-
-<p>在本章中，我们来了解到底什么是微服务架构，以及为什么微服务架构能有效解决单块架构在互联网时代所面临的挑战。</p>
-
-<h3>概述</h3>
-
-<p>   微服务架构一词在过去几年里，得到了广泛的讨论和关注。微服务架构提倡通过对特定业务领域的分析与建模，将复杂的、
-集中的、耦合度高的应用系统分解成小而专、耦合度低并且高度自治的一组服务。这些服务与服务之间相互协作、相互配合，从而为最终用户或其他系统提供相应的功能。微服务将每个独立的业务逻辑划分出来，运行在它们自己的进程中，然后通过分布式的网络互相通信与协作，从而为终端用户或其他调用者提供灵活的接口。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-2-shen-me-shi-wei-fu-wu-jia-gou/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -562,12 +564,17 @@
 <li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
 <li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
 <li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
+<li class='category'><a href='/blog/categories/读书笔记/'>读书笔记 (1)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
@@ -583,10 +590,6 @@
     
       <li class="post">
         <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
       </li>
     
   </ul>

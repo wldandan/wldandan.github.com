@@ -9,11 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="之前我们了解了如何打包，作为Pod中的容器运行，使用临时或者永久存储机制，设置配置项，接下来我们探讨如何部署和升级。 应用更新的方式 假定在K8S中存在这样的应用：
-* Service
-* 3个Pod
-* 使用ReplicaSet
-* Clients 初始情况，运行V1版本的应用。接下来， &hellip;">
+  <meta name="description" content="背景 本书的作者是香奈儿前CEO莫琳·希凯，书名《深度思考》，副标题 - 不断逼近问题的本质。 原以为这是一本思考类或者实践类的书籍，读完后，感觉有一点意外，其实是作者的自传。
+书中描述了作者在职场三十年的缩影，讲述了真实的经历，从欧莱雅、GAP到香奈儿，从中规中矩的袜子、皮带销售到敢于突破传统， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +77,109 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2020-01-26T11:34:05+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:34 am</span></time>
+        
+           | <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>背景</h2>
+
+<p>本书的作者是香奈儿前CEO莫琳·希凯，书名《深度思考》，<code>副标题 - 不断逼近问题的本质</code>。</p>
+
+<p><img src="/images/readings/shendusikao.jpg" /></p>
+
+<p>原以为这是一本思考类或者实践类的书籍，读完后，感觉有一点意外，其实是作者的自传。
+书中描述了作者在职场三十年的缩影，讲述了真实的经历，从欧莱雅、GAP到香奈儿，从中规中矩的袜子、皮带销售到敢于突破传统，创新的老海军女裤，从十几人的小团队到200多人的高管，再到香奈儿全球的CEO，这背后的成长有运气，但更多体现的是作者的睿智以及对信念的追求、思考以及坚持。</p>
+
+<blockquote><p>莫林·希凯，2007年加入香奈儿担任全球CEO，2016年离职。加入法国香奈儿品牌之前在美国大众品牌GAP有15年的工作经验，从小职员成长到CEO，从法国欧莱雅开始第一份工作。</p></blockquote>
+
+<h2>主要内容：</h2>
+
+<h3>1. 大脑走的越远，现实走的越稳</h3>
+
+<p>从孩童时期法国寄宿的不适开始，逐渐放下先见之明，拥抱陌生地域和文化体验的影响，并帮助她意识到在最能派上用场的地方发挥感染力。一个文科生眼中的新浪潮电影，将电影课完美的融入到文学专业中，提高观察力，感受电影对情绪和感觉的影响，以及如何通过细节触动他人。</p>
+
+<h3>2. 时刻思考自己的未来</h3>
+
+<p>工作后，作为产品经理加入欧莱雅，同商学院毕业的营销同事相比，并非仅依赖于市场调查或传统的评估模式，重要的是观察和感受顾客是如何理解营销背后的符号的。顾客不会研究广告图像，更多的会用心感受，感觉其与自身的情感、生活、理想的关系。</p>
+
+<h3>3. 激情让你更加优秀</h3>
+
+<p>几年后加入GAP，因推动的新品与传统GAP的定位不一样，想尽办法并通过自身的试穿赢得了机会，并因为出色的能力升到了高管。</p>
+
+<blockquote><p>Leader心中都有预想好的“愿景、使命和战略”，但不管初衷设计的如何精美，一旦员工阅读并阐述时，这些“意愿”都会被杀死 &mdash;《作者之死》。
+任何Leader都必须有一个“我”的定位(我们是谁，什么是重要的)
+如果强加自己的观点，团队不是沉默地反抗，高声的否定，就是盲目的遵循，每种反应都是灾难性的。
+人文科学的每个领域，其实是教我们反思如何理解世界的方式</p></blockquote>
+
+<p>在巴黎居住的时间里，舍友菲勒让她感受了到了<strong>超越约束、回归真我、追求实用</strong>的重要性，这也成为成她日后生活工作的根基</p>
+
+<h3>4.打破传统，重新定义自己</h3>
+
+<p><strong>你需要了解那些仅占市场份额少的竞争对手吗？我们可以超出社会的审美标准想象美吗？我们从未认真观察过的东西，它们存在的独特之处你想过吗?</strong></p>
+
+<p>到法国北部地区的推销，并作为培训计划的第一部分，让莫琳感受到压力。第一次参加执行总裁例会，不论人们的立场，经验，教育和年龄如何不同，从新位置开始是不容易的：
+尴尬的时刻、新手的无知、奇异的规则和仪式、新奇的行话、有形无形的考验，微妙的社交细节&hellip;..这些元素都是意料之中的。</p>
+
+<blockquote><p>无论你的职业发展到哪个阶段，“学习”和“反学习”(忘记你所学到的，重新学习)的循环是不可避免的。</p></blockquote>
+
+<h3>5.扭转规则，创造新事物</h3>
+
+<p>你的标签是什么？你如何能扭转规则，创造重要的事物？什么独特才能让你成功？什么“音乐”能撩动你内心的心扉，启发你的工作? 什么特长能让你在职业中“出类拔萃”？透过谁的视觉能让你“高瞻远瞩”？</p>
+
+<h3>6.重要的不是决定，是决定背后的动机</h3>
+
+<h3>7. 找到新视角，新愿景，新的充满启发的观点</h3>
+
+<p>无论角色多么细小，我也可以有着自己的影响力。我学到的一切东西，甚至最微不足道的细节，都能建立我的能力和信心，争取自己的权利，必要时作出超出常规的抉择。</p>
+
+<p>坚持自己的立场，提出自己的主张并不是为了挑战权威或证明自己的价值。坚持自己的立场的意义在于，你能作出贡献：贡献新的视角，新的愿景，新的充满启发的观点。</p>
+
+<p>简而言之，无论多么微小的机会都能发挥你的才能，无论多么苛刻的老板你都能从她们身上学到东西。即使她们一无是处，你也可以学到什么是错误的领导方式，张开双眼，重塑所见，你会看到无线资源等你挖掘。</p>
+
+<h3>8. 比勤奋更重要的是深度思考的能力</h3>
+
+<p>如果想在事业和生活上取得成功，必须练习倾听的技能。米奇教会了她如何倾听，不要总是一味的去展示自己的意见，要听听别人的声音，会对自己的想法有新的补充，完全坚持自己就会变成独裁者。
+严于自律是一种优秀品质，但讨好每个人会让我疲惫不堪，也会使我质疑自己的每个决定，最终限制了领导力。</p>
+
+<h3>9. 大胆的怀疑自己，坚定的肯定自己</h3>
+
+<h3>10. 有些问题永远找不到答案，但值得去思考</h3>
+
+<p>为什么香奈儿最终雇佣了我？除了在GAP获得的成就，其他一些特征非常重要：
+* 相信创意的力量驱动商业
+* 放弃曾经的总裁身份，从头学起
+* 等待3年，再担任CEO</p>
+
+<h3>11. 同时遵守规则，打破规则</h3>
+
+<p>创意往往源于悖论。将两个看似相反的想法、品质、设计或物体结合起来，发明出令人惊讶、超乎所料的美。打破任何强加在你身上的标签，拥抱自己的悖论，重新审视所学的知识，发展出强大的观点，在世界中留下足迹。打破标签，返璞归真。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -813,54 +913,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2019/03/14/k8s-architecture/">K8s核心架构</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2019-03-14T23:45:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>14</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>11:45 pm</span></time>
-        
-           | <a href="/blog/2019/03/14/k8s-architecture/#disqus_thread"
-             data-disqus-identifier="http://wldandan.github.com/blog/2019/03/14/k8s-architecture/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Kubernetes主要由以下几个核心组件组成：</p>
-
-<ul>
-<li>etcd保存了整个集群的状态；</li>
-<li>apiserver提供了资源操作的唯一入口，并提供认证、授权、访问控制、API注册和发现等机制；</li>
-<li>controller manager负责维护集群的状态，比如故障检测、自动扩展、滚动更新等；</li>
-<li>scheduler负责资源的调度，按照预定的调度策略将Pod调度到相应的机器上；</li>
-<li>kubelet负责维护容器的生命周期，同时也负责Volume（CSI）和网络（CNI）的管理；</li>
-<li>Container runtime负责镜像管理以及Pod和容器的真正运行（CRI）；</li>
-<li>kube-proxy负责为Service提供cluster内部的服务发现和负载均衡；</li>
-</ul>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2019/03/14/k8s-architecture/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/2">&larr; Older</a>
@@ -889,12 +941,17 @@
 <li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
 <li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
 <li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
+<li class='category'><a href='/blog/categories/读书笔记/'>读书笔记 (1)</a></li>
 
 </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
@@ -910,10 +967,6 @@
     
       <li class="post">
         <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/16/k8s-concept-controller/">K8s之控制器</a>
       </li>
     
   </ul>
