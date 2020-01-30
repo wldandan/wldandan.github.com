@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Vagrant Learning - 4 (Provision) - Happy Coding, Happy Life</title>
+  <title>读书笔记 - 《金字塔原理》 - Happy Coding, Happy Life</title>
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="如何安装应用 当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
-如何快速并有效的安装工作需要的软件，如数据库、Web服务器等? 目前，基本上有两种方式： 手动安装 首次创建VM后，手动安装需要的软件，然后重新分发Box。这样， &hellip;">
+  <meta name="description" content="这是一本关于提升逻辑思维能力的大作，也是有效提高写作和演讲水平的红宝书，趁这几天宅在家里，读了一遍，前细后粗 :(。 笔记如下： 1. 什么是金字塔？ 任何事情都可以归纳出一个中心论点，而此中心论点可以由3-7个论据支持，这些一级论据本身也可以是论点，被二级的3-7个论据支持，如此延伸，状如金字塔 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/">
+  <link rel="canonical" href="http://wldandan.github.com/blog/2020/01/26/jinzitayuanli/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
@@ -80,7 +79,7 @@
   
   <header>
     
-      <h1 class="entry-title">Vagrant Learning - 4 (Provision)</h1>
+      <h1 class="entry-title">读书笔记 - 《金字塔原理》</h1>
     
     
       <p class="meta">
@@ -89,7 +88,7 @@
 
 
 
-<time class='entry-date' datetime='2013-11-22T23:02:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2013</span></span> <span class='time'>11:02 pm</span></time>
+<time class='entry-date' datetime='2020-01-26T11:34:05+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:34 am</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://wldandan.github.com">Comments</a>
@@ -99,125 +98,74 @@
   </header>
 
 
-<div class="entry-content"><h3>如何安装应用</h3>
+<div class="entry-content"><p>这是一本关于提升逻辑思维能力的大作，也是有效提高写作和演讲水平的红宝书，趁这几天宅在家里，读了一遍，前细后粗 :(。</p>
 
-<p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
-如何快速并有效的安装工作需要的软件，如数据库、Web服务器等?</p>
+<p>笔记如下：</p>
 
-<p>目前，基本上有两种方式：</p>
+<h3>1. 什么是金字塔？</h3>
 
-<h4>手动安装</h4>
+<p>任何事情都可以归纳出一个中心论点，而此中心论点可以由3-7个论据支持，这些一级论据本身也可以是论点，被二级的3-7个论据支持，如此延伸，状如<code>金字塔</code>。</p>
 
-<!--More-->
-
-
-<p>首次创建VM后，手动安装需要的软件，然后重新分发Box。这样，就拥有了一个包含所需软件的Box，以后再创建VM时，直接使用该Box即可。</p>
-
-<p>譬如说，如果希望有一台VM作为Apache服务器，我们可以尝试使用以下方式：</p>
-
-<pre><code>vagrant init precise64 http://files.vagrantup.com/precise64.box
-vagrant up
-........
-</code></pre>
-
-<h4>Provision安装</h4>
-
-<p>将安装软件作为构建VM流程的一部分，不依赖于Box。每次创建VM都会自动安装一遍所需要的软件，例如使用Shel脚本，使用Chef或者其他方式，我们将这种机制称之为“Provisioning”</p>
-
-<p>实际上，Vagrant默认支持的Provisoining包括Shell、Chef以及Puppet。
-通过配置Provisioning，Vagrant会在<code>vagrant up</code>的阶段将其应用于VM。</p>
-
-<h5>Shell Provision</h5>
+<h3>2. 什么是金字塔结构？</h3>
 
 <ul>
-<li><p>在Vagrantfile同级目录下 定义provison.sh并设置可执行权限</p>
-
-<pre><code>  #!/usr/bin/env bash
-  echo "Installing Apache and setting it up..."
-  apt-get update &gt;/dev/null 2&gt;&amp;1
-  apt-get install -y apache2 &gt;/dev/null 2&gt;&amp;1
-  rm -rf /var/www
-  ln -fs /vagrant /var/www
-</code></pre></li>
-<li><p>在Vagrantfile中使用provision.sh
-  config.vm.provision &ldquo;shell&rdquo;, path: &ldquo;provision.sh&rdquo;</p></li>
-<li><p>执行<code>vagrant up</code></p></li>
+<li>讲故事的<code>序言</code>作为开头，包括<strong>背景、挑战、疑问、回答</strong></li>
+<li>提问/回答式的<code>纵向结构</code>，上层是下层的抽象，下层是支持上层的论点，呈<code>总-分/金字塔</code>关系。</li>
+<li>逻辑清晰的<code>横向结构</code>，相互不重叠，总体不遗漏。</li>
 </ul>
 
 
-<h5><a href="http://www.opscode.com">Chef</a> Provision</h5>
-
-<p>Vagrant对Chef支持的很好，包括chef-client和chef-solo两种模式。
-这里，我们之讨论如何使用chef-solo来安装Apache。</p>
+<h3>3. 金字塔核心？</h3>
 
 <ul>
-<li><p>在Vagrantfile同级目录下，创建如下目录及文件cookbooks/vagrant_book/recipes/default.rb, 并加入如下内容</p>
-
-<pre><code>  execute "apt-get update"
-  package "apache2"
-  execute "rm -rf /var/www" 
-  link "/var/www" do
-      to "/vagrant" 
-  end
-</code></pre></li>
-<li><p>在Vagrantfile中定义如下配置</p>
-
-<pre><code>  config.vm.define "web" do |web|
-      web.vm.hostname = "web-vm-chef"
-  end 
-  config.vm.network :forwarded_port, guest: 80, host: 9090
-  config.vm.provision "chef_solo", run_list: ["vagrant_book"]
-</code></pre></li>
-<li><p>执行<code>vagrant up</code></p></li>
-</ul>
-
-
-<h5>Puppet Provision</h5>
-
-<p>Vagrant也同样支持Puppet，这里，我们看看如何使用Puppet安装Apache。</p>
+<li><p>一个模型：S-C-Q-A</p>
 
 <ul>
-<li><p>在Vagrantfile同级目录下，创建如下目录及文件manifests/default.pp, 并加入如下内容</p>
+<li>S-背景：与文章主题相关，且是关于文章主题的<code>公认事实</code> - 读者肯定会同意的内容。引出<code>背景</code>的句子都有一个重要的特征，将你锁定在特定的时间和空间。</li>
+<li>C-挑战：推动情节发展的因素，促使读者提出疑问。</li>
+<li>Q-疑问：读者提出的问题</li>
+<li>A-回答：对问题进行的解答</li>
+</ul>
+</li>
+<li><p>二个推理：演绎推理、归纳推理
+  金字塔横向结构中，同一组的思想间存在逻辑顺序，包括演绎推理和归纳推理。</p>
 
-<pre><code>  exec { "apt-get update":
-      command =&gt; "/usr/bin/apt-get update",
-  }
+<ul>
+<li><p>演绎推理：演绎推理更容易，三段论形式：大小提、小前提、推导出结论</p>
 
-  package { "apache2":
-      require =&gt; Exec["apt-get update"],
-  }
+<ul>
+<li>阐述世界上已存在的某种情况</li>
+<li>阐述世界上同时存在的相关情况，第二个表述是针对第一个表述的<strong>主语或谓语</strong>的，则说明两个表述相关。</li>
+<li>说明 两种情况同时存在时，隐含的含义</li>
+</ul>
+</li>
+<li><p>归纳推理：是将具有共同点的事实、思想或观点归类分组，并概括其共同性。</p>
 
-  file { "/var/www": 
-      ensure =&gt; link, 
-      target =&gt; "/vagrant", 
-      force =&gt; true,
-  }
-</code></pre></li>
-<li><p>在Vagrantfile中定义如下配置</p>
+<ul>
+<li>正确定义该组思想，找出能够表示该组<strong>所有思想共同点</strong>的<strong>名词</strong></li>
+<li>识别并剔除该组思想中与其他思想不相称(不具有共同点)的思想。</li>
+</ul>
+</li>
+<li><p>归纳与演绎的区别：</p>
 
-<pre><code>  config.vm.define "web" do |web|
-      web.vm.hostname = "web-vm-chef"
-  end 
-  config.vm.network :forwarded_port, guest: 80, host: 9090
-  config.vm.provision "puppet"
-</code></pre></li>
-<li><p>执行<code>vagrant up</code></p></li>
+<ul>
+<li>归纳是抽象，</li>
+<li>演绎是第二句对第一句进行表述</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>三个逻辑：时间顺序、结构顺序、程度顺序</p>
+
+<ul>
+<li>时间顺序：按照时间发生的顺序</li>
+<li>结构顺序：按照空间的顺序</li>
+<li>程度顺序：重要性</li>
+</ul>
+</li>
+<li><p>四个特征: 结论先行、以上统下、归类分组、逻辑推进</p></li>
 </ul>
 
-
-<h5>混搭</h5>
-
-<p>实际上，我们也可以同时使用多种Provision，让他们协同工作。
-譬如，在下面的示例中，我们使用Shell以及Puppet一起完成Apache的安装</p>
-
-<pre><code>    config.vm.box = "precise64"
-    config.vm.provision "shell", inline: "apt-get update" 
-    config.vm.provision "puppet"
-</code></pre>
-
-<h3>总结</h3>
-
-<p>Vagrant提供了强大的Provision机制, 能方便的帮助我们更有效的安装以及部署应用。</p>
 </div>
 
 
@@ -233,12 +181,12 @@ vagrant up
 
 
 
-<time class='entry-date' datetime='2013-11-22T23:02:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>22</span><span class='date-suffix'>nd</span>, <span class='date-year'>2013</span></span> <span class='time'>11:02 pm</span></time>
+<time class='entry-date' datetime='2020-01-26T11:34:05+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>26</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>11:34 am</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/vagrant/'>vagrant</a>
+    <a class='category' href='/blog/categories/du-shu-bi-ji/'>读书笔记</a>
   
 </span>
 
@@ -254,10 +202,10 @@ vagrant up
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/11/14/vagrant-learning-box/" title="Previous Post: Vagrant Learning - 3 (Box) ">&laquo; Vagrant Learning - 3 (Box) </a>
+        <a class="basic-alignment left" href="/blog/2019/04/06/k8s-deployment/" title="Previous Post: k8s之Deployment">&laquo; k8s之Deployment</a>
       
       
-        <a class="basic-alignment right" href="/blog/2013/12/09/mockito-partial-mocking-learning/" title="Next Post: Mockito - Partial Mock">Mockito - Partial Mock &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/" title="Next Post: 读书笔记 - 《深度思考》">读书笔记 - 《深度思考》 &raquo;</a>
       
     </p>
   </footer>
@@ -361,8 +309,8 @@ vagrant up
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/';
-        var disqus_url = 'http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/';
+        var disqus_identifier = 'http://wldandan.github.com/blog/2020/01/26/jinzitayuanli/';
+        var disqus_url = 'http://wldandan.github.com/blog/2020/01/26/jinzitayuanli/';
         var disqus_script = 'embed.js';
       
     (function () {

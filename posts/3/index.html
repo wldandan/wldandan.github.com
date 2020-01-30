@@ -9,7 +9,8 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="[请勿转载] 什么是微服务架构 在上一章中，我们认识了什么是单块架构应用，并分析了随着互联网时代的快速发展，随着市场变化快，用户需求变化快以及用户访问量的增加，单块架构应用的维护成本、人员的培养成本、缺陷修复成本以及技术架构演进的成本和系统扩展成本等都在增加， &hellip;">
+  <meta name="description" content="[请勿转载] 微服务架构的核心特征 什么是核心特征，就是当我们谈论同一件事情的时候，那些不同的人们所关注的相同的部分。从业界的讨论来看，微服务通
+常有如下几个显著特征: 服务与组件 一直以来，我们都比较提倡使用组件（Component）的方式，模块化应用系统。它类似生活中的汽车，由不同的零件组成， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +77,59 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">解析微服务架构(三)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-03-16T22:07:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 pm</span></time>
+        
+           | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>[请勿转载]</p>
+
+<h1>微服务架构的核心特征</h1>
+
+<p>   什么是核心特征，就是当我们谈论同一件事情的时候，那些不同的人们所关注的相同的部分。从业界的讨论来看，微服务通
+常有如下几个显著特征:</p>
+
+<ul>
+<li><h5>服务与组件</h5></li>
+</ul>
+
+
+<p>  一直以来，我们都比较提倡使用组件（Component）的方式，模块化应用系统。它类似生活中的汽车，由不同的零件组成，每个零件都是可以独立替换的。因此，这类通常都有很好的灵活性和替换性。</p>
+
+<p>  在软件领域，我们也将组件定义为应用软件构建中独立的单元，它的最大特点是，对整个应用软件而言，组件能够被容易的替代或者更新。</p>
+
+<p>   传统实现组件的方式是采用和应用程序一样的的编程语言，构建独立的共享库（Libaray），从而达到解耦和复用的效果。对于共享库而言，我们知道它是语言相关、平台相关，并且是和应用程序运行在同一个进程中的，因此，任何共享库的变化都意味着整个应用程序也要被更新，并且需要被重新部署。换句话说，如果应用由多个共享库组件组成，那么任何库的变更都将导致整体应用的重新发布。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-3-wei-fu-wu-jia-gou-de-he-xin-te-zhen/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -575,49 +629,6 @@ rs.status()
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">WebRTC - Understand the PeerConnection</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2014-01-07T18:55:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>7</span><span class='date-suffix'>th</span>, <span class='date-year'>2014</span></span> <span class='time'>6:55 pm</span></time>
-        
-           | <a href="/blog/2014/01/07/webrtc-understand-the-peerconnection/#disqus_thread"
-             data-disqus-identifier="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
-
-<p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
-
-<p>还记得之前讨论过的WebRTC架构图吗？
-实际上，虽然RTCPeerConnection是一个暴露的连接接口，
-但其内部封装了大量WebRTC编解码和协议处理的工作，因此使浏览器之间点到点的即时通讯变得简单。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/01/07/webrtc-understand-the-peerconnection/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/4">&larr; Older</a>
@@ -648,7 +659,7 @@ rs.status()
 <li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
 <li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
 <li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
-<li class='category'><a href='/blog/categories/读书笔记/'>读书笔记 (1)</a></li>
+<li class='category'><a href='/blog/categories/读书笔记/'>读书笔记 (2)</a></li>
 
 </ul>
 </section>
@@ -661,6 +672,10 @@ rs.status()
       </li>
     
       <li class="post">
+        <a href="/blog/2020/01/26/jinzitayuanli/">读书笔记 - 《金字塔原理》</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
       </li>
     
@@ -670,10 +685,6 @@ rs.status()
     
       <li class="post">
         <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/03/17/k8s-concept-service/">K8s之Service</a>
       </li>
     
   </ul>
