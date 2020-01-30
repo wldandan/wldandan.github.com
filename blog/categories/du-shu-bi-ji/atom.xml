@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 读书笔记 | Happy Coding, Happy Life]]></title>
   <link href="http://wldandan.github.com/blog/categories/du-shu-bi-ji/atom.xml" rel="self"/>
   <link href="http://wldandan.github.com/"/>
-  <updated>2020-01-30T13:59:50+08:00</updated>
+  <updated>2020-01-30T15:34:43+08:00</updated>
   <id>http://wldandan.github.com/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
@@ -101,7 +101,14 @@
     <link href="http://wldandan.github.com/blog/2020/01/26/jinzitayuanli/"/>
     <updated>2020-01-26T11:34:05+08:00</updated>
     <id>http://wldandan.github.com/blog/2020/01/26/jinzitayuanli</id>
-    <content type="html"><![CDATA[<p>这是一本关于提升逻辑思维能力的大作，也是有效提高写作和演讲水平的红宝书，趁这几天宅在家里，读了一遍，前细后粗 :(。</p>
+    <content type="html"><![CDATA[<p>这是一本关于提升逻辑思维能力的大作，也是有效提高写作和演讲水平的红宝书，</p>
+
+<p>趁这几天宅在家里，前细后粗的读了一遍。(后面的太啰嗦，选择性放弃)</p>
+
+<!--More-->
+
+
+<p>全书主要分为四大部分：表达的逻辑、思考的逻辑、解决问题的逻辑 和 演示的逻辑</p>
 
 <p>笔记如下：</p>
 
@@ -146,14 +153,14 @@
 
 <ul>
 <li>正确定义该组思想，找出能够表示该组<strong>所有思想共同点</strong>的<strong>名词</strong></li>
-<li>识别并剔除该组思想中与其他思想不相称(不具有共同点)的思想。</li>
+<li>识别并剔除该组思想中与其他思想不相称(<strong>不具有共同点</strong>)的思想。</li>
 </ul>
 </li>
 <li><p>归纳与演绎的区别：</p>
 
 <ul>
-<li>归纳是抽象，</li>
-<li>演绎是第二句对第一句进行表述</li>
+<li>归纳是归类和抽象。</li>
+<li>演绎是第二句对第一句进行相关的表述</li>
 </ul>
 </li>
 </ul>
@@ -169,6 +176,17 @@
 <li><p>四个特征: 结论先行、以上统下、归类分组、逻辑推进</p></li>
 </ul>
 
+
+<h3>其他</h3>
+
+<blockquote><p>思考的逻辑
+* 总结句说明行动产生的结果/目标，找出明显的因果关系: 将每组的活动、步骤控制在5个以内。
+* 区分行动步骤的层次 - 看到不同的行动、步骤、流程时，要有意的区分层次控制在5个以内</p>
+
+<p>解决问题的逻辑
+提高写咨询报告效率的秘诀是：
+* 界定问题
+* 有条理的搜集和分析数据、转换为金字塔的形式</p></blockquote>
 ]]></content>
   </entry>
   
