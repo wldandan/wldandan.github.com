@@ -9,8 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="Paxos发明人Leslie Lamport提出，分布式系统有两类特性： 安全性(Safety) 保证系统的稳定，保证系统不会崩溃，不会出现业务错误，不会做坏事，是严格约束的。
-活性(Liveness) 使得系统可以提供功能，提高性能，增加易用性，让系统可以在用户“看到的时间内”做些好事， &hellip;">
+  <meta name="description" content="为了管理异构和不同配置的主机，为了便于Pod的运维管理，Kubernetes中提供了很多集群管理的配置和管理功能，通过namespace划分的空间，通过为node节点创建label和taint用于pod的调度等。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +31,18 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -65,6 +76,43 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/03/15/k8s-concept-cluster/">K8s之集群</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2019-03-15T21:45:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2019</span></span> <span class='time'>9:45 pm</span></time>
+        
+           | <a href="/blog/2019/03/15/k8s-concept-cluster/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>为了管理异构和不同配置的主机，为了便于Pod的运维管理，Kubernetes中提供了很多集群管理的配置和管理功能，通过namespace划分的空间，通过为node节点创建label和taint用于pod的调度等。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2019/03/15/k8s-concept-cluster/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -486,47 +534,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">解析微服务架构(四)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2015-03-16T22:07:00+08:00'><span class='date'><span class='date-month'>Mar</span> <span class='date-day'>16</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>10:07 pm</span></time>
-        
-           | <a href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/#disqus_thread"
-             data-disqus-identifier="http://wldandan.github.com/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>[请勿转载]</p>
-
-<h1>微服务架构的优缺点</h1>
-
-<p>将单块架构应用分解为一系列相对独立的微服务，其中每个服务都运行在自己的进程中，并且通过轻量级的机制实现彼此间的通信，这通常是HTTP资源的微服务。这些服务是围绕着业务功能构建的，并且可以通过完全自动化的部署机制进行独立部署。这些服务的集中式管理做到了最小化，每一种服务都可以通过不同的编程语言进行编写，并且可以使用不同的数据存储技术。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2015/03/16/wei-fu-wu-jia-gou-she-ji-yu-shi-xian-4-wei-fu-wu-jia-gou-de-you-que-dian/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/3">&larr; Older</a>
@@ -551,6 +558,7 @@
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/serverless/'>serverless (1)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
@@ -566,6 +574,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2020/02/15/serverless101-what-is-serverless/">[Serverless 101] - 初识Serverless</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
       </li>
     
@@ -579,10 +591,6 @@
     
       <li class="post">
         <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
       </li>
     
   </ul>

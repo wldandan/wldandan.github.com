@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>[Serverless 101] - 初识Serverless - Happy Coding, Happy Life</title>
+  <meta name="author" content="wldandan">
+
+  
+  <meta name="description" content="2019年3月，伯克利的一篇论文《A Berkeley View on Serveless Computing》，预测了Serverless对未来10年云计算的影响； 2019年12月，AWS REInvent上发布了诸多Serverless相关的更新，反响热烈。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://wldandan.github.com/blog/2020/02/15/serverless101-what-is-serverless/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Happy Coding, Happy Life</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sitesearch" value="wldandan.github.com">
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">文章</a></li>
+  <li><a href="/blog/archives">归档</a></li>
+  <li><a href="/about">关于我</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">[Serverless 101] - 初识Serverless</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2020-02-15T08:53:17+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>8:53 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>2019年3月，伯克利的一篇论文《A Berkeley View on Serveless Computing》，预测了Serverless对未来10年云计算的影响；</p>
+
+<p>2019年12月，AWS REInvent上发布了诸多Serverless相关的更新，反响热烈。</p>
+
+<p>Serverless无疑已经成为学术界和工业界关注的焦点。</p>
+
+<p>本文主要聊聊个人对Serverless的一些理解。</p>
+
+<!--More-->
+
+
+<h3>一、什么是Serverless</h3>
+
+<p>回顾过去互联网快速发展的数年，催生了诸多技术领域的创新，如大数据、微服务、DevOps等。这些技术并没有个统一的定义，而是依赖于社区的蓬勃发展，不断优化其定义。</p>
+
+<p>类似的，Serverless也没有一个官方的定义，但已经有不少总结帮助我们理解到底什么是Serverless，如下便是个人认为的重要总结：</p>
+
+<h4>1.使能开发者，关注业务逻辑本身而非应用的部署、维护和管理</h4>
+
+<p>Serverless technology is an infrastructure abstraction which enables developers to <strong>focus on writing software and managing application performance, rather than deploying, maintaining and scaling the underlying server infrastructure</strong>。</p>
+
+<p> &mdash;《Overview of severless technology, Enterprise Serverless User Cases》</p>
+
+<h4>2.无需管理服务器即可运行应用，并能按需的执行、扩缩容和付费</h4>
+
+<p>Serverless computing refers to the concept of building and running applications that do not require server management. It describes <strong>a fine-grained deployment meodel where applications, bundled as one or more functions, are uploaded to a platform and then executed, scaled and billed in response to the exact demand needed at the moment</strong>.</p>
+
+<p>&mdash; 《What is Serveress Computing, CNCF Serverles Whitepaper v1.0》</p>
+
+<h4>3.是FaaS + BaaS的共同体</h4>
+
+<p>Serverless encompasses <strong>two different areas: FaaS and BaaS.</strong></p>
+
+<p>FaaS(Function As A Service) - 由开发人员编写函数，事件触发、短生命周期，通常在容器或轻量级VM中运行。
+BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑。典型的BaaS包括：</p>
+
+<ul>
+<li>数据库系统 (RDS/NoSQL&hellip;)</li>
+<li>存储系统 (S3&hellip;)</li>
+<li>鉴权系统 (Auth0&hellip;)</li>
+<li>集成系统 (API-GW, EventsBridge&hellip;)</li>
+</ul>
+
+
+<p> 基于如上的定义，我们对Serverless已经有了大致的理解，核心关键字<strong>无需关注服务器</strong>，<strong>使能业务快速开发</strong>，<strong>由FaaS+BaaS生态</strong>构成。</p>
+
+<p> <strong>总结如下：Serverless就是使能开发者聚焦业务实现、无需关注运维与基础设施、并能按需使用和付费的技术与模式</strong></p>
+
+<h3>二、Serverless的核心</h3>
+
+<p>在伯克利的论文中，提出了一大假设：</p>
+
+<p><strong>Serverless的出现，极大简化了云计算的变成模型，将是软件生产力的一次大变革</strong>。举例来说，（Serverful）向Serverless的演进，就如同若干年前，汇编语言向高级语言的演进。</p>
+
+<blockquote><p>回想汇编语言的时代，开发者不仅需要考虑指令集，还需要熟悉寄存器的读取、信号的中断等。而高级语言的诞生，解放了开发者，不再需要考虑这些底层的细节，更关注业务逻辑。
+就好比没有人会用汇编来实现Web应用，而是使用诸如PHP/JSP/NodeJS等技术。</p></blockquote>
+
+<p>纵观历史，软件开发领域存在的五次大变革，都极大提高了开发者的工作效率：</p>
+
+<ul>
+<li>云服务(IaaS)的出现：解决了基础架构的成本和可扩展性问题</li>
+<li>开源社区：如开源社区、会议、博客、Workshop，使得知识的传播速度加快</li>
+<li>项目管理工具：版本控制、协作工具、持续集成工具解决了项目的并行开发和集成问题</li>
+<li>容器：定义了应用打包、部署和发布的标准化机制</li>
+<li>Serverless：使能开发者聚焦业务实现、无需关注运维与基础设施、并能按需使用和付费的技术与模式</li>
+</ul>
+
+
+<p>这些变革有一个共同点：那就是为软件工程师赋予了更多权利，帮助更快的交付有价值的应用。</p>
+
+<p>围绕Severless带来的变革，我理解主要有两大核心特征：</p>
+
+<ol>
+<li><p><strong>零运维：开发人员/运维人员不再需要承担构建分布式系统的(大部分)运维成本</strong>。通常，为了构建高可用的分布式系统，我们需要考虑：</p></li>
+<li><p>单点故障：</p></li>
+<li>异地容灾：</li>
+<li>负载均衡</li>
+<li>自动扩缩容</li>
+<li>监控告警</li>
+<li>调用链跟踪</li>
+<li>补丁与升级</li>
+</ol>
+
+
+<p>Serverless 不仅帮助开发人员降低资源的维护和管理成本，也能够完成如上所述的自动扩缩容、高可用等机制。使得开发人员可以把精力聚焦在真正的业务上，快速创新</p>
+
+<ol>
+<li><strong>零浪费：按照代码运行所需的资源进行计费，而非分配或者租用的资源</strong>。</li>
+</ol>
+
+
+<p>以计算资源为例，对于传统公有云基础设施资源而言，计费方式是基于资源的租用时长(如EC2启动后，即便不运行任何业务，也会以分钟为单位进行计费。)</p>
+
+<p>基于Serverless，基础设施是按照运行(代码)时消耗的资源进行收费，如Lambda是按照请求次数及（占用资源的）GB-S为单位进行计费。无请求处理， 则无需支付任何费用。</p>
+
+<h3>三、什么场景适合使用Serverless</h3>
+
+<p>Serverless的应用场景，通常是“事件驱动、短生命周期的无状态”应用。主要包括如下几类：</p>
+
+<h4>1.事件驱动的后端服务：</h4>
+
+<p>包括Web、移动App、IOT应用的后端服务等，如：</p>
+
+<ul>
+<li>Web、移动App的后端实现(通过用户的交互触发事件)</li>
+<li>IOT应用的后端实现(通过设备状态的变化触发或者上报事件)</li>
+<li>WebHook的后台处理（通过Hook方式触发的事件）</li>
+<li>ChatBot等聊天机器人</li>
+<li>Alexa等智能音箱的应用</li>
+</ul>
+
+
+<h4>2.数据处理类应用：</h4>
+
+<p>包括对数据的渲染、叠加或者处理等应用，如：</p>
+
+<ul>
+<li>报表等数据处理（对原始数据进行封装）</li>
+<li>ETL或者数据同步（对数据的抽取、转化和加载）</li>
+<li>视频或者图像处理 (生成不同分辨率的图像或者视频)</li>
+</ul>
+
+
+<h4>3.适配类应用</h4>
+
+<ul>
+<li>协议类型的转换(如IOT中不同设备管理，需要协议适配)</li>
+<li>与第三方平台的接入（如通过第三方提供的接口，接入或者协作的业务）</li>
+</ul>
+
+
+<p>参考伯克利的论文，目前Serverless主要应用场景如下：</p>
+
+<blockquote><p>可以看出，移动应用/互联网应用作为目前应用形态的主流，在Serverless应用占比中是最高的。个人估计，随着IOT、AI等应用的普适与快速发展，这类应用在采用Serverless的统计中占比会增加。</p></blockquote>
+
+<h3>四、Serverless带来的改变</h3>
+
+<h4>1.开发理念的转变</h4>
+
+<p>Serverless的出现，使得开发者更注重逻辑的快速实现，而无需关注运行、维护的成本，也就是<strong>从以资源为中心向以应用为中心</strong>观念的转变。</p>
+
+<h4>2.角色职责的转变</h4>
+
+<p>Serverless的出现，使得架构师、开发人员和运维人员的职责都发生了变化：</p>
+
+<ul>
+<li><p>架构师：从单体应用的<strong>只关注架构设计</strong>，到微服务时代的<strong>You build it, you own it</strong>(从设计到运行到运维)。Serverless的出现，使得架构师能够更加聚焦业务带来的技术挑战。</p></li>
+<li><p>开发人员：微服务时代，开发者需学习不同框架、语言；Serveless时代， 关注输入/输出，和函数代码的处理逻辑</p></li>
+<li><p>运维人员：关注基础设施、运行时、监控告警、可靠性等问题，大部分可以交给Serverless平台处理了。</p></li>
+</ul>
+
+
+<h3>五、Serverless面临的挑战</h3>
+
+<p>Serverless为开发人员带来了诸多便捷，但它依然处理发展的初期，相比与完善的Serverful的生态，还存在很多不足。主要包括：</p>
+
+<h4>1.计算领域</h4>
+
+<ul>
+<li>冷启动</li>
+<li>异构计算</li>
+<li>调度优化</li>
+</ul>
+
+
+<h4>2.存储模型</h4>
+
+<ul>
+<li>如何实现高性能、成本可控且可透明伸缩的存储机制</li>
+</ul>
+
+
+<h4>3.通信模型</h4>
+
+<p>Serverless中的Function是不能直接寻址的，所以无法通过现有的数据一致性算法/机制实现数据的共享或者传递。Serverless必然会推动分布式数据协同机制的发展。</p>
+
+<h4>4.安全相关</h4>
+
+<ul>
+<li>物理资源共享引起的攻击</li>
+<li>细粒度的权限控制</li>
+<li>数据安全风险</li>
+</ul>
+
+
+<h4>5.生态</h4>
+
+<ul>
+<li>工具成熟度</li>
+<li>遗留系统的迁移</li>
+<li>Serverless的设计模式</li>
+<li>合适的资源抽象</li>
+<li>端边云的协同</li>
+</ul>
+
+
+<h3>参考</h3>
+
+<ul>
+<li>《A Berkeley View on Serveless Computing》</li>
+<li>《CNCF Serverless Whitepaper》</li>
+<li>《Enterprise Serverless user cases》</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">wldandan</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2020-02-15T08:53:17+08:00'><span class='date'><span class='date-month'>Feb</span> <span class='date-day'>15</span><span class='date-suffix'>th</span>, <span class='date-year'>2020</span></span> <span class='time'>8:53 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/serverless/'>serverless</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/" title="Previous Post: 读书笔记 - 《深度思考》">&laquo; 读书笔记 - 《深度思考》</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>Categories</h1>
+<ul id="categories">
+  <li class='category'><a href='/blog/categories/aws/'>aws (1)</a></li>
+<li class='category'><a href='/blog/categories/gradle/'>gradle (4)</a></li>
+<li class='category'><a href='/blog/categories/hardware/'>hardware (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>java (1)</a></li>
+<li class='category'><a href='/blog/categories/javascript/'>javascript (3)</a></li>
+<li class='category'><a href='/blog/categories/k8s/'>k8s (10)</a></li>
+<li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
+<li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
+<li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/serverless/'>serverless (1)</a></li>
+<li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
+<li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
+<li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
+<li class='category'><a href='/blog/categories/travel/'>travel (2)</a></li>
+<li class='category'><a href='/blog/categories/vagrant/'>vagrant (5)</a></li>
+<li class='category'><a href='/blog/categories/webrtc/'>webrtc (3)</a></li>
+<li class='category'><a href='/blog/categories/读书笔记/'>读书笔记 (2)</a></li>
+
+</ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2020/02/15/serverless101-what-is-serverless/">[Serverless 101] - 初识Serverless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2020/01/26/jinzitayuanli/">读书笔记 - 《金字塔原理》</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-deployment/">k8s之Deployment</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
+      </li>
+    
+  </ul>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2020 - wldandan -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'happycodehappylife';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://wldandan.github.com/blog/2020/02/15/serverless101-what-is-serverless/';
+        var disqus_url = 'http://wldandan.github.com/blog/2020/02/15/serverless101-what-is-serverless/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

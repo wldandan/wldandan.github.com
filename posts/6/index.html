@@ -9,7 +9,7 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="随着信息化的快速发展，IT项目变得越来越复杂，通常都是由多个子系统共同协作完成。对于这种多系统、多项目的情况，很多构建工具都已经提供了不错的支持，像maven、ant。Gradle除了借鉴了ant或者maven的继承的方式定义子项目，也提供了一种更为方便的集中配置的方式， &hellip;">
+  <meta name="description" content="在我们使用Gradle构建项目的过程中，免不了要经常和文件打交道，譬如文件拷贝、文件重命名、生成压缩包等。在这方面，Gradle已经提供了非常好的支持，下面我们就来尝试一下如何使用Gradle提供的方式，操作文件或者目录。 1. 文件访问 1). 访问单个文件或者目录 file() &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -31,6 +31,18 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -64,6 +76,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/01/25/gradle-learning-four/">Gradle Learning - 4 (Files&amp;direcoties)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-01-25T06:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 am</span></time>
+        
+           | <a href="/blog/2013/01/25/gradle-learning-four/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在我们使用Gradle构建项目的过程中，免不了要经常和文件打交道，譬如文件拷贝、文件重命名、生成压缩包等。在这方面，Gradle已经提供了非常好的支持，下面我们就来尝试一下如何使用Gradle提供的方式，操作文件或者目录。</p>
+
+<h3>1. 文件访问</h3>
+
+<h4>1). 访问单个文件或者目录</h4>
+
+<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/
+    ~> gradle -p ~/work/project1 tasks</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/01/25/gradle-learning-four/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -239,6 +295,7 @@ task hello &lt;&lt; {
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/serverless/'>serverless (1)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
@@ -254,6 +311,10 @@ task hello &lt;&lt; {
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2020/02/15/serverless101-what-is-serverless/">[Serverless 101] - 初识Serverless</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
       </li>
     
@@ -267,10 +328,6 @@ task hello &lt;&lt; {
     
       <li class="post">
         <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
       </li>
     
   </ul>

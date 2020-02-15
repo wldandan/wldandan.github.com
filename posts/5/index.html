@@ -9,8 +9,10 @@
   <meta name="author" content="wldandan">
 
   
-  <meta name="description" content="背景介绍 最近的Java项目是个同海外团队合作的遗留系统，包括数据库服务器、邮件服务器、Web服务器、FAST搜索引擎、JBOSS中间件等等节点。为了便于团队使用，我们在Amazon 的EC2上建立了一套完整的端到端的运行环境。
-团队成员在本地搭建了Web环境，数据库环境，便于开发及调试。 &hellip;">
+  <meta name="description" content="为什么选择Vagrant 能够构建可配置的、轻量级的、便携式的虚拟服务器
+安装简单，提供不同平台的安装包
+一条命令即可创建出虚拟机环境，而且官方提供各种虚拟机的模板。
+能够最大化的帮助个人或者团队快速配置环境。譬如说，如果你是团队中的一员，通过Vagrant创建出一套独立的运行环境后， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,6 +34,18 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-47321446-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
@@ -65,6 +79,53 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/04/vagrant-learning-one-introduction/">Vagrant Learning - 1 (Basic Concepts)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-04T20:02:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>4</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:02 pm</span></time>
+        
+           | <a href="/blog/2013/11/04/vagrant-learning-one-introduction/#disqus_thread"
+             data-disqus-identifier="http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>为什么选择Vagrant</h3>
+
+<ul>
+<li>能够构建可配置的、轻量级的、便携式的虚拟服务器</li>
+<li>安装简单，提供不同平台的安装包</li>
+<li>一条命令即可创建出虚拟机环境，而且官方提供各种虚拟机的模板。</li>
+<li>能够最大化的帮助个人或者团队快速配置环境。譬如说，如果你是团队中的一员，通过Vagrant创建出一套独立的运行环境后，团队的其他成员能够使用该配置，创建完全一样地工作环境。所以无论你是工作在Linux，Mac OS X或Windows ，所有的团队成员都能在同一环境下运行代码，拥有相同的依赖。告别环境不一致带来的问题。</li>
+<li>提供Shell、Chef或者Puppet的支持，能够利用这些工具(Infrastructure As Code的方式)配置环境。</li>
+<li>从1.2的版本开始，不但支持VirtualBox,VmWare, 还开始支持Amazon EC2。</li>
+</ul>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/04/vagrant-learning-one-introduction/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -474,50 +535,6 @@ rake deploy</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/01/25/gradle-learning-four/">Gradle Learning - 4 (Files&amp;direcoties)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-<time class='entry-date' datetime='2013-01-25T06:20:00+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>25</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>6:20 am</span></time>
-        
-           | <a href="/blog/2013/01/25/gradle-learning-four/#disqus_thread"
-             data-disqus-identifier="http://wldandan.github.com/blog/2013/01/25/gradle-learning-four/">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在我们使用Gradle构建项目的过程中，免不了要经常和文件打交道，譬如文件拷贝、文件重命名、生成压缩包等。在这方面，Gradle已经提供了非常好的支持，下面我们就来尝试一下如何使用Gradle提供的方式，操作文件或者目录。</p>
-
-<h3>1. 文件访问</h3>
-
-<h4>1). 访问单个文件或者目录</h4>
-
-<p>file()将帮助我们访问相对于当前project的文件或者目录，注意不是相对当前的工作目录。因为我们有可能通过参数-p指定运行Gradle脚本的目录，而并不一定非要进入到该目录后再运行gradle。譬如在下面的例子中，当前工作目录是home目录，而gradle当前project的目录则是~/work/project1/
-    ~> gradle -p ~/work/project1 tasks</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2013/01/25/gradle-learning-four/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/posts/6">&larr; Older</a>
@@ -542,6 +559,7 @@ rake deploy</p>
 <li class='category'><a href='/blog/categories/linux/'>linux (1)</a></li>
 <li class='category'><a href='/blog/categories/microservices/'>microservices (12)</a></li>
 <li class='category'><a href='/blog/categories/nosql/'>nosql (2)</a></li>
+<li class='category'><a href='/blog/categories/serverless/'>serverless (1)</a></li>
 <li class='category'><a href='/blog/categories/splunk/'>splunk (1)</a></li>
 <li class='category'><a href='/blog/categories/test/'>test (2)</a></li>
 <li class='category'><a href='/blog/categories/tools/'>tools (2)</a></li>
@@ -557,6 +575,10 @@ rake deploy</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2020/02/15/serverless101-what-is-serverless/">[Serverless 101] - 初识Serverless</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/">读书笔记 - 《深度思考》</a>
       </li>
     
@@ -570,10 +592,6 @@ rake deploy</p>
     
       <li class="post">
         <a href="/blog/2019/04/06/k8s-concept-configmap/">K8s之configmap</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2019/04/05/k8s-concept-volume/">K8s之Volume</a>
       </li>
     
   </ul>
