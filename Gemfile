@@ -17,4 +17,4 @@ end
 
 LANG="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
-gem 'sinatra', '~> 1.4.2'
+gem 'sinatra', '~> 2.2.0'
