@@ -1,6 +1,12 @@
-<hgroup>
-  <h1><a href="{{ root_url }}/">{{ site.title }}</a></h1>
-  {% if site.subtitle %}
-    <h2>{{ site.subtitle }}</h2>
-  {% endif %}
-</hgroup>
+<div class="site-identity">
+  <p class="site-kicker">FIELD NOTES <span>/</span> WLDANDAN</p>
+  <hgroup>
+    <h1><a href="{{ root_url }}/">{{ site.title }}</a></h1>
+    {% if site.subtitle %}
+      <h2>{{ site.subtitle }}</h2>
+    {% else %}
+      <h2>Systems, software &amp; the craft of making things work.</h2>
+    {% endif %}
+  </hgroup>
+</div>
+<p class="site-index">EST.<br><strong>2013</strong></p>
