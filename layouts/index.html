@@ -1,0 +1,9 @@
+{{ define "main" }}
+<div class="blog-index">
+  {{ $posts := where .Site.RegularPages "Section" "posts" }}
+  {{ $paginator := .Paginate $posts }}
+  {{ range $paginator.Pages }}{{ partial "post-card.html" . }}{{ end }}
+  {{ partial "pagination.html" $paginator }}
+</div>
+{{ partial "sidebar.html" . }}
+{{ end }}

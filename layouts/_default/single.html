@@ -1,0 +1,8 @@
+{{ define "main" }}
+<div><article class="hentry" role="article">
+  <header><p class="meta"><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02 Jan 2006" }}</time>{{ with .Params.categories }} · {{ delimit . ", " }}{{ end }}</p><h1 class="entry-title">{{ .Title }}</h1></header>
+  <div class="entry-content">{{ .Content }}</div>
+  <footer><p class="meta">{{ .Site.Params.author }} · {{ .WordCount }} words</p><p class="meta">{{ with .PrevInSection }}<a class="basic-alignment left" href="{{ .RelPermalink }}">&laquo; {{ .Title }}</a>{{ end }}{{ with .NextInSection }}<a class="basic-alignment right" href="{{ .RelPermalink }}">{{ .Title }} &raquo;</a>{{ end }}</p></footer>
+</article></div>
+{{ partial "sidebar.html" . }}
+{{ end }}

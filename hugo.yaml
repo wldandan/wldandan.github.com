@@ -1,0 +1,22 @@
+baseURL: "https://wldandan.github.io/"
+locale: "zh-CN"
+title: "Happy Coding, Happy Life"
+paginate: 10
+publishDir: "public"
+enableRobotsTXT: true
+permalinks:
+  posts: "/blog/:year/:month/:day/:slug/"
+  categories: "/blog/categories/:slug/"
+taxonomies:
+  category: categories
+  tag: tags
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+params:
+  author: "wldandan"
+  description: "Systems, software & the craft of making things work."
+  disqusShortname: "happycodehappylife"
+outputs:
+  home: [HTML, RSS]

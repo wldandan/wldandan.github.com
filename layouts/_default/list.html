@@ -1,0 +1,4 @@
+{{ define "main" }}
+<div class="blog-index"><article><header><p class="meta">INDEX / {{ upper .Title }}</p><h1>{{ .Title }}</h1></header>{{ range .Pages }}{{ partial "post-card.html" . }}{{ end }}</article></div>
+{{ partial "sidebar.html" . }}
+{{ end }}
