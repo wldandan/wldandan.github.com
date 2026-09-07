@@ -1,0 +1,18 @@
+{{ define "main" }}
+<div class="blog-index archive-page">
+  <article>
+    <header><p class="meta">INDEX / ARCHIVE</p><h1>{{ .Title }}</h1></header>
+    <div class="entry-content">{{ .Content }}</div>
+    <ol class="archive-list">
+      {{ range where .Site.RegularPages "Section" "posts" }}
+      <li>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006 / 01 / 02" }}</time>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        {{ with .Params.categories }}<span>{{ delimit . ", " }}</span>{{ end }}
+      </li>
+      {{ end }}
+    </ol>
+  </article>
+</div>
+{{ partial "sidebar.html" . }}
+{{ end }}

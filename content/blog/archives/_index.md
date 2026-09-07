@@ -1,5 +1,6 @@
 ---
 title: "Archives"
+layout: "archives"
 url: "/blog/archives/"
 ---
 

@@ -38,6 +38,13 @@ article img, article video, article .flash-video { box-shadow:0 12px 28px rgba(2
 #content .blog-index article + article { border-top:1px solid var(--line); background:none; }
 #content .blog-index article + article header { border-bottom:0; }
 #content .blog-index a[rel=full-article] { background:var(--orange); color:#fff; border-radius:0; font-family:var(--mono); font-size:.72em; letter-spacing:.08em; text-transform:uppercase; }
+.archive-page .entry-content { margin-bottom:2em; color:var(--muted); }
+.archive-list { margin:0; padding:0; list-style:none; }
+.archive-list li { display:grid; grid-template-columns:9.5em 1fr auto; gap:1.2em; align-items:baseline; border-top:1px solid var(--line); padding:1em 0; }
+.archive-list time, .archive-list span { color:var(--muted); font:500 .68em/1.4 var(--mono); letter-spacing:.05em; }
+.archive-list a { color:var(--ink); font-size:1.05em; text-decoration:none; }
+.archive-list a:hover { color:var(--orange); }
+@media only screen and (max-width:767px) { .archive-list li { display:block; } .archive-list time, .archive-list span { display:block; margin-bottom:.35em; } }
 aside.sidebar { padding-top:2.8em; }
 aside.sidebar section { margin-bottom:2.5em; border-top:3px solid var(--ink); padding-top:.9em; }
 aside.sidebar h1 { margin-bottom:.8em; color:var(--ink); font:600 .72em/1 var(--mono); letter-spacing:.13em; text-transform:uppercase; }
