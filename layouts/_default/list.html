@@ -1,4 +1,14 @@
 {{ define "main" }}
-<div class="blog-index"><article><header><p class="meta">INDEX / {{ upper .Title }}</p><h1>{{ .Title }}</h1></header>{{ range .Pages }}{{ partial "post-card.html" . }}{{ end }}</article></div>
+<div class="blog-index">
+  <article>
+    <header><p class="meta">INDEX / {{ upper .Title }}</p><h1>{{ .Title }}</h1></header>
+    {{ if .Content }}<div class="entry-content">{{ .Content }}</div>{{ end }}
+    {{ if eq .RelPermalink "/blog/archives/" }}
+      {{ range where .Site.RegularPages "Section" "posts" }}{{ partial "post-card.html" . }}{{ end }}
+    {{ else }}
+      {{ range .Pages }}{{ partial "post-card.html" . }}{{ end }}
+    {{ end }}
+  </article>
+</div>
 {{ partial "sidebar.html" . }}
 {{ end }}
