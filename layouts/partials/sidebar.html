@@ -1,1 +1,9 @@
-<aside class="sidebar"><section><h1>Recent notes</h1><ul>{{ range first 5 (where .Site.RegularPages "Section" "posts") }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul></section><section><h1>Topics</h1><ul>{{ range .Site.Taxonomies.categories.ByCount }}<li><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a> <span>({{ .Count }})</span></li>{{ end }}</ul></section></aside>
+<aside class="sidebar">
+  <section class="explore-panel">
+    <h1>Explore</h1>
+    <h2>Recent notes</h2>
+    <ul class="recent-notes">{{ range first 5 (where .Site.RegularPages "Section" "posts") }}<li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>{{ end }}</ul>
+    <h2>Topics</h2>
+    <div class="topic-list">{{ range .Site.Taxonomies.categories.ByCount }}<a href="{{ .Page.RelPermalink }}">{{ .Page.Title }} <span>{{ .Count }}</span></a>{{ end }}</div>
+  </section>
+</aside>
