@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: aws | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/aws/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/aws/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Asgard - Handy tool for AWS management & deployment]]></title>
-    <link href="http://wldandan.github.com/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/"/>
+    <link href="https://wldandan.github.io/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment/"/>
     <updated>2014-05-27T20:55:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment</id>
+    <id>https://wldandan.github.io/blog/2014/05/27/asgard-awesome-tool-for-aws-deployment</id>
     <content type="html"><![CDATA[<p>Asgard is named for the home of the Norse god of thunder and lightning.
 As the words described, it is closely relevant to the management and control in cloud.</p>
 

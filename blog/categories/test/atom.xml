@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: test | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/test/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/test/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Page Object Understanding]]></title>
-    <link href="http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber/"/>
+    <link href="https://wldandan.github.io/blog/2013/12/23/page-object-understanding-based-on-cucumber/"/>
     <updated>2013-12-23T11:39:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/12/23/page-object-understanding-based-on-cucumber</id>
+    <id>https://wldandan.github.io/blog/2013/12/23/page-object-understanding-based-on-cucumber</id>
     <content type="html"><![CDATA[<h2>什么是Page Object</h2>
 
 <p>Page Object是<a href="http://www.seleniumhq.org/">Selenium</a>中提出的一种测试设计模式。在Web前端自动化测试的过程中，Page Object可以称得上是居家必备的良品之一。PageObject将与Web测试页面交互的行为封装在其内部，旨在将每个页面或者相似页面的功能封装，例如页面中需要测试的元素（按钮，输入框，标题等），这样，通过在测试中访问Page类的相应方法来获取页面相应的元素，从而巧妙的避免了当页面元素id或者位置变化时，需要修改测试代码的情况。</p>
@@ -176,9 +176,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Mockito - Partial Mock]]></title>
-    <link href="http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning/"/>
+    <link href="https://wldandan.github.io/blog/2013/12/09/mockito-partial-mocking-learning/"/>
     <updated>2013-12-09T17:09:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/12/09/mockito-partial-mocking-learning</id>
+    <id>https://wldandan.github.io/blog/2013/12/09/mockito-partial-mocking-learning</id>
     <content type="html"><![CDATA[<p>Mockito是一个方便的java测试Mock工具。</p>
 
 <p>当我们做TDD或者单元测试的时候，为了消除当前被测对象和其依赖之间的关系，经常使用Mockito。</p>

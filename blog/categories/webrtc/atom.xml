@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: webrtc | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/webrtc/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/webrtc/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[WebRTC - Understand the PeerConnection]]></title>
-    <link href="http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection/"/>
+    <link href="https://wldandan.github.io/blog/2014/01/07/webrtc-understand-the-peerconnection/"/>
     <updated>2014-01-07T18:55:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/01/07/webrtc-understand-the-peerconnection</id>
+    <id>https://wldandan.github.io/blog/2014/01/07/webrtc-understand-the-peerconnection</id>
     <content type="html"><![CDATA[<p>在上篇文章里，我们已经了解了MediaStream。那么这篇文章里，我们就来重点了解RTCPeerConnection。</p>
 
 <p>RTCPeerConnection表示浏览器之间点对点的连接。只有当连接建立后，浏览器的两端才能真正完成流媒体数据的传输。</p>
@@ -152,9 +152,9 @@ TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT
   
   <entry>
     <title type="html"><![CDATA[WebRTC - Understand the MediaStream]]></title>
-    <link href="http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream/"/>
+    <link href="https://wldandan.github.io/blog/2014/01/06/webrtc-understand-the-media-stream/"/>
     <updated>2014-01-06T23:59:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/01/06/webrtc-understand-the-media-stream</id>
+    <id>https://wldandan.github.io/blog/2014/01/06/webrtc-understand-the-media-stream</id>
     <content type="html"><![CDATA[<p>WebRTC从设计之初，目的就是为开发人员提供更加简便的方式构建基于Web的视频、音频应用。对于任何的WebRTC应用程序，只需要做如下几件事情：</p>
 
 <ul>
@@ -236,9 +236,9 @@ TURN是STUN协议的一个增强版，能够通过中继的方式帮助处于NAT
   
   <entry>
     <title type="html"><![CDATA[WebRTC - The revolution of media communication]]></title>
-    <link href="http://wldandan.github.com/blog/2014/01/02/webrtc-the-revolution-of-media-communication/"/>
+    <link href="https://wldandan.github.io/blog/2014/01/02/webrtc-the-revolution-of-media-communication/"/>
     <updated>2014-01-02T19:29:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/01/02/webrtc-the-revolution-of-media-communication</id>
+    <id>https://wldandan.github.io/blog/2014/01/02/webrtc-the-revolution-of-media-communication</id>
     <content type="html"><![CDATA[<h3>什么是WebRTC</h3>
 
 <p>如今，互联网主流的音频、视频通信服务产品，如Skype, QQ, GTalk等， 都是各自厂商私有的技术。用户需要安装插件或者桌面客户端，才能使用其提供的音频或者视频通信功能。

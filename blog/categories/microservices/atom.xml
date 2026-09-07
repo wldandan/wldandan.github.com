@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: microservices | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/microservices/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/microservices/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[微服务实战系列(5) - HAL 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/08/microservices-in-action-rest-hal/"/>
     <updated>2016-11-08T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal</id>
+    <id>https://wldandan.github.io/blog/2016/11/08/microservices-in-action-rest-hal</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
@@ -338,9 +338,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[微服务实战(4) - Spring Cloud 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/07/microservices-in-action-spring-cloud-101/"/>
     <updated>2016-11-07T23:37:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101</id>
+    <id>https://wldandan.github.io/blog/2016/11/07/microservices-in-action-spring-cloud-101</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
@@ -460,9 +460,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[微服务实战(3) - Spring Boot 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/06/microservices-in-action-spring-boot-101/"/>
     <updated>2016-11-06T17:57:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101</id>
+    <id>https://wldandan.github.io/blog/2016/11/06/microservices-in-action-spring-boot-101</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
@@ -666,9 +666,9 @@ EmbeddedServletContainerAutoConfiguration
   
   <entry>
     <title type="html"><![CDATA[微服务实战(2) - 目标系统]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/05/microservices-in-action-simulation/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/05/microservices-in-action-simulation/"/>
     <updated>2016-11-05T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/05/microservices-in-action-simulation</id>
+    <id>https://wldandan.github.io/blog/2016/11/05/microservices-in-action-simulation</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
@@ -772,9 +772,9 @@ EmbeddedServletContainerAutoConfiguration
   
   <entry>
     <title type="html"><![CDATA[微服务实战(1) - 内容大纲]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/04/microservices-in-action-outline/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/04/microservices-in-action-outline/"/>
     <updated>2016-11-04T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/04/microservices-in-action-outline</id>
+    <id>https://wldandan.github.io/blog/2016/11/04/microservices-in-action-outline</id>
     <content type="html"><![CDATA[<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
 
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: hardware | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/hardware/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/hardware/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Dora诞生记]]></title>
-    <link href="http://wldandan.github.com/blog/2014/02/14/the-story-about-dora/"/>
+    <link href="https://wldandan.github.io/blog/2014/02/14/the-story-about-dora/"/>
     <updated>2014-02-14T23:32:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/02/14/the-story-about-dora</id>
+    <id>https://wldandan.github.io/blog/2014/02/14/the-story-about-dora</id>
     <content type="html"><![CDATA[<p>趁着在墨尔本和西安Office上Hackday获奖的喜悦劲，赶紧来一篇Dora诞生记。  <br/>
 提醒偶记住这个特殊的日子，同时也感谢在过去两个月，牺牲个人时间，奋斗在Dora(X-Robot)上的Casa的兄弟姐妹们。</p>
 
@@ -90,9 +90,9 @@ Android的Native APP有了雏形，使用USB将手机连接到Arduino，能够�
   
   <entry>
     <title type="html"><![CDATA[Arduino, Make Hardware development easy]]></title>
-    <link href="http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1/"/>
+    <link href="https://wldandan.github.io/blog/2013/12/18/arduino-open-hardware-learning-1/"/>
     <updated>2013-12-18T17:02:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/12/18/arduino-open-hardware-learning-1</id>
+    <id>https://wldandan.github.io/blog/2013/12/18/arduino-open-hardware-learning-1</id>
     <content type="html"><![CDATA[<p>顺应Open Hardware的潮流，Team里最近买了块 Arduino的板子。于是乎，偶也就有个机会，能倒腾倒腾了。</p>
 
 <h3>介绍</h3>

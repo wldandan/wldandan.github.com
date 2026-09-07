@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: tools | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/tools/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/tools/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to use Octopress to set up blog]]></title>
-    <link href="http://wldandan.github.com/blog/2013/10/08/create-blog-on-github/"/>
+    <link href="https://wldandan.github.io/blog/2013/10/08/create-blog-on-github/"/>
     <updated>2013-10-08T14:20:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/10/08/create-blog-on-github</id>
+    <id>https://wldandan.github.io/blog/2013/10/08/create-blog-on-github</id>
     <content type="html"><![CDATA[<h2>Setup blog</h2>
 
 <h5>Install RVM</h5>
@@ -53,9 +53,9 @@ rake deploy</p>
   
   <entry>
     <title type="html"><![CDATA[Effective tool in my work]]></title>
-    <link href="http://wldandan.github.com/blog/2013/05/03/effective-tool-in-my-every-day-work/"/>
+    <link href="https://wldandan.github.io/blog/2013/05/03/effective-tool-in-my-every-day-work/"/>
     <updated>2013-05-03T10:33:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/05/03/effective-tool-in-my-every-day-work</id>
+    <id>https://wldandan.github.io/blog/2013/05/03/effective-tool-in-my-every-day-work</id>
     <content type="html"><![CDATA[<h3>Tools</h3>
 
 <h4>1. The Brain(<a href="http://www.thebrain.com/">http://www.thebrain.com/</a>)</h4>

@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://wldandan.github.com/sitemap.xml 
+Sitemap: https://wldandan.github.io/sitemap.xml 

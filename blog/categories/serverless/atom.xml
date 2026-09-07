@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: serverless | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/serverless/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/serverless/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[[Serverless 101] - 初识Serverless]]></title>
-    <link href="http://wldandan.github.com/blog/2020/02/15/serverless101-what-is-serverless/"/>
+    <link href="https://wldandan.github.io/blog/2020/02/15/serverless101-what-is-serverless/"/>
     <updated>2020-02-15T08:53:17+08:00</updated>
-    <id>http://wldandan.github.com/blog/2020/02/15/serverless101-what-is-serverless</id>
+    <id>https://wldandan.github.io/blog/2020/02/15/serverless101-what-is-serverless</id>
     <content type="html"><![CDATA[<p>2019年3月，伯克利的一篇论文《A Berkeley View on Serveless Computing》，预测了Serverless对未来10年云计算的影响；</p>
 
 <p>2019年12月，AWS REInvent上发布了诸多Serverless相关的更新，反响热烈。</p>

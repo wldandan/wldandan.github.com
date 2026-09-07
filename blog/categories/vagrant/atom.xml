@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: vagrant | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/vagrant/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/vagrant/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Vagrant Learning - 4 (Provision)]]></title>
-    <link href="http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision/"/>
+    <link href="https://wldandan.github.io/blog/2013/11/22/vagrant-learning-provision/"/>
     <updated>2013-11-22T23:02:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/11/22/vagrant-learning-provision</id>
+    <id>https://wldandan.github.io/blog/2013/11/22/vagrant-learning-provision</id>
     <content type="html"><![CDATA[<h3>如何安装应用</h3>
 
 <p>当我们第一次使用Box创建VM时，它通常是个没有装太多应用的裸机。所以，就会面临一个问题：
@@ -142,9 +142,9 @@ vagrant up
   
   <entry>
     <title type="html"><![CDATA[Vagrant Learning - 3 (Box) ]]></title>
-    <link href="http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box/"/>
+    <link href="https://wldandan.github.io/blog/2013/11/14/vagrant-learning-box/"/>
     <updated>2013-11-14T17:02:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/11/14/vagrant-learning-box</id>
+    <id>https://wldandan.github.io/blog/2013/11/14/vagrant-learning-box</id>
     <content type="html"><![CDATA[<h3>什么是Vagrant Box</h3>
 
 <p>谈论完了Vagrantfile，让我们看看Vagrant的另外一个重要概念Box。它是Vagrant运行VM的必要条件。
@@ -233,9 +233,9 @@ vagrant reload  //重新当前VM
   
   <entry>
     <title type="html"><![CDATA[Vagrant Learning - 2 (Configuration)]]></title>
-    <link href="http://wldandan.github.com/blog/2013/11/06/vagrant-learning-two-vagrantfile/"/>
+    <link href="https://wldandan.github.io/blog/2013/11/06/vagrant-learning-two-vagrantfile/"/>
     <updated>2013-11-06T17:26:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/11/06/vagrant-learning-two-vagrantfile</id>
+    <id>https://wldandan.github.io/blog/2013/11/06/vagrant-learning-two-vagrantfile</id>
     <content type="html"><![CDATA[<h3>Vagrantfile</h3>
 
 <p>Vagrantfile是Vagrant启动并设置VM的配置文件，每个VM都必须有一个Vagrantfile。
@@ -352,9 +352,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Vagrant Learning - 1 (Basic Concepts)]]></title>
-    <link href="http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction/"/>
+    <link href="https://wldandan.github.io/blog/2013/11/04/vagrant-learning-one-introduction/"/>
     <updated>2013-11-04T20:02:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/11/04/vagrant-learning-one-introduction</id>
+    <id>https://wldandan.github.io/blog/2013/11/04/vagrant-learning-one-introduction</id>
     <content type="html"><![CDATA[<h3>为什么选择Vagrant</h3>
 
 <ul>
@@ -403,9 +403,9 @@ end
   
   <entry>
     <title type="html"><![CDATA[Vagrant - Make Dev Environment Easy]]></title>
-    <link href="http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy/"/>
+    <link href="https://wldandan.github.io/blog/2013/11/01/vagrant-build-env-easy/"/>
     <updated>2013-11-01T18:37:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/11/01/vagrant-build-env-easy</id>
+    <id>https://wldandan.github.io/blog/2013/11/01/vagrant-build-env-easy</id>
     <content type="html"><![CDATA[<h3>背景介绍</h3>
 
 <ul>

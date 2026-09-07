@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[[Serverless 101] - 初识Serverless]]></title>
-    <link href="http://wldandan.github.com/blog/2020/02/15/serverless101-what-is-serverless/"/>
+    <link href="https://wldandan.github.io/blog/2020/02/15/serverless101-what-is-serverless/"/>
     <updated>2020-02-15T08:53:17+08:00</updated>
-    <id>http://wldandan.github.com/blog/2020/02/15/serverless101-what-is-serverless</id>
+    <id>https://wldandan.github.io/blog/2020/02/15/serverless101-what-is-serverless</id>
     <content type="html"><![CDATA[<p>2019年3月，伯克利的一篇论文《A Berkeley View on Serveless Computing》，预测了Serverless对未来10年云计算的影响；</p>
 
 <p>2019年12月，AWS REInvent上发布了诸多Serverless相关的更新，反响热烈。</p>
@@ -227,14 +227,14 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
   
   <entry>
     <title type="html"><![CDATA[读书笔记 - 《深度思考》]]></title>
-    <link href="http://wldandan.github.com/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/"/>
+    <link href="https://wldandan.github.io/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji/"/>
     <updated>2020-01-26T11:34:05+08:00</updated>
-    <id>http://wldandan.github.com/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji</id>
+    <id>https://wldandan.github.io/blog/2020/01/26/shen-du-si-kao-du-shu-bi-ji</id>
     <content type="html"><![CDATA[<h2>背景</h2>
 
 <p>本书的作者是香奈儿前CEO莫琳·希凯，书名《深度思考》，<code>副标题 - 不断逼近问题的本质</code>。</p>
 
-<p><img src="http://wldandan.github.com/images/readings/shendusikao.jpg" /></p>
+<p><img src="https://wldandan.github.io/images/readings/shendusikao.jpg" /></p>
 
 <!--More-->
 
@@ -314,9 +314,9 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
   
   <entry>
     <title type="html"><![CDATA[读书笔记 - 《金字塔原理》]]></title>
-    <link href="http://wldandan.github.com/blog/2020/01/26/jinzitayuanli/"/>
+    <link href="https://wldandan.github.io/blog/2020/01/26/jinzitayuanli/"/>
     <updated>2020-01-26T11:34:05+08:00</updated>
-    <id>http://wldandan.github.com/blog/2020/01/26/jinzitayuanli</id>
+    <id>https://wldandan.github.io/blog/2020/01/26/jinzitayuanli</id>
     <content type="html"><![CDATA[<p>这是一本关于提升逻辑思维能力的大作，也是有效提高写作和演讲水平的红宝书，</p>
 
 <p>趁这几天宅在家里，前细后粗的读了一遍。(后面的太啰嗦，选择性放弃)</p>
@@ -408,9 +408,9 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
   
   <entry>
     <title type="html"><![CDATA[k8s之Deployment]]></title>
-    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-deployment/"/>
+    <link href="https://wldandan.github.io/blog/2019/04/06/k8s-deployment/"/>
     <updated>2019-04-06T14:48:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/04/06/k8s-deployment</id>
+    <id>https://wldandan.github.io/blog/2019/04/06/k8s-deployment</id>
     <content type="html"><![CDATA[<p>之前我们了解了如何打包，作为Pod中的容器运行，使用临时或者永久存储机制，设置配置项，接下来我们探讨如何部署和升级。</p>
 
 <h5>应用更新的方式</h5>
@@ -435,9 +435,9 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
   
   <entry>
     <title type="html"><![CDATA[K8s之configmap]]></title>
-    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap/"/>
+    <link href="https://wldandan.github.io/blog/2019/04/06/k8s-concept-configmap/"/>
     <updated>2019-04-06T14:48:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap</id>
+    <id>https://wldandan.github.io/blog/2019/04/06/k8s-concept-configmap</id>
     <content type="html"><![CDATA[<p>几乎所有的应用程序都需要配置（实例的配置信息，外部系统的访问信息等），而这些配置显然不应该被打包到应用程序本身中。</p>
 
 <p>本篇文章看看如何在Kubernetes中配置应用程序的信息。</p>
@@ -697,7 +697,7 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
 
 <p>其关系如图所示：</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-volume-configmap-as-cmd-args.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-volume-configmap-as-cmd-args.png" /></p>
 
 <h5>4.3 使用ConfigMap volume导出ConfigMap的Entry</h5>
 
@@ -803,9 +803,9 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
   
   <entry>
     <title type="html"><![CDATA[K8s之Volume]]></title>
-    <link href="http://wldandan.github.com/blog/2019/04/05/k8s-concept-volume/"/>
+    <link href="https://wldandan.github.io/blog/2019/04/05/k8s-concept-volume/"/>
     <updated>2019-04-05T21:04:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/04/05/k8s-concept-volume</id>
+    <id>https://wldandan.github.io/blog/2019/04/05/k8s-concept-volume</id>
     <content type="html"><![CDATA[<p>本篇文章主要介绍在K8S中，pod的容器如何访问外部磁盘存储，以及容器间如何实现共享存储，主要内容包括</p>
 
 <ul>
@@ -902,7 +902,7 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
 
 <p>Git Repo卷基本上是基于emptyDir，通过克隆Git仓库并在pod启动时（但在创建其容器之前）签出特定版本。如图6.3所示:</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-volume-gitrepo.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-volume-gitrepo.png" /></p>
 
 <p>示例代码如下所示：</p>
 
@@ -959,7 +959,7 @@ BaaS(Backend As A Service) - 由云厂商提供，支撑函数实现业务逻辑
 
 <p>运行在同一节点上的Pod，如果使用相同的hostPath卷，则可以彼此访问相同的文件。</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-volume-hostpath.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-volume-hostpath.png" /></p>
 
 <p>使用hostPath的方式如下所示：</p>
 
@@ -1058,7 +1058,7 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 
 <p>使用方式如下所示:</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-volume-pv-and-pvc.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-volume-pv-and-pvc.png" /></p>
 
 <p>如图所示，开发人员不需要在pod中使用特定的存储机制，集群管理员设置底层存储，然后通过kubernetes创建PV，并且指定其大小和支持的访问模式。</p>
 
@@ -1066,7 +1066,7 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 
 <p>当使用了PV和PVC后，使用GCE Persisent Disk的机制如下所示：</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-volume-pv-vs-volume.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-volume-pv-vs-volume.png" /></p>
 
 <p>总而言之，在pod中使用持久性存储的最佳方法是创建pvc（必要时使用显式指定的storageclassname），并由动态PersistentVolume Provider负责创建。</p>
 
@@ -1087,9 +1087,9 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
   
   <entry>
     <title type="html"><![CDATA[K8s之Service]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/17/k8s-concept-service/"/>
     <updated>2019-03-17T20:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/17/k8s-concept-service</id>
+    <id>https://wldandan.github.io/blog/2019/03/17/k8s-concept-service</id>
     <content type="html"><![CDATA[<h3>如何访问Pod？</h3>
 
 <p>在非k8s世界中，管理员可以通过在配置文件中指定IP地址或主机名，容许客户端访问，但在k8s中这种方式是行不通的。因为Pod 是有生命周期的，它们可以被创建或销毁。虽然通过 ReplicationController 能够动态地创建Pod，但当Pod被分配到某个节点时，K8s都会为其分配一个IP地址，而该IP地址不总是稳定可依赖的。因此，在 Kubernetes 集群中，如果一组 Pod（称为 backend）为其它 Pod （称为 frontend）提供服务，那么那些 frontend 该如何发现，并连接到这组backend的Pod呢？</p>
@@ -1101,11 +1101,11 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 
 <p>Kubernetes中的Service是一种资源的定义，它将Pod逻辑分组，并提供客户端访问。</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-service-1.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-service-1.png" /></p>
 
 <p> 通过 Label Selector，一组 Pod 能够被暴露为Service，供客户端访问。</p>
 
-<p> <img src="http://wldandan.github.com/images/k8s/k8s-service-2.png" /></p>
+<p> <img src="https://wldandan.github.io/images/k8s/k8s-service-2.png" /></p>
 
 <p>举个例子，考虑一个图片处理 backend，它运行了3个副本。这些副本是可互换的，通过Service能够解耦frontend与backend的关联。</p>
 
@@ -1142,7 +1142,7 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 
 <p>接下来，我们可以使用<code>kubectl</code>访问该Service</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-service-3.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-service-3.png" /></p>
 
 <h3>Service如何被外部网络的Client访问</h3>
 
@@ -1182,7 +1182,7 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 <p></p>
 
 <p>使用NodePort的Service如下图所示：
-<img src="http://wldandan.github.com/images/k8s/k8s-service-4.png" /></p>
+<img src="https://wldandan.github.io/images/k8s/k8s-service-4.png" /></p>
 
 <h4>2.将Service Type设置为<code>LoadBalancer</code></h4>
 
@@ -1220,7 +1220,7 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 <p>使用如上配置文件创建Service之后，会调用云基础设施，创建负载均衡器并将其IP地址写入Service对象。一旦结束，IP地址将作为Service的外部IP地址列出：</p>
 
 <p>如下图所示：
-<img src="http://wldandan.github.com/images/k8s/k8s-service-5.png" /></p>
+<img src="https://wldandan.github.io/images/k8s/k8s-service-5.png" /></p>
 
 <h4>3.使用<code>Ingress</code>资源</h4>
 
@@ -1257,7 +1257,7 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 
 <p>通过Ingress访问Service的流程如下：</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-service-7.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-service-7.png" /></p>
 
 <p>另外，可以通过Ingress访问多个服务：</p>
 
@@ -1288,7 +1288,7 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-service-6.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-service-6.png" /></p>
 
 <h3>Service的诊断</h3>
 
@@ -1332,9 +1332,9 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
   
   <entry>
     <title type="html"><![CDATA[K8s之控制器]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/16/k8s-concept-controller/"/>
     <updated>2019-03-16T20:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller</id>
+    <id>https://wldandan.github.io/blog/2019/03/16/k8s-concept-controller</id>
     <content type="html"><![CDATA[<p>Kubernetes中内建了很多controller（控制器），这些相当于一个状态机，用来控制Pod的具体状态和行为。</p>
 
 <!-- More -->
@@ -1505,9 +1505,9 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
   
   <entry>
     <title type="html"><![CDATA[K8s之Pod]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/16/k8s-concept-pod/"/>
     <updated>2019-03-16T19:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/16/k8s-concept-pod</id>
+    <id>https://wldandan.github.io/blog/2019/03/16/k8s-concept-pod</id>
     <content type="html"><![CDATA[<p>Pod是kubernetes中你可以创建和部署的最小也是最简的单位。Pod代表着集群中运行的进程。Pod中封装着应用的容器（1或多个容器）、存储、独立的网络IP，并管理着容器运行的策略选项。</p>
 
 <!-- More -->
@@ -1550,7 +1550,7 @@ Pod作为一个独立的部署单位，支持横向扩展和复制、协同调�
 
 <p>下图是Pod的生命周期示意图，从图中可以看到Pod状态的变化。</p>
 
-<p><img src="http://wldandan.github.com/images/k8s/kubernetes-pod-life-cycle.jpg" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/kubernetes-pod-life-cycle.jpg" /></p>
 
 <h4>Pod如何管理多个容器</h4>
 
@@ -1642,9 +1642,9 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
   
   <entry>
     <title type="html"><![CDATA[K8s之网络]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-concept-network/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/15/k8s-concept-network/"/>
     <updated>2019-03-15T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-concept-network</id>
+    <id>https://wldandan.github.io/blog/2019/03/15/k8s-concept-network</id>
     <content type="html"><![CDATA[<p>K8s的网络介绍</p>
 
 <!-- More -->
@@ -1665,9 +1665,9 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
   
   <entry>
     <title type="html"><![CDATA[K8s之集群]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/15/k8s-concept-cluster/"/>
     <updated>2019-03-15T21:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/15/k8s-concept-cluster</id>
+    <id>https://wldandan.github.io/blog/2019/03/15/k8s-concept-cluster</id>
     <content type="html"><![CDATA[<p>为了管理异构和不同配置的主机，为了便于Pod的运维管理，Kubernetes中提供了很多集群管理的配置和管理功能，通过namespace划分的空间，通过为node节点创建label和taint用于pod的调度等。</p>
 
 <!-- More -->
@@ -1727,9 +1727,9 @@ Pod中应用容器可以共享volume。volume能够保证pod重启时使用的�
   
   <entry>
     <title type="html"><![CDATA[K8s核心概念]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/14/k8s-concepts/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/14/k8s-concepts/"/>
     <updated>2019-03-14T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/14/k8s-concepts</id>
+    <id>https://wldandan.github.io/blog/2019/03/14/k8s-concepts</id>
     <content type="html"><![CDATA[<p>Paxos发明人Leslie Lamport提出，分布式系统有两类特性：</p>
 
 <ul>
@@ -1873,9 +1873,9 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
   
   <entry>
     <title type="html"><![CDATA[K8s核心架构]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/14/k8s-architecture/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/14/k8s-architecture/"/>
     <updated>2019-03-14T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/14/k8s-architecture</id>
+    <id>https://wldandan.github.io/blog/2019/03/14/k8s-architecture</id>
     <content type="html"><![CDATA[<p>Kubernetes主要由以下几个核心组件组成：</p>
 
 <ul>
@@ -1905,23 +1905,23 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
 
 <h3>K8s整体架构</h3>
 
-<p><img src="http://wldandan.github.com/images/k8s/kubernetes-whole-arch.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/kubernetes-whole-arch.png" /></p>
 
 <h5>K8s-Master架构图</h5>
 
-<p><img src="http://wldandan.github.com/images/k8s/kubernetes-master-arch.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/kubernetes-master-arch.png" /></p>
 
 <h5>K8s-Node架构图</h5>
 
-<p><img src="http://wldandan.github.com/images/k8s/kubernetes-node-arch.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/kubernetes-node-arch.png" /></p>
 
 <h3>K8s分层架构</h3>
 
-<p><img src="http://wldandan.github.com/images/k8s/kubernetes-layers-arch.png" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/kubernetes-layers-arch.png" /></p>
 
 <h3>K8s简化图</h3>
 
-<p><img src="http://wldandan.github.com/images/k8s/k8s-control-plane.jpg" /></p>
+<p><img src="https://wldandan.github.io/images/k8s/k8s-control-plane.jpg" /></p>
 
 <ul>
 <li>核心层：Kubernetes最核心的功能，对外提供API构建高层的应用，对内提供插件式应用执行环境</li>
@@ -1954,9 +1954,9 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
   
   <entry>
     <title type="html"><![CDATA[微服务实战系列(5) - HAL 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/08/microservices-in-action-rest-hal/"/>
     <updated>2016-11-08T23:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/08/microservices-in-action-rest-hal</id>
+    <id>https://wldandan.github.io/blog/2016/11/08/microservices-in-action-rest-hal</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
@@ -1982,7 +1982,7 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
 
 <p>REST（Representational State Transfer，表述性状态传递）是近几年使用广泛的架构风格之一。在微服务架构的实践中，REST经常作为服务间协作的轻量级通信协议(语言无关、平台无关)被采用。</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/rest-hal/rest-core-600-450.png" /></p>
 
 <p>REST从语义层面将响应结果定义为资源，并使用HTTP协议的标准动词映射为对资源的操作，形成了一种以资源为核心、以HTTP协议为操作方式的，与语言无关、平台无关的服务间的通信机制。</p>
 
@@ -1994,7 +1994,7 @@ RC和RS主要是控制提供无状态服务的，其所控制的Pod的名字是�
 
 <p>REST成熟度模型描述了REST在实施过程中不同的级别。</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/rest-hal/rest-maturity-model-600-450.png" /></p>
 
 <h3>REST不是银弹</h3>
 
@@ -2102,7 +2102,7 @@ https://api.example.com/users/[ID]/posts      GET 获取用户相关的文章
 </ul>
 
 
-<p><img src="http://wldandan.github.com/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-design-and-practice/rest-api-design/hal-model-400-300.png" /></p>
 
 <h4>使用HAL定义单一资源(Resource)</h4>
 
@@ -2277,9 +2277,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[微服务实战(4) - Spring Cloud 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/07/microservices-in-action-spring-cloud-101/"/>
     <updated>2016-11-07T23:37:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/07/microservices-in-action-spring-cloud-101</id>
+    <id>https://wldandan.github.io/blog/2016/11/07/microservices-in-action-spring-cloud-101</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
@@ -2311,7 +2311,7 @@ Content-Type: application/json
 
 <p>但是，对于微服务的实施而言，服务单元不会孤立存在，必然相互协作，共同实现业务价值。</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/spring-boot/microservice-coordination-600-450.png" /></p>
 
 <p>而随着服务规模化的推进，服务间协作和管理的成本会越来越高，包括但不限于：</p>
 
@@ -2361,7 +2361,7 @@ Content-Type: application/json
 
 <p>在Spring Cloud中，整合了很多功能组件，包括Config、Messaging、Netflix OSS以及对Heroku、Amazon Web Service、Cloud Foundry等云平台的接口支持。</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/spring-boot/spring-cloud-components-600-450.png" /></p>
 
 <p>基于这些组件，能够帮助我们解决之前提到的服务实施后面临的挑战。</p>
 
@@ -2399,9 +2399,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[微服务实战(3) - Spring Boot 101]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/06/microservices-in-action-spring-boot-101/"/>
     <updated>2016-11-06T17:57:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/06/microservices-in-action-spring-boot-101</id>
+    <id>https://wldandan.github.io/blog/2016/11/06/microservices-in-action-spring-boot-101</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
@@ -2421,13 +2421,13 @@ Content-Type: application/json
 
 <p>另外，Spring对诸多企业特性的强大支持，为构建Java的企业应用提供了<code>全家桶</code>的解决方案。</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/spring-boot/spring-io-600-450.png" /></p>
 
 <p>对于现代Java开发，尤其是以微服务为主的应用，虽然有<a href="https://dropwizard.github.io/">DropWizard</a>、<a href="https://ee.kumuluz.com/">KumuluzEE</a>等微服务框架的诞生，但Spring Boot借助极致的<code>Convention Over Configuration</code>，加上对<code>Spring Framework</code>的无缝支持，被社区普遍看好。</p>
 
 <p>在今年10月中旬结束的<a href="https://jaxlondon.com/jax-awards/">2016 JAX Java Innovation</a>评选中，Spring Boot一举拔得头筹，而去年Java领域的这个奖项是颁给了著名的<a href="https://netflix.github.io/">Netflix OSS</a>，足以证明Spring Boot在社区的影响力。</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/spring-boot/jax-award-spring-boot-600-450.png" /></p>
 
 <h2>Spring Boot的优势</h2>
 
@@ -2532,7 +2532,7 @@ Content-Type: application/json
 <p>关于更多<code>Conditional</code>的细节，请查看包
 <em>org.springframework.boot.autoconfigure.condition</em>中的具体实现，其列表如下图所示：</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/spring-boot/spring-boot-conditional-xxx-600-450.png" /></p>
 
 <h3>另外，每个SpringBoot应用上都会加标签@SpringBootApplication</h3>
 
@@ -2640,9 +2640,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[微服务实战(2) - 目标系统]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/05/microservices-in-action-simulation/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/05/microservices-in-action-simulation/"/>
     <updated>2016-11-05T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/05/microservices-in-action-simulation</id>
+    <id>https://wldandan.github.io/blog/2016/11/05/microservices-in-action-simulation</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。在这些企业中，大部分的开发者对微服务的理解，以“银弹观念”为主。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致这种现象出现也是比较能理解的。</p>
@@ -2696,7 +2696,7 @@ Content-Type: application/json
 
 <blockquote><p>该活动报名系统的应用架构图如下：</p></blockquote>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/events-system-architecture-600-450.png" /></p>
 
 <h2>服务实现</h2>
 
@@ -2733,7 +2733,7 @@ Content-Type: application/json
 
 <blockquote><p>该活动报名系统的微服务生态系统图如下：</p></blockquote>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/microservices-eco-system-adoption-600-450.png" /></p>
 
 <h2>总结</h2>
 
@@ -2746,9 +2746,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[微服务实战(1) - 内容大纲]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/04/microservices-in-action-outline/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/04/microservices-in-action-outline/"/>
     <updated>2016-11-04T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/04/microservices-in-action-outline</id>
+    <id>https://wldandan.github.io/blog/2016/11/04/microservices-in-action-outline</id>
     <content type="html"><![CDATA[<script src="https://cdn1.lncld.net/static/js/av-mini-0.6.10.js"></script>
 
 
@@ -2800,7 +2800,7 @@ Content-Type: application/json
 
 <blockquote><p>微服务生态系统</p></blockquote>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/microservices-eco-system-600-450.png" /></p>
 
 <h4>3.理解微服务的高级话题</h4>
 
@@ -2813,7 +2813,7 @@ Content-Type: application/json
 
 <blockquote><p>基于消费者驱动的契约测试</p></blockquote>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/pact-600-450.png" /></p>
 
 <h4>4.理解实施微服务与DevOps(基于Docker)</h4>
 
@@ -2829,11 +2829,11 @@ Content-Type: application/json
 
 <blockquote><p>部署模型图</p></blockquote>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/events-system-deployment-600-450.png" /></p>
 
 <blockquote><p>持续交付流水线</p></blockquote>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/events-system-cd-600-450.png" /></p>
 
 <h2>总结</h2>
 
@@ -2846,9 +2846,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[微服务实战视频课(0) - 聊聊开篇]]></title>
-    <link href="http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction/"/>
+    <link href="https://wldandan.github.io/blog/2016/11/03/microservices-in-action-introduction/"/>
     <updated>2016-11-03T14:28:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2016/11/03/microservices-in-action-introduction</id>
+    <id>https://wldandan.github.io/blog/2016/11/03/microservices-in-action-introduction</id>
     <content type="html"><![CDATA[<p>[如需转载，请联系本人]</p>
 
 <p>过去的几个月，我作为独立咨询师，为多个传统企业提供了微服务架构的培训、咨询以及交付工作。实际上，传统企业在过去多年的业务积累中，由于组织架构、业务发展和市场竞争等综合因素，技术体系相对封闭，缺乏快速交付的理念。因此，微服务的出现，加之社区的热捧，导致很多传统的团队过于追热而并没有完全理解微服务。</p>
@@ -2917,7 +2917,7 @@ Content-Type: application/json
 
 <p>关于IT社区对微服务的关注度和市场的需求数据，请看下图，一个字🔥。</p>
 
-<p><img src="http://wldandan.github.com/images/microservice-in-action-with-spring/google_trends.png" /></p>
+<p><img src="https://wldandan.github.io/images/microservice-in-action-with-spring/google_trends.png" /></p>
 
 <blockquote><p>图的上部分是Google Trends上关于<code>Microservice</code>的增长趋势。</p>
 
@@ -2933,9 +2933,9 @@ Content-Type: application/json
   
   <entry>
     <title type="html"><![CDATA[解析微服务架构]]></title>
-    <link href="http://wldandan.github.com/blog/2015/03/17/microservice-design-and-implementation/"/>
+    <link href="https://wldandan.github.io/blog/2015/03/17/microservice-design-and-implementation/"/>
     <updated>2015-03-17T11:13:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2015/03/17/microservice-design-and-implementation</id>
+    <id>https://wldandan.github.io/blog/2015/03/17/microservice-design-and-implementation</id>
     <content type="html"><![CDATA[<p>过去的1年多，一直在助力澳洲最大的房地产互联网门户，研究并使用微服务架构改造其复杂的遗留系统。鉴于此，准备开个系列，讲讲我个人眼中的微服务是神马样的，它的概念，优缺点，为什么我们要使用它，以及在使用微服务的实践过程中，从开发、测试、部署、运维等几个方面相比以前方式有什么不同；同时，分享一下我们在微服务实践过程中的经验和踩过的那些坑。</p>
 
 <!-- More -->

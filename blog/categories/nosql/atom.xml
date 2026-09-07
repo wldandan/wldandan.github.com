@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: nosql | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/nosql/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/nosql/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to setup mongo shard]]></title>
-    <link href="http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard/"/>
+    <link href="https://wldandan.github.io/blog/2014/04/23/how-to-setup-mongo-shard/"/>
     <updated>2014-04-23T09:44:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/04/23/how-to-setup-mongo-shard</id>
+    <id>https://wldandan.github.io/blog/2014/04/23/how-to-setup-mongo-shard</id>
     <content type="html"><![CDATA[<p>To simulate the process of production deployment of MongoDB, I used Vagrant to create a couples of VMs, and exprienced the journey of deployment mongo step by step as follow mentioned.</p>
 
 <h3>Mongo Shard Concepts</h3>
@@ -90,9 +90,9 @@ vagrant package --base default --output mongo_vm.box
   
   <entry>
     <title type="html"><![CDATA[How to setup mongo repliSet]]></title>
-    <link href="http://wldandan.github.com/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/"/>
+    <link href="https://wldandan.github.io/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine/"/>
     <updated>2014-04-17T09:24:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine</id>
+    <id>https://wldandan.github.io/blog/2014/04/17/how-to-setup-mongo-repliset-in-one-machine</id>
     <content type="html"><![CDATA[<h3>Create one mongo repliSet</h3>
 
 <pre><code>mkdir -p /srv/mongodb/rs0-0 /srv/mongodb/rs0-1 /srv/mongodb/rs0-2

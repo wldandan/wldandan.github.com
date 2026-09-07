@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: linux | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/linux/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Understanding *nix bash profile]]></title>
-    <link href="http://wldandan.github.com/blog/2013/05/23/understanding-unix-bash/"/>
+    <link href="https://wldandan.github.io/blog/2013/05/23/understanding-unix-bash/"/>
     <updated>2013-05-23T22:10:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2013/05/23/understanding-unix-bash</id>
+    <id>https://wldandan.github.io/blog/2013/05/23/understanding-unix-bash</id>
     <content type="html"><![CDATA[<p>工作在*nix环境下的兄弟们，多多少少都应该见过这么几个文件:</p>
 
 <pre><code>/etc/profile

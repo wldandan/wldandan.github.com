@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: k8s | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/k8s/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/k8s/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[k8s之Deployment]]></title>
-    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-deployment/"/>
+    <link href="https://wldandan.github.io/blog/2019/04/06/k8s-deployment/"/>
     <updated>2019-04-06T14:48:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/04/06/k8s-deployment</id>
+    <id>https://wldandan.github.io/blog/2019/04/06/k8s-deployment</id>
     <content type="html"><![CDATA[<p>之前我们了解了如何打包，作为Pod中的容器运行，使用临时或者永久存储机制，设置配置项，接下来我们探讨如何部署和升级。</p>
 
 <h5>应用更新的方式</h5>
@@ -42,9 +42,9 @@
   
   <entry>
     <title type="html"><![CDATA[k8s之configmap]]></title>
-    <link href="http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap/"/>
+    <link href="https://wldandan.github.io/blog/2019/04/06/k8s-concept-configmap/"/>
     <updated>2019-04-06T14:48:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/04/06/k8s-concept-configmap</id>
+    <id>https://wldandan.github.io/blog/2019/04/06/k8s-concept-configmap</id>
     <content type="html"><![CDATA[<p>几乎所有的应用程序都需要配置（实例的配置信息，外部系统的访问信息等），而这些配置显然不应该被打包到应用程序本身中。</p>
 
 <p>本篇文章看看如何在Kubernetes中配置应用程序的信息。</p>
@@ -334,9 +334,9 @@ $ kubectl create configmap fortune-config --from-file=configmap-files
   
   <entry>
     <title type="html"><![CDATA[K8s之Volume]]></title>
-    <link href="http://wldandan.github.com/blog/2019/04/05/k8s-concept-volume/"/>
+    <link href="https://wldandan.github.io/blog/2019/04/05/k8s-concept-volume/"/>
     <updated>2019-04-05T21:04:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/04/05/k8s-concept-volume</id>
+    <id>https://wldandan.github.io/blog/2019/04/05/k8s-concept-volume</id>
     <content type="html"><![CDATA[<p>本篇文章主要介绍在K8S中，pod的容器如何访问外部磁盘存储，以及容器间如何实现共享存储，主要内容包括</p>
 
 <ul>
@@ -539,9 +539,9 @@ NFS、iscsi(ISCSI disk)、glusterfs(GlusterFS), rbd(RADOS Block Device), flexVol
   
   <entry>
     <title type="html"><![CDATA[K8s之Service]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/17/k8s-concept-service/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/17/k8s-concept-service/"/>
     <updated>2019-03-17T20:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/17/k8s-concept-service</id>
+    <id>https://wldandan.github.io/blog/2019/03/17/k8s-concept-service</id>
     <content type="html"><![CDATA[<h3>如何访问Pod？</h3>
 
 <p>在非k8s世界中，管理员可以通过在配置文件中指定IP地址或主机名，容许客户端访问，但在k8s中这种方式是行不通的。因为Pod 是有生命周期的，它们可以被创建或销毁。虽然通过 ReplicationController 能够动态地创建Pod，但当Pod被分配到某个节点时，K8s都会为其分配一个IP地址，而该IP地址不总是稳定可依赖的。因此，在 Kubernetes 集群中，如果一组 Pod（称为 backend）为其它 Pod （称为 frontend）提供服务，那么那些 frontend 该如何发现，并连接到这组backend的Pod呢？</p>
@@ -717,9 +717,9 @@ spec:
   
   <entry>
     <title type="html"><![CDATA[K8s之控制器]]></title>
-    <link href="http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller/"/>
+    <link href="https://wldandan.github.io/blog/2019/03/16/k8s-concept-controller/"/>
     <updated>2019-03-16T20:45:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2019/03/16/k8s-concept-controller</id>
+    <id>https://wldandan.github.io/blog/2019/03/16/k8s-concept-controller</id>
     <content type="html"><![CDATA[<p>Kubernetes中内建了很多controller（控制器），这些相当于一个状态机，用来控制Pod的具体状态和行为。</p>
 
 <!-- More -->

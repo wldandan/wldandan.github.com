@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: java | Happy Coding, Happy Life]]></title>
-  <link href="http://wldandan.github.com/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://wldandan.github.com/"/>
+  <link href="https://wldandan.github.io/blog/categories/java/atom.xml" rel="self"/>
+  <link href="https://wldandan.github.io/"/>
   <updated>2020-02-15T14:01:14+08:00</updated>
-  <id>http://wldandan.github.com/</id>
+  <id>https://wldandan.github.io/</id>
   <author>
     <name><![CDATA[wldandan]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Java 8 - First impression of Lambda Expression]]></title>
-    <link href="http://wldandan.github.com/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/"/>
+    <link href="https://wldandan.github.io/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions/"/>
     <updated>2014-06-19T04:56:00+08:00</updated>
-    <id>http://wldandan.github.com/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions</id>
+    <id>https://wldandan.github.io/blog/2014/06/19/java-8-functional-programming-and-lambda-expressions</id>
     <content type="html"><![CDATA[<p>One of the most prominent and widely used languages in the world has <strong>Evolved</strong>.</p>
 
 <p>Java ever gave us power on object oriented progrmming and we did the best we could with it.</p>
