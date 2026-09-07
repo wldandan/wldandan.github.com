@@ -12,6 +12,7 @@ test -f layouts/index.html || fail "missing home template"
 test -f layouts/_default/single.html || fail "missing single template"
 test -f layouts/partials/header.html || fail "missing header partial"
 test -f static/editorial.css || fail "missing editorial stylesheet"
+test -f static/stylesheets/screen.css || fail "missing base stylesheet"
 test -f .github/workflows/hugo-pages.yml || fail "missing GitHub Pages workflow"
 
 hugo_posts=$(find content/posts -type f -name '*.md' | wc -l | tr -d ' ')
