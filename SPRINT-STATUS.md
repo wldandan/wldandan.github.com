@@ -1,6 +1,6 @@
 # Hugo migration sprint
 
-Status: in progress
+Status: complete
 
 ## Goal
 
@@ -8,7 +8,7 @@ Replace the Ruby/Octopress build with Hugo and publish the existing blog through
 
 ## Tasks
 
-- [ ] Create Hugo project structure and migration checks
-- [ ] Migrate posts, pages, assets, URLs, and editorial layout
-- [ ] Add GitHub Pages workflow
-- [ ] Build and verify the published site
+- [x] Create Hugo project structure and migration checks
+- [x] Migrate posts, pages, assets, URLs, and editorial layout
+- [x] Add GitHub Pages workflow
+- [x] Build and verify the published site
