@@ -18,7 +18,7 @@ hugo_posts=$(find content/posts -type f -name '*.md' | wc -l | tr -d ' ')
 [ "$hugo_posts" = "56" ] || fail "expected 56 migrated posts, found $hugo_posts"
 
 grep -q 'blog/:year/:month/:day/:slug' hugo.yaml || fail "blog permalink is not preserved"
-grep -q 'blog/categories/:slug' hugo.yaml || fail "category permalink is not preserved"
+grep -q 'categories: "/blog/categories/' hugo.yaml || fail "category permalink is not preserved"
 grep -q 'actions/deploy-pages' .github/workflows/hugo-pages.yml || fail "Pages deployment step missing"
 grep -q 'contents: read' .github/workflows/hugo-pages.yml || fail "workflow permissions missing"
 grep -q 'pages: write' .github/workflows/hugo-pages.yml || fail "workflow Pages permission missing"

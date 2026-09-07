@@ -6,7 +6,10 @@ publishDir: "public"
 enableRobotsTXT: true
 permalinks:
   posts: "/blog/:year/:month/:day/:slug/"
-  categories: "/blog/categories/:slug/"
+  taxonomy:
+    categories: "/blog/categories/"
+  term:
+    categories: "/blog/categories/:slug/"
 taxonomies:
   category: categories
   tag: tags
