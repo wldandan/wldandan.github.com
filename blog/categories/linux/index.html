@@ -21,14 +21,15 @@
   <link rel="canonical" href="https://wldandan.github.io/blog/categories/linux/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/editorial.css" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Happy Coding, Happy Life" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght;500;600&family=Source+Serif+4:opsz,wght..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
 
   
   <script type="text/javascript">
@@ -47,11 +48,14 @@
 </head>
 
 <body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">Happy Coding, Happy Life</a></h1>
-  
-</hgroup>
-
+  <header role="banner"><div class="site-identity">
+  <p class="site-kicker">FIELD NOTES <span>/</span> WLDANDAN</p>
+  <hgroup>
+    <h1><a href="/">Happy Coding, Happy Life</a></h1>
+    <h2>Systems, software &amp; the craft of making things work.</h2>
+  </hgroup>
+</div>
+<p class="site-index">EST.<br><strong>2013</strong></p>
 </header>
   <nav role="navigation"><ul class="subscription" data-subscription="rss">
   <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
@@ -66,9 +70,9 @@
 </form>
   
 <ul class="main-navigation">
-  <li><a href="/">文章</a></li>
-  <li><a href="/blog/archives">归档</a></li>
-  <li><a href="/about">关于我</a></li>
+  <li><a href="/"><span>01</span>文章</a></li>
+  <li><a href="/blog/archives"><span>02</span>归档</a></li>
+  <li><a href="/about"><span>03</span>关于我</a></li>
 </ul>
 
 </nav>
@@ -166,9 +170,10 @@
 
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2020 - wldandan -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+  <footer role="contentinfo"><p class="footer-mark">WLDANDAN<span>·</span>FIELD NOTES</p>
+<p class="footer-copy">
+  Copyright &copy; 2020 wldandan
+  <span class="credit">Built with <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 </footer>
