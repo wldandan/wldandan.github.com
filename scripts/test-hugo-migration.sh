@@ -26,7 +26,7 @@ grep -q 'actions/deploy-pages' .github/workflows/hugo-pages.yml || fail "Pages d
 grep -q 'contents: read' .github/workflows/hugo-pages.yml || fail "workflow permissions missing"
 grep -q 'pages: write' .github/workflows/hugo-pages.yml || fail "workflow Pages permission missing"
 grep -q 'AI Maker（2026年5月）和 AIDD（2026年9月）峰会论坛主席' content/about/_index.md || fail "about page missing 2026 forum chair experience"
-grep -q '担任3所985高校的企业导师、卓越工程师学院导师' content/about/_index.md || fail "about page missing university mentor experience"
+grep -q '担任3所985高校卓工院导师' content/about/_index.md || fail "about page missing university mentor experience"
 grep -q '20余年软件行业经验' content/about/_index.md || fail "about page contains outdated experience duration"
 
 echo "PASS: Hugo migration structure and content counts are valid ($hugo_posts posts)."
