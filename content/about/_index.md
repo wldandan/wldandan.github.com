@@ -9,7 +9,11 @@ keywords: 微服务架构培训, 微服务架构咨询
 url: /about/
 ---
 
-大家好，我是王磊，现任华为公司架构技术专家。14年软件行业经验，在Serverless、微服务架构、DevOps及持续交付领域有丰富经验。同时我也是国内较早实践微服务、DevOps的先行者，著有《微服务架构与实践》(国内首本微服务架构书籍)、《DevOps 36计》、译作《DevOps实践指南》；另外，我也是EXIN认证的DevOps Master，西安DevOps Meetup的联合发起人；多次受邀在大型技术会议分享“微服务架构/DevOps”相关议题，并在InfoQ以及《架构师》上发表多篇关于架构相关文章，也在多个线上社群（InfoQ、StuQ、CSDN、聊聊架构）分享过架构经验。
+大家好，我是王磊，现任华为公司架构技术专家。拥有20余年软件行业经验，在Serverless、微服务架构、DevOps及持续交付领域有丰富经验。同时我也是国内较早实践微服务、DevOps的先行者，著有《微服务架构与实践》(国内首本微服务架构书籍)、《DevOps 36计》、译作《DevOps实践指南》；另外，我也是EXIN认证的DevOps Master，西安DevOps Meetup的联合发起人；多次受邀在大型技术会议分享“微服务架构/DevOps”相关议题，并在InfoQ以及《架构师》上发表多篇关于架构相关文章，也在多个线上社群（InfoQ、StuQ、CSDN、聊聊架构）分享过架构经验。
+
+2026年，担任AI Maker（2026年5月）和 AIDD（2026年9月）峰会论坛主席，负责论坛定位、议题策划、嘉宾邀请及内容质量把关，推动AI Agent、AI Coding与Agentic Engineering领域的技术交流和产业实践。
+
+目前担任3所985高校的企业导师、卓越工程师学院导师，参与学生工程实践与产学研协同培养；受邀面向高校师生分享《openJiuWen架构与关键技术》《多智能体编程与实践》，促进产业技术、开源生态与高校人才培养深度融合。
 
 
 <img src="/images/about/wanglei-600-450.png" />
@@ -29,6 +33,9 @@ url: /about/
 
 
 ## 演讲&分享
+* 2026.9 成都，AIDD峰会-论坛主席，策划Agentic Engineering与Loop Engineering专题论坛
+* 2026.5 深圳，AI Maker峰会-论坛主席，策划大模型技术与AI Coding专题论坛
+* 2026 西安，受邀高校分享《openJiuWen架构与关键技术》《多智能体编程与实践》
 * 2018.8 上海，全球运维技术大会-微服务架构专题出品人
 * 2017.9 台北，DevOpsDays-讲师，《基于DevOps的微服务演进实践》
 * 2017.7 上海，GOPS-最佳讲师，《基于DevOps的微服务生态系统与工程实践》
@@ -130,4 +137,3 @@ url: /about/
 * 微信：wldandan
 
 * 邮箱：5109343@qq.com
-
