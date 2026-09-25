@@ -1,4 +1,4 @@
-# Happy Coding, Happy Life
+# Think Deeply. Build Wisely. Live Fully.
 
 个人技术博客，使用 Hugo 构建，发布到 [wldandan.github.io](https://wldandan.github.io)。
 

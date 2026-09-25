@@ -1,6 +1,6 @@
 baseURL: "https://wldandan.github.io/"
 locale: "zh-CN"
-title: "Happy Coding, Happy Life"
+title: "Think Deeply. Build Wisely. Live Fully."
 paginate: 10
 publishDir: "public"
 enableRobotsTXT: true
